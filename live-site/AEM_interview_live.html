@@ -7548,6 +7548,8 @@ function buildMobileNav() {
     html += '<button class="sidebar-tab' + (tab.classList.contains('active') ? ' active' : '') + '" data-tab="' + tab.dataset.tab + '" onclick="mobileFilterTab(\'' + tab.dataset.tab + '\')">' + tab.textContent + '</button>';
   });
   html += '</div><div id="mobileNavList"></div>';
+  html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/416</span></div>';
+  html += '<div style="padding:12px 16px;"><button class="reset-btn" onclick="resetProgress();toggleMobileNav();">Reset all progress</button></div>';
   drawer.innerHTML = html;
   drawer.dataset.built = '1';
   syncMobileNavList();
