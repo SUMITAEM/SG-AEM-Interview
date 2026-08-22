@@ -113,7 +113,7 @@ tr:nth-child(even) td{background:var(--bg);}
 @keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 .sidebar-logo{animation:logoGlow 3s ease-in-out infinite,logoFloat 4s ease-in-out infinite,logoPulse 6s ease-in-out infinite;transition:transform 0.3s;}
 .sidebar-logo:hover{transform:scale(1.1) rotate(5deg);animation-play-state:paused;}
-@media(max-width:860px){.app{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}.sidebar-nav-scroll{max-height:200px;padding-bottom:10px;}.main{padding:20px 16px 60px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{position:sticky;bottom:0;background:var(--sidebar);padding:10px 16px;border-top:1px solid rgba(255,255,255,0.1);}}
+@media(max-width:860px){.app{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}.sidebar-nav-scroll{max-height:200px;padding-bottom:10px;}.main{padding:20px 16px 60px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{position:relative;bottom:auto;width:100%;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
 .chat-fab{position:fixed;bottom:60px;right:20px;z-index:99990;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(8,145,178,0.4);transition:transform 0.2s,box-shadow 0.2s;}
 .chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(8,145,178,0.6);}
@@ -166,7 +166,7 @@ tr:nth-child(even) td{background:var(--bg);}
 .login-toggle a:hover{text-decoration:underline;}
 .login-error{color:#f87171;font-size:12px;margin-top:8px;min-height:18px;}
 /* User profile in sidebar */
-.sidebar-user{padding:12px 16px 44px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;}
+.sidebar-user{position:fixed;bottom:32px;left:0;width:280px;padding:12px 16px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;z-index:101;}
 .sidebar-user img{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);}
 .sidebar-user .user-info{flex:1;min-width:0;}
 .sidebar-user .user-name{font-size:12px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -7308,7 +7308,7 @@ showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);if(typeof tra
 /* INIT */
 showTopic('t1');updateScorePills();updateProgressBar();
 </script>
-<div style="position:fixed;bottom:0;left:0;right:0;background:var(--panel);color:var(--ink-soft);text-align:center;padding:7px 16px;font-size:11px;font-family:var(--mono);letter-spacing:0.5px;border-top:1px solid var(--line);z-index:9999;box-shadow:0 -2px 8px rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;gap:10px;">
+<div style="position:fixed;bottom:0;left:280px;right:0;background:var(--panel);color:var(--ink-soft);text-align:center;padding:7px 16px;font-size:11px;font-family:var(--mono);letter-spacing:0.5px;border-top:1px solid var(--line);z-index:9999;box-shadow:0 -2px 8px rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;gap:10px;">
 <img src="sg-logo.png" alt="SG" style="width:28px;height:28px;border-radius:5px;flex-shrink:0;">
 <span>Created by Sumit Gaidhani | AEM Developer</span>
 </div>
