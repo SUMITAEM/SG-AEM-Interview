@@ -6509,11 +6509,13 @@ function showTopic(id){document.querySelectorAll('section.topic').forEach(s=>s.c
 function toggleTheme(){const h=document.documentElement;if(h.getAttribute('data-theme')==='dark'){h.removeAttribute('data-theme');localStorage.setItem('aem_theme','light');document.getElementById('themeToggle').innerHTML='&#9790;';}else{h.setAttribute('data-theme','dark');localStorage.setItem('aem_theme','dark');document.getElementById('themeToggle').innerHTML='&#9788;';}}
 (function(){if(localStorage.getItem('aem_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeToggle').innerHTML='&#9788;';}})();
 
-/* === SECURITY === */
+/* === SECURITY (temporarily disabled for testing) === */
+/*
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{if((e.ctrlKey&&e.key==='s')||(e.ctrlKey&&e.key==='u')||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))||e.key==='F12'){e.preventDefault();return false;}});
 document.body.style.userSelect='none';document.body.style.webkitUserSelect='none';
 document.addEventListener('copy',e=>e.preventDefault());
+*/
 document.addEventListener('selectstart',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
 
