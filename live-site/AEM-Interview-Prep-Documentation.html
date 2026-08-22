@@ -1,4 +1,4 @@
-<title>AEM Interview Prep — Admin Guide</title>
+<title>AEM Interview Preparation — Admin Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root {
@@ -268,7 +268,7 @@ hr {
 <div class="page">
   <header class="header">
     <div class="badge">Admin Documentation</div>
-    <h1>AEM Interview Prep Platform</h1>
+    <h1>AEM Interview Preparation Platform</h1>
     <p class="subtitle">Complete guide to the project, authentication system, analytics tracking, and user management.</p>
     <p class="meta">Author: Sumit Gaidhani &bull; Last Updated: August 2026</p>
   </header>
@@ -276,7 +276,7 @@ hr {
   <!-- OVERVIEW -->
   <section>
     <h2>Project Overview</h2>
-    <p>AEM Interview Prep is an interactive study platform for Adobe Experience Manager certification and interview preparation. It features 52 structured topics with theory, code examples, interactive widgets, and 416 multiple-choice questions with instant feedback.</p>
+    <p>AEM Interview Preparation is an interactive study platform for Adobe Experience Manager certification and interview preparation. It features 52 structured topics with theory, code examples, interactive widgets, and 416 multiple-choice questions with instant feedback.</p>
 
     <div class="stats">
       <div class="stat"><div class="num">52</div><div class="label">Topics</div></div>
@@ -318,8 +318,18 @@ hr {
     <div class="step"><div class="step-num">1</div><div class="step-content"><strong>User visits the site</strong> — A full-screen login overlay blocks all content.</div></div>
     <div class="step"><div class="step-num">2</div><div class="step-content"><strong>User signs in</strong> — Via Google or email/password.</div></div>
     <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Firebase verifies</strong> — Auth state listener detects the signed-in user.</div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Content unlocks</strong> — Overlay fades out, app becomes visible, user profile shows in sidebar.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Content unlocks</strong> — Overlay fades out, app becomes visible, user profile shows in sidebar (desktop) or floating avatar (mobile).</div></div>
     <div class="step"><div class="step-num">5</div><div class="step-content"><strong>User data saved</strong> — Name, email, login count, and timestamp stored in Firestore.</div></div>
+
+    <h3>Responsive Behavior</h3>
+    <table>
+      <tr><th>Feature</th><th>Desktop</th><th>Mobile</th></tr>
+      <tr><td>Header</td><td>Full sidebar header with logo, stats</td><td>Fixed sticky header (logo + title only)</td></tr>
+      <tr><td>User profile</td><td>Fixed at sidebar bottom with name, email, Logout button</td><td>Floating avatar button (top-right) with dropdown</td></tr>
+      <tr><td>Logout</td><td>Button in sidebar user section</td><td>Tap avatar → dropdown → Sign Out</td></tr>
+      <tr><td>Footer</td><td>Fixed bar on main content area (right of sidebar)</td><td>Full-width fixed bar at bottom</td></tr>
+      <tr><td>Navigation</td><td>Full sidebar with scrollable topic list</td><td>Collapsed nav with 200px max-height scrollable list</td></tr>
+    </table>
 
     <h3>Firebase Project Details</h3>
     <div class="card">
