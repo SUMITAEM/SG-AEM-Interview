@@ -178,6 +178,7 @@ tr:nth-child(even) td{background:var(--bg);}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 </head>
 <body>
 <!-- Login Overlay -->
@@ -7302,7 +7303,7 @@ window._initMwWidget=initMwWidget;
 /* Widget init dispatcher */
 window._activeTopicId='t1';
 var _origShowTopic=showTopic;
-showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);setTimeout(function(){if(id==='t1'&&window._initLifecycleWidget)window._initLifecycleWidget();if(id==='t10'&&window._initReplWidget)window._initReplWidget();if(id==='t11'){if(window._initDispWidget)window._initDispWidget();if(window._initDispFilter)window._initDispFilter();}if(id==='t16'&&window._initWfWidget)window._initWfWidget();if(id==='t14'){if(window._initCfmBuilder)window._initCfmBuilder();if(window._initCmpWidget)window._initCmpWidget();}if(id==='t30'&&window._initCodeAnnotator)window._initCodeAnnotator();if(id==='t21'&&window._initMwWidget)window._initMwWidget();if(id==='t26'&&window._initSmWidget)window._initSmWidget();if(id==='t33'&&window._initRrWidget)window._initRrWidget();if(id==='t28'&&window._initOsgiSm)window._initOsgiSm();if(id==='t41'&&window._initJcrTree)window._initJcrTree();if(id==='t53'&&window._initFlashcards)window._initFlashcards();if(id==='t58'&&window._initLiveCoding)window._initLiveCoding();},100);};
+showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);if(typeof trackTopicView==='function'){var t=TOPICS.find(function(x){return x.id===id;});if(t)trackTopicView(id,t.title);}setTimeout(function(){if(id==='t1'&&window._initLifecycleWidget)window._initLifecycleWidget();if(id==='t10'&&window._initReplWidget)window._initReplWidget();if(id==='t11'){if(window._initDispWidget)window._initDispWidget();if(window._initDispFilter)window._initDispFilter();}if(id==='t16'&&window._initWfWidget)window._initWfWidget();if(id==='t14'){if(window._initCfmBuilder)window._initCfmBuilder();if(window._initCmpWidget)window._initCmpWidget();}if(id==='t30'&&window._initCodeAnnotator)window._initCodeAnnotator();if(id==='t21'&&window._initMwWidget)window._initMwWidget();if(id==='t26'&&window._initSmWidget)window._initSmWidget();if(id==='t33'&&window._initRrWidget)window._initRrWidget();if(id==='t28'&&window._initOsgiSm)window._initOsgiSm();if(id==='t41'&&window._initJcrTree)window._initJcrTree();if(id==='t53'&&window._initFlashcards)window._initFlashcards();if(id==='t58'&&window._initLiveCoding)window._initLiveCoding();},100);};
 
 /* INIT */
 showTopic('t1');updateScorePills();updateProgressBar();
@@ -7327,6 +7328,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+const analytics = firebase.analytics();
 
 let isSignUpMode = false;
 
@@ -7404,6 +7406,17 @@ function signOutUser() {
 }
 
 // ========== SAVE USER DATA TO FIRESTORE ==========
+// ========== ANALYTICS TRACKING ==========
+function trackTopicView(topicId, topicTitle) {
+  analytics.logEvent('topic_viewed', { topic_id: topicId, topic_title: topicTitle });
+}
+function trackQuizAnswer(topicId, questionNum, isCorrect) {
+  analytics.logEvent('quiz_answered', { topic_id: topicId, question: questionNum, correct: isCorrect });
+}
+function trackLogin(method) {
+  analytics.logEvent('login', { method: method });
+}
+
 function saveUserData(user) {
   var userRef = db.collection('users').doc(user.uid);
   userRef.set({
