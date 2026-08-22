@@ -117,7 +117,12 @@ tr:nth-child(even) td{background:var(--bg);}
 @keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 .sidebar-logo{animation:logoGlow 3s ease-in-out infinite,logoFloat 4s ease-in-out infinite,logoPulse 6s ease-in-out infinite;transition:transform 0.3s;}
 .sidebar-logo:hover{transform:scale(1.1) rotate(5deg);animation-play-state:paused;}
-@media(max-width:860px){.app{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}.sidebar-nav-scroll{max-height:200px;padding-bottom:10px;}.main{padding:20px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}}
+/* Mobile sticky header */
+.mobile-header{display:none;position:sticky;top:0;z-index:9998;background:var(--sidebar);padding:10px 16px;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.mobile-header img{width:36px;height:36px;border-radius:8px;}
+.mobile-header .mh-text .mh-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);}
+.mobile-header .mh-text h1{font-size:14px;color:#fff;margin:0;font-weight:700;}
+@media(max-width:860px){.mobile-header{display:flex;}.sidebar-header{display:none;}.app{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}.sidebar-nav-scroll{max-height:200px;padding-bottom:10px;}.main{padding:20px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
 .chat-fab{position:fixed;bottom:60px;right:20px;z-index:99990;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(8,145,178,0.4);transition:transform 0.2s,box-shadow 0.2s;}
 .chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(8,145,178,0.6);}
@@ -225,12 +230,19 @@ Sign in with Google
 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light">&#9790;</button>
 <div class="app" style="visibility:hidden;">
 <nav class="sidebar">
+<div class="mobile-header">
+<img src="sg-logo.png" alt="SG">
+<div class="mh-text">
+<div class="mh-eyebrow">Study Companion</div>
+<h1>AEM Interview Preparation</h1>
+</div>
+</div>
 <div class="sidebar-header">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
 <img src="sg-logo.png" alt="SG" class="sidebar-logo" style="width:52px;height:52px;border-radius:10px;background:rgba(255,255,255,0.08);padding:3px;">
 <div>
 <div class="eyebrow">Study Companion</div>
-<h1>AEM Interview Prep</h1>
+<h1>AEM Interview Preparation</h1>
 </div>
 </div>
 <div class="sub">52 topics &middot; 416 interactive MCQs</div>
