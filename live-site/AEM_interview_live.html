@@ -138,13 +138,78 @@ tr:nth-child(even) td{background:var(--bg);}
 .chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px 16px;}
 .chat-suggest-btn{font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);cursor:pointer;font-family:var(--body);transition:0.15s;}
 .chat-suggest-btn:hover{border-color:var(--accent);color:var(--accent);}
+/* Login Overlay */
+.login-overlay{position:fixed;inset:0;z-index:999999;background:linear-gradient(135deg,#0d1b2a 0%,#1b2838 50%,#0d1b2a 100%);display:flex;align-items:center;justify-content:center;transition:opacity 0.4s,visibility 0.4s;}
+.login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.login-card{background:#1e293b;border:1px solid rgba(8,145,178,0.3);border-radius:16px;padding:40px 36px;width:400px;max-width:90vw;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 40px rgba(8,145,178,0.1);}
+.login-card .login-logo{width:64px;height:64px;border-radius:14px;margin:0 auto 16px;display:block;}
+.login-card h2{color:#fff;font-size:22px;margin:0 0 6px 0;font-weight:700;}
+.login-card .login-sub{color:#94a3b8;font-size:13px;margin-bottom:28px;}
+.login-card .login-stats{display:flex;gap:16px;justify-content:center;margin-bottom:24px;}
+.login-card .login-stat{background:rgba(8,145,178,0.1);border:1px solid rgba(8,145,178,0.2);border-radius:8px;padding:8px 14px;}
+.login-card .login-stat .num{font-size:18px;font-weight:700;color:#22d3ee;display:block;}
+.login-card .login-stat .lbl{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;}
+.google-btn{width:100%;padding:12px 20px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#e2e8f0;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;margin-bottom:12px;}
+.google-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(8,145,178,0.5);transform:translateY(-1px);}
+.google-btn svg{width:20px;height:20px;}
+.login-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#64748b;font-size:11px;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1);}
+.login-email-form{display:flex;flex-direction:column;gap:10px;}
+.login-email-form input{width:100%;padding:11px 14px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#e2e8f0;font-size:13px;outline:none;transition:border-color 0.2s;}
+.login-email-form input:focus{border-color:var(--accent);}
+.login-email-form input::placeholder{color:#64748b;}
+.login-submit-btn{width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.login-submit-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(8,145,178,0.4);}
+.login-submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.login-toggle{color:#94a3b8;font-size:12px;margin-top:12px;cursor:pointer;}
+.login-toggle a{color:#22d3ee;text-decoration:none;}
+.login-toggle a:hover{text-decoration:underline;}
+.login-error{color:#f87171;font-size:12px;margin-top:8px;min-height:18px;}
+/* User profile in sidebar */
+.sidebar-user{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;}
+.sidebar-user img{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);}
+.sidebar-user .user-info{flex:1;min-width:0;}
+.sidebar-user .user-name{font-size:12px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sidebar-user .user-email{font-size:10px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.logout-btn{padding:5px 8px;font-size:10px;font-family:var(--mono);border-radius:5px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#94a3b8;cursor:pointer;flex-shrink:0;}
+.logout-btn:hover{border-color:#f87171;color:#f87171;}
 </style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+<!-- Login Overlay -->
+<div class="login-overlay" id="loginOverlay">
+<div class="login-card">
+<img src="sg-logo.png" alt="SG" class="login-logo">
+<h2>AEM Interview Prep</h2>
+<p class="login-sub">Sign in to access 52 topics and 416 interactive MCQs</p>
+<div class="login-stats">
+<div class="login-stat"><span class="num">52</span><span class="lbl">Topics</span></div>
+<div class="login-stat"><span class="num">416</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
+</div>
+<button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
+<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+Sign in with Google
+</button>
+<div class="login-divider">or continue with email</div>
+<form class="login-email-form" id="emailForm" onsubmit="handleEmailAuth(event)">
+<input type="email" id="loginEmail" placeholder="Email address" required>
+<input type="password" id="loginPassword" placeholder="Password (min 6 characters)" required minlength="6">
+<button type="submit" class="login-submit-btn" id="emailSubmitBtn">Sign In</button>
+</form>
+<p class="login-toggle" id="authToggle">Don't have an account? <a onclick="toggleAuthMode()">Sign Up</a></p>
+<p class="login-error" id="loginError"></p>
+</div>
+</div>
+
 <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
 <div class="streak-display" id="streakDisplay"><span>&#128293;</span><span id="streakText">Streak: 0</span></div>
 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light">&#9790;</button>
-<div class="app">
+<div class="app" style="visibility:hidden;">
 <nav class="sidebar">
 <div class="sidebar-header">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
@@ -177,6 +242,14 @@ tr:nth-child(even) td{background:var(--bg);}
 <div class="nav-item" data-target="practice-all" onclick="showTopic('practice-all')">
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
 <span class="score-pill" id="allScorePill">0/416</span>
+</div>
+<div class="sidebar-user" id="sidebarUser" style="display:none;">
+<img id="userAvatar" src="" alt="U">
+<div class="user-info">
+<div class="user-name" id="userName">User</div>
+<div class="user-email" id="userEmail">email</div>
+</div>
+<button class="logout-btn" onclick="signOutUser()">Logout</button>
 </div>
 <div class="sidebar-footer"><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
 </div>
@@ -7238,5 +7311,142 @@ showTopic('t1');updateScorePills();updateProgressBar();
 <img src="sg-logo.png" alt="SG" style="width:28px;height:28px;border-radius:5px;flex-shrink:0;">
 <span>Created by Sumit Gaidhani | AEM Developer</span>
 </div>
+
+<script>
+// ========== FIREBASE CONFIGURATION ==========
+// TODO: Replace with your Firebase project config from https://console.firebase.google.com
+const firebaseConfig = {
+  apiKey: "AIzaSyBqutzKovTJ3TJkQmV80cFyy8uKhaQOMvo",
+  authDomain: "aem-interview-prep.firebaseapp.com",
+  projectId: "aem-interview-prep",
+  storageBucket: "aem-interview-prep.firebasestorage.app",
+  messagingSenderId: "622539990930",
+  appId: "1:622539990930:web:30fdbf33d45663f518834b"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let isSignUpMode = false;
+
+// ========== AUTH STATE LISTENER ==========
+auth.onAuthStateChanged(function(user) {
+  const overlay = document.getElementById('loginOverlay');
+  const appEl = document.querySelector('.app');
+  const sidebarUser = document.getElementById('sidebarUser');
+
+  if (user) {
+    overlay.classList.add('hidden');
+    appEl.style.visibility = 'visible';
+    sidebarUser.style.display = 'flex';
+
+    document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('userEmail').textContent = user.email;
+    document.getElementById('userAvatar').src = user.photoURL || generateAvatar(user.email);
+
+    saveUserData(user);
+  } else {
+    overlay.classList.remove('hidden');
+    appEl.style.visibility = 'hidden';
+    sidebarUser.style.display = 'none';
+  }
+});
+
+// ========== GOOGLE SIGN IN ==========
+function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(function(error) {
+    showLoginError(error.message);
+  });
+}
+
+// ========== EMAIL AUTH ==========
+function handleEmailAuth(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('emailSubmitBtn');
+
+  btn.disabled = true;
+  clearLoginError();
+
+  if (isSignUpMode) {
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(function() { btn.disabled = false; })
+      .catch(function(error) {
+        btn.disabled = false;
+        showLoginError(error.message);
+      });
+  } else {
+    auth.signInWithEmailAndPassword(email, password)
+      .then(function() { btn.disabled = false; })
+      .catch(function(error) {
+        btn.disabled = false;
+        showLoginError(error.message);
+      });
+  }
+}
+
+// ========== TOGGLE SIGN IN / SIGN UP ==========
+function toggleAuthMode() {
+  isSignUpMode = !isSignUpMode;
+  document.getElementById('emailSubmitBtn').textContent = isSignUpMode ? 'Create Account' : 'Sign In';
+  document.getElementById('authToggle').innerHTML = isSignUpMode
+    ? 'Already have an account? <a onclick="toggleAuthMode()">Sign In</a>'
+    : 'Don\'t have an account? <a onclick="toggleAuthMode()">Sign Up</a>';
+  clearLoginError();
+}
+
+// ========== SIGN OUT ==========
+function signOutUser() {
+  auth.signOut();
+}
+
+// ========== SAVE USER DATA TO FIRESTORE ==========
+function saveUserData(user) {
+  var userRef = db.collection('users').doc(user.uid);
+  userRef.set({
+    email: user.email,
+    displayName: user.displayName || user.email.split('@')[0],
+    photoURL: user.photoURL || null,
+    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+    loginCount: firebase.firestore.FieldValue.increment(1)
+  }, { merge: true });
+
+  userRef.get().then(function(doc) {
+    if (doc.exists && !doc.data().createdAt) {
+      userRef.update({ createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    } else if (!doc.exists) {
+      userRef.set({ createdAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    }
+  });
+}
+
+// ========== HELPERS ==========
+function generateAvatar(email) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 64; canvas.height = 64;
+  var ctx = canvas.getContext('2d');
+  var colors = ['#0891b2','#059669','#d97706','#7c3aed','#dc2626','#0369a1'];
+  var hash = 0;
+  for (var i = 0; i < email.length; i++) hash = email.charCodeAt(i) + ((hash << 5) - hash);
+  ctx.fillStyle = colors[Math.abs(hash) % colors.length];
+  ctx.fillRect(0, 0, 64, 64);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 28px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(email[0].toUpperCase(), 32, 32);
+  return canvas.toDataURL();
+}
+
+function showLoginError(msg) {
+  document.getElementById('loginError').textContent = msg.replace('Firebase: ', '').replace(/\(auth\/.*\)/, '').trim();
+}
+function clearLoginError() {
+  document.getElementById('loginError').textContent = '';
+}
+</script>
 </body>
 </html>
