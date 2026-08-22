@@ -1,0 +1,508 @@
+<title>AEM Interview Prep — Admin Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f8f9fb;
+  --surface: #ffffff;
+  --ink: #1a2332;
+  --ink-soft: #5a6a7e;
+  --border: #e3e8ef;
+  --accent: #0e7490;
+  --accent-light: #ecfeff;
+  --accent-dark: #0c5c72;
+  --code-bg: #1e293b;
+  --code-ink: #e2e8f0;
+  --section-alt: #f1f5f9;
+  --success: #059669;
+  --warn: #d97706;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1220;
+    --surface: #151f30;
+    --ink: #e2e8f0;
+    --ink-soft: #8a9bb0;
+    --border: #1e2d42;
+    --accent: #22d3ee;
+    --accent-light: #0c2a30;
+    --accent-dark: #67e8f9;
+    --code-bg: #0a101c;
+    --code-ink: #cbd5e1;
+    --section-alt: #101828;
+    --success: #34d399;
+    --warn: #fbbf24;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1220;
+  --surface: #151f30;
+  --ink: #e2e8f0;
+  --ink-soft: #8a9bb0;
+  --border: #1e2d42;
+  --accent: #22d3ee;
+  --accent-light: #0c2a30;
+  --accent-dark: #67e8f9;
+  --code-bg: #0a101c;
+  --code-ink: #cbd5e1;
+  --section-alt: #101828;
+  --success: #34d399;
+  --warn: #fbbf24;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+@media (max-width: 600px) {
+  .page { padding: 32px 18px 60px; }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+.header .badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.header .subtitle {
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 500px;
+  margin: 0 auto;
+}
+.header .meta {
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* Sections */
+section {
+  margin-bottom: 40px;
+}
+section h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+}
+section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent-dark);
+  margin: 20px 0 8px;
+}
+p { margin-bottom: 12px; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 6px; }
+
+/* Info cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.card.highlight {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-light);
+}
+.card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+/* Stats row */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.stat .num {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+.stat .label {
+  font-size: 11px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* Code blocks */
+pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  padding: 16px 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+  line-height: 1.6;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--section-alt);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+pre code { background: none; padding: 0; }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+}
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+}
+tr:nth-child(even) td { background: var(--section-alt); }
+
+/* Steps */
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content { flex: 1; }
+.step-content strong { color: var(--ink); }
+
+/* Links */
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Divider */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 36px 0;
+}
+
+/* Print */
+@media print {
+  body { font-size: 12px; }
+  .page { padding: 0; max-width: 100%; }
+  pre { font-size: 10px; }
+  .no-print { display: none; }
+}
+</style>
+
+<div class="page">
+  <header class="header">
+    <div class="badge">Admin Documentation</div>
+    <h1>AEM Interview Prep Platform</h1>
+    <p class="subtitle">Complete guide to the project, authentication system, analytics tracking, and user management.</p>
+    <p class="meta">Author: Sumit Gaidhani &bull; Last Updated: August 2026</p>
+  </header>
+
+  <!-- OVERVIEW -->
+  <section>
+    <h2>Project Overview</h2>
+    <p>AEM Interview Prep is an interactive study platform for Adobe Experience Manager certification and interview preparation. It features 52 structured topics with theory, code examples, interactive widgets, and 416 multiple-choice questions with instant feedback.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">52</div><div class="label">Topics</div></div>
+      <div class="stat"><div class="num">416</div><div class="label">MCQs</div></div>
+      <div class="stat"><div class="num">58</div><div class="label">Widgets</div></div>
+      <div class="stat"><div class="num">13</div><div class="label">Categories</div></div>
+    </div>
+
+    <div class="card highlight">
+      <h4>Live URL</h4>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/">https://sumitaem.github.io/SG-AEM-Interview/</a></p>
+    </div>
+
+    <h3>Tech Stack</h3>
+    <table>
+      <tr><th>Layer</th><th>Technology</th></tr>
+      <tr><td>Frontend</td><td>Single HTML file (vanilla JS, CSS)</td></tr>
+      <tr><td>Hosting</td><td>GitHub Pages (auto-deploy via GitHub Actions)</td></tr>
+      <tr><td>Authentication</td><td>Firebase Auth (Google Sign-In + Email/Password)</td></tr>
+      <tr><td>Database</td><td>Cloud Firestore (user data + progress)</td></tr>
+      <tr><td>Analytics</td><td>Google Analytics 4 (via Firebase)</td></tr>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- AUTHENTICATION -->
+  <section>
+    <h2>Authentication System</h2>
+    <p>The site is fully gated behind Firebase Authentication. Users must sign in before accessing any content.</p>
+
+    <h3>Supported Login Methods</h3>
+    <ul>
+      <li><strong>Google Sign-In</strong> — One-click login via Google popup (recommended for users)</li>
+      <li><strong>Email/Password</strong> — Traditional sign-up and sign-in with email and a password (min 6 chars)</li>
+    </ul>
+
+    <h3>How It Works</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-content"><strong>User visits the site</strong> — A full-screen login overlay blocks all content.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>User signs in</strong> — Via Google or email/password.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Firebase verifies</strong> — Auth state listener detects the signed-in user.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Content unlocks</strong> — Overlay fades out, app becomes visible, user profile shows in sidebar.</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><strong>User data saved</strong> — Name, email, login count, and timestamp stored in Firestore.</div></div>
+
+    <h3>Firebase Project Details</h3>
+    <div class="card">
+      <h4>Configuration</h4>
+      <table>
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>Project Name</td><td>aem-interview-prep</td></tr>
+        <tr><td>Project ID</td><td>aem-interview-prep</td></tr>
+        <tr><td>Auth Domain</td><td>aem-interview-prep.firebaseapp.com</td></tr>
+        <tr><td>Authorized Domains</td><td>localhost, sumitaem.github.io</td></tr>
+        <tr><td>Firestore Mode</td><td>Standard Edition (Test mode for 30 days)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- USER DATA -->
+  <section>
+    <h2>User Data Collection</h2>
+    <p>Every authenticated user gets a document in the Firestore <code>users</code> collection, keyed by their Firebase UID.</p>
+
+    <h3>Data Schema</h3>
+    <table>
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>email</code></td><td>string</td><td>User's email address</td></tr>
+      <tr><td><code>displayName</code></td><td>string</td><td>Full name (Google) or email prefix</td></tr>
+      <tr><td><code>photoURL</code></td><td>string | null</td><td>Google profile picture URL</td></tr>
+      <tr><td><code>lastLogin</code></td><td>timestamp</td><td>Most recent sign-in time</td></tr>
+      <tr><td><code>loginCount</code></td><td>number</td><td>Total number of sign-ins</td></tr>
+      <tr><td><code>createdAt</code></td><td>timestamp</td><td>First sign-up date</td></tr>
+    </table>
+
+    <h3>Accessing User Data</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-content">Go to <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase Console → Firestore</a></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content">Click the <code>users</code> collection in the left panel</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content">Each document = one user. Click to see all their data.</div></div>
+  </section>
+
+  <hr>
+
+  <!-- ANALYTICS -->
+  <section>
+    <h2>Analytics & Monitoring</h2>
+    <p>Google Analytics 4 is integrated via Firebase. It tracks page views, user sessions, and custom events automatically.</p>
+
+    <h3>Dashboards</h3>
+    <table>
+      <tr><th>What to Monitor</th><th>Where to Go</th></tr>
+      <tr><td>Registered users list</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase → Authentication → Users</a></td></tr>
+      <tr><td>User details (logins, dates)</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase → Firestore → users</a></td></tr>
+      <tr><td>Traffic & page views</td><td><a href="https://analytics.google.com">Google Analytics → Property G-SYJ6NGF8TP</a></td></tr>
+      <tr><td>Real-time visitors</td><td>Google Analytics → Realtime</td></tr>
+      <tr><td>Popular topics</td><td>Analytics → Events → <code>topic_viewed</code></td></tr>
+      <tr><td>Quiz performance</td><td>Analytics → Events → <code>quiz_answered</code></td></tr>
+    </table>
+
+    <h3>Custom Events Tracked</h3>
+    <div class="card">
+      <h4>Event: topic_viewed</h4>
+      <p>Fires every time a user navigates to a topic.</p>
+      <pre><code>Parameters: { topic_id: "t1", topic_title: "AEM Architecture" }</code></pre>
+    </div>
+    <div class="card">
+      <h4>Event: quiz_answered</h4>
+      <p>Fires when a user answers an MCQ.</p>
+      <pre><code>Parameters: { topic_id: "t1", question: 3, correct: true }</code></pre>
+    </div>
+    <div class="card">
+      <h4>Event: login</h4>
+      <p>Fires on successful authentication.</p>
+      <pre><code>Parameters: { method: "google" | "email" }</code></pre>
+    </div>
+
+    <h3>Key Metrics to Watch</h3>
+    <ul>
+      <li><strong>Daily Active Users (DAU)</strong> — How many unique users visit per day</li>
+      <li><strong>Session Duration</strong> — Average time spent studying</li>
+      <li><strong>Top Topics</strong> — Which topics get the most views (demand indicator)</li>
+      <li><strong>Quiz Accuracy</strong> — Correct vs incorrect ratio per topic (difficulty indicator)</li>
+      <li><strong>Retention</strong> — Users who come back within 7 days</li>
+    </ul>
+
+    <p><em>Note: Google Analytics takes 24-48 hours to populate full reports. The Realtime view works immediately.</em></p>
+  </section>
+
+  <hr>
+
+  <!-- ADMIN ACTIONS -->
+  <section>
+    <h2>Admin Actions</h2>
+
+    <h3>Manage Users</h3>
+    <table>
+      <tr><th>Action</th><th>How</th></tr>
+      <tr><td>View all users</td><td>Firebase → Authentication → Users</td></tr>
+      <tr><td>Export user list</td><td>Authentication → Users → Export (top-right)</td></tr>
+      <tr><td>Disable a user</td><td>Click user → Disable account toggle</td></tr>
+      <tr><td>Delete a user</td><td>Click user → Delete account (irreversible)</td></tr>
+      <tr><td>Reset password</td><td>Click user → Reset password (sends email)</td></tr>
+    </table>
+
+    <h3>Firestore Security Rules</h3>
+    <p>Currently in <strong>test mode</strong> (open for 30 days). Before it expires, apply these production rules:</p>
+    <pre><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}</code></pre>
+    <p>Apply at: <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore/rules">Firestore → Rules</a></p>
+  </section>
+
+  <hr>
+
+  <!-- DEPLOYMENT -->
+  <section>
+    <h2>Deployment</h2>
+    <p>The site auto-deploys via GitHub Actions whenever you push to the <code>main</code> branch.</p>
+
+    <h3>Repository</h3>
+    <div class="card">
+      <p><a href="https://github.com/SUMITAEM/SG-AEM-Interview">https://github.com/SUMITAEM/SG-AEM-Interview</a></p>
+      <p>Branch: <code>main</code> &bull; Folder: <code>live-site/</code></p>
+    </div>
+
+    <h3>Deployment Flow</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Push to main</strong> — Any commit to the main branch triggers the workflow.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>GitHub Actions runs</strong> — Copies HTML as index.html, uploads as Pages artifact.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Deploys to Pages</strong> — Site goes live in ~60 seconds.</div></div>
+
+    <h3>Manual Re-deploy</h3>
+    <p>Go to <a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">Actions tab</a> → Click latest run → Re-run all jobs.</p>
+  </section>
+
+  <hr>
+
+  <!-- MONETIZATION -->
+  <section>
+    <h2>Future Monetization Plan</h2>
+    <p>The platform is currently free (login-gated). When ready to monetize:</p>
+
+    <h3>Recommended: Freemium Model</h3>
+    <table>
+      <tr><th>Tier</th><th>Access</th><th>Price</th></tr>
+      <tr><td>Free</td><td>10-15 topics + limited MCQs</td><td>Free (requires login)</td></tr>
+      <tr><td>Pro</td><td>All 52 topics + 416 MCQs + widgets + progress sync</td><td>&#8377;499 one-time or &#8377;99/month</td></tr>
+    </table>
+
+    <h3>Implementation Steps</h3>
+    <ol>
+      <li>Add a <code>plan</code> field to each user's Firestore document (<code>"free"</code> or <code>"pro"</code>)</li>
+      <li>Integrate Razorpay (India) or Stripe (global) for payments</li>
+      <li>On successful payment, update <code>plan: "pro"</code> in Firestore</li>
+      <li>Gate locked topics in the frontend with <code>if (userData.plan === 'pro')</code></li>
+    </ol>
+
+    <h3>Other Revenue Streams</h3>
+    <ul>
+      <li><strong>Google AdSense</strong> — Banner ads between topics (low effort, $1-5/day)</li>
+      <li><strong>Completion Certificates</strong> — Charge &#8377;199 for a PDF certificate (LinkedIn-shareable)</li>
+      <li><strong>Corporate Sponsorships</strong> — AEM training companies or recruiters pay for banner placement</li>
+      <li><strong>Premium Content</strong> — Mock interviews, video walkthroughs, 1:1 mentoring</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- QUICK REFERENCE -->
+  <section>
+    <h2>Quick Reference Links</h2>
+    <table>
+      <tr><th>Resource</th><th>URL</th></tr>
+      <tr><td>Live Site</td><td><a href="https://sumitaem.github.io/SG-AEM-Interview/">sumitaem.github.io/SG-AEM-Interview</a></td></tr>
+      <tr><td>GitHub Repo</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview">github.com/SUMITAEM/SG-AEM-Interview</a></td></tr>
+      <tr><td>Firebase Console</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep">console.firebase.google.com/project/aem-interview-prep</a></td></tr>
+      <tr><td>Auth Users</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase → Authentication → Users</a></td></tr>
+      <tr><td>Firestore DB</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase → Firestore</a></td></tr>
+      <tr><td>Google Analytics</td><td><a href="https://analytics.google.com">analytics.google.com (G-SYJ6NGF8TP)</a></td></tr>
+      <tr><td>GitHub Actions</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">GitHub → Actions</a></td></tr>
+    </table>
+  </section>
+</div>
