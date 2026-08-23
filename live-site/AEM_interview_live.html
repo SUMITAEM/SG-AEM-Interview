@@ -364,6 +364,7 @@ const TOPICS=[
 {id:"t49",title:"Git Commands",desc:"Branching, merging, rebasing, workflows."},
 {id:"t50",title:"Maven Commands",desc:"Profiles, builds, deployment, dependencies."},
 {id:"t51",title:"Jira",desc:"Agile workflows, sprints, estimation, tracking."},
+{id:"t59",title:"Java for AEM Development",desc:"Core Java concepts used in Sling Models, OSGi, servlets."},
 {id:"t52",title:"AEM Best Practices",desc:"Coding standards, performance, security, testing."},
 {id:"t53",title:"Flashcard Rapid-Fire",desc:"Timed recall practice across all topics."},
 {id:"t54",title:"Troubleshooting Scenarios",desc:"Debug production issues step-by-step."},
@@ -715,6 +716,18 @@ t51:[
 {q:"How do you link Git commits to Jira tickets?",a:"Include ticket ID in: branch names (feature/PROJ-123-hero-component), commit messages ('PROJ-123: Add hero Sling Model'), PR titles ('PROJ-123: Hero banner component'). Jira's Git integration (Bitbucket/GitHub/Azure DevOps) auto-links and shows commits, branches, and PRs on the ticket. Enables traceability from requirement → code."},
 {q:"How do you estimate AEM work in story points?",a:"Relative sizing: 1 (trivial: fix typo), 2 (simple: add dialog field), 3 (small: simple component), 5 (medium: component with multifield + model + tests), 8 (large: new template with policies + components), 13 (very large: custom workflow + integration). Team velocity = total points completed per sprint. Calibrate with the team, not individual hours."}
 ],
+t59:[
+{q:"Why is try-with-resources critical in AEM and how does it work?",a:"try-with-resources (Java 7+) auto-closes any AutoCloseable object when the block exits. In AEM, ResourceResolvers obtained from ResourceResolverFactory MUST be closed — failing to do so causes session leaks that crash AEM over time. Pattern: try (ResourceResolver rr = factory.getServiceResourceResolver(params)) { ... }. The resolver closes automatically even if exceptions occur."},
+{q:"How are Java annotations used in AEM development?",a:"Annotations drive AEM's framework behavior: @Component/@Reference (OSGi DS services), @Model/@Inject/@ValueMapValue (Sling Models), @Designate/@ObjectClassDefinition/@AttributeDefinition (OSGi configs), @SlingServletPaths/@SlingServletResourceTypes (servlet registration). They replace XML configuration with type-safe, compile-time-checked metadata directly in code."},
+{q:"Explain interfaces vs abstract classes in the context of AEM services.",a:"In AEM, services use interfaces for contract definition (MyService interface) with implementation classes (MyServiceImpl). This enables: OSGi service registry lookup by interface type, multiple implementations with service.ranking, clean @Reference injection, and easier unit testing with mocks. Abstract classes are used for shared base logic (SlingAllMethodsServlet, AbstractResourceVisitor)."},
+{q:"How do Java Generics apply in AEM development?",a:"Generics are used extensively: List<Resource> for child resource collections, Map<String,Object> for ValueMaps, Optional<String> for nullable properties, Class<T> in adaptTo(T.class). Sling Models use typed injection: @Inject List<String> tags. Generic type safety prevents ClassCastException at runtime and makes Sling Model code more robust and self-documenting."},
+{q:"What is the difference between == and .equals() and where does it matter in AEM?",a:"== compares object references (memory address), .equals() compares values. Critical in AEM: comparing JCR property Strings MUST use .equals() — properties fetched from ValueMap are different String objects even if text matches. Also: never use == for Resource, Page, or Node comparisons. Safe pattern: Objects.equals(a, b) handles nulls gracefully."},
+{q:"How are Java Collections used in Sling Models?",a:"Common patterns: List<Resource> via @ChildResource for multifield items, List<Page> for child page listing via stream/collect, Map<String,String> for key-value pairs from Generic Lists, Set<String> for unique tags. Use Collections.unmodifiableList() to return read-only lists from getter methods. Prefer ArrayList for ordered, HashSet for unique, LinkedHashMap for insertion-order maps."},
+{q:"What is the Stream API and how is it used in AEM?",a:"Streams (Java 8+) provide functional-style operations on collections. AEM use cases: StreamSupport.stream(resource.getChildren().spliterator(), false) to process child resources, filtering pages by property: childPages.stream().filter(p -> p.getProperties().get('hideInNav') == null).collect(Collectors.toList()). Cleaner than manual loops for transform/filter/collect operations."},
+{q:"How does Optional help avoid NullPointerException in AEM?",a:"Optional<T> wraps a possibly-null value. AEM patterns: Optional.ofNullable(properties.get('title', String.class)).orElse('Default Title'). Useful for: nullable config values, resource adaptation (resource.adaptTo(Page.class) can return null), and ValueMap lookups. Avoid Optional for fields — use it for return types of methods that may not find a result."},
+{q:"What is the difference between Comparable and Comparator in AEM context?",a:"Comparable: natural ordering built INTO the class (implements Comparable<T>, defines compareTo()). Comparator: external ordering defined OUTSIDE the class (separate Comparator object). In AEM: sort pages by title — pages.sort(Comparator.comparing(p -> p.getTitle())), sort assets by date — assets.sort(Comparator.comparing(Asset::getLastModified).reversed()). Comparator is more flexible since you can create multiple sort strategies without modifying the class."},
+{q:"How does multi-threading apply in AEM development?",a:"AEM handles concurrency at the framework level — Sling processes requests in threads from a pool. Developer considerations: 1) Sling Models/Servlets must be thread-safe (no mutable instance state). 2) OSGi services are singletons by default — shared across threads, use volatile for @Reference fields with DYNAMIC policy. 3) Use Sling Jobs (not raw threads) for background work. 4) ResourceResolver is NOT thread-safe — never share across threads."}
+],
 t52:[
 {q:"What are the top 5 AEM coding best practices?",a:"1) Always extend Core Components (proxy pattern). 2) Close service ResourceResolvers in try-with-resources. 3) Use service users with minimum permissions (never admin). 4) Always include path + type in queries (prevent traversal). 5) Use Sling Models (not WCMUsePojo/JSP) with defaultInjectionStrategy=OPTIONAL. These prevent 90% of production issues."},
 {q:"What is the recommended approach before writing custom code?",a:"Always check first: does a Core Component solve this? Does ACS Commons have a utility? Does OOTB AEM have this feature? Custom code = maintenance liability (upgrades, bugs, testing). Only write custom when OOTB truly doesn't cover the need. Even then, EXTEND rather than building from scratch. The best code is code you don't write."},
@@ -781,9 +794,10 @@ t48:[{n:'#2 IntelliJ Setup',i:2},{n:'#3 IntelliJ & Repo Tool',i:3},{n:'#58 VS Co
 t49:[],
 t50:[{n:'#1 Maven Archetype',i:1}],
 t51:[],
+t59:[],
 t52:[{n:'#23 Sling Model Unit Testing',i:23}]
 };
-const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47'],tools:['t40','t41','t42','t48','t49','t50','t51'],bestpractices:['t52']};
+const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
 const TOPIC_TAB={};Object.keys(TAB_GROUPS).forEach(tab=>{TAB_GROUPS[tab].forEach(tid=>{TOPIC_TAB[tid]=tab;});});
 
 const QUIZZES={
@@ -1287,6 +1301,16 @@ t51:[
 {q:"What does the Jira board show?",options:["Code diffs","Visual representation of work items across workflow columns (To Do, In Progress, Done)","Server metrics","Content pages"],correct:1,exp:"The Jira board (Scrum or Kanban) shows cards moving across columns representing workflow states — giving team visibility."},
 {q:"What is a Bug vs Story in Jira?",options:["Same thing","Story = new feature/enhancement; Bug = defect in existing functionality that needs fixing","Bug is bigger","Story is urgent"],correct:1,exp:"Story: new value being added. Bug: something that was working (or should work) but doesn't. Different intent and priority."},
 {q:"How do you link a Git commit to a Jira ticket?",options:["Not possible","Include the Jira ticket ID in the commit message (e.g., 'PROJ-123: Add hero component')","Tag the commit","Create a branch with ticket name"],correct:1,exp:"Including the ticket ID (PROJ-123) in commit messages and branch names enables Jira-Git integration to link code to tickets."}
+],
+t59:[
+{q:"What does try-with-resources guarantee in Java?",options:["Faster execution","Automatic closing of AutoCloseable resources when the block exits, even if exceptions occur","Thread safety","Null safety"],correct:1,exp:"try-with-resources auto-calls close() on any AutoCloseable. Critical in AEM for ResourceResolver — unclosed resolvers leak sessions and crash instances."},
+{q:"Why must AEM OSGi services be thread-safe?",options:["They run on the client","They are singletons shared across all request threads by default","They restart on each request","They are cached"],correct:1,exp:"OSGi services are singleton by default — one instance handles all concurrent requests. Mutable instance state without synchronization causes race conditions."},
+{q:"What is the correct way to compare String values from JCR properties?",options:["== operator","=== operator",".equals() method or Objects.equals()","compareTo() only"],correct:2,exp:"JCR properties return different String objects each time — == compares references (fails), .equals() compares values (correct). Objects.equals(a,b) also handles null safely."},
+{q:"Which Java collection should you return from a Sling Model getter for a multifield?",options:["Array","Collections.unmodifiableList() wrapping a List","HashMap","TreeSet"],correct:1,exp:"Return an unmodifiable list from getters to prevent external code from modifying the model's internal state. Pattern: return Collections.unmodifiableList(items)."},
+{q:"Why is ResourceResolver NOT thread-safe?",options:["It uses static methods","It wraps a JCR Session which is bound to a single thread","It is deprecated","It uses volatile fields"],correct:1,exp:"ResourceResolver wraps a JCR Session — sessions are designed for single-thread use. Sharing across threads causes ConcurrentModificationException or data corruption."},
+{q:"What Java 8+ feature replaces manual loops for filtering child pages?",options:["Lambda + Stream API (stream().filter().collect())","Reflection","Generics","Annotations"],correct:0,exp:"Stream API with lambdas: pages.stream().filter(p -> !p.isHideInNav()).collect(Collectors.toList()) is cleaner than manual for-loops with if-statements."},
+{q:"What does Optional.ofNullable() do and when to use it in AEM?",options:["Throws exception if null","Wraps a possibly-null value safely — use for ValueMap lookups and adaptTo() results","Creates a new object","Validates input"],correct:1,exp:"Optional.ofNullable(properties.get('title',String.class)).orElse('Default') safely handles null JCR properties without NullPointerException."},
+{q:"Why should you prefer Sling Jobs over raw Java threads in AEM?",options:["Threads are faster","Sling Jobs provide guaranteed execution, retry on failure, cluster-aware distribution, and proper resource management","Jobs use less memory","Threads are deprecated"],correct:1,exp:"Raw threads bypass AEM's resource management, can't survive restarts, and don't distribute across cluster nodes. Sling Jobs handle all of this."}
 ],
 t52:[
 {q:"What is the #1 performance mistake in AEM development?",options:["Using HTL","Running JCR queries without path restriction or matching Oak index (traversal queries)","Using Sling Models","Creating components"],correct:1,exp:"Queries without indexes force full repository traversal — the most common cause of slow pages and production issues."},
@@ -5822,6 +5846,120 @@ PROJ-100: [Epic] Hero Banner Component
 <tr><td>8</td><td>Large</td><td>New page template with policies + components</td></tr>
 <tr><td>13</td><td>Very large</td><td>Custom workflow with multiple steps + integration</td></tr>
 </table>
+`;
+
+NOTES.t59=`
+<h3 class="block-title">Java for AEM Development</h3>
+<p>AEM development requires solid Java fundamentals. These are the core Java concepts you use daily when building Sling Models, OSGi services, and servlets.</p>
+
+<h3 class="block-title">try-with-resources (Critical in AEM)</h3>
+<p>Auto-closes any <code>AutoCloseable</code> resource when the block exits:</p>
+<pre>// AEM pattern — ResourceResolver MUST be closed
+try (ResourceResolver resolver = resolverFactory.getServiceResourceResolver(params)) {
+    Resource res = resolver.getResource("/content/mysite");
+    // work with resource...
+} // resolver.close() called automatically — even if exception occurs</pre>
+<div class="callout"><strong>Warning:</strong> Unclosed ResourceResolvers cause session leaks that accumulate and crash AEM. ALWAYS use try-with-resources for service resolvers.</div>
+
+<h3 class="block-title">Annotations in AEM</h3>
+<table><tr><th>Framework</th><th>Key Annotations</th><th>Purpose</th></tr>
+<tr><td>OSGi DS</td><td>@Component, @Reference, @Activate, @Deactivate</td><td>Service lifecycle and dependency injection</td></tr>
+<tr><td>OSGi Config</td><td>@Designate, @ObjectClassDefinition, @AttributeDefinition</td><td>Externalized configuration</td></tr>
+<tr><td>Sling Models</td><td>@Model, @Inject, @ValueMapValue, @ChildResource, @Self</td><td>JCR-to-Java mapping</td></tr>
+<tr><td>Servlets</td><td>@SlingServletPaths, @SlingServletResourceTypes</td><td>Servlet registration</td></tr>
+</table>
+
+<h3 class="block-title">Interfaces vs Abstract Classes</h3>
+<table><tr><th>Use</th><th>Interface</th><th>Abstract Class</th></tr>
+<tr><td>AEM Pattern</td><td>Service contracts (MyService)</td><td>Base implementations (SlingAllMethodsServlet)</td></tr>
+<tr><td>OSGi</td><td>@Reference injects by interface type</td><td>Not used for service injection</td></tr>
+<tr><td>Multiple</td><td>Class can implement many interfaces</td><td>Only one abstract class (Java single inheritance)</td></tr>
+<tr><td>Testing</td><td>Easy to mock (Mockito.mock(MyService.class))</td><td>Harder to mock</td></tr>
+</table>
+
+<h3 class="block-title">Collections in Sling Models</h3>
+<pre>@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+public class CardListModel {
+    @ChildResource
+    private List&lt;Resource&gt; cards;        // Multifield items
+
+    @ValueMapValue
+    private String[] tags;                // Multi-value property
+
+    public List&lt;CardItem&gt; getCards() {
+        if (cards == null) return Collections.emptyList();
+        return cards.stream()
+            .map(r -&gt; r.adaptTo(CardItem.class))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    }
+}</pre>
+
+<h3 class="block-title">Stream API in AEM</h3>
+<p>Functional operations on collections — cleaner than manual loops:</p>
+<pre>// Get visible child pages
+List&lt;Page&gt; visiblePages = StreamSupport
+    .stream(currentPage.listChildren().spliterator(), false)
+    .filter(p -&gt; !p.isHideInNav())
+    .filter(p -&gt; p.getProperties().get("jcr:title", String.class) != null)
+    .sorted(Comparator.comparing(Page::getTitle))
+    .collect(Collectors.toList());
+
+// Get all image paths from multifield
+List&lt;String&gt; imagePaths = Optional.ofNullable(cards)
+    .orElse(Collections.emptyList()).stream()
+    .map(r -&gt; r.getValueMap().get("imagePath", String.class))
+    .filter(Objects::nonNull)
+    .collect(Collectors.toList());</pre>
+
+<h3 class="block-title">Optional for Null Safety</h3>
+<pre>// Safe property access — no NullPointerException
+String title = Optional.ofNullable(resource.adaptTo(Page.class))
+    .map(Page::getTitle)
+    .orElse("Default Title");
+
+// Safe nested access
+String authorName = Optional.ofNullable(pageManager.getPage(path))
+    .map(Page::getProperties)
+    .map(props -&gt; props.get("authorName", String.class))
+    .orElse("Unknown");</pre>
+
+<h3 class="block-title">Thread Safety in AEM</h3>
+<p>Critical rules for concurrent AEM development:</p>
+<ul>
+<li><strong>OSGi services are singletons</strong> — shared across ALL request threads. No mutable instance fields without synchronization.</li>
+<li><strong>Sling Models are per-request</strong> — safe to store state as fields (new instance per adaptation).</li>
+<li><strong>ResourceResolver is NOT thread-safe</strong> — never share across threads, never store as a service field.</li>
+<li><strong>Use Sling Jobs for background work</strong> — not raw threads. Jobs survive restarts and distribute across cluster.</li>
+<li><strong>@Reference with DYNAMIC policy</strong> — field must be <code>volatile</code> since the reference can change at runtime.</li>
+</ul>
+
+<h3 class="block-title">Comparator for Sorting</h3>
+<pre>// Sort pages by last modified (newest first)
+pages.sort(Comparator.comparing(
+    (Page p) -&gt; p.getProperties().get("cq:lastModified", Calendar.class),
+    Comparator.nullsLast(Comparator.reverseOrder())
+));
+
+// Sort assets by file size
+assets.sort(Comparator.comparingLong(a -&gt; a.getOriginal().getSize()));
+
+// Multi-level sort: by template, then by title
+pages.sort(Comparator
+    .comparing((Page p) -&gt; p.getProperties().get("cq:template",""))
+    .thenComparing(Page::getTitle));</pre>
+
+<h3 class="block-title">== vs .equals() Pitfall</h3>
+<pre>// WRONG — compares references, not values
+String title = properties.get("jcr:title", String.class);
+if (title == "Home") { ... }  // ALWAYS false!
+
+// CORRECT — compares String values
+if ("Home".equals(title)) { ... }  // Works + null-safe
+
+// SAFEST — handles both nulls
+if (Objects.equals(title, "Home")) { ... }</pre>
+<div class="callout"><strong>Rule:</strong> Always use .equals() for String/Object comparison. Put the constant first ("Home".equals(x)) to avoid NullPointerException. For null-safe comparison, use Objects.equals().</div>
 `;
 
 NOTES.t52=`
