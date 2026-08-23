@@ -6521,15 +6521,14 @@ function showTopic(id){document.querySelectorAll('section.topic').forEach(s=>s.c
 function toggleTheme(){const h=document.documentElement;if(h.getAttribute('data-theme')==='dark'){h.removeAttribute('data-theme');localStorage.setItem('aem_theme','light');document.getElementById('themeToggle').innerHTML='&#9790;';}else{h.setAttribute('data-theme','dark');localStorage.setItem('aem_theme','dark');document.getElementById('themeToggle').innerHTML='&#9788;';}}
 (function(){if(localStorage.getItem('aem_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeToggle').innerHTML='&#9788;';}})();
 
-/* === SECURITY (temporarily disabled for testing) === */
-/*
+/* === SECURITY === */
 document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('keydown',e=>{if((e.ctrlKey&&e.key==='s')||(e.ctrlKey&&e.key==='u')||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))||e.key==='F12'){e.preventDefault();return false;}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey&&e.key==='s')||(e.ctrlKey&&e.key==='u')||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))||e.key==='F12'||(e.ctrlKey&&e.key==='p')){e.preventDefault();return false;}});
 document.body.style.userSelect='none';document.body.style.webkitUserSelect='none';
 document.addEventListener('copy',e=>e.preventDefault());
-*/
 document.addEventListener('selectstart',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
+(function(){var dCheck=setInterval(function(){var t1=performance.now();debugger;var t2=performance.now();if(t2-t1>100){document.documentElement.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1b2a;color:#f87171;font-family:system-ui;font-size:20px;font-weight:700;text-align:center;padding:20px;">Developer Tools detected. Please close DevTools to continue.</div>';clearInterval(dCheck);}},1000);})();
 
 /* === CHATBOT v2 — Synonyms, TF-IDF, Abbreviations, Comparisons === */
 (function(){
