@@ -136,7 +136,8 @@ tr:nth-child(even) td{background:var(--bg);}
 .mobile-nav-drawer.open{transform:translateX(0);}
 .mobile-nav-overlay{display:none;position:fixed;inset:0;z-index:99995;background:rgba(0,0,0,0.5);}
 .mobile-nav-overlay.open{display:block;}
-@media(max-width:860px){.mobile-header{display:flex;}.hamburger-btn{display:flex;}.sidebar{display:none;}.app{flex-direction:column;}.main{padding:70px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}.chat-panel{bottom:0!important;right:0!important;left:0!important;top:56px!important;width:100%!important;max-width:100%!important;height:calc(100vh - 56px)!important;max-height:none!important;border-radius:0!important;border:none!important;z-index:99992;background:var(--panel);}.chat-fab{bottom:20px;right:14px;width:46px;height:46px;font-size:20px;z-index:99993;}.mobile-nav-drawer{display:block;}}
+@media(max-width:860px){.mobile-header{display:flex;}.hamburger-btn{display:flex;}.theme-toggle{top:10px;right:104px;z-index:99998;}.mobile-user-fab{top:10px;right:62px;z-index:99998;}.sidebar{display:none;}.app{flex-direction:column;}.main{padding:70px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}.chat-panel{bottom:0!important;right:0!important;left:0!important;top:56px!important;width:100%!important;max-width:100%!important;height:calc(100vh - 56px)!important;max-height:none!important;border-radius:0!important;border:none!important;z-index:99992;background:var(--panel);}.chat-fab{bottom:20px;right:14px;width:46px;height:46px;font-size:20px;z-index:99993;}.mobile-nav-drawer{display:block;}}
+@media(max-width:860px){.mobile-header .theme-toggle{position:static;top:auto;right:auto;width:32px;height:32px;flex-shrink:0;}.mobile-header .mobile-user-fab{position:static;top:auto;right:auto;flex-shrink:0;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
 .chat-fab{position:fixed;bottom:60px;right:20px;z-index:99990;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(8,145,178,0.4);transition:transform 0.2s,box-shadow 0.2s;}
 .chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(8,145,178,0.6);}
@@ -242,12 +243,15 @@ Sign in with Google
 
 <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
 <div class="streak-display" id="streakDisplay"><span>&#128293;</span><span id="streakText">Streak: 0</span></div>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light">&#9790;</button>
 <div class="mobile-header" id="mobileHeader">
 <img src="sg-logo.png" alt="SG">
 <div class="mh-text">
 <div class="mh-eyebrow">Study Companion</div>
 <h1>AEM Interview Preparation</h1>
+</div>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light">&#9790;</button>
+<div class="mobile-user-fab" id="mobileUserFab" onclick="toggleMobileUserMenu()">
+<img id="mobileUserAvatar" src="" alt="U">
 </div>
 <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileNav()">
 <span></span><span></span><span></span>
@@ -7355,10 +7359,6 @@ showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);if(typeof tra
 /* INIT */
 showTopic('t1');updateScorePills();updateProgressBar();
 </script>
-<!-- Mobile User FAB -->
-<div class="mobile-user-fab" id="mobileUserFab" onclick="toggleMobileUserMenu()">
-<img id="mobileUserAvatar" src="" alt="U">
-</div>
 <div class="mobile-user-dropdown" id="mobileUserDropdown">
 <div class="mu-name" id="mobileUserName">User</div>
 <div class="mu-email" id="mobileUserEmail">email</div>
