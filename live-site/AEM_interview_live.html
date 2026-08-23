@@ -1754,6 +1754,23 @@ ui.apps/jcr_root/apps/mysite/clientlibs/clientlib-site/
      │ maven build packages into .zip
      ▼
 Deployed to AEM as ClientLib</div>
+
+<h3 class="block-title">RESTful Architecture in AEM</h3>
+<p>REST (Representational State Transfer) uses HTTP methods to operate on resources identified by URLs. AEM is inherently RESTful via Apache Sling:</p>
+<ul>
+<li><strong>Every JCR node is a resource</strong> — accessible via its path as a URL</li>
+<li><strong>HTTP methods map to operations</strong> — GET (read), POST (create/update), DELETE (remove)</li>
+<li><strong>Representations</strong> — same resource can be rendered as HTML (.html), JSON (.json), XML (.xml) via selectors/extensions</li>
+</ul>
+
+<h3 class="block-title">Persistence Manager</h3>
+<p>The Persistence Manager saves repository content to permanent storage:</p>
+<table><tr><th>Type</th><th>Backend</th><th>Use Case</th></tr>
+<tr><td>TarMK (Segment Tar)</td><td>Filesystem (tar files)</td><td>Standalone instances, default for AEM 6.x</td></tr>
+<tr><td>MongoMK</td><td>MongoDB</td><td>Clustered author environments (deprecated in AEMaaCS)</td></tr>
+<tr><td>DocumentNodeStore</td><td>MongoDB/RDB</td><td>Cloud and composite deployments</td></tr>
+</table>
+<div class="callout"><strong>Key:</strong> TarMK is always recommended unless you need a clustered Author setup. Compaction and garbage collection maintain performance over time.</div>
 `;
 
 NOTES.t5=`
@@ -1810,6 +1827,14 @@ NOTES.t5=`
 <li>Content Fragment, Experience Fragment</li>
 </ul>
 <div class="callout"><strong>Best Practice:</strong> Always create proxy components that extend Core Components. Never copy Core Component code into your project.</div>
+
+<h3 class="block-title">Parsys, iParsys & Parbase</h3>
+<table><tr><th>Component</th><th>Purpose</th><th>Key Behavior</th></tr>
+<tr><td><strong>parsys</strong> (Paragraph System)</td><td>Container for author-dragged components</td><td>Each page has its own independent content</td></tr>
+<tr><td><strong>iparsys</strong> (Inherited Paragraph System)</td><td>Container that inherits parent page content</td><td>Changes flow from parent → child; can cancel inheritance locally</td></tr>
+<tr><td><strong>parbase</strong></td><td>Foundation base component</td><td>Provides common scripts; set as sling:resourceSuperType to make components draggable</td></tr>
+</table>
+<div class="callout"><strong>Modern AEM:</strong> In Editable Templates, the Layout Container (responsivegrid) replaces parsys. iParsys is rarely used — MSM/Live Copy handles inheritance at the page level instead.</div>
 `;
 
 NOTES.t6=`
@@ -2977,6 +3002,18 @@ public class PathBasedChooser implements ParticipantStepChooser {
         return "content-approvers";
     }
 }</pre>
+
+<h3 class="block-title">Transient Workflows</h3>
+<p>Transient workflows do NOT persist intermediate step data to JCR — only the final outcome is stored.</p>
+<table><tr><th>Aspect</th><th>Regular Workflow</th><th>Transient Workflow</th></tr>
+<tr><td>History Persistence</td><td>Every step saved to /var/workflow</td><td>No intermediate data saved</td></tr>
+<tr><td>Performance</td><td>Slower (JCR writes per step)</td><td>Much faster (memory only)</td></tr>
+<tr><td>Repository Growth</td><td>Significant over time</td><td>Minimal</td></tr>
+<tr><td>Participant Steps</td><td>Supported (inbox items)</td><td>NOT supported</td></tr>
+<tr><td>Pause/Resume</td><td>Supported</td><td>NOT supported</td></tr>
+<tr><td>Use Case</td><td>Content approval, review</td><td>DAM processing, bulk operations</td></tr>
+</table>
+<div class="callout"><strong>Configure:</strong> In the workflow model editor, open Model Properties and check "Transient Workflow". The DAM Update Asset workflow is transient by default in AEM 6.5+.</div>
 `;
 
 NOTES.t17=`
@@ -3371,6 +3408,15 @@ if (rel != null) {
 <div class="mw-step-dots" id="mwStepDots"></div>
 </div>
 </div>
+
+<h3 class="block-title">Live Copy vs Language Copy</h3>
+<table><tr><th>Aspect</th><th>Live Copy (MSM)</th><th>Language Copy</th></tr>
+<tr><td>Purpose</td><td>Reuse structure + content across sites</td><td>Translate content into different languages</td></tr>
+<tr><td>Created via</td><td>MSM Blueprint / Create Live Copy</td><td>Translation Tool / Language Copy wizard</td></tr>
+<tr><td>Relationship</td><td>Active inheritance (rollout syncs changes)</td><td>Translation workflow (human or machine)</td></tr>
+<tr><td>Content Updates</td><td>Automatic via rollout</td><td>Manual re-translation when source changes</td></tr>
+<tr><td>Typical Use</td><td>Regional sites sharing same language</td><td>Multilingual sites (EN → FR, DE, ES)</td></tr>
+</table>
 `;
 
 NOTES.t22=`
@@ -3946,6 +3992,15 @@ NOTES.t27=`
 <tr><td>resource</td><td>Current Resource object</td></tr>
 <tr><td>component</td><td>Current component definition</td></tr>
 </table>
+
+<h3 class="block-title">Sightly → HTL Naming</h3>
+<p>HTL was originally called <strong>"Sightly"</strong> (meaning "pleasing to the eye") when introduced in AEM 6.0. It was renamed to <strong>HTL (HTML Template Language)</strong> to better describe its purpose. Both names refer to the same technology.</p>
+<p><strong>Three key differentiators:</strong></p>
+<ul>
+<li><strong>Secure by default</strong> — auto-escapes all output based on context (prevents XSS without developer effort)</li>
+<li><strong>Separation of concerns</strong> — intentionally limited so logic must go through Use-API (Java/JS classes)</li>
+<li><strong>Valid HTML5</strong> — uses data-sly-* attributes, so templates are valid HTML files openable in any editor</li>
+</ul>
 `;
 
 NOTES.t28=`
@@ -4071,6 +4126,36 @@ public class MyServiceImpl implements MyService {
 <div class="os-info-desc">Click any state to see what it means, what triggers transitions, and common issues at that state.</div>
 </div>
 </div>
+
+<h3 class="block-title">Bundle Wiring</h3>
+<p>Bundle wiring is the OSGi framework resolving Import-Package → Export-Package links between bundles:</p>
+<div class="diagram">Bundle A                    Bundle B
+┌──────────────────┐      ┌──────────────────┐
+│ Import-Package:  │──────│ Export-Package:   │
+│  com.google.gson │  wire│  com.google.gson  │
+└──────────────────┘      └──────────────────┘</div>
+<ul>
+<li>If Import cannot be satisfied → bundle stays INSTALLED (not RESOLVED)</li>
+<li>Check wiring: Felix Console → Bundles → bundle detail → "Wired to"</li>
+<li>Version ranges in imports allow flexibility: <code>[1.0,2.0)</code></li>
+</ul>
+
+<h3 class="block-title">OSGi Bundle vs Normal JAR</h3>
+<table><tr><th>Feature</th><th>Normal JAR</th><th>OSGi Bundle</th></tr>
+<tr><td>Visibility</td><td>All public classes accessible</td><td>Only exported packages visible</td></tr>
+<tr><td>Versioning</td><td>One version per ClassLoader</td><td>Multiple versions can coexist</td></tr>
+<tr><td>Lifecycle</td><td>Static (loaded at startup)</td><td>Dynamic (start/stop/update at runtime)</td></tr>
+<tr><td>Dependencies</td><td>Implicit (classpath order)</td><td>Explicit (Import-Package enforced)</td></tr>
+<tr><td>Metadata</td><td>Optional MANIFEST.MF</td><td>Required: Bundle-SymbolicName, Import/Export-Package</td></tr>
+</table>
+
+<h3 class="block-title">Activator.java (Legacy)</h3>
+<p>BundleActivator provides start/stop callbacks but is a <strong>legacy pattern</strong>:</p>
+<pre>public class Activator implements BundleActivator {
+    public void start(BundleContext ctx) { /* bundle started */ }
+    public void stop(BundleContext ctx)  { /* bundle stopping */ }
+}</pre>
+<div class="callout"><strong>Modern AEM:</strong> Do NOT use Activators. Use Declarative Services @Component with @Activate/@Deactivate instead — cleaner, supports dependency injection, and is the OSGi standard.</div>
 `;
 
 NOTES.t29=`
@@ -5816,6 +5901,28 @@ NOTES.t52=`
 <li>Merge → Cloud Manager deploys → Verify on Stage</li>
 </ol>
 <div class="callout"><strong>The Golden Rule:</strong> Always check if AEM already provides what you need (Core Components, ACS Commons, OOTB features) BEFORE writing custom code. Every custom line is a maintenance liability.</div>
+
+<h3 class="block-title">Production Latency Troubleshooting</h3>
+<p>Systematic approach to diagnose slow AEM pages:</p>
+<ol>
+<li><strong>Dispatcher</strong> — Check cache hit ratio; review .stat invalidation frequency; ensure static assets are cached</li>
+<li><strong>request.log</strong> — Analyze response times per URL; identify pages taking &gt;1s</li>
+<li><strong>Query Performance</strong> — Look for traversal warnings in logs; use Explain Query tool; ensure Oak indexes exist</li>
+<li><strong>JVM Health</strong> — Monitor heap usage, GC pauses (Full GC &gt;500ms is problematic); take thread dumps for blocked threads</li>
+<li><strong>Component Count</strong> — Pages with 100+ components render slowly; consider lazy loading or pagination</li>
+<li><strong>External Calls</strong> — Timeout on third-party API calls blocks rendering; use async patterns or circuit breakers</li>
+</ol>
+
+<h3 class="block-title">AI Integration with AEM</h3>
+<p>Integrating AI (ChatGPT, Claude, etc.) into AEM authoring:</p>
+<ul>
+<li><strong>Backend:</strong> OSGi service calling AI API via HttpClient with timeouts + error handling</li>
+<li><strong>Endpoint:</strong> Sling Servlet (POST /bin/ai/generate) accepting prompt + context</li>
+<li><strong>Dialog UI:</strong> Custom 'Generate' button in component dialog that calls servlet via AJAX</li>
+<li><strong>Config:</strong> API keys in OSGi config (per-environment via runmode folders)</li>
+<li><strong>Challenges:</strong> Latency (async generation), cost management, content quality review, rate limiting</li>
+</ul>
+<div class="callout"><strong>Key Principle:</strong> AI-generated content should always go through author review before publishing. Never auto-publish AI output.</div>
 `;
 
 NOTES.t53=`
