@@ -217,7 +217,7 @@ tr:nth-child(even) td{background:var(--bg);}
 <body>
 <!-- Login Overlay -->
 <div class="login-overlay" id="loginOverlay">
-<div class="login-card">
+<div class="login-card" id="loginCard" style="display:none;">
 <img src="sg-logo.png" alt="SG" class="login-logo">
 <h2>AEM Interview Prep</h2>
 <p class="login-sub">Sign in to access 52 topics and 416 interactive MCQs</p>
@@ -7398,9 +7398,11 @@ auth.onAuthStateChanged(function(user) {
   const overlay = document.getElementById('loginOverlay');
   const appEl = document.querySelector('.app');
   const sidebarUser = document.getElementById('sidebarUser');
+  const loginCard = document.getElementById('loginCard');
 
   if (user) {
     overlay.classList.add('hidden');
+    loginCard.style.display = 'none';
     appEl.style.visibility = 'visible';
     sidebarUser.style.display = 'flex';
 
@@ -7418,6 +7420,7 @@ auth.onAuthStateChanged(function(user) {
     saveUserData(user);
   } else {
     overlay.classList.remove('hidden');
+    loginCard.style.display = '';
     appEl.style.visibility = 'hidden';
     sidebarUser.style.display = 'none';
   }
