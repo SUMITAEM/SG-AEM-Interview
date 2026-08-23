@@ -164,7 +164,7 @@ tr:nth-child(even) td{background:var(--bg);}
 .chat-suggest-btn{font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);cursor:pointer;font-family:var(--body);transition:0.15s;}
 .chat-suggest-btn:hover{border-color:var(--accent);color:var(--accent);}
 /* Login Overlay */
-.login-overlay{position:fixed;inset:0;z-index:999999;background:linear-gradient(135deg,#0d1b2a 0%,#1b2838 50%,#0d1b2a 100%);display:flex;align-items:center;justify-content:center;transition:opacity 0.4s,visibility 0.4s;}
+.login-overlay{position:fixed;inset:0;z-index:999999;background:linear-gradient(135deg,#0d1b2a 0%,#1b2838 50%,#0d1b2a 100%);display:flex;align-items:center;justify-content:center;transition:none;}
 .login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
 .login-card{background:#1e293b;border:1px solid rgba(8,145,178,0.3);border-radius:16px;padding:40px 36px;width:400px;max-width:90vw;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 40px rgba(8,145,178,0.1);}
 .login-card .login-logo{width:64px;height:64px;border-radius:14px;margin:0 auto 16px;display:block;}
@@ -7388,9 +7388,12 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 let isSignUpMode = false;
 
 // ========== AUTH STATE LISTENER ==========
+var authResolved = false;
 auth.onAuthStateChanged(function(user) {
   const overlay = document.getElementById('loginOverlay');
   const appEl = document.querySelector('.app');
@@ -7417,6 +7420,10 @@ auth.onAuthStateChanged(function(user) {
     overlay.classList.remove('hidden');
     appEl.style.visibility = 'hidden';
     sidebarUser.style.display = 'none';
+  }
+  if (!authResolved) {
+    authResolved = true;
+    overlay.style.transition = 'opacity 0.4s, visibility 0.4s';
   }
 });
 
