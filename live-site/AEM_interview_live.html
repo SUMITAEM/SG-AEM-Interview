@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Interactive AEM interview preparation guide with 416 MCQs covering 52 topics.">
 <meta name="author" content="Sumit Gaidhani">
 <title>AEM Interview Preparation - 52 Topics Interactive Guide</title>
@@ -136,7 +136,7 @@ tr:nth-child(even) td{background:var(--bg);}
 .mobile-nav-drawer.open{transform:translateX(0);}
 .mobile-nav-overlay{display:none;position:fixed;inset:0;z-index:99995;background:rgba(0,0,0,0.5);}
 .mobile-nav-overlay.open{display:block;}
-@media(max-width:860px){.mobile-header{display:flex;}.hamburger-btn{display:flex;}.theme-toggle{top:10px;right:104px;z-index:99998;}.mobile-user-fab{top:10px;right:62px;z-index:99998;}.sidebar{display:none;}.app{flex-direction:column;}.main{padding:70px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}.chat-panel{bottom:0!important;right:0!important;left:0!important;top:56px!important;width:100%!important;max-width:100%!important;height:calc(100vh - 56px)!important;max-height:none!important;border-radius:0!important;border:none!important;z-index:99992;background:var(--panel);}.chat-fab{bottom:20px;right:14px;width:46px;height:46px;font-size:20px;z-index:99993;}.mobile-nav-drawer{display:block;}}
+@media(max-width:860px){.mobile-header{display:flex;}.hamburger-btn{display:flex;}.theme-toggle{top:10px;right:104px;z-index:99998;}.mobile-user-fab{top:10px;right:62px;z-index:99998;}.sidebar{display:none;}.app{flex-direction:column;}.main{padding:70px 16px 80px 16px;margin-left:0;}.stat-grid{grid-template-columns:1fr;}.sidebar-user{display:none!important;}.mobile-user-fab{display:block!important;}.chat-panel{position:fixed!important;top:56px!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;border-radius:0!important;border:none!important;z-index:99992;background:var(--panel);display:none;flex-direction:column;overflow:hidden;}.chat-panel.open{display:flex;}.chat-messages{flex:1;overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch;}.chat-input-area{padding:12px 14px calc(12px + env(safe-area-inset-bottom, 0px)) 14px;flex-shrink:0;border-top:1px solid var(--line);background:var(--panel);}.chat-fab{bottom:20px;right:14px;width:46px;height:46px;font-size:20px;z-index:99993;}.mobile-nav-drawer{display:block;}}
 @media(max-width:860px){.mobile-header .theme-toggle{position:static;top:auto;right:auto;width:32px;height:32px;flex-shrink:0;}.mobile-header .mobile-user-fab{position:static;top:auto;right:auto;flex-shrink:0;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
 .chat-fab{position:fixed;bottom:60px;right:20px;z-index:99990;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(8,145,178,0.4);transition:transform 0.2s,box-shadow 0.2s;}
@@ -155,8 +155,8 @@ tr:nth-child(even) td{background:var(--bg);}
 .chat-msg.user{align-self:flex-end;background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border-bottom-right-radius:4px;}
 .chat-msg .msg-topic{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(8,145,178,0.1);color:var(--accent);margin-bottom:6px;}
 .chat-msg .msg-text{margin:0;}
-.chat-input-area{padding:12px 14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-shrink:0;background:var(--panel);}
-.chat-input{flex:1;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:13px;font-family:var(--body);color:var(--ink);background:var(--bg);outline:none;}
+.chat-input-area{padding:12px 14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-shrink:0;background:var(--panel);padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px));}
+.chat-input{flex:1;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:var(--body);color:var(--ink);background:var(--bg);outline:none;}
 .chat-input:focus{border-color:var(--accent);}
 .chat-send{width:38px;height:38px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .chat-send:hover{transform:scale(1.1);}
@@ -6551,6 +6551,7 @@ function sendMessage(){const input=document.getElementById('chatInput');const q=
 document.getElementById('chatSend').addEventListener('click',sendMessage);
 document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter')sendMessage();});
 window.askSuggestion=function(btn){document.getElementById('chatInput').value=btn.textContent;sendMessage();};
+if(window.visualViewport&&window.innerWidth<=860){var vpHandler=function(){if(!panel.classList.contains('open'))return;var vvh=window.visualViewport.height;var offset=window.innerHeight-vvh;panel.style.height=(vvh-56)+'px';panel.style.bottom=offset+'px';};window.visualViewport.addEventListener('resize',vpHandler);window.visualViewport.addEventListener('scroll',vpHandler);}
 })();
 
 /* AEM Lifecycle Widget Init */
