@@ -163,6 +163,11 @@ tr:nth-child(even) td{background:var(--bg);}
 .chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px 16px;}
 .chat-suggest-btn{font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);cursor:pointer;font-family:var(--body);transition:0.15s;}
 .chat-suggest-btn:hover{border-color:var(--accent);color:var(--accent);}
+.typing-indicator{align-self:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:12px;border-bottom-left-radius:4px;padding:12px 18px;display:flex;gap:5px;align-items:center;}
+.typing-indicator .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:0.4;animation:typingBounce 1.4s infinite ease-in-out;}
+.typing-indicator .dot:nth-child(2){animation-delay:0.2s;}
+.typing-indicator .dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-6px);opacity:1;}}
 /* Login Overlay */
 .login-overlay{position:fixed;inset:0;z-index:999999;background:linear-gradient(135deg,#0d1b2a 0%,#1b2838 50%,#0d1b2a 100%);display:flex;align-items:center;justify-content:center;transition:none;}
 .login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
@@ -6547,7 +6552,7 @@ const chatHTML='<button class="chat-fab" id="chatFab" title="Ask a question">&#1
 const chatDiv=document.createElement('div');chatDiv.innerHTML=chatHTML;document.body.appendChild(chatDiv);
 const fab=document.getElementById('chatFab'),panel=document.getElementById('chatPanel');
 fab.addEventListener('click',function(){const open=panel.classList.contains('open');if(open){panel.classList.remove('open');fab.classList.remove('active');fab.innerHTML='&#128172;';document.body.style.overflow='';}else{panel.classList.add('open');fab.classList.add('active');fab.innerHTML='&#10005;';if(window.innerWidth<=860){document.body.style.overflow='hidden';}document.getElementById('chatInput').focus();}});
-function sendMessage(){const input=document.getElementById('chatInput');const q=input.value.trim();if(!q)return;const msgs=document.getElementById('chatMessages');msgs.innerHTML+='<div class="chat-msg user"><p class="msg-text">'+q.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</p></div>';const intent=detectIntent(q);let html;if(intent&&intent.type==='compare'){html=handleCompare(intent.a,intent.b);}else{const results=searchContent(q);html=formatAnswer(results,q,intent);}msgs.innerHTML+=html;msgs.scrollTop=msgs.scrollHeight;input.value='';const sugg=document.getElementById('chatSuggestions');if(sugg)sugg.style.display='none';}
+function sendMessage(){const input=document.getElementById('chatInput');const q=input.value.trim();if(!q)return;const msgs=document.getElementById('chatMessages');msgs.innerHTML+='<div class="chat-msg user"><p class="msg-text">'+q.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</p></div>';input.value='';const sugg=document.getElementById('chatSuggestions');if(sugg)sugg.style.display='none';var typingEl=document.createElement('div');typingEl.className='typing-indicator';typingEl.innerHTML='<span class="dot"></span><span class="dot"></span><span class="dot"></span>';msgs.appendChild(typingEl);msgs.scrollTop=msgs.scrollHeight;var intent=detectIntent(q);setTimeout(function(){typingEl.remove();var html;if(intent&&intent.type==='compare'){html=handleCompare(intent.a,intent.b);}else{var results=searchContent(q);html=formatAnswer(results,q,intent);}msgs.innerHTML+=html;msgs.scrollTop=msgs.scrollHeight;},800+Math.random()*700);}
 document.getElementById('chatSend').addEventListener('click',sendMessage);
 document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter')sendMessage();});
 window.askSuggestion=function(btn){document.getElementById('chatInput').value=btn.textContent;sendMessage();};
