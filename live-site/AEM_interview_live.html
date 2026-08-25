@@ -225,10 +225,10 @@ tr:nth-child(even) td{background:var(--bg);}
 <div class="login-card" id="loginCard" style="display:none;">
 <img src="sg-logo.png" alt="SG" class="login-logo">
 <h2>AEM Interview Prep</h2>
-<p class="login-sub">Sign in to access 53 topics and 430 interactive MCQs</p>
+<p class="login-sub">Sign in to access 53 topics and 439 interactive MCQs</p>
 <div class="login-stats">
 <div class="login-stat"><span class="num">52</span><span class="lbl">Topics</span></div>
-<div class="login-stat"><span class="num">416</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">439</span><span class="lbl">MCQs</span></div>
 <div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
 </div>
 <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
@@ -274,7 +274,7 @@ Sign in with Google
 <h1>AEM Interview Preparation</h1>
 </div>
 </div>
-<div class="sub">53 topics &middot; 430 interactive MCQs</div>
+<div class="sub">53 topics &middot; 439 interactive MCQs</div>
 </div>
 <div class="sidebar-tabs" id="sidebarTabs">
 <button class="sidebar-tab active" data-tab="all" onclick="filterTab('all')">All</button>
@@ -6770,7 +6770,7 @@ function resetProgress(){if(!confirm('Reset ALL progress?'))return;answered={};a
 
 /* === RENDER NAV === */
 const navList=document.getElementById('navList');
-TOPICS.forEach((t,i)=>{const d=document.createElement('div');d.className='nav-item';d.dataset.target=t.id;d.dataset.tab=TOPIC_TAB[t.id]||'all';d.onclick=()=>showTopic(t.id);d.innerHTML='<span class="num">'+String(i+1).padStart(2,'0')+'</span><span>'+t.title+'</span><span class="score-pill" id="pill-'+t.id+'">0/'+(QUIZZES[t.id]?QUIZZES[t.id].length:0)+'</span>';navList.appendChild(d);});
+TOPICS.forEach((t,i)=>{const d=document.createElement('div');d.className='nav-item';d.dataset.target=t.id;d.dataset.tab=TOPIC_TAB[t.id]||'all';d.onclick=()=>showTopic(t.id);const qCount=QUIZZES[t.id]?QUIZZES[t.id].length:0;d.innerHTML='<span class="num">'+String(i+1).padStart(2,'0')+'</span><span>'+t.title+'</span>'+(qCount>0?'<span class="score-pill" id="pill-'+t.id+'">0/'+qCount+'</span>':'');navList.appendChild(d);});
 
 function filterTab(key){document.querySelectorAll('.sidebar-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===key));document.querySelectorAll('#navList .nav-item').forEach(it=>{it.style.display=(key==='all'||it.dataset.tab===key)?'':'none';});}
 
