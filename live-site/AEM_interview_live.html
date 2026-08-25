@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Interactive AEM interview preparation guide with 439 MCQs covering 53 topics.">
+<meta name="description" content="Interactive AEM interview preparation guide with 437 MCQs covering 53 topics.">
 <meta name="author" content="Sumit Gaidhani">
 <title>AEM Interview Preparation - 52 Topics Interactive Guide</title>
 <style>
@@ -228,7 +228,7 @@ tr:nth-child(even) td{background:var(--bg);}
 <p class="login-sub">Sign in to access 53 topics and 439 interactive MCQs</p>
 <div class="login-stats">
 <div class="login-stat"><span class="num">52</span><span class="lbl">Topics</span></div>
-<div class="login-stat"><span class="num">439</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">437</span><span class="lbl">MCQs</span></div>
 <div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
 </div>
 <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
@@ -296,7 +296,7 @@ Sign in with Google
 <div id="navList"></div>
 <div class="nav-item" data-target="practice-all" onclick="showTopic('practice-all')">
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
-<span class="score-pill" id="allScorePill">0/439</span>
+<span class="score-pill" id="allScorePill">0/437</span>
 </div>
 <div class="sidebar-footer"><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
 </div>
@@ -7838,7 +7838,7 @@ function buildMobileNav() {
     html += '<button class="sidebar-tab' + (tab.classList.contains('active') ? ' active' : '') + '" data-tab="' + tab.dataset.tab + '" onclick="mobileFilterTab(\'' + tab.dataset.tab + '\')">' + tab.textContent + '</button>';
   });
   html += '</div><div id="mobileNavList"></div>';
-  html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/439</span></div>';
+  html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/437</span></div>';
   html += '<div style="padding:12px 16px;"><button class="reset-btn" onclick="resetProgress();toggleMobileNav();">Reset all progress</button></div>';
   drawer.innerHTML = html;
   drawer.dataset.built = '1';
