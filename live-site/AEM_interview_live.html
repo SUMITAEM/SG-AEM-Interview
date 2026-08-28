@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Interactive AEM interview preparation guide with 450 MCQs covering 53 topics.">
+<meta name="description" content="Interactive AEM interview preparation guide with 470 MCQs covering 55 topics.">
 <meta name="author" content="Sumit Gaidhani">
-<title>AEM Interview Preparation - 53 Topics Interactive Guide</title>
+<title>AEM Interview Preparation - 55 Topics Interactive Guide</title>
 <style>
 :root{--bg:#f4f7fb;--panel:#ffffff;--ink:#1e293b;--ink-soft:#64748b;--line:#e2e8f0;--sidebar:#0d1b2a;--sidebar-ink:#e2e8f0;--sidebar-ink-dim:#8a9db0;--accent:#0891b2;--accent-ink:#ffffff;--amber:#d97706;--good:#059669;--good-bg:#ecfdf5;--bad:#dc2626;--bad-bg:#fef2f2;--code-bg:#1e293b;--code-ink:#e2e8f0;--radius:10px;--mono:'JetBrains Mono','Courier New',monospace;--display:'Segoe UI',system-ui,sans-serif;--body:'Segoe UI',system-ui,sans-serif;}
 [data-theme="dark"]{--bg:#0b1120;--panel:#151f30;--ink:#e2e8f0;--ink-soft:#94a3b8;--line:#1e293b;--accent:#22d3ee;--accent-ink:#0b1120;--amber:#fbbf24;--good:#34d399;--good-bg:#052e16;--bad:#f87171;--bad-bg:#2d0f0f;--code-bg:#020617;--code-ink:#e2e8f0;}
@@ -225,10 +225,10 @@ tr:nth-child(even) td{background:var(--bg);}
 <div class="login-card" id="loginCard" style="display:none;">
 <img src="sg-logo.png" alt="SG" class="login-logo">
 <h2>AEM Interview Prep</h2>
-<p class="login-sub">Sign in to access 53 topics and 450 interactive MCQs</p>
+<p class="login-sub">Sign in to access 55 topics and 470 interactive MCQs</p>
 <div class="login-stats">
-<div class="login-stat"><span class="num">53</span><span class="lbl">Topics</span></div>
-<div class="login-stat"><span class="num">450</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">55</span><span class="lbl">Topics</span></div>
+<div class="login-stat"><span class="num">470</span><span class="lbl">MCQs</span></div>
 <div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
 </div>
 <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
@@ -274,7 +274,7 @@ Sign in with Google
 <h1>AEM Interview Preparation</h1>
 </div>
 </div>
-<div class="sub">53 topics &middot; 450 interactive MCQs</div>
+<div class="sub">55 topics &middot; 470 interactive MCQs</div>
 </div>
 <div class="sidebar-tabs" id="sidebarTabs">
 <button class="sidebar-tab active" data-tab="all" onclick="filterTab('all')">All</button>
@@ -296,7 +296,7 @@ Sign in with Google
 <div id="navList"></div>
 <div class="nav-item" data-target="practice-all" onclick="showTopic('practice-all')">
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
-<span class="score-pill" id="allScorePill">0/450</span>
+<span class="score-pill" id="allScorePill">0/470</span>
 </div>
 <div class="sidebar-footer"><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
 </div>
@@ -371,7 +371,9 @@ const TOPICS=[
 {id:"t55",title:"Code Output Challenges",desc:"Predict what code does — spot bugs, trace output."},
 {id:"t56",title:"AEMaaCS vs AEM 6.5",desc:"Key differences, migration, cloud-native patterns."},
 {id:"t57",title:"Project Story Bank",desc:"Pre-prepared STAR stories for behavioral questions."},
-{id:"t58",title:"Live Coding Patterns",desc:"Write servlets, models, configs from scratch."}
+{id:"t58",title:"Live Coding Patterns",desc:"Write servlets, models, configs from scratch."},
+{id:"t60",title:"CI/CD Pipeline in AEM",desc:"Cloud Manager pipelines, stages, quality gates, deployment strategies."},
+{id:"t61",title:"AEM Cloud Migration",desc:"On-premise to AEMaaCS migration phases, tools, code refactoring."}
 ];
 
 const INTERVIEW_QA={
@@ -728,6 +730,22 @@ t59:[
 {q:"What is the difference between Comparable and Comparator in AEM context?",a:"Comparable: natural ordering built INTO the class (implements Comparable<T>, defines compareTo()). Comparator: external ordering defined OUTSIDE the class (separate Comparator object). In AEM: sort pages by title — pages.sort(Comparator.comparing(p -> p.getTitle())), sort assets by date — assets.sort(Comparator.comparing(Asset::getLastModified).reversed()). Comparator is more flexible since you can create multiple sort strategies without modifying the class."},
 {q:"How does multi-threading apply in AEM development?",a:"AEM handles concurrency at the framework level — Sling processes requests in threads from a pool. Developer considerations: 1) Sling Models/Servlets must be thread-safe (no mutable instance state). 2) OSGi services are singletons by default — shared across threads, use volatile for @Reference fields with DYNAMIC policy. 3) Use Sling Jobs (not raw threads) for background work. 4) ResourceResolver is NOT thread-safe — never share across threads."}
 ],
+t60:[
+{q:"What is the CI/CD pipeline in AEM Cloud Service?",a:"Cloud Manager provides automated pipelines that build, test, and deploy code to AEM environments. Pipeline stages: Git trigger → Maven Build (compile + unit tests) → Code Quality (SonarQube) → Security Scan → Deploy to Stage → Manual Approval → Production Deploy (blue-green). All code MUST go through this pipeline — no manual deployments or Package Manager in production."},
+{q:"What are the pipeline types in Cloud Manager?",a:"1) Full-Stack Pipeline: deploys all code (backend + frontend + configs), ~30-60 min. 2) Frontend Pipeline: only ui.frontend module (CSS/JS), ~10 min. 3) Web Tier Config Pipeline: Dispatcher configs only, ~5 min. 4) Config Pipeline: OSGi configs, CDN rules, traffic filter rules. Use the most specific pipeline for faster deployments."},
+{q:"What happens during the Code Quality stage?",a:"SonarQube scans for: Critical bugs (null pointer, resource leaks), Vulnerabilities (SQL injection, XSS), Code smells (complexity, duplication). Thresholds: 0 critical/blocker issues allowed, coverage must not decrease. Pipeline FAILS if thresholds are violated — no overriding critical issues. Fix: address issues locally, run sonar locally before pushing."},
+{q:"How does blue-green deployment work in AEM Cloud Service?",a:"Two identical production environments: Blue (current live) and Green (new deployment). Process: 1) Deploy new code to Green. 2) Run health checks on Green. 3) Switch traffic from Blue → Green (zero downtime). 4) Blue becomes standby for rollback. If Green fails health checks, traffic stays on Blue automatically. This ensures zero-downtime deployments."},
+{q:"What is Dispatcher validation in the pipeline?",a:"Pipeline validates Dispatcher configuration BEFORE deployment: syntax check of dispatcher.any, vhost files, farm files. Checks against Adobe's rules: required headers, forbidden directives, proper filter structure. If validation fails, pipeline stops — broken Dispatcher configs never reach production. Always test locally with Dispatcher SDK first."},
+{q:"How do you handle a failed production deployment?",a:"Cloud Manager doesn't have a 'rollback button'. Options: 1) Fix code and re-run pipeline (recommended). 2) Re-deploy last known good commit. 3) If blue-green switch fails, traffic stays on previous version automatically. Prevention: thorough Stage testing, performance testing, smoke tests before approval. Never skip Stage validation."}
+],
+t61:[
+{q:"What are the key steps to migrate from AEM 6.5 to AEMaaCS?",a:"5 phases: 1) ASSESS: Run BPA (Best Practices Analyzer), identify incompatibilities, estimate effort. 2) REFACTOR CODE: Remove deprecated APIs, convert configs to .cfg.json, restructure content packages. 3) MIGRATE CONTENT: Use Content Transfer Tool (CTT) — extraction from source, ingestion to cloud. 4) TEST: Validate functionality, performance, integrations on cloud. 5) GO-LIVE: DNS cutover, monitor, final delta content sync."},
+{q:"What is the Content Transfer Tool (CTT) and how does it work?",a:"CTT migrates JCR content from on-premise/AMS to AEMaaCS. Two phases: 1) Extraction: reads content from source instance, stores in cloud migration set. 2) Ingestion: writes content to target Cloud Service instance. Supports top-up (delta) transfers for incremental migration. Only migrates content (/content, /conf, /etc) — code goes through Git/Cloud Manager pipeline, NOT CTT."},
+{q:"What is the Best Practices Analyzer (BPA)?",a:"BPA is a tool that scans your AEM 6.5 instance and generates a report of: AEMaaCS-incompatible patterns, deprecated API usage, custom run mode dependencies, mutable content in immutable paths, index incompatibilities. Severity levels: Critical (must fix), Important (should fix), Informational. Always run BPA FIRST — it defines the migration scope and effort estimate."},
+{q:"What code changes are required for Cloud Service migration?",a:"Key changes: 1) Convert all OSGi configs to .cfg.json (only format supported). 2) Remove custom run modes (only author/publish/dev/stage/prod allowed). 3) Replace Replication API with Sling Content Distribution. 4) Move /etc content to /conf or /content. 5) Make /apps immutable (no runtime writes via CRXDE). 6) Update Oak indexes to code-deployable format. 7) Remove deprecated APIs flagged by BPA."},
+{q:"What is Repository Modernizer?",a:"Repository Modernizer restructures your content packages for AEMaaCS compatibility. It separates: mutable content (pages, assets → ui.content, goes through CTT) from immutable content (code, components → ui.apps, goes through pipeline). Also moves /etc/designs to proper locations, restructures /conf content, and ensures proper package filters. Run it after BPA assessment, before code refactoring."},
+{q:"What are the most common migration challenges?",a:"1) Custom workflows using deprecated APIs (rewrite with new APIs). 2) /etc/map for URL mapping (not available on publish — use Sling mappings or Apache rewrite). 3) Large DAM repositories (use CTT with delta sync, plan migration windows). 4) Custom replication logic (replace with Content Distribution events). 5) Third-party integrations with hardcoded URLs (update for cloud endpoints). 6) Custom search indexes (must be code-deployed, not runtime-created)."}
+],
 t52:[
 {q:"What are the top 5 AEM coding best practices?",a:"1) Always extend Core Components (proxy pattern). 2) Close service ResourceResolvers in try-with-resources. 3) Use service users with minimum permissions (never admin). 4) Always include path + type in queries (prevent traversal). 5) Use Sling Models (not WCMUsePojo/JSP) with defaultInjectionStrategy=OPTIONAL. These prevent 90% of production issues."},
 {q:"What is the recommended approach before writing custom code?",a:"Always check first: does a Core Component solve this? Does ACS Commons have a utility? Does OOTB AEM have this feature? Custom code = maintenance liability (upgrades, bugs, testing). Only write custom when OOTB truly doesn't cover the need. Even then, EXTEND rather than building from scratch. The best code is code you don't write."},
@@ -795,9 +813,10 @@ t49:[],
 t50:[{n:'#1 Maven Archetype',i:1}],
 t51:[],
 t59:[],
+t60:[],t61:[],
 t52:[{n:'#23 Sling Model Unit Testing',i:23}]
 };
-const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
+const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47','t60','t61'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
 const TOPIC_TAB={};Object.keys(TAB_GROUPS).forEach(tab=>{TAB_GROUPS[tab].forEach(tid=>{TOPIC_TAB[tid]=tab;});});
 
 const QUIZZES={
@@ -1337,6 +1356,30 @@ t59:[
 {q:"Why should you prefer Sling Jobs over raw Java threads in AEM?",options:["Raw threads offer better performance metrics in production","Sling Jobs provide guaranteed execution, retry on failure, and cluster-aware distribution","Sling Jobs consume less heap memory than thread pool executors","Java threading APIs are deprecated in the OSGi specification"],correct:1,exp:"Raw threads bypass AEM's resource management, can't survive restarts, and don't distribute across cluster nodes. Sling Jobs handle all of this."},
 {q:"Which of these are thread-safety concerns in AEM OSGi services? (Select all that apply)",options:["Mutable instance fields shared across request threads","ResourceResolver stored as a class-level field","Using @Reference with DYNAMIC policy without volatile","Injecting values in @Activate method"],correct:[0,1,2],exp:"Services are singletons: mutable fields cause races, stored resolvers leak/corrupt, and DYNAMIC references need volatile. @Activate runs once at startup — safe."},
 {q:"Which Java features are commonly used in Sling Models? (Select all that apply)",options:["Annotations (@Model, @Inject, @ValueMapValue)","Generics (List<Resource>, Optional<String>)","Stream API for collection processing","Multi-threading with ExecutorService"],correct:[0,1,2],exp:"Sling Models use annotations for injection, generics for typed collections, and streams for processing. Multi-threading is NOT used in models — they are request-scoped."}
+],
+t60:[
+{q:"What is the FIRST stage in a Cloud Manager production pipeline?",options:["Deploy to Stage","Code Quality Gate","Build (Maven)","Security Scan"],correct:2,exp:"The pipeline starts with Maven build including unit tests. Only after a successful build does it proceed to code quality checks."},
+{q:"Which pipeline type is fastest for deploying only CSS/JS changes?",options:["Full-Stack Pipeline","Frontend Pipeline","Web Tier Config Pipeline","Config Pipeline"],correct:1,exp:"Frontend pipeline deploys only the ui.frontend module (~10 min) vs full-stack (30-60 min)."},
+{q:"What does blue-green deployment prevent in AEM production?",options:["Build failures from reaching stage","Downtime during deployment","Code quality issues from being merged","Security vulnerabilities in dependencies"],correct:1,exp:"Blue-green runs two identical environments. Traffic switches from 'blue' (old) to 'green' (new) only after health checks pass — zero downtime."},
+{q:"What happens if the Code Quality gate fails?",options:["Pipeline continues with warnings","Pipeline is paused for manual approval","Pipeline fails and deployment is blocked","Only the failing tests are skipped"],correct:2,exp:"Quality gates are blocking — if SonarQube finds critical/blocker issues or coverage drops below threshold, the pipeline stops."},
+{q:"Which of these are valid Cloud Manager pipeline types? (Select all that apply)",options:["Full-Stack Pipeline","Frontend Pipeline","Web Tier Config Pipeline","Database Migration Pipeline"],correct:[0,1,2],exp:"Cloud Manager offers Full-Stack, Frontend, Web Tier Config, and Config pipelines. There is no database migration pipeline — AEM uses JCR, not a RDBMS."},
+{q:"What triggers a production deployment in Cloud Manager?",options:["Automatic on successful stage tests","Manual approval by a deployment manager","Automatic after 24-hour bake period","Git tag matching a production pattern"],correct:1,exp:"Production deployment requires explicit manual approval — a safety gate to prevent untested code from reaching production."},
+{q:"What is Dispatcher validation in the pipeline?",options:["Testing cache hit ratios in production","Validating dispatcher.any syntax and configuration rules","Load testing the Dispatcher layer","Checking Dispatcher log files for errors"],correct:1,exp:"Pipeline validates Dispatcher configuration syntax (dispatcher.any, vhost files) against Adobe's rules to catch misconfigurations before deployment."},
+{q:"What Maven goals run during the Build stage?",options:["mvn clean install (compile, test, package)","mvn deploy (publish to Maven Central)","mvn site (generate documentation)","mvn validate (check POM only)"],correct:0,exp:"The build stage runs clean install which compiles code, runs unit tests, and packages artifacts. Deploy and site are not part of the pipeline build."},
+{q:"Which of these cause a pipeline to fail? (Select all that apply)",options:["Unit test failure during build","SonarQube critical issue in code quality","Performance regression exceeding threshold on stage","Compiler warning in non-critical module"],correct:[0,1,2],exp:"Unit test failures stop the build, SonarQube critical issues block quality gate, performance regressions block stage approval. Compiler warnings alone don't fail pipelines."},
+{q:"How do you roll back a failed production deployment?",options:["Use the Rollback button in Cloud Manager to revert","Run a pipeline with the previous commit (re-deploy last known good)","SSH into production and restore from backup","Use Package Manager to install the previous version"],correct:1,exp:"Cloud Manager doesn't have a direct 'rollback' button. You re-run the pipeline pointing to the previous good commit. No SSH or Package Manager access in prod."}
+],
+t61:[
+{q:"What is the FIRST step in migrating from AEM 6.5 to Cloud Service?",options:["Start content transfer immediately","Run the Best Practices Analyzer (BPA)","Refactor all custom code","Set up Cloud Manager environments"],correct:1,exp:"BPA identifies incompatibilities, deprecated API usage, and migration blockers. Always run it first to understand the scope of work."},
+{q:"What does the Content Transfer Tool (CTT) migrate?",options:["Code bundles and configurations","JCR content (pages, assets, user-generated content)","OSGi configurations and service users","Cloud Manager pipeline definitions"],correct:1,exp:"CTT migrates JCR content from source (6.5) to target (AEMaaCS) — including pages, assets, and UGC. Code goes through Git/pipeline, not CTT."},
+{q:"What OSGi config format is required in AEMaaCS?",options:[".config (Apache Felix format)",".xml (JCR node format)",".cfg.json (JSON format only)","Any format — AEMaaCS supports all"],correct:2,exp:"AEMaaCS ONLY supports .cfg.json format. All .config and .xml configurations must be converted during migration."},
+{q:"What does Repository Modernizer do?",options:["Converts content packages into AEMaaCS-compatible project structure","Migrates the JCR repository to a cloud database","Updates repository Oak indexes automatically","Modernizes the UI to use Coral 3 components"],correct:0,exp:"Repository Modernizer restructures content packages — separating mutable (/content) from immutable (/apps) content into correct Maven modules."},
+{q:"Which of these are NOT allowed in AEMaaCS? (Select all that apply)",options:["Custom run modes like 'brand1' or 'region-eu'","Writing to /apps at runtime via CRXDE","Using .config format for OSGi configurations","Storing configurations in /etc/map"],correct:[0,1,2,3],exp:"All four are prohibited: only standard run modes allowed, /apps is immutable, only .cfg.json format, and /etc/map is not available on publish."},
+{q:"What is the correct migration phase sequence?",options:["Content → Code → Testing → Go-Live","Assessment → Code Refactor → Content Migration → Testing → Go-Live","Go-Live → Content Migration → Testing → Code Refactor","Code Refactor → Assessment → Go-Live → Content Migration"],correct:1,exp:"Correct order: 1) Assess with BPA, 2) Refactor code for cloud compatibility, 3) Migrate content with CTT, 4) Test thoroughly, 5) Go-Live with DNS cutover."},
+{q:"What replaces Replication Agents in AEMaaCS?",options:["Cloud Manager deployment pipelines","Sling Content Distribution","Adobe I/O Events","Package Manager auto-sync"],correct:1,exp:"Sling Content Distribution replaces traditional replication agents. Uses a queue-based system for content distribution from Author to Publish tier."},
+{q:"What does the Best Practices Analyzer report include?",options:["Only code compilation errors found in the project","Patterns violating AEMaaCS compatibility, deprecated APIs, and migration complexity","Performance benchmarks comparing 6.5 vs Cloud Service","Cost estimates for the migration project timeline"],correct:1,exp:"BPA identifies: AEMaaCS-incompatible patterns, deprecated API usage, custom run mode dependencies, mutable content in /apps, and migration complexity scoring."},
+{q:"How should /etc designs be handled during migration?",options:["Leave them — AEMaaCS supports this location","Move to /apps using Repository Modernizer","Delete all designs — they are not needed in Cloud Service","Convert to Content Policies stored in /conf"],correct:3,exp:"Designs (/etc/designs) are deprecated. Migrate to Content Policies stored in /conf which are the modern equivalent in AEMaaCS."},
+{q:"Which tool helps identify deprecated Java API usage?",options:["Content Transfer Tool (CTT)","Best Practices Analyzer (BPA) and aem-modernize-tools","Dispatcher Converter","Cloud Acceleration Manager only"],correct:1,exp:"BPA flags deprecated API usage (e.g., deprecated SlingFilter, Replication API). aem-modernize-tools provides automated code refactoring for common patterns."}
 ],
 t52:[
 {q:"What is the #1 performance mistake in AEM development?",options:["Using HTL templates instead of JSP for component rendering","Running JCR queries without path restriction or matching Oak index (traversal queries)","Using Sling Models for data injection instead of WCMUsePojo classes","Creating too many custom components instead of using foundation components"],correct:1,exp:"Queries without indexes force full repository traversal — the most common cause of slow pages and production issues."},
@@ -7067,6 +7110,245 @@ public class SlowRequestFilter implements Filter {
 </div>
 `;
 
+NOTES.t60=`
+<h3 class="block-title">CI/CD Pipeline in AEM</h3>
+<p>CI/CD (Continuous Integration / Continuous Deployment) in AEM is managed through <strong>Cloud Manager</strong> — Adobe's DevOps platform for building, testing, and deploying code to AEM environments. All code reaches production through automated pipelines with quality gates.</p>
+
+<h3 class="block-title">Interactive: Cloud Manager Pipeline Simulator</h3>
+<div class="cicd-widget" id="cicdWidget" style="margin:16px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line);">
+<style>
+.cicd-widget{--ci-bg:#0a0f1a;--ci-surface:#111827;--ci-border:#1f2937;--ci-text:#e5e7eb;--ci-dim:#6b7280;--ci-blue:#3b82f6;--ci-green:#10b981;--ci-amber:#f59e0b;--ci-red:#ef4444;--ci-purple:#8b5cf6;--ci-cyan:#06b6d4;font-family:'Space Grotesk','Segoe UI',sans-serif;background:var(--ci-bg);color:var(--ci-text);padding:1.5rem;}
+.cicd-widget *{box-sizing:border-box;}
+.cicd-widget .ci-title{text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:0.3rem;background:linear-gradient(135deg,var(--ci-blue),var(--ci-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cicd-widget .ci-subtitle{text-align:center;color:var(--ci-dim);font-size:0.75rem;margin-bottom:1.2rem;}
+.cicd-widget .ci-stages{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:10px 0;margin-bottom:1rem;flex-wrap:wrap;justify-content:center;}
+.cicd-widget .ci-stage{padding:10px 14px;border-radius:10px;border:2px solid var(--ci-border);background:var(--ci-surface);cursor:pointer;text-align:center;transition:all 0.3s;min-width:80px;}
+.cicd-widget .ci-stage:hover{border-color:var(--ci-blue);transform:translateY(-2px);}
+.cicd-widget .ci-stage.active{border-color:var(--stage-color);box-shadow:0 0 20px var(--stage-glow);transform:scale(1.05);}
+.cicd-widget .ci-stage.passed{border-color:var(--ci-green);background:rgba(16,185,129,0.08);}
+.cicd-widget .ci-stage.passed .ci-stage-icon::after{content:' \\2713';color:var(--ci-green);}
+.cicd-widget .ci-stage.failed{border-color:var(--ci-red);background:rgba(239,68,68,0.08);}
+.cicd-widget .ci-stage.failed .ci-stage-icon::after{content:' \\2717';color:var(--ci-red);}
+.cicd-widget .ci-stage-icon{font-size:1.3rem;margin-bottom:4px;}
+.cicd-widget .ci-stage-name{font-size:0.65rem;font-weight:600;letter-spacing:0.5px;}
+.cicd-widget .ci-arrow{color:var(--ci-dim);font-size:1rem;flex-shrink:0;}
+.cicd-widget .ci-arrow.passed{color:var(--ci-green);}
+.cicd-widget .ci-info{background:var(--ci-surface);border:1px solid var(--ci-border);border-radius:10px;padding:1rem 1.2rem;min-height:140px;}
+.cicd-widget .ci-info-title{font-size:0.9rem;font-weight:700;margin-bottom:6px;}
+.cicd-widget .ci-info-desc{font-size:0.78rem;color:var(--ci-dim);line-height:1.6;margin-bottom:10px;}
+.cicd-widget .ci-checks{display:flex;flex-direction:column;gap:5px;}
+.cicd-widget .ci-check{display:flex;align-items:center;gap:8px;font-size:0.72rem;padding:5px 10px;border-radius:6px;background:var(--ci-bg);border:1px solid var(--ci-border);}
+.cicd-widget .ci-fail-info{margin-top:10px;padding:8px 12px;border-radius:6px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);font-size:0.72rem;color:#fca5a5;}
+.cicd-widget .ci-controls{display:flex;justify-content:center;gap:8px;margin-top:1rem;flex-wrap:wrap;}
+.cicd-widget .ci-btn{font-size:0.72rem;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid var(--ci-border);background:var(--ci-surface);color:var(--ci-text);cursor:pointer;transition:all 0.2s;}
+.cicd-widget .ci-btn:hover{border-color:var(--ci-blue);background:rgba(59,130,246,0.1);}
+.cicd-widget .ci-btn-run{background:linear-gradient(135deg,var(--ci-green),#059669);border-color:var(--ci-green);color:#fff;}
+.cicd-widget .ci-btn-fail{background:linear-gradient(135deg,var(--ci-red),#dc2626);border-color:var(--ci-red);color:#fff;}
+@media(max-width:768px){.cicd-widget .ci-stages{gap:6px;}.cicd-widget .ci-stage{min-width:60px;padding:8px 10px;}.cicd-widget .ci-arrow{display:none;}}
+</style>
+<div class="ci-title">Cloud Manager Pipeline Simulator</div>
+<p class="ci-subtitle">Click stages to explore what happens at each step, or use Run/Fail buttons</p>
+<div class="ci-stages" id="cicdStages">
+<div class="ci-stage" data-stage="build" style="--stage-color:#3b82f6;--stage-glow:rgba(59,130,246,0.3);"><div class="ci-stage-icon">&#9874;</div><div class="ci-stage-name">BUILD</div></div>
+<div class="ci-arrow">&#8594;</div>
+<div class="ci-stage" data-stage="quality" style="--stage-color:#8b5cf6;--stage-glow:rgba(139,92,246,0.3);"><div class="ci-stage-icon">&#128270;</div><div class="ci-stage-name">QUALITY</div></div>
+<div class="ci-arrow">&#8594;</div>
+<div class="ci-stage" data-stage="security" style="--stage-color:#f59e0b;--stage-glow:rgba(245,158,11,0.3);"><div class="ci-stage-icon">&#128274;</div><div class="ci-stage-name">SECURITY</div></div>
+<div class="ci-arrow">&#8594;</div>
+<div class="ci-stage" data-stage="stage" style="--stage-color:#06b6d4;--stage-glow:rgba(6,182,212,0.3);"><div class="ci-stage-icon">&#127919;</div><div class="ci-stage-name">STAGE</div></div>
+<div class="ci-arrow">&#8594;</div>
+<div class="ci-stage" data-stage="approve" style="--stage-color:#ec4899;--stage-glow:rgba(236,72,153,0.3);"><div class="ci-stage-icon">&#9989;</div><div class="ci-stage-name">APPROVE</div></div>
+<div class="ci-arrow">&#8594;</div>
+<div class="ci-stage" data-stage="prod" style="--stage-color:#10b981;--stage-glow:rgba(16,185,129,0.3);"><div class="ci-stage-icon">&#128640;</div><div class="ci-stage-name">PROD</div></div>
+</div>
+<div class="ci-info" id="cicdInfo"><div class="ci-info-title" style="color:var(--ci-dim);">Select a pipeline stage</div><div class="ci-info-desc">Click any stage above to see what happens, what can fail, and how to fix it.</div></div>
+<div class="ci-controls">
+<button class="ci-btn ci-btn-run" id="ciRunBtn">&#9654; Run Pipeline</button>
+<button class="ci-btn ci-btn-fail" id="ciFailBtn">&#9888; Simulate Failure</button>
+<button class="ci-btn" id="ciResetBtn">&#8634; Reset</button>
+</div>
+</div>
+
+<h3 class="block-title">Pipeline Types in Cloud Manager</h3>
+<table><tr><th>Pipeline Type</th><th>What It Deploys</th><th>Duration</th><th>Use When</th></tr>
+<tr><td><strong>Full-Stack</strong></td><td>Backend (core) + Frontend (ui.frontend) + Configs</td><td>~30-60 min</td><td>Java code changes, component logic</td></tr>
+<tr><td><strong>Frontend</strong></td><td>Only ui.frontend module (CSS/JS)</td><td>~10 min</td><td>Style/script changes only</td></tr>
+<tr><td><strong>Web Tier Config</strong></td><td>Dispatcher configurations only</td><td>~5 min</td><td>Cache rules, redirects, filters</td></tr>
+<tr><td><strong>Config</strong></td><td>OSGi configs, CDN rules, traffic filters</td><td>~5 min</td><td>Configuration changes without code</td></tr>
+</table>
+
+<h3 class="block-title">Pipeline Stages</h3>
+<div class="diagram">Git Push ──▶ BUILD ──▶ CODE QUALITY ──▶ SECURITY SCAN ──▶ DEPLOY TO STAGE ──▶ MANUAL APPROVAL ──▶ PRODUCTION DEPLOY
+                │           │                │                  │                    │                      │
+           Maven build   SonarQube      Vulnerability       Integration         Deployment           Blue-green
+           + Unit tests  analysis       scanning            + Perf tests         Manager review       zero-downtime</div>
+
+<h3 class="block-title">Environment Types</h3>
+<table><tr><th>Environment</th><th>Purpose</th><th>Access</th></tr>
+<tr><td><strong>Development (Dev)</strong></td><td>Active development and debugging</td><td>Developers only</td></tr>
+<tr><td><strong>Stage</strong></td><td>Pre-production testing, performance validation</td><td>QA + Stakeholders</td></tr>
+<tr><td><strong>Production</strong></td><td>Live site serving end users</td><td>End users (via CDN)</td></tr>
+<tr><td><strong>RDE (Rapid Dev)</strong></td><td>Quick iteration without full pipeline</td><td>Developers (CLI deploy)</td></tr>
+</table>
+
+<h3 class="block-title">Blue-Green Deployment</h3>
+<div class="diagram">BEFORE DEPLOY:            DURING DEPLOY:             AFTER HEALTH CHECK:
+┌─────────┐               ┌─────────┐                ┌─────────┐
+│  BLUE   │ ◀── traffic   │  BLUE   │ ◀── traffic    │  BLUE   │ (standby)
+│ (v1.0)  │               │ (v1.0)  │                │ (v1.0)  │
+└─────────┘               └─────────┘                └─────────┘
+                          ┌─────────┐                ┌─────────┐
+                          │  GREEN  │ (deploying)    │  GREEN  │ ◀── traffic
+                          │ (v2.0)  │                │ (v2.0)  │
+                          └─────────┘                └─────────┘</div>
+<p>If GREEN fails health checks → traffic stays on BLUE (automatic rollback). Zero downtime guaranteed.</p>
+
+<h3 class="block-title">Best Practices for CI/CD</h3>
+<ul>
+<li><strong>Run builds locally first</strong> — mvn clean install before pushing to avoid pipeline failures</li>
+<li><strong>Write unit tests</strong> — they run during Build stage; failures block deployment</li>
+<li><strong>Fix SonarQube issues early</strong> — run sonar locally, don't wait for pipeline to catch them</li>
+<li><strong>Test Dispatcher locally</strong> — use Dispatcher SDK to validate configs before push</li>
+<li><strong>Use Frontend Pipeline</strong> — for CSS/JS-only changes (10x faster than full-stack)</li>
+<li><strong>Never skip Stage testing</strong> — always validate on Stage before approving for Production</li>
+<li><strong>Automate integration tests</strong> — they run on Stage and catch real environment issues</li>
+<li><strong>Keep pipelines green</strong> — fix failures immediately, don't let them accumulate</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> When asked about CI/CD in AEM, emphasize: Cloud Manager pipelines (no manual deploys), quality gates (blocking), blue-green (zero downtime), and the principle that ALL code goes through the pipeline — there is no Package Manager or CRXDE access in production.</div>
+`;
+
+NOTES.t61=`
+<h3 class="block-title">AEM On-Premise to Cloud Migration</h3>
+<p>Migrating from AEM 6.5 (on-premise or AMS) to AEM as a Cloud Service (AEMaaCS) requires systematic planning, code refactoring, and content transfer using Adobe's migration toolkit.</p>
+
+<h3 class="block-title">Interactive: Migration Readiness Assessment</h3>
+<div class="migr-widget" id="migrWidget" style="margin:16px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line);">
+<style>
+.migr-widget{--mg-bg:#0a0f1a;--mg-surface:#111827;--mg-border:#1f2937;--mg-text:#e5e7eb;--mg-dim:#6b7280;--mg-blue:#3b82f6;--mg-green:#10b981;--mg-amber:#f59e0b;--mg-red:#ef4444;--mg-purple:#8b5cf6;--mg-cyan:#06b6d4;font-family:'Space Grotesk','Segoe UI',sans-serif;background:var(--mg-bg);color:var(--mg-text);padding:1.5rem;}
+.migr-widget *{box-sizing:border-box;}
+.migr-widget .mg-title{text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:0.3rem;background:linear-gradient(135deg,var(--mg-purple),var(--mg-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.migr-widget .mg-subtitle{text-align:center;color:var(--mg-dim);font-size:0.75rem;margin-bottom:1.2rem;}
+.migr-widget .mg-progress{background:var(--mg-surface);border:1px solid var(--mg-border);border-radius:8px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+.migr-widget .mg-progress-bar{flex:1;height:8px;background:var(--mg-border);border-radius:4px;overflow:hidden;}
+.migr-widget .mg-progress-fill{height:100%;background:linear-gradient(90deg,var(--mg-blue),var(--mg-green));border-radius:4px;transition:width 0.5s ease;width:0%;}
+.migr-widget .mg-progress-text{font-size:0.7rem;color:var(--mg-dim);white-space:nowrap;}
+.migr-widget .mg-categories{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem;justify-content:center;}
+.migr-widget .mg-cat{padding:8px 14px;border-radius:8px;border:2px solid var(--mg-border);background:var(--mg-surface);cursor:pointer;font-size:0.72rem;font-weight:600;transition:all 0.2s;}
+.migr-widget .mg-cat:hover{border-color:var(--mg-blue);transform:translateY(-1px);}
+.migr-widget .mg-cat.active{border-color:var(--cat-color);box-shadow:0 0 15px var(--cat-glow);}
+.migr-widget .mg-items{background:var(--mg-surface);border:1px solid var(--mg-border);border-radius:10px;padding:1rem;min-height:150px;}
+.migr-widget .mg-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border:1px solid var(--mg-border);margin-bottom:6px;cursor:pointer;transition:all 0.2s;}
+.migr-widget .mg-item:hover{border-color:var(--mg-blue);background:rgba(59,130,246,0.04);}
+.migr-widget .mg-item.checked{border-color:var(--mg-green);background:rgba(16,185,129,0.06);}
+.migr-widget .mg-item.checked .mg-checkbox{background:var(--mg-green);border-color:var(--mg-green);}
+.migr-widget .mg-checkbox{width:18px;height:18px;border-radius:4px;border:2px solid var(--mg-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#fff;transition:all 0.2s;}
+.migr-widget .mg-item-text{font-size:0.75rem;line-height:1.5;flex:1;}
+.migr-widget .mg-item-text strong{color:var(--mg-cyan);}
+.migr-widget .mg-severity{font-size:0.55rem;padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.migr-widget .mg-severity.critical{background:rgba(239,68,68,0.15);color:var(--mg-red);}
+.migr-widget .mg-severity.important{background:rgba(245,158,11,0.15);color:var(--mg-amber);}
+.migr-widget .mg-severity.info{background:rgba(59,130,246,0.15);color:var(--mg-blue);}
+@media(max-width:768px){.migr-widget{padding:1rem;}.migr-widget .mg-item{padding:6px 8px;}}
+</style>
+<div class="mg-title">Migration Readiness Assessment</div>
+<p class="mg-subtitle">Check off items as you verify them — track your migration readiness across categories</p>
+<div class="mg-progress"><div class="mg-progress-bar"><div class="mg-progress-fill" id="mgProgressFill"></div></div><span class="mg-progress-text" id="mgProgressText">0 / 25 checked</span></div>
+<div class="mg-categories" id="mgCategories">
+<div class="mg-cat" data-cat="code" style="--cat-color:#3b82f6;--cat-glow:rgba(59,130,246,0.3);">&#128187; Code</div>
+<div class="mg-cat" data-cat="content" style="--cat-color:#10b981;--cat-glow:rgba(16,185,129,0.3);">&#128196; Content</div>
+<div class="mg-cat" data-cat="configs" style="--cat-color:#f59e0b;--cat-glow:rgba(245,158,11,0.3);">&#9881; Configs</div>
+<div class="mg-cat" data-cat="integrations" style="--cat-color:#8b5cf6;--cat-glow:rgba(139,92,246,0.3);">&#128279; Integrations</div>
+</div>
+<div class="mg-items" id="mgItems"><div style="color:var(--mg-dim);font-size:0.78rem;padding:20px;text-align:center;">Select a category above to see checklist items</div></div>
+</div>
+
+<h3 class="block-title">Why Migrate to AEMaaCS?</h3>
+<table><tr><th>Benefit</th><th>Description</th></tr>
+<tr><td><strong>Always Up-to-Date</strong></td><td>Adobe handles upgrades — no more painful SP/CFP installations</td></tr>
+<tr><td><strong>Auto-Scaling</strong></td><td>Infrastructure scales automatically based on traffic</td></tr>
+<tr><td><strong>Better Performance</strong></td><td>CDN-first architecture, optimized Dispatcher, asset compute</td></tr>
+<tr><td><strong>CI/CD Built-In</strong></td><td>Cloud Manager pipelines with quality gates</td></tr>
+<tr><td><strong>Security</strong></td><td>Adobe manages patching, monitoring, and compliance</td></tr>
+<tr><td><strong>Cost Efficiency</strong></td><td>No hardware management, pay for what you use</td></tr>
+</table>
+
+<h3 class="block-title">Migration Phases</h3>
+<div class="diagram">Phase 1          Phase 2            Phase 3              Phase 4          Phase 5
+ASSESSMENT  ──▶  CODE REFACTOR  ──▶  CONTENT MIGRATION  ──▶  TESTING    ──▶  GO-LIVE
+    │                │                    │                    │               │
+Run BPA         Fix deprecated       CTT extraction        Functional      DNS cutover
+Identify gaps   APIs, configs        + ingestion           Performance     Monitor
+Estimate effort Restructure pkgs     Delta sync            Integration     Final delta</div>
+
+<h3 class="block-title">Key Differences: AEM 6.5 vs AEMaaCS</h3>
+<table><tr><th>Feature</th><th>AEM 6.5 (On-Prem)</th><th>AEMaaCS</th></tr>
+<tr><td>Deployment</td><td>Package Manager, manual install</td><td>Cloud Manager pipeline only</td></tr>
+<tr><td>/apps</td><td>Mutable (runtime changes via CRXDE)</td><td>Immutable (code-deploy only)</td></tr>
+<tr><td>OSGi configs</td><td>.config, .xml, .cfg.json</td><td>.cfg.json ONLY</td></tr>
+<tr><td>Run modes</td><td>Custom (brand1, region-eu, etc.)</td><td>Standard only (author/publish/dev/stage/prod)</td></tr>
+<tr><td>Replication</td><td>Replication agents</td><td>Sling Content Distribution</td></tr>
+<tr><td>Upgrades</td><td>Manual SP/CFP installation</td><td>Automatic (Adobe-managed)</td></tr>
+<tr><td>Indexes</td><td>Create via CRXDE at runtime</td><td>Code-deployed via ui.apps</td></tr>
+<tr><td>URL mapping</td><td>/etc/map on publish</td><td>Sling Mapping or Apache rewrite</td></tr>
+</table>
+
+<h3 class="block-title">Migration Tools</h3>
+<table><tr><th>Tool</th><th>Purpose</th><th>When to Use</th></tr>
+<tr><td><strong>Best Practices Analyzer (BPA)</strong></td><td>Scans for incompatibilities and deprecated patterns</td><td>Phase 1: Assessment</td></tr>
+<tr><td><strong>Cloud Acceleration Manager (CAM)</strong></td><td>Guides the overall migration journey with checklists</td><td>All phases</td></tr>
+<tr><td><strong>Repository Modernizer</strong></td><td>Restructures content packages (mutable vs immutable)</td><td>Phase 2: Code Refactor</td></tr>
+<tr><td><strong>aem-modernize-tools</strong></td><td>Automated refactoring for deprecated APIs and patterns</td><td>Phase 2: Code Refactor</td></tr>
+<tr><td><strong>Dispatcher Converter</strong></td><td>Converts Dispatcher configs to cloud-compatible format</td><td>Phase 2: Code Refactor</td></tr>
+<tr><td><strong>Content Transfer Tool (CTT)</strong></td><td>Migrates JCR content from source to cloud target</td><td>Phase 3: Content Migration</td></tr>
+</table>
+
+<h3 class="block-title">Code Refactoring Requirements</h3>
+<table><tr><th>What to Change</th><th>From (6.5)</th><th>To (AEMaaCS)</th></tr>
+<tr><td>OSGi configs</td><td>.config or .xml format</td><td>.cfg.json format only</td></tr>
+<tr><td>Custom run modes</td><td>-r brand1,region-eu</td><td>Only author/publish + dev/stage/prod</td></tr>
+<tr><td>Replication API</td><td>Replicator service</td><td>Sling Content Distribution API</td></tr>
+<tr><td>/etc content</td><td>Designs, cloud configs in /etc</td><td>Policies in /conf, assets in /content/dam</td></tr>
+<tr><td>Oak indexes</td><td>Created via CRXDE/JMX</td><td>Defined in ui.apps (code-deployed)</td></tr>
+<tr><td>Workflow models</td><td>/etc/workflow/models</td><td>/var/workflow/models or conf-based</td></tr>
+<tr><td>Admin session</td><td>getAdministrativeResourceResolver()</td><td>Service users with getServiceResourceResolver()</td></tr>
+</table>
+
+<h3 class="block-title">Content Transfer Tool (CTT) Process</h3>
+<div class="diagram">SOURCE (AEM 6.5)                          TARGET (AEMaaCS)
+┌─────────────────┐                        ┌─────────────────┐
+│  1. EXTRACTION  │  ──── Cloud ────▶      │  2. INGESTION   │
+│                 │     Migration Set       │                 │
+│ • Select paths  │                        │ • Wipe or merge │
+│ • /content      │                        │ • Write content │
+│ • /conf         │                        │ • Validate      │
+│ • /etc (subset) │                        │                 │
+└─────────────────┘                        └─────────────────┘
+         │                                          │
+         └──── Delta (top-up) for incremental ──────┘</div>
+
+<h3 class="block-title">Common Challenges & Solutions</h3>
+<table><tr><th>Challenge</th><th>Solution</th></tr>
+<tr><td>Large DAM (100K+ assets)</td><td>Use CTT with delta/top-up sync, plan migration windows, prioritize</td></tr>
+<tr><td>Custom workflows with deprecated APIs</td><td>Rewrite using current Granite workflow API, use Process Steps</td></tr>
+<tr><td>/etc/map URL mappings</td><td>Use Sling Mapping (ResourceResolver mapping) or Apache rewrite rules</td></tr>
+<tr><td>Third-party integrations with hardcoded URLs</td><td>Use environment-specific OSGi configs (.cfg.json) for endpoints</td></tr>
+<tr><td>Custom search indexes created at runtime</td><td>Convert to code-deployed index definitions in ui.apps</td></tr>
+<tr><td>Mutable content in /apps</td><td>Identify with BPA, restructure with Repository Modernizer</td></tr>
+</table>
+
+<h3 class="block-title">Post-Migration Verification</h3>
+<ul>
+<li><strong>Content Verification</strong> — Compare page counts, asset counts, and spot-check critical pages</li>
+<li><strong>Functional Testing</strong> — All components render correctly, forms work, search functions</li>
+<li><strong>Performance Testing</strong> — Response times within acceptable thresholds</li>
+<li><strong>Integration Testing</strong> — Third-party APIs, analytics, SSO all functional</li>
+<li><strong>Author Experience</strong> — Content authors can create, edit, publish without issues</li>
+<li><strong>Dispatcher/CDN</strong> — Caching works correctly, cache invalidation functioning</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> When discussing migration, always mention: 1) BPA first (assessment), 2) immutable vs mutable separation, 3) .cfg.json only for configs, 4) CTT for content + pipeline for code (never mix them), 5) Sling Content Distribution replacing replication.</div>
+`;
 
 /* === STATE === */
 const STORAGE_KEY='aem_interview_52_v1';
@@ -7108,7 +7390,7 @@ const banner=document.getElementById('passfail-'+t.id);if(banner&&s.attempted===
 });const a=allScore();const ap=document.getElementById('allScorePill');if(ap)ap.textContent=a.correct+'/'+a.total;
 // Update practice all stats
 const sc=document.getElementById('statCorrect'),sa=document.getElementById('statAttempted');if(sc){sc.textContent=a.correct;sa.textContent=a.attempted;}}
-function updateProgressBar(){const t=ALL_QUESTIONS.length||450;const a=Object.keys(answered).length;document.getElementById('progressBar').style.width=(a/t*100)+'%';}
+function updateProgressBar(){const t=ALL_QUESTIONS.length||470;const a=Object.keys(answered).length;document.getElementById('progressBar').style.width=(a/t*100)+'%';}
 let streak=0,streakTO=null;
 function updateStreak(ok){if(ok)streak++;else streak=0;const d=document.getElementById('streakDisplay'),tx=document.getElementById('streakText');if(streak>=3){d.classList.add('show');tx.textContent='Streak: '+streak;if(streakTO)clearTimeout(streakTO);streakTO=setTimeout(()=>d.classList.remove('show'),8000);}else{d.classList.remove('show');}}
 function launchConfetti(){const colors=['#059669','#0891b2','#d97706','#8b5cf6','#ec4899','#06b6d4'];for(let i=0;i<40;i++){const p=document.createElement('div');p.style.cssText='position:fixed;width:'+(6+Math.random()*8)+'px;height:'+(6+Math.random()*8)+'px;z-index:999999;pointer-events:none;left:'+Math.random()*100+'vw;top:-10px;background:'+colors[Math.floor(Math.random()*colors.length)]+';border-radius:'+(Math.random()>0.5?'50%':'2px')+';animation:confettiFall '+(2+Math.random()*1.5)+'s ease-out '+(Math.random()*0.5)+'s forwards;';document.body.appendChild(p);setTimeout(()=>p.remove(),4000);}}
@@ -7166,10 +7448,10 @@ function expandQuery(words){const expanded=new Set(words);words.forEach(w=>{if(A
 function detectIntent(query){const lower=query.toLowerCase().trim();if(GREETINGS.some(g=>lower===g||lower.startsWith(g+' ')))return'greeting';if(THANKS.some(t=>lower.includes(t)))return'thanks';for(const pat of COMPARE_PATTERNS){const m=lower.match(pat);if(m)return{type:'compare',a:m[1].trim(),b:m[2].trim()};}return'search';}
 function searchContent(query){const stopwords=new Set(['what','how','does','the','and','for','that','this','with','are','from','can','you','which','where','when','why','have','has','will','would','should','about','they','there','been','some','than','also','just','more','only','other','tell','explain','describe','give','show','please','mean','used','use','work','difference','need','between','define']);let words=query.toLowerCase().replace(/[?.,!'"()]/g,'').split(/\s+/).filter(w=>(w.length>2||ABBREVIATIONS[w])&&!stopwords.has(w));const extra=[];words.forEach(w=>{if(ABBREVIATIONS[w])ABBREVIATIONS[w].split(' ').forEach(p=>{if(p.length>2)extra.push(p);});});words=words.concat(extra);if(!words.length)return[];const expanded=expandQuery(words);const totalDocs=searchIndex.length;const scored=searchIndex.map(item=>{const lower=item.text.toLowerCase();const headLow=(item.heading||'').toLowerCase();let score=0;const phrase=words.join(' ');if(lower.includes(phrase)&&phrase.length>5)score+=80;if(headLow.includes(phrase))score+=60;expanded.forEach(w=>{const re=new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');const m=lower.match(re);if(m)score+=m.length*5;if(headLow.includes(w))score+=20;});const orig=words.filter(w=>lower.includes(w)).length;if(orig>1)score+=orig*25;if(item.text.length<60)score*=0.6;if(item.isQuiz)score*=1.2;return{...item,score};}).filter(r=>r.score>5);scored.sort((a,b)=>b.score-a.score);const results=[];for(const r of scored){if(results.length>=4)break;if(results.filter(x=>x.topic===r.topic).length<2&&!results.some(x=>x.text.substring(0,80)===r.text.substring(0,80)))results.push(r);}return results;}
 function getTopicName(tid){const t=TOPICS.find(x=>x.id===tid);return t?t.title:tid;}
-function formatAnswer(results,query,intent){if(intent==='greeting')return'<div class="chat-msg bot"><p class="msg-text">Hello! I\'m your AEM study assistant. Ask me anything about the 53 topics covered here.</p></div>';if(intent==='thanks')return'<div class="chat-msg bot"><p class="msg-text">You\'re welcome! Good luck with your interview!</p></div>';if(!results.length)return'<div class="chat-msg bot"><p class="msg-text">No match found. Try different keywords like "Sling Models", "Dispatcher", "OSGi config", "Content Fragments".</p></div>';let html='';results.forEach(r=>{let text=r.fullSection||r.text;if(text.length>350)text=text.substring(0,350)+'...';const words=query.toLowerCase().replace(/[?.,!'"()]/g,'').split(/\s+/).filter(w=>w.length>2);words.forEach(w=>{const re=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');text=text.replace(re,'<strong>$1</strong>');});html+='<div class="chat-msg bot"><span class="msg-topic">'+getTopicName(r.topic)+(r.heading&&r.heading!=='Quiz'?' - '+r.heading:'')+(r.isQuiz?' <span style="font-size:9px;background:var(--amber);color:#fff;padding:1px 4px;border-radius:3px;">MCQ</span>':'')+'</span><p class="msg-text">'+text+'</p></div>';});return html;}
+function formatAnswer(results,query,intent){if(intent==='greeting')return'<div class="chat-msg bot"><p class="msg-text">Hello! I\'m your AEM study assistant. Ask me anything about the 55 topics covered here.</p></div>';if(intent==='thanks')return'<div class="chat-msg bot"><p class="msg-text">You\'re welcome! Good luck with your interview!</p></div>';if(!results.length)return'<div class="chat-msg bot"><p class="msg-text">No match found. Try different keywords like "Sling Models", "Dispatcher", "OSGi config", "Content Fragments".</p></div>';let html='';results.forEach(r=>{let text=r.fullSection||r.text;if(text.length>350)text=text.substring(0,350)+'...';const words=query.toLowerCase().replace(/[?.,!'"()]/g,'').split(/\s+/).filter(w=>w.length>2);words.forEach(w=>{const re=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');text=text.replace(re,'<strong>$1</strong>');});html+='<div class="chat-msg bot"><span class="msg-topic">'+getTopicName(r.topic)+(r.heading&&r.heading!=='Quiz'?' - '+r.heading:'')+(r.isQuiz?' <span style="font-size:9px;background:var(--amber);color:#fff;padding:1px 4px;border-radius:3px;">MCQ</span>':'')+'</span><p class="msg-text">'+text+'</p></div>';});return html;}
 function handleCompare(a,b){const ra=searchContent(a),rb=searchContent(b);let html='<div class="chat-msg bot"><p class="msg-text" style="font-weight:600;">Comparing: <strong>'+a.toUpperCase()+'</strong> vs <strong>'+b.toUpperCase()+'</strong></p></div>';if(ra.length>0&&rb.length>0&&ra[0].text.substring(0,80)===rb[0].text.substring(0,80)){const t=(ra[0].fullSection||ra[0].text).substring(0,500);html+='<div class="chat-msg bot"><span class="msg-topic">'+getTopicName(ra[0].topic)+(ra[0].heading?' - '+ra[0].heading:'')+'</span><p class="msg-text">'+t+(t.length>=500?'...':'')+'</p></div>';}else{if(ra.length>0){const t=(ra[0].fullSection||ra[0].text).substring(0,250);html+='<div class="chat-msg bot"><span class="msg-topic" style="color:var(--good);">'+a.toUpperCase()+'</span><p class="msg-text">'+t+'...</p></div>';}if(rb.length>0){const rFiltered=rb.filter(x=>!ra.length||x.text.substring(0,80)!==ra[0].text.substring(0,80));if(rFiltered.length>0){const t=(rFiltered[0].fullSection||rFiltered[0].text).substring(0,250);html+='<div class="chat-msg bot"><span class="msg-topic" style="color:var(--amber);">'+b.toUpperCase()+'</span><p class="msg-text">'+t+'...</p></div>';}}}if(!ra.length&&!rb.length)html+='<div class="chat-msg bot"><p class="msg-text">Could not find enough info. Try full terms.</p></div>';return html;}
 buildIndex();
-const chatHTML='<button class="chat-fab" id="chatFab" title="Ask a question">&#128172;</button><div class="chat-panel" id="chatPanel"><div class="chat-header"><div class="chat-avatar">&#129302;</div><div><div class="chat-title">AEM Study Assistant</div><div class="chat-subtitle">Smart search across 53 topics + MCQs</div></div></div><div class="chat-messages" id="chatMessages"><div class="chat-msg bot"><p class="msg-text">Hi! Ask me anything about AEM. Try:<br><strong>Definitions:</strong> "What is Sling?"<br><strong>Comparisons:</strong> "CF vs XF"<br><strong>Concepts:</strong> "OSGi lifecycle"</p><p class="msg-text" style="margin-top:8px;font-size:11px;color:var(--ink-soft);font-style:italic;border-top:1px solid var(--line);padding-top:6px;">&#9432; Results are based only on the 53 topics available on this site — not from external sources or the internet.</p></div></div><div class="chat-suggestions" id="chatSuggestions"><button class="chat-suggest-btn" onclick="askSuggestion(this)">What is Sling?</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Dispatcher caching</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">CF vs XF</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">OSGi annotations</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Service Users</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Sling Jobs</button></div><div class="chat-input-area"><input class="chat-input" id="chatInput" type="text" placeholder="Ask about AEM..." autocomplete="off"><button class="chat-send" id="chatSend" title="Send">&#10148;</button></div></div>';
+const chatHTML='<button class="chat-fab" id="chatFab" title="Ask a question">&#128172;</button><div class="chat-panel" id="chatPanel"><div class="chat-header"><div class="chat-avatar">&#129302;</div><div><div class="chat-title">AEM Study Assistant</div><div class="chat-subtitle">Smart search across 55 topics + MCQs</div></div></div><div class="chat-messages" id="chatMessages"><div class="chat-msg bot"><p class="msg-text">Hi! Ask me anything about AEM. Try:<br><strong>Definitions:</strong> "What is Sling?"<br><strong>Comparisons:</strong> "CF vs XF"<br><strong>Concepts:</strong> "OSGi lifecycle"</p><p class="msg-text" style="margin-top:8px;font-size:11px;color:var(--ink-soft);font-style:italic;border-top:1px solid var(--line);padding-top:6px;">&#9432; Results are based only on the 55 topics available on this site — not from external sources or the internet.</p></div></div><div class="chat-suggestions" id="chatSuggestions"><button class="chat-suggest-btn" onclick="askSuggestion(this)">What is Sling?</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Dispatcher caching</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">CF vs XF</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">OSGi annotations</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Service Users</button><button class="chat-suggest-btn" onclick="askSuggestion(this)">Sling Jobs</button></div><div class="chat-input-area"><input class="chat-input" id="chatInput" type="text" placeholder="Ask about AEM..." autocomplete="off"><button class="chat-send" id="chatSend" title="Send">&#10148;</button></div></div>';
 const chatDiv=document.createElement('div');chatDiv.innerHTML=chatHTML;document.body.appendChild(chatDiv);
 const fab=document.getElementById('chatFab'),panel=document.getElementById('chatPanel');
 fab.addEventListener('click',function(){const open=panel.classList.contains('open');if(open){panel.classList.remove('open');fab.classList.remove('active');fab.innerHTML='&#128172;';document.body.style.overflow='';}else{panel.classList.add('open');fab.classList.add('active');fab.innerHTML='&#10005;';if(window.innerWidth<=860){document.body.style.overflow='hidden';}document.getElementById('chatInput').focus();}});
@@ -7978,10 +8260,172 @@ document.getElementById('mwBtnNext').addEventListener('click',function(){mwPause
 window._initMwWidget=initMwWidget;
 })();
 
+/* CI/CD Pipeline Widget Init */
+(function(){
+var ciInited=false;
+function initCicd(){
+if(ciInited)return;
+var container=document.getElementById('cicdStages');
+if(!container)return;
+ciInited=true;
+var stageOrder=['build','quality','security','stage','approve','prod'];
+var stages={
+build:{title:'BUILD (Maven)',color:'#3b82f6',desc:'Maven compiles code, runs unit tests, packages artifacts into deployable content packages.',checks:['Maven clean install','Unit tests (JUnit 5 + AEM Mocks)','Package generation (core JAR, ui.apps ZIP)','Dependency resolution and validation'],fail:'Compilation errors, failed unit tests, missing dependencies. Fix: run mvn clean install locally before pushing.'},
+quality:{title:'CODE QUALITY (SonarQube)',color:'#8b5cf6',desc:'Static code analysis checks for bugs, vulnerabilities, code smells, and coverage thresholds.',checks:['Critical/Blocker bugs = pipeline fail','Code coverage must not decrease','Duplicated lines threshold','Security vulnerability scan'],fail:'SonarQube critical issues or coverage drop below threshold. Fix: address issues locally, run sonar analysis before pushing.'},
+security:{title:'SECURITY SCAN',color:'#f59e0b',desc:'Automated scanning of dependencies for known vulnerabilities (CVEs) and license compliance.',checks:['OWASP dependency check','Known CVE matching','License compliance verification','Security hotspot review'],fail:'Vulnerable dependency found (e.g., Log4j CVE). Fix: update dependency version in pom.xml, or document accepted risk for false positives.'},
+stage:{title:'DEPLOY TO STAGE',color:'#06b6d4',desc:'Blue-green deployment to Stage environment. Automated integration and performance tests execute.',checks:['Blue-green deployment to Stage','Integration test suite execution','Performance tests (response times, throughput)','Functional smoke tests'],fail:'Integration test failure or performance regression above threshold. Fix: check test reports, optimize slow paths, fix broken integrations.'},
+approve:{title:'MANUAL APPROVAL',color:'#ec4899',desc:'Deployment Manager reviews Stage results and manually approves or rejects production deployment.',checks:['Review automated test results','Manually verify Stage environment','Confirm stakeholder sign-off','Schedule production deployment window'],fail:'Approver rejects due to issues found on Stage. Fix: address feedback, re-deploy to Stage, request approval again.'},
+prod:{title:'PRODUCTION DEPLOY',color:'#10b981',desc:'Blue-green deployment to Production with zero downtime. Traffic switches after health checks pass.',checks:['Blue-green environment preparation','Rolling deployment across instances','Automated health check verification','Traffic switchover (blue to green)'],fail:'Health check failure post-deploy (rare). Automatic rollback to previous version. Investigate application logs for root cause.'}
+};
+function showStage(key){
+var s=stages[key];if(!s)return;
+container.querySelectorAll('.ci-stage').forEach(function(el){el.classList.remove('active');});
+container.querySelector('[data-stage="'+key+'"]').classList.add('active');
+var info=document.getElementById('cicdInfo');
+var html='<div class="ci-info-title" style="color:'+s.color+';">'+s.title+'</div>';
+html+='<div class="ci-info-desc">'+s.desc+'</div>';
+html+='<div class="ci-checks">';
+s.checks.forEach(function(c){html+='<div class="ci-check"><span class="ci-check-icon">&#9679;</span>'+c+'</div>';});
+html+='</div>';
+html+='<div class="ci-fail-info"><strong>What Can Fail:</strong> '+s.fail+'</div>';
+info.innerHTML=html;
+}
+function resetPipeline(){
+container.querySelectorAll('.ci-stage').forEach(function(el){el.classList.remove('passed','failed','active');});
+container.querySelectorAll('.ci-arrow').forEach(function(el){el.classList.remove('passed');});
+document.getElementById('cicdInfo').innerHTML='<div class="ci-info-title" style="color:var(--ci-dim);">Pipeline Reset</div><div class="ci-info-desc">Click a stage or run the pipeline again.</div>';
+}
+function runPipeline(shouldFail){
+resetPipeline();
+var failAt=shouldFail?stageOrder[Math.floor(Math.random()*4)]:'';
+var i=0;
+var arrows=container.querySelectorAll('.ci-arrow');
+function advanceStage(){
+if(i>=stageOrder.length){
+document.getElementById('cicdInfo').innerHTML='<div class="ci-info-title" style="color:var(--ci-green);">&#9989; Pipeline Successful!</div><div class="ci-info-desc">All stages passed. Code deployed to production with zero downtime via blue-green deployment.</div>';
+return;
+}
+var key=stageOrder[i];
+var el=container.querySelector('[data-stage="'+key+'"]');
+el.classList.add('active');
+showStage(key);
+setTimeout(function(){
+if(key===failAt){
+el.classList.remove('active');el.classList.add('failed');
+var s=stages[key];
+document.getElementById('cicdInfo').innerHTML='<div class="ci-info-title" style="color:var(--ci-red);">&#10060; Pipeline Failed at '+s.title+'</div><div class="ci-info-desc">'+s.fail+'</div>';
+return;
+}
+el.classList.remove('active');el.classList.add('passed');
+if(i<arrows.length)arrows[i].classList.add('passed');
+i++;advanceStage();
+},1200);
+}
+advanceStage();
+}
+container.querySelectorAll('.ci-stage').forEach(function(el){el.addEventListener('click',function(){showStage(el.getAttribute('data-stage'));});});
+document.getElementById('ciRunBtn').addEventListener('click',function(){runPipeline(false);});
+document.getElementById('ciFailBtn').addEventListener('click',function(){runPipeline(true);});
+document.getElementById('ciResetBtn').addEventListener('click',resetPipeline);
+showStage('build');
+}
+window._initCicd=initCicd;
+})();
+
+/* Migration Readiness Widget Init */
+(function(){
+var mgInited=false;
+function initMigr(){
+if(mgInited)return;
+var container=document.getElementById('mgCategories');
+if(!container)return;
+mgInited=true;
+var categories={
+code:[
+{text:'Remove <strong>deprecated APIs</strong> (SlingFilter, Replication API, admin session)',severity:'critical'},
+{text:'Convert <strong>custom run modes</strong> to standard (author/publish/dev/stage/prod only)',severity:'critical'},
+{text:'Ensure all code is in <strong>Git repository</strong> (no manually installed bundles)',severity:'critical'},
+{text:'Replace DAM Update Asset workflow with <strong>Processing Profiles</strong>',severity:'important'},
+{text:'Remove <strong>/apps runtime modifications</strong> (overlays must be code-deployed)',severity:'critical'},
+{text:'Update <strong>Oak index definitions</strong> to code-deployable format (ui.apps)',severity:'important'},
+{text:'Replace <strong>JCR event listeners</strong> with Sling ResourceChangeListeners',severity:'important'}
+],
+content:[
+{text:'Run <strong>Content Transfer Tool</strong> extraction on source instance',severity:'critical'},
+{text:'Identify and plan for <strong>large binary assets</strong> (video, ZIP > 2GB)',severity:'important'},
+{text:'Verify content structure compatible with <strong>immutable /apps</strong>',severity:'critical'},
+{text:'Check for <strong>/etc content</strong> that needs relocation to /conf or /content',severity:'important'},
+{text:'Validate <strong>user-generated content</strong> migration path and permissions',severity:'info'},
+{text:'Plan <strong>content freeze window</strong> for final delta sync before go-live',severity:'important'}
+],
+configs:[
+{text:'Convert ALL OSGi configs to <strong>.cfg.json</strong> format (only format supported)',severity:'critical'},
+{text:'Move configs to <strong>ui.config module</strong> with proper run mode folders',severity:'critical'},
+{text:'Remove <strong>/etc/map</strong> configurations (use Sling Mapping or Apache rewrite)',severity:'important'},
+{text:'Validate <strong>Dispatcher configs</strong> with Adobe Dispatcher SDK/validator',severity:'important'},
+{text:'Update environment-specific configs for <strong>cloud run modes</strong>',severity:'important'},
+{text:'Migrate <strong>Repo Init scripts</strong> for service user creation',severity:'info'}
+],
+integrations:[
+{text:'Replace replication-based integrations with <strong>Sling Content Distribution</strong>',severity:'critical'},
+{text:'Update <strong>external API endpoints</strong> for cloud environments',severity:'important'},
+{text:'Verify <strong>SSO/IMS authentication</strong> compatibility with cloud',severity:'important'},
+{text:'Check <strong>firewall/egress rules</strong> for cloud networking (dedicated IP if needed)',severity:'important'},
+{text:'Migrate custom <strong>CDN configurations</strong> to Cloud Manager',severity:'info'},
+{text:'Validate <strong>webhook/callback URLs</strong> update for new cloud domains',severity:'info'}
+]
+};
+var checked={};var activeCat='code';
+var total=0;Object.keys(categories).forEach(function(k){total+=categories[k].length;});
+function updateProgress(){
+var count=0;Object.keys(checked).forEach(function(k){count+=checked[k].length;});
+document.getElementById('mgProgressFill').style.width=(count/total*100)+'%';
+document.getElementById('mgProgressText').textContent=count+' / '+total+' checked';
+}
+function showCategory(cat){
+activeCat=cat;
+container.querySelectorAll('.mg-cat').forEach(function(el){el.classList.remove('active');});
+container.querySelector('[data-cat="'+cat+'"]').classList.add('active');
+if(!checked[cat])checked[cat]=[];
+var items=categories[cat];
+var html='';
+items.forEach(function(item,idx){
+var isChecked=checked[cat].indexOf(idx)>=0;
+html+='<div class="mg-item'+(isChecked?' checked':'')+'" data-idx="'+idx+'">';
+html+='<div class="mg-checkbox">'+(isChecked?'&#10003;':'')+'</div>';
+html+='<div class="mg-item-text">'+item.text+'</div>';
+html+='<span class="mg-severity '+item.severity+'">'+item.severity+'</span>';
+html+='</div>';
+});
+document.getElementById('mgItems').innerHTML=html;
+document.querySelectorAll('.migr-widget .mg-item').forEach(function(el){
+el.addEventListener('click',function(){
+var idx=parseInt(el.getAttribute('data-idx'));
+toggleItem(cat,idx);
+});
+});
+}
+function toggleItem(cat,idx){
+if(!checked[cat])checked[cat]=[];
+var pos=checked[cat].indexOf(idx);
+if(pos>=0)checked[cat].splice(pos,1);
+else checked[cat].push(idx);
+showCategory(cat);
+updateProgress();
+}
+container.querySelectorAll('.mg-cat').forEach(function(el){
+el.addEventListener('click',function(){showCategory(el.getAttribute('data-cat'));});
+});
+showCategory('code');
+updateProgress();
+}
+window._initMigr=initMigr;
+})();
+
 /* Widget init dispatcher */
 window._activeTopicId='t1';
 var _origShowTopic=showTopic;
-showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);if(typeof trackTopicView==='function'){var t=TOPICS.find(function(x){return x.id===id;});if(t)trackTopicView(id,t.title);}setTimeout(function(){if(id==='t1'&&window._initLifecycleWidget)window._initLifecycleWidget();if(id==='t10'&&window._initReplWidget)window._initReplWidget();if(id==='t11'){if(window._initDispWidget)window._initDispWidget();if(window._initDispFilter)window._initDispFilter();}if(id==='t16'&&window._initWfWidget)window._initWfWidget();if(id==='t14'){if(window._initCfmBuilder)window._initCfmBuilder();if(window._initCmpWidget)window._initCmpWidget();}if(id==='t30'&&window._initCodeAnnotator)window._initCodeAnnotator();if(id==='t21'&&window._initMwWidget)window._initMwWidget();if(id==='t26'&&window._initSmWidget)window._initSmWidget();if(id==='t33'&&window._initRrWidget)window._initRrWidget();if(id==='t28'&&window._initOsgiSm)window._initOsgiSm();if(id==='t41'&&window._initJcrTree)window._initJcrTree();if(id==='t53'&&window._initFlashcards)window._initFlashcards();if(id==='t58'&&window._initLiveCoding)window._initLiveCoding();},100);};
+showTopic=function(id){window._activeTopicId=id;_origShowTopic(id);if(typeof trackTopicView==='function'){var t=TOPICS.find(function(x){return x.id===id;});if(t)trackTopicView(id,t.title);}setTimeout(function(){if(id==='t1'&&window._initLifecycleWidget)window._initLifecycleWidget();if(id==='t10'&&window._initReplWidget)window._initReplWidget();if(id==='t11'){if(window._initDispWidget)window._initDispWidget();if(window._initDispFilter)window._initDispFilter();}if(id==='t16'&&window._initWfWidget)window._initWfWidget();if(id==='t14'){if(window._initCfmBuilder)window._initCfmBuilder();if(window._initCmpWidget)window._initCmpWidget();}if(id==='t30'&&window._initCodeAnnotator)window._initCodeAnnotator();if(id==='t21'&&window._initMwWidget)window._initMwWidget();if(id==='t26'&&window._initSmWidget)window._initSmWidget();if(id==='t33'&&window._initRrWidget)window._initRrWidget();if(id==='t28'&&window._initOsgiSm)window._initOsgiSm();if(id==='t41'&&window._initJcrTree)window._initJcrTree();if(id==='t53'&&window._initFlashcards)window._initFlashcards();if(id==='t58'&&window._initLiveCoding)window._initLiveCoding();if(id==='t60'&&window._initCicd)window._initCicd();if(id==='t61'&&window._initMigr)window._initMigr();},100);};
 
 /* INIT */
 showTopic('t1');updateScorePills();updateProgressBar();
@@ -8185,7 +8629,7 @@ function buildMobileNav() {
     html += '<button class="sidebar-tab' + (tab.classList.contains('active') ? ' active' : '') + '" data-tab="' + tab.dataset.tab + '" onclick="mobileFilterTab(\'' + tab.dataset.tab + '\')">' + tab.textContent + '</button>';
   });
   html += '</div><div id="mobileNavList"></div>';
-  html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/450</span></div>';
+  html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/470</span></div>';
   html += '<div style="padding:12px 16px;"><button class="reset-btn" onclick="resetProgress();toggleMobileNav();">Reset all progress</button></div>';
   drawer.innerHTML = html;
   drawer.dataset.built = '1';
