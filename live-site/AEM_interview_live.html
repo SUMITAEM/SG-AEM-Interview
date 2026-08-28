@@ -1551,6 +1551,144 @@ sling.run.modes=author,dev</pre>
 │                    │       ├─ Extension
 │                    │       │     └─ Suffix
 └────────────────────┘</pre>
+
+<h3 class="block-title">What Can You Do with AEM?</h3>
+<table><tr><th>Capability</th><th>Description</th></tr>
+<tr><td>Build & manage websites</td><td>Create and maintain enterprise web properties with rich authoring tools</td></tr>
+<tr><td>Manage digital assets (DAM)</td><td>Centralized asset library with renditions, metadata, and smart tagging</td></tr>
+<tr><td>Deliver personalized experiences</td><td>Target content to audiences using segments and Adobe Target integration</td></tr>
+<tr><td>Publish across multiple channels</td><td>Headless (JSON/GraphQL), web, mobile, IoT, kiosks via Content Fragments</td></tr>
+<tr><td>Measure, analyze & optimize</td><td>Integrate with Adobe Analytics for data-driven content decisions</td></tr>
+</table>
+
+<h3 class="block-title">Where is AEM Used?</h3>
+<ul>
+<li><strong>Enterprise Websites</strong> — Large-scale corporate and marketing sites</li>
+<li><strong>E-commerce Solutions</strong> — Product catalogs with Adobe Commerce integration</li>
+<li><strong>Education Portals</strong> — Universities and learning management platforms</li>
+<li><strong>News & Media Platforms</strong> — High-volume publishing with workflows</li>
+<li><strong>Community Portals</strong> — Intranets, member-only sites with CUG</li>
+<li><strong>Travel & Hospitality</strong> — Multi-language booking and marketing sites</li>
+<li><strong>Government Portals</strong> — Accessible, secure public-facing services</li>
+<li><strong>Marketing Campaigns</strong> — Landing pages, promos, and personalized experiences</li>
+</ul>
+
+<h3 class="block-title">AEM 6.5 at a Glance</h3>
+<ul>
+<li>Robust & scalable enterprise platform</li>
+<li>Built on Java, OSGi, Sling, JCR (Oak)</li>
+<li>Flexible & extensible architecture</li>
+<li>Strong security & permissions model</li>
+<li>Supports authoring, management & delivery</li>
+<li>Trusted by businesses worldwide</li>
+</ul>
+
+<h3 class="block-title">Author → Publish → Dispatcher → User</h3>
+<p>AEM follows a 3-tier architecture that separates content creation, content delivery, and caching for better performance and security.</p>
+<div class="diagram">┌──────────────────┐    Activate     ┌──────────────────┐   Requests    ┌──────────────────┐   Delivers    ┌──────────┐
+│  1. AUTHOR       │──(Replication)──▶│  2. PUBLISH      │◀─& Content──│  3. DISPATCHER   │──Content───▶│  4. USER │
+│                  │                  │                  │              │                  │             │          │
+│ • Create pages   │                  │ • Receives       │              │ • Caches content │             │ • Access │
+│ • Edit content   │                  │   activated      │              │ • Filters &      │             │   via    │
+│ • Upload assets  │                  │   content        │              │   secures        │             │   browser│
+│ • Start workflows│                  │ • Serves to      │              │ • Reduces load   │             │          │
+│ • NOT for users  │                  │   visitors       │              │ • Improves perf  │             │          │
+└──────────────────┘                  └──────────────────┘              └──────────────────┘             └──────────┘</div>
+
+<h4 class="sub-title">Content Creation Flow</h4>
+<div class="diagram">Author ──▶ Activate (Replication) ──▶ Publish ──▶ Dispatcher (Cache invalidated/updated) ──▶ User sees latest content</div>
+
+<h4 class="sub-title">Content Delivery Flow</h4>
+<div class="diagram">User requests page ──▶ Dispatcher checks cache ──▶ If not cached, forwards to Publish ──▶ Publish returns content ──▶ Dispatcher caches it ──▶ User receives content</div>
+
+<h4 class="sub-title">Key Benefits of This Architecture</h4>
+<table><tr><th>Benefit</th><th>How</th></tr>
+<tr><td>Better Performance</td><td>Caching with Dispatcher — static files served from disk</td></tr>
+<tr><td>Enhanced Security</td><td>Dispatcher filters unwanted requests before reaching AEM</td></tr>
+<tr><td>Scalability</td><td>Publish instances can be scaled independently behind load balancer</td></tr>
+<tr><td>Separation of Concerns</td><td>Authoring & delivery are independent — authors cannot break live site</td></tr>
+</table>
+
+<h3 class="block-title">JCR & Oak — Where AEM Stores Content</h3>
+<p>AEM stores everything in a hierarchical content repository called <strong>JCR (Java Content Repository)</strong>. In AEM 6.5, the JCR repository is powered by <strong>Apache Jackrabbit Oak</strong>.</p>
+<div class="callout"><strong>Think of JCR/Oak as a file system</strong> for AEM where every page, component, asset, user, and configuration is stored as a <strong>node</strong>.</div>
+
+<h4 class="sub-title">AEM Repository Structure (JCR/Oak)</h4>
+<div class="diagram">/ (root)
+├── /content          ← All content authors create (pages, sites)
+├── /apps             ← Application code, components, clientlibs
+├── /conf             ← Configuration and cloud service configs
+├── /etc              ← System configs, users, groups, workflows
+├── /var              ← Version storage, temp files, logs
+├── /home             ← Home folders for users
+└── /content/dam      ← Digital Assets Management (images, PDFs, videos)</div>
+
+<h4 class="sub-title">Everything in JCR Is...</h4>
+<table><tr><th>Characteristic</th><th>Description</th></tr>
+<tr><td>Hierarchical (Tree Structure)</td><td>Content organized in parent-child nodes like a filesystem</td></tr>
+<tr><td>Node Based (Not Tables)</td><td>Every item is a node — NOT rows in a relational database</td></tr>
+<tr><td>Property Based (Key-Value Pairs)</td><td>Nodes store data as typed properties (String, Long, Date, etc.)</td></tr>
+<tr><td>Strongly Typed (jcr:primaryType)</td><td>Every node has a type: cq:Page, nt:unstructured, dam:Asset, etc.</td></tr>
+</table>
+
+<h4 class="sub-title">Oak — The Power Behind AEM 6.5</h4>
+<p>Oak is the content repository implementation used in AEM 6.5. It is fast, scalable, and optimized for web scale.</p>
+<ul>
+<li><strong>High Performance</strong> — Optimized storage and indexing (Lucene/Property indexes)</li>
+<li><strong>Scalability</strong> — Handles large volumes of content (millions of nodes)</li>
+<li><strong>ACID Compliance</strong> — Assures data consistency with transactions</li>
+<li><strong>Cluster Ready</strong> — Supports author & publish clusters (MongoMK for clustering)</li>
+<li><strong>Flexible</strong> — Document store, Segment store, and more storage options</li>
+</ul>
+
+<h3 class="block-title">Apache Sling — The Engine Behind AEM</h3>
+<p>Sling is the request handling and resource-oriented framework that powers AEM. It acts as a <strong>bridge</strong> between the HTTP request and the content in the JCR repository.</p>
+
+<h4 class="sub-title">How Sling Works in AEM (6 Steps)</h4>
+<div class="diagram">1. Request Comes In      ──▶  User hits a URL in the browser
+       │
+2. Resource Resolution   ──▶  Sling maps the URL to a resource in the repository
+       │
+3. Servlet Selection     ──▶  Sling finds the appropriate Servlet to handle the request
+       │
+4. Model (Optional)      ──▶  Sling Model prepares data from repository for the view
+       │
+5. HTL Rendering         ──▶  HTL (Sightly) generates the final HTML output
+       │
+6. Response Sent         ──▶  HTML is returned to the browser</div>
+
+<h4 class="sub-title">Key Responsibilities of Sling</h4>
+<ul>
+<li>Handles all incoming HTTP requests to AEM</li>
+<li>Maps requests to resources (not just servlets — resource-oriented)</li>
+<li>Selects the right Servlet / Script / Component based on resource type, selectors, and extension</li>
+<li>Supports multiple selectors, extensions & methods for flexible content delivery</li>
+<li>Provides Resource API for content access (ResourceResolver, Resource, ValueMap)</li>
+<li>Extensible and OSGi-based — plug in new resource providers, servlets, filters</li>
+</ul>
+
+<h4 class="sub-title">Why Sling is Important</h4>
+<table><tr><th>Reason</th><th>Description</th></tr>
+<tr><td>Lightweight & Fast</td><td>Built for performance and scalability</td></tr>
+<tr><td>Highly Extensible</td><td>Easy to extend using OSGi services and bundles</td></tr>
+<tr><td>Resource Oriented</td><td>Works with resources, not just servlets — everything is content</td></tr>
+<tr><td>The Core of AEM</td><td>Almost every AEM feature relies on Sling for request handling</td></tr>
+</table>
+
+<h3 class="block-title">Resource vs Node — Key Differences</h3>
+<p>Understanding the difference between a <strong>Resource</strong> (what Sling works with) and a <strong>Node</strong> (what exists in JCR) is crucial for AEM development.</p>
+
+<table><tr><th>Aspect</th><th>Resource (Sling Abstraction)</th><th>Node (JCR Physical Item)</th></tr>
+<tr><td>What it is</td><td>An abstraction of content used by Sling</td><td>A physical item in the JCR repository</td></tr>
+<tr><td>Weight</td><td>Lightweight and read-optimized</td><td>Heavier and write-optimized</td></tr>
+<tr><td>Path</td><td>Has a path (e.g., /content/we-retail/us/en/home)</td><td>Has a path (same — maps 1:1)</td></tr>
+<tr><td>Type info</td><td>Has sling:resourceType (rendering hint)</td><td>Has jcr:primaryType (nt:unstructured, cq:Page, etc.)</td></tr>
+<tr><td>Used for</td><td>Request handling and content delivery</td><td>Content management and storage</td></tr>
+<tr><td>Adaptable</td><td>Can adapt to Java objects (Sling Models)</td><td>Provides full JCR API access (properties, children, mixins)</td></tr>
+<tr><td>JCR exposure</td><td>Does NOT expose all JCR internal details</td><td>Full access to JCR features</td></tr>
+</table>
+
+<div class="callout"><strong>Remember:</strong> Nodes exist in the repository. Resources are what Sling works with. Sling works with Resources, not directly with Nodes. <em>Store with Node. Serve with Resource.</em></div>
 `;
 
 NOTES.t2=`
@@ -1872,6 +2010,51 @@ NOTES.t5=`
 <tr><td><strong>parbase</strong></td><td>Foundation base component</td><td>Provides common scripts; set as sling:resourceSuperType to make components draggable</td></tr>
 </table>
 <div class="callout"><strong>Modern AEM:</strong> In Editable Templates, the Layout Container (responsivegrid) replaces parsys. iParsys is rarely used — MSM/Live Copy handles inheritance at the page level instead.</div>
+
+<h3 class="block-title">How a Component Works in AEM</h3>
+<div class="diagram">Author creates content ──▶ Stored in JCR (as nodes in repository) ──▶ Request received (Sling resolves resource) ──▶ Rendering (Sling Model prepares data, HTL renders output) ──▶ HTML Output (sent back to browser)</div>
+
+<h3 class="block-title">Important Files Explained</h3>
+<table><tr><th>File</th><th>Purpose</th></tr>
+<tr><td>.content.xml</td><td>Defines the component resource type, group, title, and property structure</td></tr>
+<tr><td>_cq_dialog</td><td>Contains dialog XML to collect data from authors (Touch UI fields)</td></tr>
+<tr><td>banner.html (HTL)</td><td>HTL file that uses Sling Model to display the content to the user</td></tr>
+<tr><td>design_dialog (optional)</td><td>Used for Style System to allow designs and themes per policy</td></tr>
+<tr><td>clientlibs</td><td>Organizes CSS/JS into categories (e.g., css.txt, js.txt) for the component</td></tr>
+<tr><td>_cq_editConfig.xml</td><td>Defines edit icons and in-place editing behavior in the component browser</td></tr>
+<tr><td>_cq_preview.png</td><td>Thumbnail shown in the component browser for author reference</td></tr>
+</table>
+
+<h3 class="block-title">Typical Component Workflow</h3>
+<ol>
+<li><strong>Author drags the component</strong> to a page in the editor</li>
+<li><strong>Author opens the dialog</strong> and enters data (text, images, links)</li>
+<li><strong>Data is stored in JCR</strong> under the component node (jcr:content)</li>
+<li><strong>User requests the page</strong> — Sling resolves the resource</li>
+<li><strong>Sling Model adapts the resource</strong> and prepares data for the view</li>
+<li><strong>HTL renders the HTML</strong> and sends it to the browser</li>
+</ol>
+
+<h4 class="sub-title">Example: Banner Component Path</h4>
+<pre>/apps/myproject/components/content/banner
+
+Resource Type  →  myproject/components/content/banner
+Super Type     →  core/wcm/components/container
+Group          →  My Project - Content
+Dialog         →  _cq_dialog/.content.xml
+HTL            →  banner.html</pre>
+
+<h4 class="sub-title">Component Best Practices</h4>
+<ul>
+<li>Follow AEM component structure conventions</li>
+<li>Keep HTL files clean and simple — no complex logic</li>
+<li>Use Sling Models for business logic (never put Java in HTL)</li>
+<li>Organize clientlibs properly with categories</li>
+<li>Provide proper dialogs for authors with validation</li>
+<li>Use meaningful names and groups for discoverability</li>
+</ul>
+
+<div class="callout"><strong>Remember this flow:</strong> JCR (Store) → Sling (Request) → Sling Model (Prepare) → HTL (Render) → Browser (Output). Store in JCR. Adapt with Model. Render with HTL.</div>
 `;
 
 NOTES.t6=`
@@ -3959,6 +4142,60 @@ public class ArticleModel {
     &lt;a href="\${hero.ctaLink}"&gt;\${hero.ctaText}&lt;/a&gt;
 &lt;/sly&gt;</pre>
 <div class="callout"><strong>Testing:</strong> Sling Models are easily unit tested with AEM Mocks — load JSON content, adapt a Resource to your model, assert getter values.</div>
+
+<h3 class="block-title">How Sling Models Work in AEM</h3>
+<p>Sling Models act as a bridge between repository content and your Java code. They help us read content, adapt it, and expose data to HTL in a clean and reusable way.</p>
+<div class="diagram">Content (stored in JCR) ──▶ Sling (resolves the resource) ──▶ Sling Model (adapts resource, prepares data) ──▶ HTL (uses the model to display data) ──▶ Response (HTML sent to user)</div>
+
+<h3 class="block-title">How Data Flows from Repository to HTL</h3>
+<div class="diagram">1. JCR              ──▶  Content & properties stored as Nodes
+   │
+2. Resource         ──▶  Sling provides a Resource for the path
+   │
+3. Sling Model      ──▶  Model adapts Resource and prepares data
+   │
+4. HTL              ──▶  HTL calls model methods and renders data
+   │
+5. Output           ──▶  HTML is generated and sent to the browser</div>
+
+<h3 class="block-title">Types of Adaptables</h3>
+<table><tr><th>Adaptable</th><th>When to Use</th><th>Annotation</th></tr>
+<tr><td>Resource</td><td>Most commonly used. Adapts from the current resource.</td><td>@Model(adaptables = Resource.class)</td></tr>
+<tr><td>SlingHttpServletRequest</td><td>Use when request details (parameters, attributes) are required.</td><td>@Model(adaptables = SlingHttpServletRequest.class)</td></tr>
+<tr><td>Other Adaptables</td><td>ResourceResolver, SlingScriptHelper, etc.</td><td>@Model(adaptables = { ResourceResolver.class })</td></tr>
+</table>
+
+<h3 class="block-title">Benefits of Sling Models</h3>
+<ul>
+<li><strong>Separation of concerns</strong> — Business logic stays in Java, presentation in HTL</li>
+<li><strong>Cleaner HTL (logic free)</strong> — No Java code in templates</li>
+<li><strong>Reusable across components</strong> — Same model can serve multiple components</li>
+<li><strong>Easy to unit test</strong> — POJO classes testable with AEM Mocks</li>
+<li><strong>Better maintainability</strong> — Clear structure, easy to debug and update</li>
+<li><strong>Supports dependency injection</strong> — @OSGiService, @Reference for clean DI</li>
+</ul>
+
+<h3 class="block-title">Best Practices for Sling Models</h3>
+<ul>
+<li>Always use models for complex components</li>
+<li>Keep models small and focused (single responsibility)</li>
+<li>Use @ValueMapValue for properties injection</li>
+<li>Use @OSGiService/@Reference for OSGi services</li>
+<li>Provide default/optional values to avoid NPEs</li>
+<li>Write unit tests for your models</li>
+</ul>
+
+<h4 class="sub-title">Using Sling Model in HTL</h4>
+<pre>&lt;sly data-sly-use.banner="com.myproject.models.BannerModel" /&gt;
+&lt;div class="banner"&gt;
+    &lt;h2&gt;\${banner.title}&lt;/h2&gt;
+    &lt;p&gt;\${banner.description}&lt;/p&gt;
+    &lt;sly data-sly-test.image="\${banner.image}"&gt;
+        &lt;img src="\${image.src}" alt="\${image.alt}" /&gt;
+    &lt;/sly&gt;
+&lt;/div&gt;</pre>
+
+<div class="callout"><strong>Remember this flow:</strong> JCR → Resource → Sling Model → HTL → Result. Store in JCR. Adapt with Model. Display with HTL.</div>
 `;
 
 NOTES.t27=`
@@ -4038,6 +4275,60 @@ NOTES.t27=`
 <li><strong>Separation of concerns</strong> — intentionally limited so logic must go through Use-API (Java/JS classes)</li>
 <li><strong>Valid HTML5</strong> — uses data-sly-* attributes, so templates are valid HTML files openable in any editor</li>
 </ul>
+
+<h3 class="block-title">How HTL Works in AEM</h3>
+<div class="diagram">JCR Content (stored as Nodes) ──▶ Resource (Sling provides for path) ──▶ Sling Model (prepares & exposes data) ──▶ HTL (Sightly) (uses model to render HTML) ──▶ Response (HTML sent to browser)</div>
+
+<h3 class="block-title">HTL File Extension</h3>
+<p><code>.html</code> files under a component are treated as HTL scripts. Example structure:</p>
+<pre>/apps/myproject/components/banner
+├── banner.html (HTL)
+├── banner.css
+└── banner.js</pre>
+
+<h3 class="block-title">Context-Aware Escaping (Security)</h3>
+<p>HTL automatically escapes output based on context to prevent XSS attacks. This is one of HTL's most powerful security features.</p>
+<table><tr><th>Context</th><th>Use Case</th><th>Example</th></tr>
+<tr><td>text</td><td>Plain text content</td><td>\${model.title @ context='text'}</td></tr>
+<tr><td>html</td><td>HTML content (rich text)</td><td>\${model.html @ context='html'}</td></tr>
+<tr><td>uri</td><td>URL / Link values</td><td>\${model.link @ context='uri'}</td></tr>
+<tr><td>attribute</td><td>HTML attribute values</td><td>\${model.value @ context='attribute'}</td></tr>
+<tr><td>scriptString</td><td>JavaScript string values</td><td>\${model.jsVar @ context='scriptString'}</td></tr>
+<tr><td>styleString</td><td>CSS style values</td><td>\${model.color @ context='styleString'}</td></tr>
+</table>
+<div class="callout"><strong>HTL is Context-Aware and Secure:</strong> You don't need to manually escape — HTL chooses the right escaping based on where the expression appears (text, href, script, style). This prevents XSS by default.</div>
+
+<h3 class="block-title">HTL (Sightly) vs JSP</h3>
+<table><tr><th>Feature</th><th>HTL (Sightly)</th><th>JSP</th></tr>
+<tr><td>Security</td><td>Secure by default (context-aware escaping)</td><td>Not secure by default — manual escaping needed</td></tr>
+<tr><td>Weight</td><td>Lightweight</td><td>Heavyweight</td></tr>
+<tr><td>Readability</td><td>Easy to read and learn</td><td>Complex syntax</td></tr>
+<tr><td>Performance</td><td>Better performance</td><td>Lower performance</td></tr>
+<tr><td>Recommendation</td><td>Recommended in AEM</td><td>Deprecated in AEM</td></tr>
+</table>
+
+<h3 class="block-title">Benefits of HTL</h3>
+<ul>
+<li><strong>Secure by default</strong> — Prevents XSS without explicit developer action</li>
+<li><strong>Lightweight and fast</strong> — Compiled, cached, minimal overhead</li>
+<li><strong>Easy to learn and use</strong> — Standard HTML with data-sly-* attributes</li>
+<li><strong>Cleaner code compared to JSP</strong> — No scriptlets, no Java in templates</li>
+<li><strong>Better performance</strong> — Faster compilation and rendering</li>
+<li><strong>Supports reuse with templates</strong> — data-sly-template and data-sly-call for composability</li>
+<li><strong>Works seamlessly with Sling Models</strong> — data-sly-use loads models directly</li>
+</ul>
+
+<h4 class="sub-title">Best Practices</h4>
+<ul>
+<li>Always use HTL instead of JSP for new components</li>
+<li>Use context-aware escaping (let HTL handle it automatically)</li>
+<li>Keep HTL scripts clean and simple — no complex logic</li>
+<li>Move business logic to Sling Models via data-sly-use</li>
+<li>Use templates and includes for reuse (data-sly-template, data-sly-include)</li>
+<li>Avoid writing Java code in HTL — use the Use-API pattern</li>
+</ul>
+
+<div class="callout"><strong>Remember this flow:</strong> JCR Content (Store) → Resource (Provide) → Sling Model (Prepare) → HTL (Render) → HTML Output (Display to User)</div>
 `;
 
 NOTES.t28=`
@@ -4193,6 +4484,49 @@ public class MyServiceImpl implements MyService {
     public void stop(BundleContext ctx)  { /* bundle stopping */ }
 }</pre>
 <div class="callout"><strong>Modern AEM:</strong> Do NOT use Activators. Use Declarative Services @Component with @Activate/@Deactivate instead — cleaner, supports dependency injection, and is the OSGi standard.</div>
+
+<h3 class="block-title">What is OSGi?</h3>
+<p>OSGi (Open Services Gateway initiative) is a modular system for Java. It allows applications to be broken into small pieces called <strong>Bundles</strong>. Each bundle can provide services or use services from others. Bundles can be installed, started, stopped, updated, or removed at runtime (dynamically). AEM uses OSGi under the hood to provide flexibility and scalability.</p>
+
+<h3 class="block-title">How OSGi Works in AEM</h3>
+<div class="diagram">Request ──▶ OSGi Container (Manages Bundles/Components) ──▶ Services (registered & used) ──▶ Content/Repository ──▶ Response (HTML back to user)</div>
+
+<h3 class="block-title">Key Benefits of OSGi in AEM</h3>
+<table><tr><th>Benefit</th><th>Description</th></tr>
+<tr><td>Dynamic</td><td>Change bundles without server restart — hot deployment</td></tr>
+<tr><td>Modular</td><td>Applications are split into independent bundles with clear boundaries</td></tr>
+<tr><td>Reusable</td><td>Services can be reused across bundles via the Service Registry</td></tr>
+<tr><td>Maintainable</td><td>Easy to update and manage individual bundles without affecting others</td></tr>
+<tr><td>Scalable</td><td>Handles enterprise-level applications efficiently</td></tr>
+</table>
+
+<h3 class="block-title">OSGi Concepts You Should Know</h3>
+<table><tr><th>Concept</th><th>Description</th></tr>
+<tr><td>Bundle</td><td>A deployable unit in OSGi. It contains classes, resources, and a MANIFEST.MF file.</td></tr>
+<tr><td>Service</td><td>A Java object that provides some functionality. Services are registered and looked up by bundles.</td></tr>
+<tr><td>Service Registry</td><td>A registry where services are registered and looked up by bundles.</td></tr>
+<tr><td>Service Consumer</td><td>A bundle that looks up and uses a service from the service registry.</td></tr>
+<tr><td>Dynamic Nature</td><td>Bundles and services can be installed, started, stopped, updated, and uninstalled at runtime.</td></tr>
+</table>
+
+<h3 class="block-title">Life Cycle of a Bundle</h3>
+<div class="diagram">Installed ──▶ Resolved ──▶ Started ──▶ Stopped ──▶ Uninstalled
+    │              │            │          │
+    │  (dependencies   (Active &    (Can be     (Removed
+    │   satisfied)      running)    restarted)   from system)
+    ▼
+ If unresolved, stays in Installed state until dependencies are met</div>
+
+<h4 class="sub-title">Where to See OSGi in AEM?</h4>
+<ul>
+<li>OSGi bundles can be seen in the <strong>Web Console</strong></li>
+<li>Go to: <code>http://&lt;host&gt;:&lt;port&gt;/system/console/bundles</code></li>
+<li>Here you can install, start, stop, update, and uninstall bundles</li>
+<li>You can also check services at: <code>http://&lt;host&gt;:&lt;port&gt;/system/console/services</code></li>
+</ul>
+
+<h4 class="sub-title">OSGi Service Flow — Remember This</h4>
+<div class="diagram">Bundles (Components) ──▶ Register Services ──▶ Service Registry (Find Services) ──▶ Other Bundles Use Services ──▶ Dynamic & Flexible AEM</div>
 `;
 
 NOTES.t29=`
