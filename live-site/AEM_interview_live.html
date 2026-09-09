@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Interactive AEM interview preparation guide with 482 MCQs covering 55 topics.">
+<meta name="description" content="Interactive AEM interview preparation guide with 492 MCQs covering 56 topics.">
 <meta name="author" content="Sumit Gaidhani">
-<title>AEM Interview Preparation - 55 Topics Interactive Guide</title>
+<title>AEM Interview Preparation - 56 Topics Interactive Guide</title>
 <style>
 :root{--bg:#f4f7fb;--panel:#ffffff;--ink:#1e293b;--ink-soft:#64748b;--line:#e2e8f0;--sidebar:#0d1b2a;--sidebar-ink:#e2e8f0;--sidebar-ink-dim:#8a9db0;--accent:#0891b2;--accent-ink:#ffffff;--amber:#d97706;--good:#059669;--good-bg:#ecfdf5;--bad:#dc2626;--bad-bg:#fef2f2;--code-bg:#1e293b;--code-ink:#e2e8f0;--radius:10px;--mono:'JetBrains Mono','Courier New',monospace;--display:'Segoe UI',system-ui,sans-serif;--body:'Segoe UI',system-ui,sans-serif;}
 [data-theme="dark"]{--bg:#0b1120;--panel:#151f30;--ink:#e2e8f0;--ink-soft:#94a3b8;--line:#1e293b;--accent:#22d3ee;--accent-ink:#0b1120;--amber:#fbbf24;--good:#34d399;--good-bg:#052e16;--bad:#f87171;--bad-bg:#2d0f0f;--code-bg:#020617;--code-ink:#e2e8f0;}
@@ -225,10 +225,10 @@ tr:nth-child(even) td{background:var(--bg);}
 <div class="login-card" id="loginCard" style="display:none;">
 <img src="sg-logo.png" alt="SG" class="login-logo">
 <h2>AEM Interview Prep</h2>
-<p class="login-sub">Sign in to access 55 topics and 482 interactive MCQs</p>
+<p class="login-sub">Sign in to access 56 topics and 492 interactive MCQs</p>
 <div class="login-stats">
 <div class="login-stat"><span class="num">55</span><span class="lbl">Topics</span></div>
-<div class="login-stat"><span class="num">482</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">492</span><span class="lbl">MCQs</span></div>
 <div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
 </div>
 <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
@@ -274,7 +274,7 @@ Sign in with Google
 <h1>AEM Interview Preparation</h1>
 </div>
 </div>
-<div class="sub">55 topics &middot; 482 interactive MCQs</div>
+<div class="sub">56 topics &middot; 492 interactive MCQs</div>
 </div>
 <div class="sidebar-tabs" id="sidebarTabs">
 <button class="sidebar-tab active" data-tab="all" onclick="filterTab('all')">All</button>
@@ -296,7 +296,7 @@ Sign in with Google
 <div id="navList"></div>
 <div class="nav-item" data-target="practice-all" onclick="showTopic('practice-all')">
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
-<span class="score-pill" id="allScorePill">0/482</span>
+<span class="score-pill" id="allScorePill">0/492</span>
 </div>
 <div class="sidebar-footer"><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
 </div>
@@ -373,7 +373,8 @@ const TOPICS=[
 {id:"t57",title:"Project Story Bank",desc:"Pre-prepared STAR stories for behavioral questions."},
 {id:"t58",title:"Live Coding Patterns",desc:"Write servlets, models, configs from scratch."},
 {id:"t60",title:"CI/CD Pipeline in AEM",desc:"Cloud Manager pipelines, stages, quality gates, deployment strategies."},
-{id:"t61",title:"AEM Cloud Migration",desc:"On-premise to AEMaaCS migration phases, tools, code refactoring."}
+{id:"t61",title:"AEM Cloud Migration",desc:"On-premise to AEMaaCS migration phases, tools, code refactoring."},
+{id:"t62",title:"AEM Forms",desc:"Creating, managing, and processing digital forms in AEM."}
 ];
 
 const INTERVIEW_QA={
@@ -770,6 +771,14 @@ t52:[
 {q:"What is ACS Commons and what are its most useful features?",a:"ACS AEM Commons is an open-source library of reusable AEM utilities. Most used: Bulk Workflow Manager (process thousands of assets), Ensure Oak Index (manage indexes in code), Generic Lists (simple key-value content), Error Page Handler, Named Transform Image Servlet, MCP (managed processes). Always check if ACS Commons solves your need before writing custom code."},
 {q:"How do you troubleshoot site latency in an AEM production environment?",a:"Systematic approach: 1) Check Dispatcher — cache hit ratio, .stat invalidation frequency, cache rules. 2) Analyze request.log — response times per URL to identify slow pages. 3) Check for traversal queries in logs (queries without index). 4) Monitor JVM — heap usage, GC pauses, thread dumps for blocked threads. 5) Review component count per page (too many = slow render). 6) Check external API call timeouts. Tools: request.log timing, Oak query explain, Thread Dump analyzer, Toughday2 for load profiling."},
 {q:"How would you integrate AI tooling into AEM content-authoring workflows?",a:"Approach: 1) Create an OSGi service that calls an AI API (OpenAI/Claude) via HttpClient with proper timeouts and error handling. 2) Expose via a Sling Servlet (POST /bin/ai-generate). 3) In the component dialog, add a 'Generate' button that calls the servlet via AJAX and populates the RTE field. 4) Handle: API key via OSGi config (environment-specific), rate limiting, content quality validation, fallback for API failures. Key considerations: latency (async generation), cost management, content review before publishing."}
+],
+t62:[
+{q:"What is AEM Forms and when do you use it?",a:"AEM Forms is part of Adobe Experience Manager for creating, managing, and processing digital forms. It provides tools for designing adaptive forms, handling submissions, and integrating with backend systems like databases and CRMs. Use it for: Contact Us forms, registration forms, survey forms, loan/insurance applications, and any data collection with workflow support."},
+{q:"What are the different types of forms in AEM?",a:"1) Adaptive Forms — responsive, dynamic forms that adjust to different devices and user needs (most common). 2) Foundation Forms — based on HTML templates, used for basic form creation and simple use cases. 3) XFA Forms — PDF-based forms with advanced features and complex layouts (legacy, used in banking/insurance). Adaptive Forms are the recommended approach for new development."},
+{q:"What is the Form Lifecycle in AEM?",a:"5 stages: 1) CREATE — Design form using AEM editor or templates. 2) PUBLISH — Make it available on the site or application. 3) FILL & SUBMIT — User enters data and submits the form. 4) PROCESS — Trigger workflows, validate data, integrate with backend systems. 5) STORE — Save data in AEM or external system (CRM, database, cloud storage)."},
+{q:"What are the key components of AEM Forms?",a:"Form Container (holds form components), Text Field (single-line text input), Text Area (multi-line text), Dropdown (select from predefined options), Checkbox (multiple selections), Radio Button (single selection), Button (submit or perform actions), File Upload (upload documents or files), Adaptive Form (responsive form component). These form the building blocks of any AEM form."},
+{q:"How do you submit form data in AEM Forms?",a:"Multiple submit actions available: 1) Submit to REST endpoint (custom servlet at /bin/). 2) Send email (configurable email service). 3) Store in JCR (Forms Data Model). 4) Submit to external system (CRM, database via Form Data Model). 5) Invoke workflow (trigger approval process). Configure via the form container's Submit Action property in the dialog."},
+{q:"What is a Form Data Model (FDM) in AEM Forms?",a:"FDM enables connecting forms to external data sources — RESTful APIs, SOAP services, JDBC databases, OData services. It provides: data binding (form fields mapped to data source fields), pre-fill (populate form with existing data), and submit (write form data back to the data source). FDM acts as the integration layer between the form UI and backend systems."}
 ]
 };
 const PL='https://www.youtube.com/playlist?list=PLEaEQSM_Y4tmJjQICTFDm2lU5mNmd_Oar';
@@ -826,9 +835,12 @@ t49:[],
 t50:[{n:'#1 Maven Archetype',i:1}],
 t51:[],
 t59:[],
-t52:[{n:'#23 Sling Model Unit Testing',i:23}]
+t52:[{n:'#23 Sling Model Unit Testing',i:23}],
+t60:[],
+t61:[],
+t62:[]
 };
-const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47','t60','t61'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
+const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37','t62'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47','t60','t61'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
 const TOPIC_TAB={};Object.keys(TAB_GROUPS).forEach(tab=>{TAB_GROUPS[tab].forEach(tid=>{TOPIC_TAB[tid]=tab;});});
 
 const QUIZZES={
@@ -1414,6 +1426,18 @@ t52:[
 {q:"What testing approach is standard for AEM?",options:["No testing needed — AEM components are configuration-only and do not require tests","JUnit 5 + Mockito + AEM Mocks (wcm.io) for unit tests; integration tests against running instance","Only manual testing by content authors verifying each component in the page editor","Only UI tests using Selenium to validate page rendering in the browser"],correct:1,exp:"Unit tests with AEM Mocks let you test Sling Models, services, and servlets without a running AEM instance. Fast and reliable."},
 {q:"What's the recommended ClientLib strategy?",options:["One giant global file containing all CSS and JS for the entire site","Component-scoped clientlibs with allowProxy=true; use embed for bundling, dependencies for shared libs","Inline all CSS/JS directly into the HTL template for each component","No clientlibs — serve all assets from an external CDN with direct URLs"],correct:1,exp:"Per-component clientlibs keep code modular. allowProxy=true for Dispatcher access. Embed for bundling, dependencies for shared code."},
 {q:"What should you do before writing a custom solution?",options:["Start coding immediately to deliver working functionality as quickly as possible","Check if Core Components, ACS Commons, or OOTB AEM features already solve the problem","Ask the client whether they want custom or out-of-the-box implementation","Write a detailed design document covering all edge cases before starting"],correct:1,exp:"AEM has extensive OOTB features. Core Components + ACS Commons cover most needs. Custom code = maintenance burden. Always check first."}
+],
+t62:[
+{q:"What is AEM Forms primarily used for?",options:["Building custom AEM components with HTL","Creating, managing, and processing digital forms for websites and applications","Configuring AEM Dispatcher caching rules","Managing digital assets in the DAM repository"],correct:1,exp:"AEM Forms helps you create, manage and process digital forms for websites and applications, with adaptive form support and backend integration."},
+{q:"Which type of AEM Form is recommended for new development?",options:["XFA Forms (PDF-based with complex layouts)","Foundation Forms (basic HTML templates)","Adaptive Forms (responsive, dynamic, device-aware)","Static HTML forms with custom JavaScript"],correct:2,exp:"Adaptive Forms are the recommended approach — they are responsive, adjust to different devices, and support dynamic behavior like show/hide rules."},
+{q:"What is the correct order of the Form Lifecycle?",options:["Submit → Create → Publish → Process → Store","Create → Publish → Fill & Submit → Process → Store","Publish → Create → Store → Submit → Process","Create → Store → Publish → Fill & Submit → Process"],correct:1,exp:"The lifecycle is: Create (design) → Publish (make available) → Fill & Submit (user interaction) → Process (workflows, validation) → Store (save data)."},
+{q:"Which AEM Forms component is used to hold all other form components?",options:["Text Field component","Button component","Form Container component","Adaptive Form component"],correct:2,exp:"The Form Container is the parent component that holds all other form components (text fields, dropdowns, buttons, etc.) and defines the form's submit action."},
+{q:"What is a Form Data Model (FDM) used for?",options:["Designing the visual layout of form fields","Connecting forms to external data sources like REST APIs and databases","Configuring form validation rules and error messages","Managing form versioning and publishing workflows"],correct:1,exp:"FDM connects forms to external data sources (REST, SOAP, JDBC, OData) for data binding, pre-fill, and submit operations — the integration layer between form UI and backend."},
+{q:"Which of these are valid submit actions in AEM Forms? (Select all that apply)",options:["Submit to REST endpoint (custom servlet)","Send email notification","Store in JCR / external database","Invoke an AEM workflow"],correct:[0,1,2,3],exp:"All four are valid submit actions: REST endpoint, email, data storage (JCR/external), and workflow invocation. Configure via the Form Container's Submit Action property."},
+{q:"What type of forms uses PDF with advanced features and complex layouts?",options:["Adaptive Forms","Foundation Forms","XFA Forms","HTML5 Forms"],correct:2,exp:"XFA Forms are PDF-based forms with advanced features and complex layouts, commonly used in banking and insurance industries. They are the legacy approach."},
+{q:"Which is NOT a key feature of AEM Forms?",options:["Drag & Drop Form Designer","Integration with Backend Systems","Automatic code compilation and deployment","Workflow Support for form processing"],correct:2,exp:"AEM Forms provides drag & drop design, backend integration, and workflow support. Automatic code compilation is a Cloud Manager feature, not an AEM Forms feature."},
+{q:"What is the purpose of Adaptive Form Support in AEM Forms?",options:["Converting PDF forms to web forms automatically","Making forms responsive and device-friendly across desktop, tablet, and mobile","Adapting form validation rules based on user role","Automatically translating form labels to multiple languages"],correct:1,exp:"Adaptive Form Support ensures forms are responsive and render correctly across different devices — desktop, tablet, and mobile — adjusting layout and interaction."},
+{q:"Where is form submission data typically stored in AEM?",options:["Only in browser localStorage","In /content/dam as digital assets","In AEM JCR, external databases, or cloud storage via Form Data Model","In /apps as code artifacts"],correct:2,exp:"Form data can be stored in AEM's JCR repository, external databases, or cloud storage. The Form Data Model (FDM) provides the integration layer for external storage."}
 ]
 };
 
@@ -2737,6 +2761,61 @@ replicator.replicate(session, ReplicationActionType.DELETE, "/content/mysite/en/
 <tr><td>Paused</td><td>Manually paused</td><td>Resume when ready</td></tr>
 </table>
 <div class="callout"><strong>AEMaaCS:</strong> Traditional replication agents are replaced by Sling Content Distribution — queue-based, eventually consistent, managed by Adobe infrastructure.</div>
+
+<h3 class="block-title">Types of Replication</h3>
+<table><tr><th>Type</th><th>Description</th></tr>
+<tr><td><strong>Activate</strong></td><td>Makes content live on Publish instance</td></tr>
+<tr><td><strong>Deactivate</strong></td><td>Removes content from Publish instance</td></tr>
+<tr><td><strong>Delete</strong></td><td>Deletes content from Publish instance permanently</td></tr>
+<tr><td><strong>Revision Purge</strong></td><td>Removes old revisions from Publish to free storage</td></tr>
+</table>
+
+<h3 class="block-title">Replication Transport Agents</h3>
+<table><tr><th>Transport</th><th>Description</th></tr>
+<tr><td><strong>Default (TCP)</strong></td><td>Uses AEM's default replication protocol over TCP</td></tr>
+<tr><td><strong>HTTP</strong></td><td>Uses HTTP/HTTPS for replication — preferred for network firewalls</td></tr>
+<tr><td><strong>File System (Offload)</strong></td><td>Uses file system for large binary replication — avoids network overhead</td></tr>
+</table>
+
+<h3 class="block-title">Replication Modes</h3>
+<table><tr><th>Mode</th><th>Behavior</th></tr>
+<tr><td><strong>Synchronous</strong></td><td>Author waits for Publish to respond — slower but confirms delivery</td></tr>
+<tr><td><strong>Asynchronous</strong></td><td>Author doesn't wait for Publish response — faster but no delivery guarantee</td></tr>
+</table>
+
+<h3 class="block-title">Common Replication Paths</h3>
+<table><tr><th>Path</th><th>Notes</th></tr>
+<tr><td><code>/content</code></td><td>Pages — mysite, home, about-us</td></tr>
+<tr><td><code>/content/dam</code></td><td>Only activated content gets replicated</td></tr>
+<tr><td><code>/etc/workflow/models</code></td><td>Workflow models</td></tr>
+<tr><td><code>/conf/myproject/settings</code></td><td>Configurations</td></tr>
+</table>
+
+<h3 class="block-title">How to Trigger Replication</h3>
+<ul>
+<li>Using "Activate" in sidekick / page / asset console</li>
+<li>Using workflows (e.g., Request for Activation)</li>
+<li>Using Replication API programmatically</li>
+<li>Using Replication Queue for bulk content activation</li>
+</ul>
+
+<h3 class="block-title">Check Replication Status</h3>
+<ul>
+<li>Use <code>/etc/replication</code> to monitor agents</li>
+<li>Use Replication Status dashboard in Touch UI</li>
+<li>Check Replication Logs at <code>/system/console/slinglog</code></li>
+<li>Use Replication Queue to see pending items</li>
+</ul>
+
+<h3 class="block-title">Best Practices</h3>
+<ul>
+<li>Replicate only required content — avoid bulk activation</li>
+<li>Use folder-level activation when possible</li>
+<li>Avoid replicating unnecessary nodes</li>
+<li>Monitor queues and logs regularly</li>
+<li>Keep Author and Publish instances in sync</li>
+<li>Can be configured for different Transport Agents per environment</li>
+</ul>
 `;
 
 NOTES.t11=`
@@ -2964,6 +3043,78 @@ Level 1 → /cache/content/.stat       (all content)
 Level 2 → /cache/content/mysite/.stat (only this site)
 Level 3 → /cache/content/mysite/en/.stat (only this language)</pre>
 <div class="callout"><strong>Best Practice:</strong> Set statfileslevel to 2-3 for multi-site setups to avoid invalidating unrelated sites on each publish.</div>
+
+<h3 class="block-title">Dispatcher Configuration Files</h3>
+<table><tr><th>File</th><th>Purpose</th></tr>
+<tr><td><code>dispatcher.any</code></td><td>Main configuration file — includes caching, security & filters</td></tr>
+<tr><td><code>filters.any</code></td><td>Allows / blocks requests — security rules (URL allow/deny)</td></tr>
+<tr><td><code>cache.any</code></td><td>Defines what to cache and for how long (TTL rules)</td></tr>
+<tr><td><code>clientheaders.any</code></td><td>Headers added to requests forwarded to AEM Publish</td></tr>
+<tr><td><code>rewrite.any</code></td><td>URL rewriting rules (Apache mod_rewrite)</td></tr>
+<tr><td><code>vanity_urls.any</code></td><td>Vanity URL & URL mappings configuration</td></tr>
+</table>
+
+<h3 class="block-title">Dispatcher Features</h3>
+<ul>
+<li><strong>Caching</strong> — Stores rendered pages as static files on filesystem</li>
+<li><strong>Load Balancing</strong> — Distributes requests across multiple Publish instances</li>
+<li><strong>Security Filtering</strong> — Blocks access to sensitive paths and resources</li>
+<li><strong>SSL Termination</strong> — Can handle HTTPS termination at the web server layer</li>
+<li><strong>Request/Response Manipulation</strong> — Modify headers, add caching directives</li>
+<li><strong>URL Rewriting</strong> — Clean URL mapping and vanity URL support</li>
+<li><strong>Health Checks</strong> — Monitor backend AEM Publish instance availability</li>
+</ul>
+
+<h3 class="block-title">How Dispatcher Provides Security</h3>
+<ul>
+<li>Blocks access to sensitive paths like <code>/crx</code>, <code>/system</code>, <code>/etc</code>, <code>/apps</code>, <code>/libs</code>, <code>/content/dam</code></li>
+<li>Allows only required requests through filter rules</li>
+<li>Hides AEM instance details from end users (server headers)</li>
+<li>Protects against common web threats (path traversal, injection)</li>
+</ul>
+
+<h3 class="block-title">Common Cache Rule Example (cache.any)</h3>
+<pre>/glob "*.html" {
+  /type "allow"
+  /clientheaders "allow"
+  /headers "allow"
+  /cache/statfileslevel "1"
+  /ttl "300"      # HTML files cached for 300 seconds (5 minutes)
+}
+
+/8000 {
+  /type "allow"
+  /ttl "86400"    # Static assets cached for 24 hours
+}</pre>
+
+<h3 class="block-title">Dispatcher Best Practices</h3>
+<ul>
+<li>Cache static content for longer duration (CSS, JS, images)</li>
+<li>Use Dispatcher for security, not just caching</li>
+<li>Keep filters.any strict and simple — deny by default</li>
+<li>Enable gzip compression for text-based resources</li>
+<li>Monitor cache hit ratio — target 90%+ hit rate</li>
+<li>Use load balancing for high availability setups</li>
+</ul>
+
+<h3 class="block-title">Dispatcher Sample Flow</h3>
+<div class="diagram">User Request
+     │
+     ▼
+Dispatcher (Check Cache)
+     │
+     ├── Cache Hit? ──→ YES ──→ Return cached response (fast!)
+     │
+     └── Cache Miss? ──→ Forward to AEM Publish
+                              │
+                              ▼
+                        AEM Publish renders page
+                              │
+                              ▼
+                        Dispatcher caches it
+                              │
+                              ▼
+                        Response Delivered to user</div>
 `;
 
 NOTES.t12=`
@@ -3582,6 +3733,89 @@ public class PathBasedChooser implements ParticipantStepChooser {
 <tr><td>Use Case</td><td>Content approval, review</td><td>DAM processing, bulk operations</td></tr>
 </table>
 <div class="callout"><strong>Configure:</strong> In the workflow model editor, open Model Properties and check "Transient Workflow". The DAM Update Asset workflow is transient by default in AEM 6.5+.</div>
+
+<h3 class="block-title">Common Workflow Use Cases</h3>
+<ul>
+<li><strong>Content Approval</strong> — Approve content before publishing</li>
+<li><strong>Page Activation</strong> — Activate pages on multiple publish instances</li>
+<li><strong>Content Review</strong> — Review content periodically for accuracy</li>
+<li><strong>Content Deactivation</strong> — Deactivate outdated content automatically</li>
+<li><strong>Custom Business Processes</strong> — Any business process automation</li>
+</ul>
+
+<h3 class="block-title">Types of Workflows</h3>
+<table><tr><th>Type</th><th>Description</th></tr>
+<tr><td><strong>System Workflows</strong></td><td>Predefined by AEM (e.g., Activation, Page Activation, DAM Update Asset)</td></tr>
+<tr><td><strong>Custom Workflows</strong></td><td>Created as per business requirements — approval chains, notifications</td></tr>
+<tr><td><strong>Model Workflows</strong></td><td>Reusable workflow models that can be assigned to multiple use cases</td></tr>
+</table>
+
+<h3 class="block-title">Where Are Workflows Stored?</h3>
+<table><tr><th>Location</th><th>Purpose</th></tr>
+<tr><td><code>/etc/workflow/models</code></td><td>Runtime workflow model definitions</td></tr>
+<tr><td><code>/var/workflow/instances</code></td><td>Running and completed workflow instances</td></tr>
+<tr><td><code>/conf/myproject</code></td><td>Project-specific workflow configurations</td></tr>
+<tr><td><code>jcr:content.xml</code></td><td>Workflow model stored as JCR XML content</td></tr>
+</table>
+
+<h3 class="block-title">Sample Workflow Model (XML)</h3>
+<pre>&lt;workflowModel
+    xmlns="http://www.adobe.com/sea/workflow/1.0"
+    description="content approval workflow"
+    id="content-approval"
+    title="Content Approval Workflow"&gt;
+  &lt;metadata/&gt;
+  &lt;model&gt;
+    &lt;start&gt;
+      &lt;transition name="submit" to="review"/&gt;
+    &lt;/start&gt;
+    &lt;step id="review" participantType="user"&gt;
+      &lt;metadata/&gt;
+      &lt;transition name="approve" to="publish"/&gt;
+      &lt;transition name="reject" to="end"/&gt;
+    &lt;/step&gt;
+    &lt;step id="publish" type="PROCESS"&gt;
+      &lt;metadata/&gt;
+      &lt;transition name="done" to="end"/&gt;
+    &lt;/step&gt;
+    &lt;end id="end"/&gt;
+  &lt;/model&gt;
+&lt;/workflowModel&gt;</pre>
+
+<h3 class="block-title">Common Workflow Steps (Detailed)</h3>
+<table><tr><th>Step Type</th><th>Description</th></tr>
+<tr><td><strong>Process Step</strong></td><td>Automatically performs a task — runs Java code (WorkflowProcess)</td></tr>
+<tr><td><strong>Participant Step</strong></td><td>Requires user action (approve/reject) — creates inbox item</td></tr>
+<tr><td><strong>Wait Step</strong></td><td>Waits for a condition or time (e.g., wait 24 hours before escalation)</td></tr>
+<tr><td><strong>OR Split</strong></td><td>Multiple paths based on condition — only one branch executes</td></tr>
+<tr><td><strong>AND Split</strong></td><td>All paths must complete — parallel execution of branches</td></tr>
+<tr><td><strong>End Step</strong></td><td>Ends the workflow — marks the instance as complete</td></tr>
+</table>
+
+<h3 class="block-title">Workflow Best Practices</h3>
+<ul>
+<li>Keep workflows simple and easy to understand</li>
+<li>Use meaningful step names and descriptions</li>
+<li>Set timeouts for steps where needed (auto-escalation)</li>
+<li>Notify important users at each step</li>
+<li>Reuse workflow models wherever possible</li>
+<li>Test workflows thoroughly before using in production</li>
+</ul>
+
+<h3 class="block-title">Remember This Flow</h3>
+<div class="diagram">Workflow Created
+     │
+     ▼
+Initiated on Content (manually or automatically)
+     │
+     ▼
+Steps Executed (Process, Participant, Split...)
+     │
+     ▼
+Actions Performed (approvals, notifications, tasks)
+     │
+     ▼
+Content Approved / Process Complete</div>
 `;
 
 NOTES.t17=`
@@ -4030,6 +4264,39 @@ Copy)  Copy) Copy)  Copy)</div>
 </ul>
 
 <div class="callout"><strong>Interview Tip:</strong> When asked "How would you manage 25 country sites?", answer: Language Master → Blueprint → Country Live Copies, keeping global content inherited and localizing only where needed (contact info, pricing, legal text).</div>
+
+<h3 class="block-title">Master-Live Copy Structure</h3>
+<div class="diagram">/content
+  └── /sites
+       ├── /mysite (master)          ◄── Master Site
+       │    ├── /mysite-fr (live copy)    ◄── Live Copy (French)
+       │    └── /mysite-de (live copy)    ◄── Live Copy (German)</div>
+
+<h3 class="block-title">Properties in MSM</h3>
+<table><tr><th>Property</th><th>Description</th></tr>
+<tr><td><code>cq:master</code></td><td>Points to the master site — identifies the Blueprint source</td></tr>
+<tr><td><code>cq:isLiveCopy</code></td><td>Indicates if it is a live copy (boolean true/false)</td></tr>
+<tr><td><code>cq:liveRelationship</code></td><td>Defines the live copy relationship type and sync configuration</td></tr>
+<tr><td><code>cq:inheritanceDisabled</code></td><td>Disables inheritance (optional) — used when local content must diverge</td></tr>
+</table>
+
+<h3 class="block-title">Benefits of AEM MSM</h3>
+<ul>
+<li>Save time and effort — author once, reuse everywhere</li>
+<li>Ensure consistency across sites — brand compliance</li>
+<li>Simplify content management — single source of truth</li>
+<li>Support regional and language-based sites</li>
+<li>Improve scalability and governance for enterprise multi-site setups</li>
+</ul>
+
+<h3 class="block-title">MSM Best Practices (Extended)</h3>
+<ul>
+<li>Plan your master site structure carefully before creating Live Copies</li>
+<li>Use inheritance wisely — cancel only for truly local content</li>
+<li>Override only when necessary — keep overrides minimal</li>
+<li>Keep content modular and reusable across sites</li>
+<li>Monitor and test live copies regularly after rollouts</li>
+</ul>
 `;
 
 NOTES.t22=`
@@ -5588,6 +5855,90 @@ for (Rendition r : asset.getRenditions()) {
 <tr><td>Custom processing</td><td>Custom workflow steps</td><td>Custom Asset Compute workers</td></tr>
 <tr><td>Performance impact</td><td>Can strain Author JVM</td><td>Offloaded to cloud</td></tr>
 </table>
+
+<h3 class="block-title">Types of Assets in DAM</h3>
+<table><tr><th>Type</th><th>Examples</th></tr>
+<tr><td><strong>Images</strong></td><td>JPG, PNG, GIF, SVG, TIFF, PSD</td></tr>
+<tr><td><strong>Documents</strong></td><td>PDF, DOC, PPT, XLS, INDD</td></tr>
+<tr><td><strong>Videos</strong></td><td>MP4, MOV, AVI, WMV</td></tr>
+<tr><td><strong>Audio</strong></td><td>MP3, WAV, OGG</td></tr>
+<tr><td><strong>Other files</strong></td><td>ZIP, TXT, AI, PSD, etc.</td></tr>
+</table>
+
+<h3 class="block-title">DAM Organization Structure</h3>
+<div class="diagram">/content/dam
+  └── myproject
+       ├── brand-assets
+       │    ├── images
+       │    ├── documents
+       │    └── videos
+       └── products
+            ├── product-a
+            └── product-b
+
+Assets are stored in a hierarchical
+folder structure for easy management.</div>
+
+<h3 class="block-title">Key Features of DAM</h3>
+<ul>
+<li><strong>Metadata & Tagging</strong> — Rich metadata schemas, custom tags, taxonomies</li>
+<li><strong>Smart Search</strong> — Full-text search with faceted filters (type, tag, status)</li>
+<li><strong>Renditions</strong> — Auto-generated thumbnails, web, mobile, and custom sizes</li>
+<li><strong>Versioning</strong> — Track asset history, compare and restore versions</li>
+<li><strong>Asset Sharing</strong> — Share assets via link, Brand Portal, or Connected Assets</li>
+<li><strong>Permissions & Security</strong> — Folder-level ACLs, CUG for restricted access</li>
+<li><strong>Workflow Integration</strong> — Automate approval, review, and processing</li>
+<li><strong>Dynamic Media Integration</strong> — On-the-fly image/video transformations</li>
+</ul>
+
+<h3 class="block-title">Sample Asset Metadata</h3>
+<table><tr><th>Property</th><th>Value</th></tr>
+<tr><td>dc:title</td><td>Summer Campaign Banner</td></tr>
+<tr><td>dc:description</td><td>Banner for summer sale campaign</td></tr>
+<tr><td>dc:subject</td><td>Campaign, Banner, Summer</td></tr>
+<tr><td>dc:format</td><td>image/jpeg</td></tr>
+<tr><td>dc:creator</td><td>Marketing Team</td></tr>
+<tr><td>dam:keywords</td><td>summer, sale, offer, banner</td></tr>
+<tr><td>dam:assetState</td><td>Active</td></tr>
+</table>
+
+<h3 class="block-title">Renditions</h3>
+<p>AEM automatically creates renditions of assets for different use cases:</p>
+<ul>
+<li><strong>Original</strong> — The untouched uploaded file</li>
+<li><strong>Thumbnail</strong> — Small preview images (48px, 140px, 319px)</li>
+<li><strong>Web (medium)</strong> — Optimized for web delivery (1280px)</li>
+<li><strong>Mobile</strong> — Optimized for mobile devices</li>
+<li><strong>Custom sizes</strong> — Configured via Processing Profiles</li>
+</ul>
+
+<h3 class="block-title">How to Upload Assets</h3>
+<ol>
+<li>Navigate to Assets → Files in AEM Touch UI</li>
+<li>Click "Create" → "File(s) Upload"</li>
+<li>Select files and upload (drag & drop also supported)</li>
+<li>Add metadata, tags and folder assignment</li>
+<li>Save and assets are ready to use (DAM Update Asset workflow runs automatically)</li>
+</ol>
+
+<h3 class="block-title">Common Asset Actions</h3>
+<ul>
+<li><strong>Download</strong> — Download original or specific renditions</li>
+<li><strong>Share</strong> — Share via link or Brand Portal</li>
+<li><strong>Copy Link</strong> — Get direct URL for embedding</li>
+<li><strong>Edit Metadata</strong> — Update title, description, tags, custom fields</li>
+<li><strong>Version History</strong> — View, compare, and restore previous versions</li>
+</ul>
+
+<h3 class="block-title">DAM Best Practices</h3>
+<ul>
+<li>Use meaningful folder structure aligned with business taxonomy</li>
+<li>Add proper metadata and tags on every upload</li>
+<li>Use consistent naming conventions for assets</li>
+<li>Create custom metadata schemas if needed</li>
+<li>Use workflows for asset approval and review</li>
+<li>Regularly clean up unused assets to save storage</li>
+</ul>
 `;
 
 NOTES.t36=`
@@ -7685,6 +8036,109 @@ Estimate effort Restructure pkgs     Delta sync            Integration     Final
 </ul>
 
 <div class="callout"><strong>Interview Tip:</strong> When discussing migration, always mention: 1) BPA first (assessment), 2) immutable vs mutable separation, 3) .cfg.json only for configs, 4) CTT for content + pipeline for code (never mix them), 5) Sling Content Distribution replacing replication.</div>
+`;
+
+NOTES.t62=`
+<h3 class="block-title">AEM Forms Overview</h3>
+<p>AEM Forms helps you create, manage and process digital forms for your websites and applications. It allows you to build interactive forms, handle submissions and integrate with backend systems.</p>
+
+<h3 class="block-title">How AEM Forms Works</h3>
+<div class="diagram">1. CREATE FORM          2. PUBLISH             3. SUBMIT
+Design forms using  →  Make the form      →  Users fill out and
+AEM Forms editor       available on your      submit the form.
+or templates.          website or app.
+
+4. PROCESS              5. STORE
+Handle data, run    →  Save data in AEM
+workflows and          or external systems
+integrate with         (CRM, database,
+backend systems.       cloud storage).</div>
+
+<h3 class="block-title">What is AEM Forms?</h3>
+<ul>
+<li>AEM Forms is a part of Adobe Experience Manager that helps you create, manage and process digital forms</li>
+<li>It provides tools to design adaptive forms, handle submissions, and integrate with backend systems like databases and CRMs</li>
+<li>It supports both On-Premise and Cloud deployments</li>
+</ul>
+
+<h3 class="block-title">Types of Forms</h3>
+<table><tr><th>Form Type</th><th>Description</th></tr>
+<tr><td><strong>Adaptive Forms</strong></td><td>Responsive, dynamic forms that adjust to different devices and user needs (recommended)</td></tr>
+<tr><td><strong>Foundation Forms</strong></td><td>Based on HTML templates, used for basic form creation and simple use cases</td></tr>
+<tr><td><strong>XFA Forms</strong></td><td>PDF-based forms with advanced features and complex layouts (legacy)</td></tr>
+</table>
+
+<h3 class="block-title">Key Features</h3>
+<ul>
+<li><strong>Drag & Drop Form Designer</strong> — Build forms without coding using visual editor</li>
+<li><strong>Adaptive Form Support</strong> — Responsive and device-friendly forms</li>
+<li><strong>Integration with Backend Systems</strong> — Connect with databases, CRMs, etc.</li>
+<li><strong>Workflow Support</strong> — Automate form processing and approvals</li>
+<li><strong>Security</strong> — Data protection and access control (CAPTCHA, CSRF protection)</li>
+</ul>
+
+<h3 class="block-title">Form Lifecycle</h3>
+<div class="diagram">Create → Publish → Fill & Submit → Process → Store
+
+1. Create:    Design form using AEM editor or templates
+2. Publish:   Make it available on the site
+3. Fill:      User enters data and submits
+4. Process:   Trigger workflows, validate data
+5. Store:     Save data in AEM or external system</div>
+
+<h3 class="block-title">AEM Forms Components</h3>
+<table><tr><th>Component</th><th>Purpose</th></tr>
+<tr><td>Form Container</td><td>Holds form components — defines submit action</td></tr>
+<tr><td>Text Field</td><td>Single-line text input</td></tr>
+<tr><td>Text Area</td><td>Multi-line text input</td></tr>
+<tr><td>Dropdown</td><td>Select from predefined options</td></tr>
+<tr><td>Checkbox</td><td>Multiple selections</td></tr>
+<tr><td>Radio Button</td><td>Single selection from options</td></tr>
+<tr><td>File Upload</td><td>Upload documents or files</td></tr>
+<tr><td>Button</td><td>Submit or perform actions</td></tr>
+<tr><td>Adaptive Form</td><td>Responsive form component for all devices</td></tr>
+</table>
+
+<h3 class="block-title">Example: Adaptive Form Code (HTL)</h3>
+<pre>&lt;div data-sly-use.form="com.day.cq.wcm
+     .core.components.models.form.Form"
+     class="aep-adaptiveForm"&gt;
+  &lt;form action="\${form.action}" method="post"&gt;
+    &lt;input type="text" name="name" placeholder="Your Name"&gt;
+    &lt;button type="submit" class="btn btn-primary"&gt;
+      Submit
+    &lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</pre>
+
+<h3 class="block-title">Benefits</h3>
+<ul>
+<li>Build professional and responsive forms quickly</li>
+<li>Improve user experience with adaptive, device-aware forms</li>
+<li>Integrate with various backend systems (REST, SOAP, JDBC)</li>
+<li>Automate workflows and data processing</li>
+<li>Secure and scalable solution with enterprise features</li>
+</ul>
+
+<h3 class="block-title">Common Use Cases</h3>
+<ul>
+<li>Contact Us forms</li>
+<li>Registration forms (event, account, newsletter)</li>
+<li>Survey forms</li>
+<li>Loan/Insurance applications</li>
+<li>Integration with CRM systems (Salesforce, Dynamics)</li>
+</ul>
+
+<h3 class="block-title">Form Data Model (FDM)</h3>
+<p>FDM connects forms to external data sources for seamless data flow:</p>
+<ul>
+<li><strong>Data Binding</strong> — Map form fields to data source fields</li>
+<li><strong>Pre-fill</strong> — Populate form with existing user data</li>
+<li><strong>Submit</strong> — Write form data back to the data source</li>
+<li><strong>Supported sources:</strong> RESTful APIs, SOAP services, JDBC databases, OData</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> AEM Forms = Create → Publish → Submit → Process → Store. Remember the three form types: Adaptive (recommended, responsive), Foundation (basic HTML), XFA (PDF, legacy). Key differentiator is the Form Data Model (FDM) for backend integration.</div>
 `;
 
 /* === STATE === */
