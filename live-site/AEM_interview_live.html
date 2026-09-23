@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Interactive AEM interview preparation guide with 492 MCQs covering 56 topics.">
+<meta name="description" content="Interactive AEM interview preparation guide with 532 MCQs covering 61 topics including Edge Delivery Services, Core Web Vitals, AI for AEM.">
 <meta name="author" content="Sumit Gaidhani">
-<title>AEM Interview Preparation - 56 Topics Interactive Guide</title>
+<title>AEM Interview Preparation - 61 Topics Interactive Guide</title>
 <style>
 :root{--bg:#f4f7fb;--panel:#ffffff;--ink:#1e293b;--ink-soft:#64748b;--line:#e2e8f0;--sidebar:#0d1b2a;--sidebar-ink:#e2e8f0;--sidebar-ink-dim:#8a9db0;--accent:#0891b2;--accent-ink:#ffffff;--amber:#d97706;--good:#059669;--good-bg:#ecfdf5;--bad:#dc2626;--bad-bg:#fef2f2;--code-bg:#1e293b;--code-ink:#e2e8f0;--radius:10px;--mono:'JetBrains Mono','Courier New',monospace;--display:'Segoe UI',system-ui,sans-serif;--body:'Segoe UI',system-ui,sans-serif;}
 [data-theme="dark"]{--bg:#0b1120;--panel:#151f30;--ink:#e2e8f0;--ink-soft:#94a3b8;--line:#1e293b;--accent:#22d3ee;--accent-ink:#0b1120;--amber:#fbbf24;--good:#34d399;--good-bg:#052e16;--bad:#f87171;--bad-bg:#2d0f0f;--code-bg:#020617;--code-ink:#e2e8f0;}
@@ -225,10 +225,10 @@ tr:nth-child(even) td{background:var(--bg);}
 <div class="login-card" id="loginCard" style="display:none;">
 <img src="sg-logo.png" alt="SG" class="login-logo">
 <h2>AEM Interview Prep</h2>
-<p class="login-sub">Sign in to access 56 topics and 492 interactive MCQs</p>
+<p class="login-sub">Sign in to access 61 topics and 532 interactive MCQs</p>
 <div class="login-stats">
 <div class="login-stat"><span class="num">55</span><span class="lbl">Topics</span></div>
-<div class="login-stat"><span class="num">492</span><span class="lbl">MCQs</span></div>
+<div class="login-stat"><span class="num">532</span><span class="lbl">MCQs</span></div>
 <div class="login-stat"><span class="num">58</span><span class="lbl">Widgets</span></div>
 </div>
 <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
@@ -274,7 +274,7 @@ Sign in with Google
 <h1>AEM Interview Preparation</h1>
 </div>
 </div>
-<div class="sub">56 topics &middot; 492 interactive MCQs</div>
+<div class="sub">61 topics &middot; 532 interactive MCQs</div>
 </div>
 <div class="sidebar-tabs" id="sidebarTabs">
 <button class="sidebar-tab active" data-tab="all" onclick="filterTab('all')">All</button>
@@ -290,13 +290,14 @@ Sign in with Google
 <button class="sidebar-tab" data-tab="osgi" onclick="filterTab('osgi')">OSGi</button>
 <button class="sidebar-tab" data-tab="cloud" onclick="filterTab('cloud')">Cloud</button>
 <button class="sidebar-tab" data-tab="tools" onclick="filterTab('tools')">Tools</button>
+<button class="sidebar-tab" data-tab="frontend" onclick="filterTab('frontend')">Frontend</button>
 <button class="sidebar-tab" data-tab="bestpractices" onclick="filterTab('bestpractices')">Best Practices</button>
 </div>
 <div class="sidebar-nav-scroll">
 <div id="navList"></div>
 <div class="nav-item" data-target="practice-all" onclick="showTopic('practice-all')">
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
-<span class="score-pill" id="allScorePill">0/492</span>
+<span class="score-pill" id="allScorePill">0/532</span>
 </div>
 <div class="sidebar-footer"><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
 </div>
@@ -374,7 +375,12 @@ const TOPICS=[
 {id:"t58",title:"Live Coding Patterns",desc:"Write servlets, models, configs from scratch."},
 {id:"t60",title:"CI/CD Pipeline in AEM",desc:"Cloud Manager pipelines, stages, quality gates, deployment strategies."},
 {id:"t61",title:"AEM Cloud Migration",desc:"On-premise to AEMaaCS migration phases, tools, code refactoring."},
-{id:"t62",title:"AEM Forms",desc:"Creating, managing, and processing digital forms in AEM."}
+{id:"t62",title:"AEM Forms",desc:"Creating, managing, and processing digital forms in AEM."},
+{id:"t63",title:"Edge Delivery Services",desc:"Document-based authoring, Franklin architecture, performance-first delivery."},
+{id:"t64",title:"Core Web Vitals",desc:"LCP, FID, CLS metrics, performance optimization for AEM sites."},
+{id:"t65",title:"AI for AEM Development",desc:"AI-assisted development, GenAI content, intelligent automation in AEM."},
+{id:"t66",title:"Granite / Coral UI",desc:"AEM authoring frameworks, Granite UI fields, Coral components."},
+{id:"t67",title:"ClientLibs",desc:"Client libraries, CSS/JS management, categories, dependencies, embedding."}
 ];
 
 const INTERVIEW_QA={
@@ -449,7 +455,11 @@ t10:[
 {q:"What is Replication and what are the agent types?",a:"Replication transfers content from Author to Publish. Three default agents: Forward (Author→Publish, content delivery), Reverse (Publish→Author, user-generated content), Dispatcher Flush (Author→Dispatcher, cache invalidation). Triggered by activation (publish) in the UI or via Replicator API programmatically."},
 {q:"What happens when a replication queue is blocked?",a:"When the target Publish instance is unreachable, the queue blocks — items accumulate, no new content goes through. Authors see 'blocked' status. Resolution: fix the Publish instance and retry, or clear the queue (loses those items). Monitor via /etc/replication/agents.author/publish.queue.json."},
 {q:"How does Dispatcher cache invalidation work after publishing?",a:"A Dispatcher Flush agent on Author sends an HTTP request with CQ-Action/CQ-Handle headers to Dispatcher. Dispatcher touches the .stat file. On next request, Dispatcher compares cached file timestamp vs .stat — if file is older, it re-fetches from Publish. The statfileslevel controls invalidation granularity."},
-{q:"What replaced replication in AEM as a Cloud Service?",a:"Sling Content Distribution replaces traditional agents. It's queue-based, eventually consistent, managed by Adobe infrastructure. No manual agent configuration needed. Same Replicator API works in code, but under the hood it uses distribution queues. Scales automatically to all Publish pods. Called the 'Golden Master' pattern."}
+{q:"What replaced replication in AEM as a Cloud Service?",a:"Sling Content Distribution replaces traditional agents. It's queue-based, eventually consistent, managed by Adobe infrastructure. No manual agent configuration needed. Same Replicator API works in code, but under the hood it uses distribution queues. Scales automatically to all Publish pods. Called the 'Golden Master' pattern."},
+{q:"What are the Replication Transport Agent types?",a:"Three transport types: 1) Default (TCP) — uses AEM's built-in replication protocol, most common. 2) HTTP — uses HTTP/HTTPS for replication, useful in restricted network environments. 3) File System (Offload) — writes binary replication data to the filesystem for large content transfers. Transport agents run on the Author instance, listen for replication requests, pack content, and send it to Publish."},
+{q:"What is the difference between Synchronous and Asynchronous replication?",a:"Synchronous: Author waits for Publish to acknowledge receipt before completing — guarantees content is on Publish before author continues, but slower. Asynchronous: Author fires the replication and continues immediately — faster for authors, but brief delay before content appears on Publish. Default is asynchronous. Use synchronous only when immediate consistency is required."},
+{q:"What JCR paths are commonly replicated?",a:"Only activated content gets replicated. Common paths: /content/mysite (site pages), /content/dam (digital assets), /etc/workflow/models (workflow definitions), /conf/myproject/settings (configurations). Paths like /apps, /libs, /oak:index are code artifacts deployed via packages, NOT replicated. The /home path is typically excluded."},
+{q:"How do you trigger replication programmatically?",a:"Use the Replicator service: replicator.replicate(session, ReplicationActionType.ACTIVATE, path). Four ways to trigger: 1) 'Activate' in Sidekick/page/asset UI. 2) Using AEM workflows with replication steps. 3) Replication API (programmatic). 4) Replication Queue for bulk content. Always monitor replication status via /etc/replication dashboard and check replication logs for failures."}
 ],
 t11:[
 {q:"What is the Dispatcher and what are its three main functions?",a:"Dispatcher is an Apache HTTPD module sitting in front of AEM Publish. Three functions: 1) Caching — stores rendered pages as static files on filesystem for fast delivery. 2) Load Balancing — distributes requests across multiple Publish instances. 3) Security Filtering — blocks access to sensitive paths (/crx, /system, .infinity.json) via filter rules."},
@@ -459,7 +469,9 @@ t11:[
 {q:"What is the difference between /filter and /cache/rules?",a:"/filter controls SECURITY — whether a request even reaches AEM (deny blocks entirely, returns 403). /cache/rules controls CACHING — whether Dispatcher stores the response on disk. A request can pass the filter (allowed to AEM) but NOT be cached (always fetched fresh). Both use glob pattern matching with allow/deny rules."},
 {q:"How does the Dispatcher Flush agent work?",a:"Configured on Author, fires after content activation. Sends HTTP POST to Dispatcher with headers: CQ-Action (Activate/Delete), CQ-Handle (content path), CQ-Path. Dispatcher receives this at /dispatcher/invalidate.cache and touches the .stat file for that path's tree. Next request for that content triggers a re-fetch from Publish."},
 {q:"What are vanity URLs and how do they interact with Dispatcher?",a:"Vanity URLs (/about instead of /content/mysite/en/about-us.html) are set on page properties. Dispatcher must be configured to handle them: /vanity_urls section or sling:vanityPath processing. Potential issue: vanity URLs bypass normal /content/* filter rules. Best practice: use Sling mapping (/etc/map) or Dispatcher rewrites instead for cleaner control."},
-{q:"Can you implement multiple Dispatchers in a setup?",a:"Yes. In such cases, both Dispatchers must access AEM Publish directly — a Dispatcher cannot handle requests coming from another Dispatcher. Multiple Dispatchers enable geographic distribution (CDN edge) or separating concerns (one for site, one for DAM/assets). Each maintains its own cache and invalidation. Use load balancers in front to route traffic across Dispatcher instances."}
+{q:"Can you implement multiple Dispatchers in a setup?",a:"Yes. In such cases, both Dispatchers must access AEM Publish directly — a Dispatcher cannot handle requests coming from another Dispatcher. Multiple Dispatchers enable geographic distribution (CDN edge) or separating concerns (one for site, one for DAM/assets). Each maintains its own cache and invalidation. Use load balancers in front to route traffic across Dispatcher instances."},
+{q:"What types of Dispatcher Filters exist and what does each control?",a:"Five filter types: 1) IP Filter — allow/block requests from specific IP addresses or ranges. 2) Path Filter — restrict access to certain URL paths (e.g., deny /libs, /system). 3) Method Filter — allow only specific HTTP methods (GET, POST, etc.). 4) Header Filter — filter based on custom HTTP headers. 5) User Agent Filter — block or allow based on user-agent strings (block bots, crawlers). Filters run BEFORE the request reaches AEM Publish."},
+{q:"How do you write a basic dispatcher.any filter configuration?",a:"Start with deny all, then selectively allow. Example:\n/filter {\n  /0001 { /type \"deny\" /url \"*\" }  # Block everything\n  /0002 { /type \"allow\" /url \"/content/*\" }  # Allow content\n  /0003 { /type \"deny\" /url \"/libs/.*\\/system\\/.*\" }  # Block internal paths\n  /0004 { /type \"allow\" /url \"/etc.clientlibs/*\" }  # Allow clientlibs\n}\nRules are evaluated top-to-bottom, last matching rule wins. Keep rules specific and minimal."}
 ],
 t12:[
 {q:"How do you debug a component that's not rendering?",a:"Systematic checklist: 1) Check browser console for JS errors. 2) Check error.log for server exceptions. 3) Verify sling:resourceType on the node matches the component path. 4) Check if component is allowed in template policy. 5) Verify required dialog fields are filled. 6) Check if Sling Model @PostConstruct throws. 7) Check data-sly-test conditions."},
@@ -496,7 +508,10 @@ t16:[
 {q:"What is the difference between Process Step and Participant Step?",a:"Process Step: runs Java code automatically, no human interaction, instant execution (validate, transform, notify). Participant Step: creates an inbox item for a user/group, workflow pauses until they act (approve/reject). Dynamic Participant Step: uses ParticipantStepChooser service to calculate the assignee at runtime based on content context."},
 {q:"What is an OR Split vs AND Split?",a:"OR Split: evaluates conditions on each branch, routes down exactly ONE path (first true condition wins) — like if/else. AND Split: executes ALL branches in parallel simultaneously — used when multiple independent tasks must happen (e.g., review + translation at same time). AND Join waits for all branches to complete."},
 {q:"How do you prevent workflow launchers from triggering recursively?",a:"Common techniques: 1) Add condition: jcr:content/cq:lastModifiedBy != 'workflow-process-service'. 2) Set a flag property in your step (workflowProcessed=true) and check it in the launcher condition. 3) Use specific event type (only CREATED, not MODIFIED). 4) Filter by specific property change rather than any modification."},
-{q:"What is a transient workflow and when should you use it?",a:"A transient workflow does NOT persist intermediate step runtime data to the JCR — only the final result is stored. Use it for high-volume, automated processing (like DAM asset workflows) where you don't need to review workflow history. Benefits: much better performance, reduced repository growth. Limitation: no pause/resume capability, no manual participant steps, history is lost if instance restarts mid-execution."}
+{q:"What is a transient workflow and when should you use it?",a:"A transient workflow does NOT persist intermediate step runtime data to the JCR — only the final result is stored. Use it for high-volume, automated processing (like DAM asset workflows) where you don't need to review workflow history. Benefits: much better performance, reduced repository growth. Limitation: no pause/resume capability, no manual participant steps, history is lost if instance restarts mid-execution."},
+{q:"What are the different types of Workflow Models?",a:"Four types: 1) Simple Workflow — linear, sequential steps (review → approve → publish). 2) Parallel Workflow — AND Split executes multiple branches simultaneously. 3) Choice Workflow — OR Split routes to different paths based on conditions. 4) Dialog Workflow — includes dialog participant steps for user input and decisions. Models are defined at /var/workflow/models/ and act as blueprints for workflow instances."},
+{q:"What are the types of Workflow Participants?",a:"Four participant types: 1) User/Group — assigns to specific user or group inbox (content-reviewers). 2) Service (OSGi) — automated processing via Java service implementations. 3) Process (Java) — custom WorkflowProcess code for business logic. 4) External Participant — integrates with external systems outside AEM. Participants are the users, groups, or services that execute workflow steps."},
+{q:"What are the common use cases for AEM Workflows?",a:"Five primary use cases: 1) Content approval — review and approve pages before publishing. 2) Page activation/deactivation — controlled publish workflows. 3) Notifications — email alerts on content changes or deadlines. 4) Custom business processes — multi-step approval with stakeholders. 5) Integration with external systems — trigger CRM updates, translation services, or marketing platforms after content changes."}
 ],
 t17:[
 {q:"What is a Workflow Launcher and how do you configure it?",a:"Launchers auto-trigger workflows when JCR events match conditions. Config fields: Event Type (Created/Modified/Deleted), Node Type (cq:Page, dam:Asset), Path Pattern (regex like /content/mysite/.*), Condition (extra script filter), Workflow Model path, Run Modes (author only), Enabled flag. Location: /libs/settings/workflow/launcher."},
@@ -508,13 +523,19 @@ t18:[
 {q:"How do you create a Scheduler in AEM?",a:"Create an OSGi component implementing Runnable with properties: scheduler.expression (Quartz cron format: 'sec min hr dom mon dow'), scheduler.concurrent=false (prevent overlap). Use @Designate to externalize the cron expression into OSGi config. The run() method executes on schedule. Alternative: inject Scheduler service for programmatic scheduling."},
 {q:"What is Quartz cron format used in AEM?",a:"7 fields: second minute hour day-of-month month day-of-week [year]. Examples: '0 0/5 * * * ?' = every 5 min. '0 0 8 * * ?' = daily 8am. '0 0 0 * * MON' = every Monday midnight. Unlike Unix cron (5 fields), AEM/Quartz adds seconds and uses '?' for day-of-week when day-of-month is specified."},
 {q:"What is the difference between Scheduler and Sling Jobs?",a:"Scheduler: time-based trigger (cron/interval), best-effort (may miss if instance was down), runs on all cluster nodes by default. Sling Jobs: event-driven or programmatic, GUARANTEED execution with persistence + retry, runs on exactly ONE cluster node. Use Scheduler for periodic cleanup; use Jobs for critical processing that must not be lost."},
-{q:"How do you ensure a scheduler runs on only one cluster node?",a:"Set scheduler.runOn=SINGLE (or use Scheduler API with ScheduleOptions.onLeaderOnly()). For truly guaranteed single execution, convert to a Sling Job — jobs are distributed and processed by exactly one node. Without this, your scheduler fires on every Author/Publish node simultaneously."}
+{q:"How do you ensure a scheduler runs on only one cluster node?",a:"Set scheduler.runOn=SINGLE (or use Scheduler API with ScheduleOptions.onLeaderOnly()). For truly guaranteed single execution, convert to a Sling Job — jobs are distributed and processed by exactly one node. Without this, your scheduler fires on every Author/Publish node simultaneously."},
+{q:"What are the different types of Scheduler Jobs in AEM?",a:"Three types: 1) Runnable Jobs — implement Runnable interface, execute Java code directly, simplest approach. 2) Scheduler Jobs — use the Scheduler service interface for advanced scheduling (dynamic intervals, programmatic control). 3) Workflow Jobs — start or manage workflows from the scheduler. Common use cases: cache invalidation, asset cleanup, data synchronization, sending notifications, generating reports."},
+{q:"What are the key classes and interfaces for AEM Scheduling?",a:"Four main ones: 1) JobManager — manages scheduled jobs (create, list, cancel). 2) Scheduler — provides scheduling functionality (addJob, schedule, unschedule). 3) Job — represents a single runnable job instance. 4) SchedulerFactory — creates Scheduler instances for job scheduling. For simple cases, implement Runnable with scheduler.expression. For complex cases, inject the Scheduler service and use ScheduleOptions."},
+{q:"How do you configure a Scheduler via OSGi XML?",a:"XML config example: <scheduler enabled='true' name='MyJob' period='86400' cron='0 0 * * *' class='com.example.MyJob' />. Key properties: enabled (true/false toggle), name (unique job identifier), period (interval in seconds), cron (Quartz expression for precise timing). Best practices: use meaningful job names, handle exceptions in run(), keep jobs lightweight, monitor execution logs, avoid long-running operations."}
 ],
 t19:[
 {q:"What is an Event Handler in AEM and when do you use it?",a:"An OSGi service implementing EventHandler that reacts to system events (replication, page changes, workflow state, custom events). Use for: notifications, logging, triggering side effects. Register with EVENT_TOPIC property specifying which events to listen to. Important: handlers are asynchronous and fire-and-forget — no retry if they fail."},
 {q:"What is the difference between OSGi Events and Sling Jobs?",a:"Events: asynchronous, no persistence, no retry if handler fails, may be lost on crash, lightweight. Jobs: persisted to JCR, guaranteed execution, automatic retry on failure, processed on exactly one cluster node, heavier. Rule: use Events for notifications/logging; use Jobs for anything that MUST complete (sending emails, updating external systems)."},
 {q:"How do you listen for replication events?",a:"Implement EventHandler with EVENT_TOPIC = ReplicationAction.EVENT_TOPIC ('com/day/cq/replication'). In handleEvent(), extract action: ReplicationAction.fromEvent(event) gives you the path, action type (ACTIVATE/DEACTIVATE/DELETE), and user. Use EVENT_FILTER with LDAP syntax to narrow by path."},
-{q:"What should you avoid doing inside an Event Handler?",a:"Avoid: 1) Long-running operations (blocks the event thread). 2) Operations that can fail without retry (use Sling Jobs instead). 3) Throwing exceptions (disrupts other handlers). 4) Modifying the resource that triggered the event (can cause infinite loops). 5) Making external HTTP calls directly (use Jobs for reliability). Keep handlers fast and delegate heavy work."}
+{q:"What should you avoid doing inside an Event Handler?",a:"Avoid: 1) Long-running operations (blocks the event thread). 2) Operations that can fail without retry (use Sling Jobs instead). 3) Throwing exceptions (disrupts other handlers). 4) Modifying the resource that triggered the event (can cause infinite loops). 5) Making external HTTP calls directly (use Jobs for reliability). Keep handlers fast and delegate heavy work."},
+{q:"What are the types of JCR repository events that Event Handlers can listen to?",a:"Four event types: 1) Node Added — a new node is created in the repository. 2) Node Updated — an existing node's properties are modified. 3) Node Deleted — a node is removed from the repository. 4) Property Changed — a specific property value is modified on a node. Register via EVENT_TOPIC property. Use EVENT_FILTER with LDAP syntax to narrow by path or property. Handlers implement the com.day.cq.observation.EventHandler interface."},
+{q:"Explain the Event Handler execution flow step by step.",a:"Four-step flow: 1) JCR Event Occurs — a node is added, updated, or deleted in the repository. 2) Event Handler Listens — the handler registered via the observation framework detects the event. 3) Custom Logic Executes — your Java/OSGi code runs (validate, transform, notify). 4) Action Performed — the result (cache update, email, external sync) completes. Keep step 3 lightweight — delegate heavy work to Sling Jobs for reliability."},
+{q:"What are the common use cases for AEM Event Handlers?",a:"Five primary use cases: 1) Synchronize data with external systems (CRM, PIM, analytics). 2) Trigger notifications (email, webhook, Slack). 3) Update related content (invalidate cache, update metadata). 4) Maintain audit logs (track changes, compliance). 5) Trigger custom business logic (update status, reprocess content, trigger workflows). Always use proper event filtering by path and type to minimize unnecessary processing."}
 ],
 t20:[
 {q:"What is a ResourceChangeListener and when do you use it?",a:"The modern Sling API (replacing deprecated JCR EventListener) for observing content changes. Implement ResourceChangeListener, register with PATHS and CHANGES properties. Receives onChange(List<ResourceChange>) with change type (ADDED/REMOVED/CHANGED), path, user, and property details. Use for reacting to content modifications at the resource level."},
@@ -779,6 +800,45 @@ t62:[
 {q:"What are the key components of AEM Forms?",a:"Form Container (holds form components), Text Field (single-line text input), Text Area (multi-line text), Dropdown (select from predefined options), Checkbox (multiple selections), Radio Button (single selection), Button (submit or perform actions), File Upload (upload documents or files), Adaptive Form (responsive form component). These form the building blocks of any AEM form."},
 {q:"How do you submit form data in AEM Forms?",a:"Multiple submit actions available: 1) Submit to REST endpoint (custom servlet at /bin/). 2) Send email (configurable email service). 3) Store in JCR (Forms Data Model). 4) Submit to external system (CRM, database via Form Data Model). 5) Invoke workflow (trigger approval process). Configure via the form container's Submit Action property in the dialog."},
 {q:"What is a Form Data Model (FDM) in AEM Forms?",a:"FDM enables connecting forms to external data sources — RESTful APIs, SOAP services, JDBC databases, OData services. It provides: data binding (form fields mapped to data source fields), pre-fill (populate form with existing data), and submit (write form data back to the data source). FDM acts as the integration layer between the form UI and backend systems."}
+],
+t63:[
+{q:"What are Edge Delivery Services (EDS) and how do they differ from traditional AEM?",a:"Edge Delivery Services (formerly Project Franklin) is Adobe's performance-first content delivery approach. Instead of traditional AEM rendering, content is authored in Google Docs or Microsoft Word (document-based authoring), transformed via a build pipeline, and served as static HTML from a global CDN edge network. Key difference: no AEM rendering at request time — pages are pre-built and cached at the edge for near-instant delivery."},
+{q:"What is document-based authoring in EDS?",a:"Authors create content in Google Docs or Microsoft SharePoint instead of AEM's Touch UI editor. The document structure maps to page layout: headings become sections, tables become blocks (components), and images embed directly. A GitHub-connected pipeline watches for changes, converts documents to optimized HTML, and deploys to the CDN. This dramatically simplifies authoring — no component dialogs, no page editor training needed."},
+{q:"What is the EDS architecture and delivery pipeline?",a:"Architecture: 1) Content Source — Google Docs / SharePoint for authoring. 2) GitHub Repo — stores block code (JavaScript/CSS), configuration, and metadata. 3) Franklin Pipeline — converts documents to HTML, applies block rendering. 4) CDN Edge — Fastly/Akamai serves pre-built pages globally. Flow: Author edits doc → webhook triggers build → HTML generated → cached at edge → served to users. Typical Lighthouse score: 100/100."},
+{q:"What are Blocks in Edge Delivery Services?",a:"Blocks are the EDS equivalent of AEM components. Authors create them by inserting a table in Google Docs with the block name as the first row. Each block has its own folder in GitHub with a JS file (behavior) and CSS file (styling). Example: a 'hero' block is a table with 'Hero' header, containing image and text cells. Blocks are auto-discovered, loaded on demand, and render client-side."},
+{q:"When should you choose EDS over traditional AEM Sites?",a:"Choose EDS when: 1) Performance is the top priority (Lighthouse 100). 2) Content is primarily text/media (blogs, marketing pages, documentation). 3) Authors prefer familiar tools (Google Docs, Word). 4) You need fast time-to-market (no complex AEM infrastructure). Stay with traditional AEM when: complex personalization, deep integrations, structured content models (CFs), or existing AEM investment makes migration impractical."},
+{q:"How does EDS handle preview and publishing?",a:"EDS has three stages: 1) Preview — authors click 'Preview' in Sidekick browser extension, content is built and available at preview URL for review. 2) Live — published content served from CDN edge to end users. 3) Admin API — programmatic control via admin.hlx.page API for bulk operations. The Sidekick extension provides one-click preview/publish directly from Google Docs or SharePoint."}
+],
+t64:[
+{q:"What are Core Web Vitals and why do they matter for AEM?",a:"Core Web Vitals (CWV) are Google's metrics for user experience: 1) LCP (Largest Contentful Paint) — measures loading speed, should be under 2.5s. 2) FID/INP (First Input Delay / Interaction to Next Paint) — measures interactivity, should be under 200ms. 3) CLS (Cumulative Layout Shift) — measures visual stability, should be under 0.1. They directly affect Google search rankings and user satisfaction. AEM sites must optimize for all three."},
+{q:"How do you optimize LCP (Largest Contentful Paint) in AEM?",a:"Key optimizations: 1) Optimize hero images — use WebP/AVIF format via Dynamic Media or Scene7 renditions. 2) Implement critical CSS inline in the page head, defer non-critical CSS. 3) Use preload hints for hero images: <link rel='preload' as='image'>. 4) Minimize server response time (TTFB) — leverage Dispatcher caching. 5) Lazy-load below-fold images, eagerly load above-fold. 6) Remove render-blocking JavaScript from the head."},
+{q:"How do you reduce CLS (Cumulative Layout Shift) in AEM?",a:"Key techniques: 1) Always set width/height attributes on images and videos (preserves aspect ratio space). 2) Reserve space for dynamically loaded content (ads, embeds, personalization). 3) Avoid inserting content above existing content after load. 4) Use CSS contain/content-visibility for off-screen sections. 5) Preload custom fonts with font-display: swap and size-adjust fallback. 6) Set explicit dimensions on component containers."},
+{q:"How do you improve FID/INP (Interactivity) in AEM?",a:"Strategies: 1) Minimize main-thread JavaScript — defer non-critical scripts. 2) Break up long tasks (>50ms) into smaller async chunks. 3) Use requestIdleCallback for non-urgent work. 4) Minimize third-party script impact (analytics, A/B testing). 5) Reduce ClientLib size — tree-shake unused code, code-split per component. 6) Use web workers for heavy computation. Target: INP under 200ms on mobile devices."},
+{q:"What tools can you use to measure Core Web Vitals for AEM sites?",a:"Lab tools: 1) Google Lighthouse (Chrome DevTools, CI pipeline). 2) PageSpeed Insights (real + lab data). 3) WebPageTest (detailed waterfall analysis). Field tools: 4) Chrome UX Report (CrUX — real user data). 5) Google Search Console (CWV report per URL). 6) web-vitals JS library (instrument on-page). For AEM specifically: enable Dispatcher caching, check Dynamic Media rendition sizes, and profile ClientLib load impact."},
+{q:"What is the relationship between Dispatcher caching and Core Web Vitals?",a:"Dispatcher directly improves TTFB and LCP by serving cached static files from Apache instead of rendering from AEM Publish on each request. Without caching: 200-500ms TTFB. With Dispatcher cache hit: 10-30ms TTFB. Key: maximize cache hit ratio via proper statfileslevel, TTL headers, and selective invalidation. Also serve optimized image renditions from CDN for faster LCP."}
+],
+t65:[
+{q:"How is AI being used in AEM development today?",a:"AI in AEM spans four areas: 1) AI-Assisted Development — code generation for Sling Models, servlets, and HTL templates using AI coding assistants. 2) GenAI Content — Adobe Firefly integration for image generation, text variations, and content suggestions inside AEM. 3) Intelligent Automation — AI-powered workflows for auto-tagging assets, smart cropping, content classification. 4) Adobe Sensei — machine learning for personalization, asset intelligence, and predictive analytics."},
+{q:"What is Adobe Firefly and how does it integrate with AEM?",a:"Adobe Firefly is Adobe's generative AI for creative content. In AEM, it enables: 1) Generate Images — create visuals from text prompts directly in DAM. 2) Text Effects — apply AI-generated styles to text. 3) Generative Fill — extend or modify images. 4) Content Variations — AI suggests headline/copy alternatives for A/B testing. Integration is through AEM GenAI features in Cloud Service, accessible from the content editor and asset management interfaces."},
+{q:"How can AI improve the AEM development workflow?",a:"AI accelerates five areas: 1) Code Generation — generate boilerplate for servlets, Sling Models, OSGi configs from natural language descriptions. 2) Code Review — AI identifies security vulnerabilities, performance issues, and AEM anti-patterns. 3) Testing — auto-generate unit tests for Sling Models and servlets. 4) Documentation — generate Javadoc and component documentation. 5) Debugging — AI-assisted log analysis and root cause identification for production issues."},
+{q:"What is Adobe Sensei and how does it work in AEM?",a:"Adobe Sensei is Adobe's AI/ML framework used across AEM: 1) Smart Tags — automatically tag DAM assets based on image content. 2) Smart Crop — AI-determined crop points for responsive images. 3) Content Recommendations — suggest related content based on user behavior. 4) Auto-translation — ML-powered content translation suggestions. 5) Predictive Analytics — forecast content performance. Sensei runs server-side and enriches content metadata automatically."},
+{q:"What are the best practices for using AI with AEM?",a:"Key practices: 1) Use AI for acceleration, not replacement — review all AI-generated code for AEM-specific patterns (OSGi lifecycle, resource resolution). 2) Validate against AEM APIs — AI models may suggest deprecated methods or non-AEM patterns. 3) Security review — AI-generated servlets may miss input validation or resource cleanup. 4) Test thoroughly — AI code needs same testing rigor as hand-written code. 5) Keep human oversight for content — review AI-generated content before publishing."}
+],
+t66:[
+{q:"What is Granite UI and what is its role in AEM?",a:"Granite UI is AEM's server-side UI framework for building the authoring interface. It provides a library of reusable UI components (fields, layouts, widgets) rendered as HTML on the server. Component dialogs, page properties, and admin consoles are all built with Granite UI. Components are defined as JCR nodes under /libs/granite/ui/components/ and referenced in dialog definitions using sling:resourceType."},
+{q:"What is Coral UI and how is it different from Granite UI?",a:"Coral UI is the client-side (JavaScript/CSS) component library that powers AEM's Touch UI. While Granite UI handles server-side rendering of dialog structures, Coral UI handles the interactive client-side behavior — dropdowns, modals, date pickers, rich text editors, drag-and-drop. Coral 3 is the current version in AEM 6.5. Think of it as: Granite UI = server-side component definitions, Coral UI = client-side interactive widgets."},
+{q:"What are the most commonly used Granite UI field types?",a:"Essential field types: 1) textfield — single-line text input. 2) textarea — multi-line text. 3) pathfield (pathbrowser) — JCR path picker with browse dialog. 4) checkbox — boolean toggle. 5) select — dropdown with options. 6) colorfield — color picker. 7) datepicker — date/time selection. 8) fileupload — file upload component. 9) richtext — rich text editor with formatting toolbar. 10) multifield — repeatable field group for lists. All defined under granite/ui/components/coral/foundation/form/."},
+{q:"How do you create a custom component dialog using Granite UI?",a:"Create _cq_dialog/.content.xml under your component with: jcr:primaryType='nt:unstructured', sling:resourceType='cq/gui/components/authoring/dialog'. Inside, define tabs → items → fields. Each field has sling:resourceType pointing to a Granite UI component (e.g., granite/ui/components/coral/foundation/form/textfield), plus properties like name (./jcr:content/propertyName), fieldLabel, required, and validation constraints."},
+{q:"What is the difference between Granite UI Foundation and Coral UI 3 components?",a:"Granite UI Foundation components are server-side rendered via Sling — they produce HTML on the AEM server. Coral UI 3 components are client-side Web Components using custom HTML elements (<coral-button>, <coral-dialog>, <coral-select>). In practice, Granite UI references in dialogs get rendered as Coral UI elements on the client. For custom client-side logic, use Coral UI JavaScript API (new Coral.Select(), element.on('change'))."},
+{q:"How do you add validation to Granite UI dialog fields?",a:"Multiple approaches: 1) Required field — set required='true' property. 2) Regex validation — use granite:data with validation attribute (e.g., regex pattern). 3) Custom validator — register a client-side validator via jQuery plugin $.validator.register(). 4) Server-side — validate in Sling Model @PostConstruct or servlet before processing. Best practice: combine client-side (instant feedback) with server-side (security) validation."}
+],
+t67:[
+{q:"What are ClientLibs (Client Libraries) in AEM?",a:"ClientLibs are AEM's mechanism for managing CSS and JavaScript files. Each ClientLib is a folder node of type cq:ClientLibraryFolder with properties: categories (array of category names), dependencies (load order), embed (inline into another ClientLib). Files are listed in css.txt and js.txt. AEM serves them via /libs/granite/clientlibs/ or /etc.clientlibs/ (with allowProxy). They enable organized, cacheable, minified frontend asset delivery."},
+{q:"How do you include a ClientLib on a page?",a:"In HTL: <sly data-sly-use.clientlib='/libs/granite/sightly/templates/clientlib.html'/> then <sly data-sly-call='${clientlib.all @ categories=\"myproject.header\"}'/> for both CSS+JS. Use clientlib.css for CSS-only (in <head>) or clientlib.js for JS-only (before </body>). The category name links the page to the ClientLib folder. Always place CSS in head and JS at bottom for optimal loading."},
+{q:"What are ClientLib categories, dependencies, and embed?",a:"Categories: unique names identifying the ClientLib (e.g., 'mysite.header'). A page loads a category, AEM finds all ClientLib folders with that category. Dependencies: other categories that must load BEFORE this one (separate HTTP requests, load order guarantee). Embed: other categories INCLUDED INLINE into this ClientLib (single HTTP request, reduces network calls). Use dependencies for load order, embed for combining files."},
+{q:"What is the allowProxy property and why is it important?",a:"Setting allowProxy=true on a ClientLib enables it to be served via /etc.clientlibs/ proxy path instead of the raw /apps/ path. This is critical because Dispatcher denies /apps/ requests for security. Without allowProxy, your CSS/JS returns 404 on Publish. Always set allowProxy=true for any ClientLib that needs to load on Publish. The proxy path also enables proper Dispatcher caching."},
+{q:"How do you debug ClientLib issues?",a:"Key debugging approaches: 1) Check /libs/granite/ui/content/dumplibs.html — lists all registered ClientLibs. 2) Append ?debugClientLibs=true to URL — serves unminified, uncombined files. 3) Check for 404 errors in browser network tab. 4) Verify allowProxy=true is set. 5) Check css.txt/js.txt file listings match actual files. 6) Clear ClientLib cache: /libs/granite/ui/content/dumplibs.rebuild.html. Common issues: missing allowProxy, wrong category name, file not listed in txt files."},
+{q:"How are ClientLibs handled differently in AEM as a Cloud Service?",a:"In AEMaaCS: 1) All ClientLibs MUST have allowProxy=true — /apps is blocked. 2) ClientLib minification and concatenation are handled by the pipeline. 3) Long-term caching with content hashes is automatic. 4) No CRXDE editing of ClientLibs — all changes via code deployment. 5) ui.frontend module with Webpack is the recommended approach — Webpack builds compile to a ClientLib folder in ui.apps automatically."}
 ]
 };
 const PL='https://www.youtube.com/playlist?list=PLEaEQSM_Y4tmJjQICTFDm2lU5mNmd_Oar';
@@ -838,9 +898,14 @@ t59:[],
 t52:[{n:'#23 Sling Model Unit Testing',i:23}],
 t60:[],
 t61:[],
-t62:[]
+t62:[],
+t63:[],
+t64:[],
+t65:[],
+t66:[],
+t67:[]
 };
-const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37','t62'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47','t60','t61'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52']};
+const TAB_GROUPS={arch:['t1','t2','t3','t4'],components:['t5','t6','t7','t8','t9','t66'],publishing:['t10','t11'],debugging:['t12','t13'],content:['t14','t15','t35','t36','t37','t62'],workflows:['t16','t17','t18','t19','t20'],msm:['t21','t22'],apis:['t23','t24','t25','t45'],sling:['t26','t27','t30','t32','t33','t34','t38','t39'],osgi:['t28','t29','t31'],cloud:['t43','t44','t46','t47','t60','t61','t63','t64','t65'],tools:['t40','t41','t42','t48','t49','t50','t51','t59'],bestpractices:['t52'],frontend:['t67']};
 const TOPIC_TAB={};Object.keys(TAB_GROUPS).forEach(tab=>{TAB_GROUPS[tab].forEach(tid=>{TOPIC_TAB[tid]=tab;});});
 
 const QUIZZES={
@@ -1438,6 +1503,54 @@ t62:[
 {q:"Which is NOT a key feature of AEM Forms?",options:["Drag & Drop Form Designer","Integration with Backend Systems","Automatic code compilation and deployment","Workflow Support for form processing"],correct:2,exp:"AEM Forms provides drag & drop design, backend integration, and workflow support. Automatic code compilation is a Cloud Manager feature, not an AEM Forms feature."},
 {q:"What is the purpose of Adaptive Form Support in AEM Forms?",options:["Converting PDF forms to web forms automatically","Making forms responsive and device-friendly across desktop, tablet, and mobile","Adapting form validation rules based on user role","Automatically translating form labels to multiple languages"],correct:1,exp:"Adaptive Form Support ensures forms are responsive and render correctly across different devices — desktop, tablet, and mobile — adjusting layout and interaction."},
 {q:"Where is form submission data typically stored in AEM?",options:["Only in browser localStorage","In /content/dam as digital assets","In AEM JCR, external databases, or cloud storage via Form Data Model","In /apps as code artifacts"],correct:2,exp:"Form data can be stored in AEM's JCR repository, external databases, or cloud storage. The Form Data Model (FDM) provides the integration layer for external storage."}
+],
+t63:[
+{q:"What is the primary content authoring method in Edge Delivery Services?",options:["AEM Touch UI page editor","Google Docs or Microsoft Word","CRXDE Lite editor","Content Fragment editor"],correct:1,exp:"EDS uses document-based authoring — authors write in Google Docs or Microsoft Word, and the pipeline converts documents to optimized HTML pages."},
+{q:"What are 'Blocks' in Edge Delivery Services?",options:["OSGi bundle components deployed to Felix","Tables in Google Docs that map to page components","Content Fragment models for headless delivery","Dispatcher cache segments for content grouping"],correct:1,exp:"Blocks are tables in Google Docs that map to components. Each block has JS/CSS in a GitHub repo folder, auto-loaded and rendered client-side."},
+{q:"What typical Lighthouse performance score does EDS achieve?",options:["60-70","75-85","85-95","100"],correct:3,exp:"EDS is designed for performance-first delivery, consistently achieving Lighthouse scores of 100/100 by serving pre-built static HTML from a CDN edge network."},
+{q:"Where is EDS block code stored?",options:["In AEM's /apps directory","In a connected GitHub repository","In the JCR content repository","In Adobe Cloud Manager"],correct:1,exp:"Block code (JavaScript + CSS files) lives in a GitHub repository. The pipeline watches for changes and builds pages using these block definitions."},
+{q:"Which is NOT a reason to choose EDS over traditional AEM Sites?",options:["Near-instant page load performance","Simplified authoring with familiar tools","Complex multi-step workflow support","Rapid time-to-market deployment"],correct:2,exp:"Complex workflows are a traditional AEM strength. EDS is ideal for performance, simplicity, and speed — not for complex workflow-driven content processes."},
+{q:"What browser extension do EDS authors use for preview and publish?",options:["AEM Developer Tools","Franklin Sidekick","Adobe Experience League","Coral UI Inspector"],correct:1,exp:"The Sidekick browser extension enables one-click preview and publish directly from Google Docs or SharePoint documents."},
+{q:"What technology powers EDS content delivery?",options:["AEM Publish instance rendering","Server-side JSP rendering","CDN edge network serving pre-built static HTML","Client-side React rendering"],correct:2,exp:"EDS serves pre-built static HTML from a global CDN edge network — no server-side rendering at request time, which is the key to its performance."},
+{q:"In EDS, how does a 'Hero' block get created by an author?",options:["Dragging a Hero component from the side panel","Creating a table with 'Hero' as the first row in Google Docs","Writing HTL template code in a Hero component folder","Selecting the Hero template from the page creation wizard"],correct:1,exp:"Authors create blocks by inserting tables in Google Docs — the first row contains the block name (e.g., 'Hero'), subsequent rows contain content (images, text)."}
+],
+t64:[
+{q:"Which Core Web Vital measures loading performance?",options:["CLS (Cumulative Layout Shift)","FID (First Input Delay)","LCP (Largest Contentful Paint)","TTFB (Time to First Byte)"],correct:2,exp:"LCP measures how long it takes for the largest content element (image, heading, video) to become visible. Target: under 2.5 seconds."},
+{q:"What is the target threshold for CLS (Cumulative Layout Shift)?",options:["Under 0.5","Under 0.25","Under 0.1","Under 1.0"],correct:2,exp:"CLS should be under 0.1 for a 'good' user experience. It measures visual stability — how much page content unexpectedly shifts during loading."},
+{q:"Which technique best improves LCP for AEM hero images?",options:["Loading all images lazily","Using link rel='preload' for the hero image","Adding images via JavaScript after page load","Using maximum-quality uncompressed images"],correct:1,exp:"Preloading the hero image tells the browser to fetch it early, improving LCP. Lazy loading delays it (worse LCP), and JavaScript-loaded images are even slower."},
+{q:"How does AEM Dispatcher caching improve Core Web Vitals?",options:["It reduces CLS by reserving space for content","It improves LCP by reducing TTFB from 200-500ms to 10-30ms","It eliminates the need for image optimization","It automatically minifies all JavaScript"],correct:1,exp:"Dispatcher serves cached static files directly from Apache, reducing Time to First Byte dramatically — which directly improves LCP."},
+{q:"What causes poor CLS (layout shift) on AEM pages?",options:["Images without width/height attributes causing reflow","Too many components on a page","Using Sling Models instead of WCM Use classes","Having too many ClientLib categories"],correct:0,exp:"Images without explicit dimensions cause the browser to reflow content once they load. Always set width and height attributes to reserve space."},
+{q:"Which tool provides real user Core Web Vitals data from Chrome users?",options:["AEM Query Performance tool","Chrome UX Report (CrUX)","Apache Felix Console","AEM Health Check"],correct:1,exp:"CrUX aggregates real-world Core Web Vitals data from Chrome users. PageSpeed Insights and Search Console also surface this field data."},
+{q:"What replaced FID as the interactivity metric in 2024?",options:["TBT (Total Blocking Time)","INP (Interaction to Next Paint)","TTI (Time to Interactive)","FCP (First Contentful Paint)"],correct:1,exp:"INP replaced FID as the interactivity Core Web Vital in March 2024. INP measures responsiveness across ALL interactions, not just the first one."},
+{q:"Which of these are effective strategies to improve INP/interactivity? (Select all that apply)",options:["Minimize main-thread JavaScript execution","Break long tasks (>50ms) into async chunks","Use web workers for heavy computation","Add more inline CSS to the page head"],correct:[0,1,2],exp:"Minimizing JS, breaking long tasks, and using web workers all reduce main-thread blocking. Inline CSS helps LCP/render but doesn't directly improve interactivity."}
+],
+t65:[
+{q:"Which Adobe AI technology is used for smart tagging and smart cropping in AEM?",options:["Adobe Firefly","Adobe Sensei","Adobe Target","Adobe Analytics"],correct:1,exp:"Adobe Sensei is Adobe's AI/ML framework — it powers smart tags (auto-categorize assets), smart crop (AI-determined crop points), and content recommendations."},
+{q:"What is Adobe Firefly's primary function in AEM?",options:["Managing OSGi configurations","Generating creative content from text prompts","Running automated test suites","Handling form submissions"],correct:1,exp:"Adobe Firefly is Adobe's generative AI for creating images, text effects, and content variations from text prompts — integrated into AEM Cloud Service."},
+{q:"How can AI assist with AEM servlet development?",options:["AI replaces the need for servlets entirely","AI can generate boilerplate code and identify anti-patterns","AI automatically deploys servlets to production","AI manages OSGi bundle lifecycle"],correct:1,exp:"AI coding assistants can generate servlet boilerplate, suggest OSGi annotations, and identify common AEM anti-patterns — but all generated code needs human review."},
+{q:"What should you always do with AI-generated AEM code?",options:["Deploy it directly to production for fastest delivery","Trust it completely since AI understands AEM APIs","Review for AEM-specific patterns, deprecated APIs, and security issues","Only use it for frontend code, never backend"],correct:2,exp:"AI may suggest deprecated methods, miss resource cleanup, or skip input validation. Always review for AEM patterns, test thoroughly, and validate security."},
+{q:"Which AI capability automatically categorizes assets in AEM DAM?",options:["Smart Tags","Smart Layout","Smart Workflow","Smart Publish"],correct:0,exp:"Smart Tags (powered by Adobe Sensei) automatically analyze image content and apply relevant metadata tags — reducing manual tagging effort for large asset libraries."},
+{q:"What are the main areas where AI enhances AEM development? (Select all that apply)",options:["Code generation for Models, Servlets, and Configs","Auto-tagging DAM assets with Smart Tags","Generative content creation with Firefly","Replacing the need for human developers entirely"],correct:[0,1,2],exp:"AI helps with code generation, asset intelligence (smart tags/crop), and content creation (Firefly). It augments developers, it doesn't replace them."}
+],
+t66:[
+{q:"What is the primary role of Granite UI in AEM?",options:["Client-side interactive widget library","Server-side UI framework for authoring interface components","Content delivery and caching layer","OSGi service management framework"],correct:1,exp:"Granite UI is AEM's server-side framework — it renders dialog fields, admin consoles, and authoring UI as HTML on the server using JCR-defined component structures."},
+{q:"Which framework handles the interactive client-side behavior in AEM Touch UI?",options:["Granite UI Foundation","Coral UI 3","Apache Sling Web Console","jQuery UI"],correct:1,exp:"Coral UI 3 is the client-side component library — it provides interactive widgets like dropdowns, modals, date pickers, and rich text editors using Web Components."},
+{q:"Which Granite UI field type would you use for a JCR path picker?",options:["textfield","select","pathfield (pathbrowser)","numberfield"],correct:2,exp:"The pathfield (pathbrowser) component provides a path picker with a browse dialog for selecting JCR paths — used for linking pages, assets, and content references."},
+{q:"Where are Granite UI component definitions located in the JCR?",options:["/content/dam/granite","/ libs/granite/ui/components/","/ apps/granite/clientlibs","/ etc/granite/configs"],correct:1,exp:"Granite UI components are defined under /libs/granite/ui/components/ — this is where AEM stores its field types, layouts, and form components for the authoring UI."},
+{q:"What is a Multifield in Granite UI?",options:["A field that accepts multiple file uploads simultaneously","A repeatable field group for creating lists of items with sub-fields","A text field that spans multiple lines","A field that stores values in multiple JCR properties"],correct:1,exp:"Multifield allows authors to add/remove repeating groups of fields — like a list of links (each with title + URL), team members (name + role + photo), etc."},
+{q:"How do you add client-side validation to a Granite UI dialog field?",options:["Set validate='true' on the field node","Register a jQuery validator via $.validator.register()","Add a validation OSGi service","Set validation='enabled' in the component's .content.xml"],correct:1,exp:"Client-side validation uses jQuery validators registered via $.validator.register() — they run in the browser when the dialog saves, providing instant feedback."},
+{q:"What is the sling:resourceType of a standard Touch UI component dialog?",options:["granite/ui/components/dialog","cq/gui/components/authoring/dialog","sling/servlet/dialog","coral/ui/dialog"],correct:1,exp:"Touch UI dialogs use sling:resourceType='cq/gui/components/authoring/dialog' as the root node type for the dialog structure."},
+{q:"Which Coral UI version is used in AEM 6.5?",options:["Coral UI 1","Coral UI 2","Coral UI 3","Coral UI 4"],correct:2,exp:"AEM 6.5 uses Coral UI 3, which is built on Web Components with custom HTML elements like <coral-button>, <coral-dialog>, <coral-select>."}
+],
+t67:[
+{q:"What node type defines a ClientLib folder in AEM?",options:["nt:folder","sling:Folder","cq:ClientLibraryFolder","dam:AssetContent"],correct:2,exp:"ClientLibs must be of type cq:ClientLibraryFolder — this special node type tells AEM to treat the folder as a client library with CSS/JS management capabilities."},
+{q:"What property must be set on a ClientLib for it to work on AEM Publish?",options:["publishEnabled=true","allowProxy=true","replication=active","dispatcher=cached"],correct:1,exp:"allowProxy=true enables the ClientLib to be served via /etc.clientlibs/ proxy path. Without it, Dispatcher blocks the raw /apps/ path and returns 404."},
+{q:"What is the difference between ClientLib 'dependencies' and 'embed'?",options:["Dependencies are loaded inline, embed loads separately","Dependencies load separately before this lib, embed inlines into this lib","Dependencies are for CSS only, embed is for JS only","There is no difference, they are aliases"],correct:1,exp:"Dependencies = separate HTTP requests, guaranteed load order. Embed = inlined into this ClientLib, single HTTP request. Use embed to reduce network calls."},
+{q:"Which file lists the JavaScript files to include in a ClientLib?",options:["scripts.json","js.txt","javascript.xml","bundle.js"],correct:1,exp:"js.txt lists JS files (one per line) to include. css.txt does the same for CSS. Files are concatenated and served in the listed order."},
+{q:"How do you debug unminified ClientLibs during development?",options:["Add ?debugClientLibs=true to the page URL","Set OSGi config debug.clientlibs=true","Add data-debug attribute to the HTL clientlib call","ClientLibs cannot be served unminified"],correct:0,exp:"Appending ?debugClientLibs=true to the URL serves individual, unminified, uncombined files — making it easy to debug CSS/JS issues during development."},
+{q:"Which HTL template is used to include a ClientLib on a page?",options:["data-sly-use.lib='clientlib.html'","data-sly-use.clientlib='/libs/granite/sightly/templates/clientlib.html'","data-sly-resource='clientlib'","data-sly-include='clientlib.js'"],correct:1,exp:"The standard HTL clientlib template is loaded with data-sly-use.clientlib='/libs/granite/sightly/templates/clientlib.html', then called with clientlib.all, .css, or .js."},
+{q:"What tool in AEM lists all registered ClientLibs for debugging?",options:["/system/console/bundles","/libs/granite/ui/content/dumplibs.html","/crx/de/index.jsp","/system/console/configMgr"],correct:1,exp:"The dumplibs page (/libs/granite/ui/content/dumplibs.html) lists all registered ClientLibs — categories, dependencies, embeds, and files. Essential for debugging."},
+{q:"In AEMaaCS, what is the recommended approach for managing frontend assets?",options:["Edit ClientLibs directly in CRXDE Lite","Use the ui.frontend module with Webpack","Upload CSS/JS files via Package Manager","Write inline styles in HTL templates"],correct:1,exp:"The ui.frontend module with Webpack is recommended — Webpack compiles SCSS/TypeScript, outputs to a ClientLib folder in ui.apps, and is deployed via the CI/CD pipeline."}
 ]
 };
 
@@ -8139,6 +8252,312 @@ backend systems.       cloud storage).</div>
 </ul>
 
 <div class="callout"><strong>Interview Tip:</strong> AEM Forms = Create → Publish → Submit → Process → Store. Remember the three form types: Adaptive (recommended, responsive), Foundation (basic HTML), XFA (PDF, legacy). Key differentiator is the Form Data Model (FDM) for backend integration.</div>
+`;
+
+NOTES.t63=`
+<h3 class="block-title">What are Edge Delivery Services?</h3>
+<p>Edge Delivery Services (EDS), formerly known as Project Franklin, is Adobe's performance-first approach to content delivery. It fundamentally changes how AEM content is authored and delivered — replacing traditional server-side rendering with document-based authoring and CDN edge delivery.</p>
+
+<h3 class="block-title">How EDS Works</h3>
+<div class="diagram">1. AUTHOR              2. BUILD               3. DELIVER
+Google Docs /      →  GitHub pipeline     →  CDN Edge Network
+Microsoft Word        converts to HTML       serves static pages
+
+Author edits doc → Webhook triggers → HTML generated → Cached at edge → User gets page</div>
+
+<h3 class="block-title">EDS vs Traditional AEM</h3>
+<table><tr><th>Feature</th><th>Traditional AEM</th><th>Edge Delivery Services</th></tr>
+<tr><td>Authoring</td><td>Touch UI page editor</td><td>Google Docs / Microsoft Word</td></tr>
+<tr><td>Rendering</td><td>Server-side (Sling/HTL)</td><td>Pre-built static HTML</td></tr>
+<tr><td>Delivery</td><td>Dispatcher + Publish</td><td>CDN edge network</td></tr>
+<tr><td>Components</td><td>AEM Components (JCR)</td><td>Blocks (JS/CSS in GitHub)</td></tr>
+<tr><td>Performance</td><td>Good (with optimization)</td><td>Lighthouse 100/100</td></tr>
+<tr><td>Infrastructure</td><td>AEM instances + Dispatcher</td><td>GitHub + CDN (serverless)</td></tr>
+</table>
+
+<h3 class="block-title">Blocks (Components)</h3>
+<p>Blocks are the EDS equivalent of AEM components. Authors create them in Google Docs using tables:</p>
+<pre>| Hero                    |
+|-------------------------|
+| /images/hero-banner.jpg |
+| Welcome to Our Site     |
+| Get started today       |</pre>
+<p>Each block maps to a folder in GitHub with:</p>
+<ul>
+<li><strong>hero.js</strong> — JavaScript behavior and rendering</li>
+<li><strong>hero.css</strong> — Styling for the block</li>
+</ul>
+
+<h3 class="block-title">Three-Stage Pipeline</h3>
+<ul>
+<li><strong>Preview</strong> — Authors click Preview in Sidekick extension → content built at preview URL</li>
+<li><strong>Live</strong> — Published content served from CDN edge to end users</li>
+<li><strong>Admin API</strong> — Programmatic control via admin.hlx.page for bulk operations</li>
+</ul>
+
+<h3 class="block-title">When to Use EDS</h3>
+<table><tr><th>Use EDS When</th><th>Use Traditional AEM When</th></tr>
+<tr><td>Performance is top priority</td><td>Complex personalization needed</td></tr>
+<tr><td>Content is primarily text/media</td><td>Deep system integrations required</td></tr>
+<tr><td>Authors prefer Google Docs/Word</td><td>Structured content models (CFs) needed</td></tr>
+<tr><td>Fast time-to-market required</td><td>Existing AEM investment is significant</td></tr>
+</table>
+
+<div class="callout"><strong>Interview Tip:</strong> EDS = Document-based authoring (Google Docs/Word) + GitHub pipeline + CDN edge delivery. Key selling point: Lighthouse 100/100 performance. Blocks = components (tables in docs). The Sidekick browser extension handles preview/publish.</div>
+`;
+
+NOTES.t64=`
+<h3 class="block-title">What are Core Web Vitals?</h3>
+<p>Core Web Vitals (CWV) are Google's standardized metrics for measuring real-world user experience. They directly affect search rankings and are critical for AEM sites.</p>
+
+<h3 class="block-title">The Three Core Metrics</h3>
+<div class="diagram">┌─────────────────────┬─────────────────────┬─────────────────────┐
+│      LCP            │      INP            │      CLS            │
+│  Largest Content    │  Interaction to     │  Cumulative Layout  │
+│  Paint              │  Next Paint         │  Shift              │
+├─────────────────────┼─────────────────────┼─────────────────────┤
+│  Loading Speed      │  Interactivity      │  Visual Stability   │
+│  Target: < 2.5s     │  Target: < 200ms    │  Target: < 0.1      │
+└─────────────────────┴─────────────────────┴─────────────────────┘</div>
+
+<h3 class="block-title">LCP Optimization for AEM</h3>
+<ul>
+<li><strong>Preload hero images</strong> — <code>&lt;link rel="preload" as="image"&gt;</code></li>
+<li><strong>Use WebP/AVIF</strong> — Dynamic Media renditions for optimized formats</li>
+<li><strong>Critical CSS inline</strong> — Inline above-fold styles in &lt;head&gt;</li>
+<li><strong>Dispatcher caching</strong> — Reduce TTFB from 200-500ms to 10-30ms</li>
+<li><strong>Lazy-load below-fold</strong> — Only eagerly load above-fold images</li>
+</ul>
+
+<h3 class="block-title">CLS Prevention</h3>
+<ul>
+<li><strong>Set dimensions</strong> — Always add width/height on &lt;img&gt; and &lt;video&gt;</li>
+<li><strong>Reserve space</strong> — For ads, embeds, and dynamically loaded content</li>
+<li><strong>Font stability</strong> — Use font-display: swap with size-adjust fallback</li>
+<li><strong>No top insertion</strong> — Never insert content above existing content after load</li>
+</ul>
+
+<h3 class="block-title">INP Improvement</h3>
+<ul>
+<li><strong>Minimize main-thread JS</strong> — Defer non-critical scripts</li>
+<li><strong>Break long tasks</strong> — Split tasks &gt;50ms into async chunks</li>
+<li><strong>Reduce third-party impact</strong> — Analytics, A/B testing scripts</li>
+<li><strong>Code-split ClientLibs</strong> — Tree-shake unused code per component</li>
+</ul>
+
+<h3 class="block-title">Measurement Tools</h3>
+<table><tr><th>Tool</th><th>Type</th><th>Use For</th></tr>
+<tr><td>Lighthouse</td><td>Lab</td><td>Local performance audits during development</td></tr>
+<tr><td>PageSpeed Insights</td><td>Lab + Field</td><td>Real user data + lab simulation</td></tr>
+<tr><td>Chrome UX Report</td><td>Field</td><td>Real-world CWV data from Chrome users</td></tr>
+<tr><td>Search Console</td><td>Field</td><td>CWV status per URL for your site</td></tr>
+<tr><td>web-vitals JS</td><td>Field</td><td>Instrument CWV measurement on-page</td></tr>
+</table>
+
+<h3 class="block-title">AEM-Specific Impact</h3>
+<table><tr><th>AEM Feature</th><th>CWV Impact</th></tr>
+<tr><td>Dispatcher Caching</td><td>Dramatically improves LCP via faster TTFB</td></tr>
+<tr><td>Dynamic Media</td><td>Optimized renditions improve LCP (smaller images)</td></tr>
+<tr><td>ClientLibs</td><td>Minification/embed reduce JS blocking (better INP)</td></tr>
+<tr><td>Component Design</td><td>Reserved dimensions prevent CLS</td></tr>
+<tr><td>CDN Integration</td><td>Edge caching reduces TTFB globally</td></tr>
+</table>
+
+<div class="callout"><strong>Interview Tip:</strong> CWV = LCP (loading &lt;2.5s) + INP (interactivity &lt;200ms) + CLS (stability &lt;0.1). For AEM: Dispatcher improves LCP, Dynamic Media optimizes images, ClientLib management controls JS blocking. Always mention Lighthouse and CrUX as measurement tools.</div>
+`;
+
+NOTES.t65=`
+<h3 class="block-title">AI in AEM Development</h3>
+<p>AI is transforming AEM development across four areas: coding assistance, content generation, intelligent automation, and analytics-driven personalization.</p>
+
+<h3 class="block-title">AI Integration Areas</h3>
+<div class="diagram">┌─────────────────────┬─────────────────────┐
+│  AI-Assisted Dev    │  GenAI Content      │
+│  Code generation    │  Adobe Firefly      │
+│  Code review        │  Image generation   │
+│  Test generation    │  Content variations  │
+├─────────────────────┼─────────────────────┤
+│  Adobe Sensei       │  Intelligent Auto   │
+│  Smart Tags         │  Auto-tagging       │
+│  Smart Crop         │  Content classify   │
+│  Recommendations    │  Workflow triggers  │
+└─────────────────────┴─────────────────────┘</div>
+
+<h3 class="block-title">Adobe Sensei Capabilities</h3>
+<table><tr><th>Feature</th><th>Description</th></tr>
+<tr><td><strong>Smart Tags</strong></td><td>Auto-categorize DAM assets based on image content analysis</td></tr>
+<tr><td><strong>Smart Crop</strong></td><td>AI-determined crop points for responsive images across devices</td></tr>
+<tr><td><strong>Content Recommendations</strong></td><td>Suggest related content based on user behavior patterns</td></tr>
+<tr><td><strong>Auto-Translation</strong></td><td>ML-powered content translation suggestions</td></tr>
+<tr><td><strong>Predictive Analytics</strong></td><td>Forecast content performance and engagement</td></tr>
+</table>
+
+<h3 class="block-title">Adobe Firefly in AEM</h3>
+<ul>
+<li><strong>Generate Images</strong> — Create visuals from text prompts directly in DAM</li>
+<li><strong>Text Effects</strong> — Apply AI-generated styles to text content</li>
+<li><strong>Generative Fill</strong> — Extend or modify existing images</li>
+<li><strong>Content Variations</strong> — AI suggests headline/copy alternatives for A/B testing</li>
+</ul>
+
+<h3 class="block-title">AI for Developer Workflow</h3>
+<ul>
+<li><strong>Code Generation</strong> — Generate Sling Models, Servlets, OSGi configs from descriptions</li>
+<li><strong>Code Review</strong> — Identify security vulnerabilities and AEM anti-patterns</li>
+<li><strong>Testing</strong> — Auto-generate unit tests for Models and Servlets</li>
+<li><strong>Documentation</strong> — Generate Javadoc and component documentation</li>
+<li><strong>Debugging</strong> — AI-assisted log analysis and root cause identification</li>
+</ul>
+
+<h3 class="block-title">Best Practices</h3>
+<ul>
+<li>Use AI for acceleration, not replacement — always review generated code</li>
+<li>Validate against AEM APIs — AI may suggest deprecated methods</li>
+<li>Security review — check for missing input validation and resource cleanup</li>
+<li>Test thoroughly — AI code needs the same rigor as hand-written code</li>
+<li>Keep human oversight for content — review AI-generated content before publishing</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> AI in AEM = Adobe Sensei (smart tags, smart crop, recommendations) + Adobe Firefly (generative content) + AI coding assistants (code generation, review). Always emphasize: AI augments developers, doesn't replace them. Review all AI output for AEM-specific patterns.</div>
+`;
+
+NOTES.t66=`
+<h3 class="block-title">Granite UI & Coral UI Overview</h3>
+<p>AEM's authoring interface is built on two complementary frameworks: Granite UI (server-side) and Coral UI (client-side). Together they power all Touch UI dialogs, admin consoles, and authoring experiences.</p>
+
+<h3 class="block-title">Architecture</h3>
+<div class="diagram">┌──────────────────────────────────────────┐
+│              AEM Touch UI                │
+├──────────────────────────────────────────┤
+│  Coral UI 3 (Client-Side)               │
+│  Web Components: &lt;coral-button&gt;,        │
+│  &lt;coral-dialog&gt;, &lt;coral-select&gt;         │
+│  Interactive widgets, drag-and-drop      │
+├──────────────────────────────────────────┤
+│  Granite UI Foundation (Server-Side)     │
+│  JCR-defined component structures        │
+│  Dialog rendering, field types           │
+│  Path: /libs/granite/ui/components/      │
+├──────────────────────────────────────────┤
+│  Apache Sling (Request Processing)       │
+└──────────────────────────────────────────┘</div>
+
+<h3 class="block-title">Common Granite UI Field Types</h3>
+<table><tr><th>Field Type</th><th>sling:resourceType Path</th><th>Use For</th></tr>
+<tr><td>textfield</td><td>granite/.../form/textfield</td><td>Single-line text input</td></tr>
+<tr><td>textarea</td><td>granite/.../form/textarea</td><td>Multi-line text</td></tr>
+<tr><td>pathfield</td><td>granite/.../form/pathfield</td><td>JCR path browser/picker</td></tr>
+<tr><td>checkbox</td><td>granite/.../form/checkbox</td><td>Boolean toggle</td></tr>
+<tr><td>select</td><td>granite/.../form/select</td><td>Dropdown with options</td></tr>
+<tr><td>datepicker</td><td>granite/.../form/datepicker</td><td>Date/time selection</td></tr>
+<tr><td>colorfield</td><td>granite/.../form/colorfield</td><td>Color picker</td></tr>
+<tr><td>richtext</td><td>cq/gui/.../authoring/dialog/richtext</td><td>Rich text editor</td></tr>
+<tr><td>multifield</td><td>granite/.../form/multifield</td><td>Repeatable field groups</td></tr>
+<tr><td>fileupload</td><td>granite/.../form/fileupload</td><td>File upload widget</td></tr>
+</table>
+
+<h3 class="block-title">Dialog Structure Example</h3>
+<pre>&lt;jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog"&gt;
+  &lt;content jcr:primaryType="nt:unstructured"
+      sling:resourceType="granite/ui/components/coral/foundation/container"&gt;
+    &lt;items jcr:primaryType="nt:unstructured"&gt;
+      &lt;title jcr:primaryType="nt:unstructured"
+          sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+          fieldLabel="Title"
+          name="./jcr:content/title"
+          required="true"/&gt;
+    &lt;/items&gt;
+  &lt;/content&gt;
+&lt;/jcr:root&gt;</pre>
+
+<h3 class="block-title">Coral UI 3 Components</h3>
+<p>Coral UI 3 uses Web Components with custom HTML elements:</p>
+<ul>
+<li><code>&lt;coral-button&gt;</code> — Buttons with variants (primary, secondary, quiet)</li>
+<li><code>&lt;coral-dialog&gt;</code> — Modal dialog windows</li>
+<li><code>&lt;coral-select&gt;</code> — Dropdown selectors</li>
+<li><code>&lt;coral-datepicker&gt;</code> — Date/time pickers</li>
+<li><code>&lt;coral-alert&gt;</code> — Alert/notification messages</li>
+</ul>
+
+<h3 class="block-title">Validation Approaches</h3>
+<ul>
+<li><strong>Required</strong> — Set <code>required="true"</code> on the field node</li>
+<li><strong>Regex</strong> — Use <code>granite:data</code> with validation pattern</li>
+<li><strong>Custom Validator</strong> — Register via <code>$.validator.register()</code> for client-side</li>
+<li><strong>Server-side</strong> — Validate in Sling Model or servlet</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> Granite UI = server-side (JCR nodes defining dialog structure). Coral UI = client-side (Web Components for interactive widgets). AEM 6.5 uses Coral UI 3. Dialogs use sling:resourceType='cq/gui/components/authoring/dialog'. Know the common field types: textfield, pathfield, multifield, select, richtext.</div>
+`;
+
+NOTES.t67=`
+<h3 class="block-title">What are ClientLibs?</h3>
+<p>Client Libraries (ClientLibs) are AEM's mechanism for organizing, managing, and delivering CSS and JavaScript files to the browser. They provide dependency management, minification, and caching for frontend assets.</p>
+
+<h3 class="block-title">How ClientLibs Work</h3>
+<div class="diagram">ClientLib Folder (cq:ClientLibraryFolder)
+├── .content.xml     → categories, dependencies, embed, allowProxy
+├── css.txt          → List of CSS files to include
+├── js.txt           → List of JS files to include
+├── styles.css       → CSS source files
+└── scripts.js       → JavaScript source files
+
+HTL Page:
+&lt;sly data-sly-use.clientlib="clientlib.html"/&gt;
+&lt;sly data-sly-call="\${clientlib.css @ categories='mysite.header'}"/&gt;  (in head)
+&lt;sly data-sly-call="\${clientlib.js @ categories='mysite.header'}"/&gt;   (before body end)</div>
+
+<h3 class="block-title">Key Properties</h3>
+<table><tr><th>Property</th><th>Purpose</th><th>Example</th></tr>
+<tr><td><strong>categories</strong></td><td>Unique name(s) identifying the ClientLib</td><td>["mysite.header", "mysite.components"]</td></tr>
+<tr><td><strong>dependencies</strong></td><td>Other categories loaded BEFORE (separate requests)</td><td>["mysite.vendor"]</td></tr>
+<tr><td><strong>embed</strong></td><td>Other categories INLINED into this lib (single request)</td><td>["mysite.utils"]</td></tr>
+<tr><td><strong>allowProxy</strong></td><td>Serve via /etc.clientlibs/ (required for Publish)</td><td>true</td></tr>
+</table>
+
+<h3 class="block-title">Dependencies vs Embed</h3>
+<div class="diagram">Dependencies (separate requests, ordered):
+Request 1: /etc.clientlibs/vendor.css
+Request 2: /etc.clientlibs/mysite.css    ← loads AFTER vendor
+
+Embed (single request, inlined):
+Request 1: /etc.clientlibs/mysite.css    ← contains vendor CSS inside
+
+Rule: Use dependencies for load ORDER, embed for fewer HTTP requests.</div>
+
+<h3 class="block-title">Including on a Page (HTL)</h3>
+<pre>&lt;sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"/&gt;
+
+&lt;!-- CSS only (in &lt;head&gt;) --&gt;
+&lt;sly data-sly-call="\${clientlib.css @ categories='mysite.header'}"/&gt;
+
+&lt;!-- JS only (before &lt;/body&gt;) --&gt;
+&lt;sly data-sly-call="\${clientlib.js @ categories='mysite.header'}"/&gt;
+
+&lt;!-- Both CSS + JS --&gt;
+&lt;sly data-sly-call="\${clientlib.all @ categories='mysite.header'}"/&gt;</pre>
+
+<h3 class="block-title">Debugging ClientLibs</h3>
+<table><tr><th>Tool / Technique</th><th>URL / Action</th></tr>
+<tr><td>List all ClientLibs</td><td>/libs/granite/ui/content/dumplibs.html</td></tr>
+<tr><td>Rebuild ClientLib cache</td><td>/libs/granite/ui/content/dumplibs.rebuild.html</td></tr>
+<tr><td>Unminified debug mode</td><td>Append ?debugClientLibs=true to page URL</td></tr>
+<tr><td>Check 404 errors</td><td>Browser DevTools → Network tab</td></tr>
+</table>
+
+<h3 class="block-title">AEMaaCS Differences</h3>
+<ul>
+<li><strong>allowProxy=true</strong> is mandatory — /apps path is always blocked</li>
+<li>Minification handled by the CI/CD pipeline</li>
+<li>Long-term caching with content hashes is automatic</li>
+<li>No CRXDE editing — all changes via code deployment</li>
+<li><strong>ui.frontend module with Webpack</strong> is the recommended approach</li>
+</ul>
+
+<div class="callout"><strong>Interview Tip:</strong> ClientLibs = cq:ClientLibraryFolder with categories (name), dependencies (load order), embed (inline). Always set allowProxy=true for Publish. Debug with ?debugClientLibs=true. In AEMaaCS, use ui.frontend with Webpack. Know the HTL include pattern using data-sly-use.clientlib.</div>
 `;
 
 /* === STATE === */
