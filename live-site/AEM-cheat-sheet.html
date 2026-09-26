@@ -1677,9 +1677,15 @@ while (nodes.hasNext()) {
           sections[j].pill.style.borderColor = j === active ? 'var(--accent)' : '';
         }
       }
-      // Auto-scroll active pill into view in the TOC bar
+      // Auto-scroll active pill into view in the TOC bar (horizontal only)
       if (active !== null && sections[active].pill) {
-        sections[active].pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        var tocBar = document.querySelector('.toc-scroll');
+        if (tocBar) {
+          var pillLeft = sections[active].pill.offsetLeft;
+          var pillWidth = sections[active].pill.offsetWidth;
+          var barWidth = tocBar.offsetWidth;
+          tocBar.scrollLeft = pillLeft - (barWidth / 2) + (pillWidth / 2);
+        }
       }
       ticking = false;
     });
