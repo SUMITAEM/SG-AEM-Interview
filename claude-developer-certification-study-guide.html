@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthropic Claude Developer Certification — Complete Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --page-max: 900px;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    --c-bg: #ffffff;
+    --c-surface: #f8f9fa;
+    --c-surface2: #f0f1f3;
+    --c-text: #1a1a2e;
+    --c-text2: #555770;
+    --c-accent: #6C3CE1;
+    --c-accent2: #4F1FBF;
+    --c-accent-soft: #EDE7F9;
+    --c-green: #0D7C5F;
+    --c-green-bg: #E8F5F0;
+    --c-red: #C62828;
+    --c-red-bg: #FDECEA;
+    --c-orange: #E65100;
+    --c-orange-bg: #FFF3E0;
+    --c-blue: #1565C0;
+    --c-blue-bg: #E3F2FD;
+    --c-border: #E0E0E6;
+    --c-border2: #D0D0D8;
+    --c-code-bg: #F5F3FF;
+    --radius: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--c-bg);
+    color: var(--c-text);
+    line-height: 1.7;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* == PRINT == */
+  @media print {
+    html { font-size: 11pt; }
+    body { padding: 0; max-width: 100%; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    .cover { min-height: auto; padding: 40pt 0 24pt; }
+    section { page-break-inside: avoid; }
+    .question-card { page-break-inside: avoid; }
+    .code-block { page-break-inside: avoid; }
+    details { break-inside: avoid; }
+    details[open] > div { break-inside: avoid; }
+    a { color: var(--c-text) !important; text-decoration: none !important; }
+    .toc { page-break-after: always; }
+  }
+
+  /* == COVER == */
+  .cover {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 40px;
+    border-bottom: 3px solid var(--c-accent);
+  }
+
+  .cover-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    background: var(--c-accent-soft);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 span { color: var(--c-accent); }
+
+  .cover-sub {
+    font-size: 1.15rem;
+    color: var(--c-text2);
+    max-width: 580px;
+    margin-bottom: 24px;
+  }
+
+  .cover-meta {
+    font-size: 0.8rem;
+    color: var(--c-text2);
+    border-top: 1px solid var(--c-border);
+    padding-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta strong { color: var(--c-text); }
+
+  /* == NOTICE == */
+  .notice {
+    border-left: 4px solid;
+    padding: 12px 16px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.88rem;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .notice-warn { border-color: var(--c-orange); background: var(--c-orange-bg); }
+  .notice-info { border-color: var(--c-blue); background: var(--c-blue-bg); }
+  .notice-tip { border-color: var(--c-green); background: var(--c-green-bg); }
+  .notice b { display: block; margin-bottom: 2px; }
+
+  /* == TOC == */
+  .toc {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--c-border);
+    margin-bottom: 32px;
+  }
+
+  .toc h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: 16px;
+    border-bottom: none;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px 24px;
+  }
+
+  .toc a {
+    display: block;
+    color: var(--c-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--c-border);
+    transition: color 0.15s;
+  }
+
+  .toc a:hover { color: var(--c-accent); }
+
+  .toc a .num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--c-accent);
+    margin-right: 6px;
+  }
+
+  /* == HEADINGS == */
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 48px 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--c-accent);
+    color: var(--c-text);
+  }
+
+  h2 .part-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 28px 0 10px;
+    color: var(--c-accent2);
+  }
+
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 20px 0 8px;
+  }
+
+  p { margin: 8px 0; }
+
+  /* == TABLES == */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    background: var(--c-surface);
+    border-bottom: 2px solid var(--c-border2);
+    white-space: nowrap;
+    color: var(--c-text);
+  }
+
+  tbody td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--c-surface); }
+  td code, th code { font-size: 0.82em; }
+
+  /* == CODE == */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: var(--c-code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--c-accent2);
+  }
+
+  .code-block {
+    background: #1E1E2E;
+    color: #CDD6F4;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .code-block .label {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7F849C;
+    background: #313244;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .code-block .kw { color: #CBA6F7; }
+  .code-block .str { color: #A6E3A1; }
+  .code-block .num { color: #FAB387; }
+  .code-block .cm { color: #6C7086; font-style: italic; }
+  .code-block .fn { color: #89B4FA; }
+  .code-block .key { color: #89DCEB; }
+
+  /* == CARDS == */
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--c-accent);
+    margin-bottom: 6px;
+  }
+
+  .card p, .card ul { font-size: 0.88rem; color: var(--c-text2); }
+  .card ul { padding-left: 18px; }
+  .card li { margin: 3px 0; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  /* == EXAMPLE BOX == */
+  .example-box {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    margin: 16px 0;
+    overflow: hidden;
+  }
+
+  .example-box .ex-header {
+    background: var(--c-accent-soft);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-accent2);
+    letter-spacing: 0.03em;
+  }
+
+  .example-box .ex-body { padding: 14px 16px; }
+
+  /* == QUIZ == */
+  .question-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 14px 0;
+  }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+
+  .q-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .q-text {
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .q-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px;
+  }
+
+  .q-options li {
+    padding: 6px 10px;
+    font-size: 0.88rem;
+    border-radius: 4px;
+    margin: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .q-options li .letter {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--c-accent);
+    min-width: 18px;
+  }
+
+  .q-options li.correct-option {
+    background: var(--c-green-bg);
+    border: 1px solid var(--c-green);
+    font-weight: 600;
+  }
+
+  .q-options li.correct-option .letter { color: var(--c-green); }
+
+  .q-explain {
+    font-size: 0.82rem;
+    color: var(--c-text2);
+    background: var(--c-bg);
+    border: 1px dashed var(--c-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    line-height: 1.5;
+  }
+
+  .q-explain b { color: var(--c-green); }
+
+  /* == HIGHLIGHT BOX == */
+  .highlight {
+    background: var(--c-accent-soft);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border: 1px solid #D4C5F0;
+  }
+
+  .highlight .hl-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--c-accent2);
+    margin-bottom: 6px;
+  }
+
+  .highlight p, .highlight ul, .highlight li {
+    font-size: 0.88rem;
+    color: var(--c-text);
+  }
+
+  /* == DECISION TREE == */
+  .decision-tree {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    line-height: 1.8;
+    margin: 12px 0;
+    white-space: pre-wrap;
+  }
+
+  .decision-tree .arrow { color: var(--c-accent); font-weight: 700; }
+  .decision-tree .model { color: var(--c-green); font-weight: 600; }
+
+  /* == FOOTER == */
+  .footer {
+    margin: 48px 0 24px;
+    padding: 20px 0;
+    border-top: 2px solid var(--c-accent);
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--c-text2);
+  }
+
+  /* == UTIL == */
+  ul, ol { padding-left: 22px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--c-border); margin: 32px 0; }
+  mark { background: #FFEAA7; padding: 1px 4px; border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .cover h1 { font-size: 1.8rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== COVER ============================== -->
+<div class="cover">
+  <div class="cover-badge">Developer Certification Study Guide</div>
+  <h1>Anthropic <span>Claude</span><br>Developer Certification Prep</h1>
+  <p class="cover-sub">Master the Claude API, SDK patterns, streaming, tool use, prompt caching, batch processing, structured outputs, and production deployment. Includes code examples in Python and TypeScript, architecture diagrams, and 50 developer-focused MCQs with explanations.</p>
+  <div class="cover-meta">
+    <span><strong>Exam:</strong> CCDV-F (Developer Foundations)</span>
+    <span><strong>Sections:</strong> 12</span>
+    <span><strong>MCQs:</strong> 50 questions</span>
+    <span><strong>Source:</strong> Official Anthropic Docs</span>
+    <span><strong>Updated:</strong> September 2026</span>
+  </div>
+</div>
+
+<div class="notice notice-info">
+  <b>Developer-Level Guide</b>
+  This guide is designed for developers building production applications with the Claude API and SDKs. It assumes familiarity with REST APIs, JSON, and at least one programming language (Python or TypeScript examples provided). For foundational concepts (model families, pricing overview, safety principles), see the companion Associate-level study guide.
+</div>
+
+<!-- ============================== TOC ============================== -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#part1"><span class="num">01</span> Developer Ecosystem Overview</a>
+    <a href="#part2"><span class="num">02</span> Messages API Deep Dive</a>
+    <a href="#part3"><span class="num">03</span> Streaming &amp; Real-Time Responses</a>
+    <a href="#part4"><span class="num">04</span> Tool Use &amp; Function Calling</a>
+    <a href="#part5"><span class="num">05</span> Structured Outputs &amp; JSON Mode</a>
+    <a href="#part6"><span class="num">06</span> Prompt Caching</a>
+    <a href="#part7"><span class="num">07</span> Batch Processing</a>
+    <a href="#part8"><span class="num">08</span> Thinking &amp; Reasoning</a>
+    <a href="#part9"><span class="num">09</span> Rate Limits, Errors &amp; Resilience</a>
+    <a href="#part10"><span class="num">10</span> Testing, Evaluation &amp; QA</a>
+    <a href="#part11"><span class="num">11</span> Security, Data &amp; Production</a>
+    <a href="#part12"><span class="num">12</span> Practice Test &mdash; 50 Developer MCQs</a>
+  </div>
+</div>
+
+<!-- ============================== PART 1 ============================== -->
+<section id="part1" class="page-break">
+<h2><span class="part-num">Part 01</span>Developer Ecosystem Overview</h2>
+
+<h3>Three Building Surfaces</h3>
+<p>Anthropic provides three distinct ways to build with Claude. Choosing the right surface depends on how much control you need versus how much infrastructure you want Anthropic to manage.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimension</th><th>Claude API + Tool Use</th><th>Claude Agent SDK</th><th>Managed Agents (CMA)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Control Level</strong></td><td>Full &mdash; you own the loop</td><td>High &mdash; SDK provides harness</td><td>Managed &mdash; Anthropic runs the loop</td></tr>
+    <tr><td><strong>Hosting</strong></td><td>You host everything</td><td>You host everything</td><td>Anthropic hosts loop + sandbox</td></tr>
+    <tr><td><strong>Billing</strong></td><td>Per-token API usage</td><td>Per-token API usage</td><td>Per-token + session costs</td></tr>
+    <tr><td><strong>Tools</strong></td><td>You define all tools</td><td>Built-in (file, bash, grep) + custom</td><td>Sandboxed bash, files, code exec + MCP</td></tr>
+    <tr><td><strong>State</strong></td><td>You manage conversation state</td><td>SDK manages context</td><td>Persistent sessions with workspaces</td></tr>
+    <tr><td><strong>Best For</strong></td><td>Custom integrations, pipelines</td><td>Coding agents on your infra</td><td>Long-running async agent tasks</td></tr>
+    <tr><td><strong>Package</strong></td><td><code>anthropic</code> / <code>@anthropic-ai/sdk</code></td><td><code>claude-agent-sdk</code></td><td>REST API (beta)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Tool Runner vs Agent SDK</b>
+  The Tool Runner (<code>client.beta.messages.tool_runner</code>) is part of the standard Anthropic SDK and automates the tool-call loop for tools <em>you</em> define. The Claude Agent SDK is a separate package that provides the full Claude Code harness with built-in tools. They are different products despite similar names.
+</div>
+
+<h3>Developer Console &amp; SDKs</h3>
+<p>The <strong>Anthropic Console</strong> (console.anthropic.com) provides API key management, usage monitoring, rate limit dashboards, and a prompt playground (Workbench) for testing API calls interactively.</p>
+
+<h4>Official SDKs</h4>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Language</th><th>Package</th><th>Install</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Python</strong></td><td><code>anthropic</code></td><td><code>pip install anthropic</code></td></tr>
+    <tr><td><strong>TypeScript / JS</strong></td><td><code>@anthropic-ai/sdk</code></td><td><code>npm install @anthropic-ai/sdk</code></td></tr>
+    <tr><td><strong>Go</strong></td><td><code>anthropic-sdk-go</code></td><td><code>go get github.com/anthropics/anthropic-sdk-go</code></td></tr>
+    <tr><td><strong>Java / Kotlin</strong></td><td><code>com.anthropic:anthropic-java</code></td><td>Maven / Gradle</td></tr>
+    <tr><td><strong>C#</strong></td><td><code>Anthropic</code></td><td><code>dotnet add package Anthropic</code></td></tr>
+    <tr><td><strong>PHP</strong></td><td><code>anthropic/anthropic-sdk-php</code></td><td><code>composer require anthropic/anthropic-sdk-php</code></td></tr>
+    <tr><td><strong>Ruby</strong></td><td><code>anthropic-sdk-ruby</code></td><td><code>gem install anthropic-sdk-ruby</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>All SDKs auto-detect the <code>ANTHROPIC_API_KEY</code> environment variable. The CLI tool <code>ant</code> supports OAuth login (<code>ant auth login</code>), which SDKs detect automatically&mdash;no env var needed after login.</p>
+
+<h3>API Versioning</h3>
+<ul>
+  <li><strong><code>anthropic-version</code> header</strong> &mdash; Required on every raw HTTP request. Current stable version defines the response format and available features.</li>
+  <li><strong>Pinned model IDs</strong> &mdash; Use exact model strings like <code>claude-opus-5</code>, <code>claude-sonnet-5</code>. Never append date suffixes.</li>
+  <li><strong>Beta features</strong> &mdash; Activated via the <code>anthropic-beta</code> header (comma-separated). Example: <code>anthropic-beta: fast-mode-2026-02-01</code>. SDKs accept a <code>betas</code> array parameter.</li>
+  <li><strong>Models API</strong> &mdash; <code>GET /v1/models</code> and <code>GET /v1/models/{id}</code> for live capability discovery (context window, max output, supported features).</li>
+</ul>
+
+<div class="highlight">
+  <div class="hl-title">Key Model IDs to Know</div>
+  <ul>
+    <li><code>claude-opus-5</code> &mdash; Primary high-capability model ($5/$25 per MTok)</li>
+    <li><code>claude-sonnet-5</code> &mdash; Balanced speed/quality ($2/$10 per MTok)</li>
+    <li><code>claude-haiku-4-5</code> &mdash; Fastest, lowest cost ($1/$5 per MTok, 200K context)</li>
+    <li><code>claude-fable-5-1</code> &mdash; Most capable, frontier reasoning ($10/$50 per MTok)</li>
+  </ul>
+</div>
+</section>
+
+<!-- ============================== PART 2 ============================== -->
+<section id="part2" class="page-break">
+<h2><span class="part-num">Part 02</span>Messages API Deep Dive</h2>
+
+<h3>Endpoint</h3>
+<p>Everything goes through <code>POST /v1/messages</code>. Tools, structured outputs, thinking, and caching are all features of this single endpoint&mdash;not separate APIs.</p>
+
+<h3>Full Request Parameters</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>model</code></td><td>string</td><td>Yes</td><td>Model ID, e.g. <code>"claude-opus-5"</code></td></tr>
+    <tr><td><code>max_tokens</code></td><td>integer</td><td>Yes</td><td>Maximum output tokens. Up to 128K on current models.</td></tr>
+    <tr><td><code>messages</code></td><td>array</td><td>Yes</td><td>Conversation turns. Alternating <code>user</code> / <code>assistant</code> roles.</td></tr>
+    <tr><td><code>system</code></td><td>string | array</td><td>No</td><td>System prompt. Can be a string or array of content blocks.</td></tr>
+    <tr><td><code>tools</code></td><td>array</td><td>No</td><td>Tool definitions (user-defined or server-side).</td></tr>
+    <tr><td><code>tool_choice</code></td><td>object</td><td>No</td><td>Tool selection mode: <code>auto</code>, <code>any</code>, <code>tool</code>, <code>none</code>.</td></tr>
+    <tr><td><code>temperature</code></td><td>float</td><td>No</td><td>Sampling randomness (0.0&ndash;1.0). Removed on Opus 4.6+ / Sonnet 5.</td></tr>
+    <tr><td><code>top_p</code></td><td>float</td><td>No</td><td>Nucleus sampling. Removed on newer models.</td></tr>
+    <tr><td><code>top_k</code></td><td>integer</td><td>No</td><td>Top-K sampling. Removed on newer models.</td></tr>
+    <tr><td><code>stop_sequences</code></td><td>array</td><td>No</td><td>Custom stop strings. Generation halts when encountered.</td></tr>
+    <tr><td><code>stream</code></td><td>boolean</td><td>No</td><td>Enable Server-Sent Events streaming.</td></tr>
+    <tr><td><code>thinking</code></td><td>object</td><td>No</td><td>Thinking configuration: <code>adaptive</code> or <code>enabled</code> (legacy).</td></tr>
+    <tr><td><code>output_config</code></td><td>object</td><td>No</td><td>Contains <code>format</code> (structured output) and <code>effort</code> level.</td></tr>
+    <tr><td><code>metadata</code></td><td>object</td><td>No</td><td>Contains <code>user_id</code> for abuse detection and tracking.</td></tr>
+    <tr><td><code>cache_control</code></td><td>object</td><td>No</td><td>Top-level automatic prompt caching.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Multi-Turn Conversation Pattern</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic
+
+client = Anthropic()
+conversation = []
+
+<span class="kw">def</span> <span class="fn">chat</span>(user_message: <span class="fn">str</span>) -> <span class="fn">str</span>:
+    conversation.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_message})
+
+    response = client.messages.<span class="fn">create</span>(
+        <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+        <span class="key">max_tokens</span>=<span class="num">4096</span>,
+        <span class="key">system</span>=<span class="str">"You are a helpful coding assistant."</span>,
+        <span class="key">messages</span>=conversation
+    )
+
+    assistant_text = response.content[<span class="num">0</span>].text
+    <span class="cm"># Append the full content (not just text) to preserve structure</span>
+    conversation.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content})
+
+    <span class="kw">return</span> assistant_text
+</div>
+
+<h3>System Prompts</h3>
+<ul>
+  <li>Set via the top-level <code>system</code> parameter, separate from <code>messages</code>.</li>
+  <li>System tokens count as <strong>input tokens</strong> and are billed at the input rate.</li>
+  <li>Keep stable system prompts first for optimal prompt caching.</li>
+  <li>Can be a plain string or an array of content blocks (with <code>cache_control</code>).</li>
+  <li>Mid-conversation system messages (<code>"role": "system"</code> in <code>messages[]</code>) are supported on Opus 4.8+, Fable 5+ to inject instructions without invalidating cache.</li>
+</ul>
+
+<h3>Content Block Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Block Type</th><th>Direction</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>text</code></td><td>Both</td><td>Plain text content. Most common block type.</td></tr>
+    <tr><td><code>image</code></td><td>User &rarr; API</td><td>Base64-encoded image or URL. Supports PNG, JPEG, GIF, WebP.</td></tr>
+    <tr><td><code>document</code></td><td>User &rarr; API</td><td>PDF or text document. Base64 or Files API reference.</td></tr>
+    <tr><td><code>tool_use</code></td><td>API &rarr; Client</td><td>Claude requests a tool call. Contains <code>id</code>, <code>name</code>, <code>input</code>.</td></tr>
+    <tr><td><code>tool_result</code></td><td>Client &rarr; API</td><td>Result of executing a tool. References <code>tool_use_id</code>.</td></tr>
+    <tr><td><code>thinking</code></td><td>API &rarr; Client</td><td>Reasoning trace. Has <code>thinking</code> text and <code>signature</code> field.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Stop Reasons &amp; Handling</h3>
+<div class="code-block"><span class="label">Python</span>
+response = client.messages.<span class="fn">create</span>(<span class="key">model</span>=<span class="str">"claude-opus-5"</span>, ...)
+
+<span class="kw">match</span> response.stop_reason:
+    <span class="kw">case</span> <span class="str">"end_turn"</span>:
+        <span class="cm"># Normal completion - read response.content</span>
+        <span class="fn">print</span>(response.content[<span class="num">0</span>].text)
+    <span class="kw">case</span> <span class="str">"max_tokens"</span>:
+        <span class="cm"># Output was truncated - consider increasing max_tokens</span>
+        <span class="fn">print</span>(<span class="str">"Warning: response truncated"</span>)
+    <span class="kw">case</span> <span class="str">"stop_sequence"</span>:
+        <span class="cm"># Hit a custom stop sequence</span>
+        <span class="fn">print</span>(<span class="str">"Stopped at custom delimiter"</span>)
+    <span class="kw">case</span> <span class="str">"tool_use"</span>:
+        <span class="cm"># Claude wants to call a tool - enter agentic loop</span>
+        <span class="fn">handle_tool_calls</span>(response)
+    <span class="kw">case</span> <span class="str">"refusal"</span>:
+        <span class="cm"># Safety classifier declined (Fable 5.1 / Opus 5+)</span>
+        category = response.stop_details.category
+        <span class="fn">print</span>(<span class="str">f"Refused: </span>{category}<span class="str">"</span>)
+</div>
+
+<div class="highlight">
+  <div class="hl-title">Response Usage Object</div>
+  <p>Every response includes <code>response.usage</code> with: <code>input_tokens</code>, <code>output_tokens</code>, <code>cache_creation_input_tokens</code>, and <code>cache_read_input_tokens</code>. Use these to track costs and cache performance.</p>
+</div>
+</section>
+
+<!-- ============================== PART 3 ============================== -->
+<section id="part3" class="page-break">
+<h2><span class="part-num">Part 03</span>Streaming &amp; Real-Time Responses</h2>
+
+<h3>Server-Sent Events (SSE) Protocol</h3>
+<p>When <code>stream: true</code> is set, the API returns an SSE stream. Each event has an <code>event:</code> type line followed by a <code>data:</code> JSON payload line. The stream delivers tokens incrementally as they are generated.</p>
+
+<h3>SSE Event Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Event</th><th>When Fired</th><th>Key Data</th></tr></thead>
+  <tbody>
+    <tr><td><code>message_start</code></td><td>Stream begins</td><td>Message object with <code>id</code>, <code>model</code>, <code>usage.input_tokens</code></td></tr>
+    <tr><td><code>content_block_start</code></td><td>New content block begins</td><td>Block <code>index</code> and <code>type</code> (text, tool_use, thinking)</td></tr>
+    <tr><td><code>content_block_delta</code></td><td>Incremental content</td><td><code>text_delta</code>, <code>input_json_delta</code>, or <code>thinking_delta</code></td></tr>
+    <tr><td><code>content_block_stop</code></td><td>Block is complete</td><td>Block <code>index</code></td></tr>
+    <tr><td><code>message_delta</code></td><td>Message-level update</td><td><code>stop_reason</code>, <code>usage.output_tokens</code></td></tr>
+    <tr><td><code>message_stop</code></td><td>Stream ends</td><td>Empty &mdash; signals completion</td></tr>
+    <tr><td><code>ping</code></td><td>Keep-alive</td><td>Empty &mdash; prevents timeout</td></tr>
+    <tr><td><code>error</code></td><td>Stream error</td><td>Error <code>type</code> and <code>message</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Python Streaming Example</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic
+
+client = Anthropic()
+
+<span class="cm"># Context manager approach - recommended</span>
+<span class="kw">with</span> client.messages.<span class="fn">stream</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">4096</span>,
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Explain async/await in Python."</span>}]
+) <span class="kw">as</span> stream:
+    <span class="kw">for</span> text <span class="kw">in</span> stream.text_stream:
+        <span class="fn">print</span>(text, end=<span class="str">""</span>, flush=<span class="kw">True</span>)
+
+<span class="cm"># Get the final assembled message</span>
+final_message = stream.<span class="fn">get_final_message</span>()
+<span class="fn">print</span>(<span class="str">f"\nTokens used: </span>{final_message.usage.output_tokens}<span class="str">"</span>)
+</div>
+
+<h3>TypeScript Streaming Example</h3>
+<div class="code-block"><span class="label">TypeScript</span>
+<span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">Anthropic</span>();
+
+<span class="kw">const</span> stream = client.messages.<span class="fn">stream</span>({
+  <span class="key">model</span>: <span class="str">"claude-opus-5"</span>,
+  <span class="key">max_tokens</span>: <span class="num">4096</span>,
+  <span class="key">messages</span>: [{ <span class="key">role</span>: <span class="str">"user"</span>, <span class="key">content</span>: <span class="str">"Explain async/await."</span> }],
+});
+
+stream.<span class="fn">on</span>(<span class="str">"text"</span>, (text) => process.stdout.<span class="fn">write</span>(text));
+
+<span class="kw">const</span> message = <span class="kw">await</span> stream.<span class="fn">finalMessage</span>();
+console.<span class="fn">log</span>(<span class="str">`\nTokens: ${</span>message.usage.output_tokens<span class="str">}`</span>);
+</div>
+
+<h3>Streaming with Tool Use</h3>
+<p>When Claude makes a tool call during streaming, the events arrive as:</p>
+<ol>
+  <li><code>content_block_start</code> with <code>type: "tool_use"</code> containing the tool <code>name</code> and <code>id</code></li>
+  <li>Multiple <code>content_block_delta</code> events with <code>input_json_delta</code> (partial JSON for tool arguments)</li>
+  <li><code>content_block_stop</code> when the tool call arguments are complete</li>
+  <li><code>message_delta</code> with <code>stop_reason: "tool_use"</code></li>
+</ol>
+
+<h4>Eager Input Streaming (Fine-Grained Tool Streaming)</h4>
+<p>Set <code>eager_input_streaming: true</code> on a tool definition to receive large tool inputs as they are generated, rather than waiting for the server to buffer the complete input. This is <strong>not a beta feature</strong>&mdash;no beta header needed. Use it only on streaming requests with client-side tools. The client must validate the parsed input against the schema, since the SDK's tolerant parser may silently return a truncated result.</p>
+</section>
+
+<!-- ============================== PART 4 ============================== -->
+<section id="part4" class="page-break">
+<h2><span class="part-num">Part 04</span>Tool Use &amp; Function Calling &mdash; Production Patterns</h2>
+
+<h3>Tool Definition Schema</h3>
+<div class="code-block"><span class="label">JSON</span>
+{
+  <span class="key">"name"</span>: <span class="str">"get_weather"</span>,
+  <span class="key">"description"</span>: <span class="str">"Get current weather for a city. Returns temperature in Fahrenheit."</span>,
+  <span class="key">"input_schema"</span>: {
+    <span class="key">"type"</span>: <span class="str">"object"</span>,
+    <span class="key">"properties"</span>: {
+      <span class="key">"city"</span>: {
+        <span class="key">"type"</span>: <span class="str">"string"</span>,
+        <span class="key">"description"</span>: <span class="str">"City name, e.g. 'San Francisco'"</span>
+      },
+      <span class="key">"units"</span>: {
+        <span class="key">"type"</span>: <span class="str">"string"</span>,
+        <span class="key">"enum"</span>: [<span class="str">"fahrenheit"</span>, <span class="str">"celsius"</span>]
+      }
+    },
+    <span class="key">"required"</span>: [<span class="str">"city"</span>],
+    <span class="key">"additionalProperties"</span>: <span class="kw">false</span>
+  },
+  <span class="key">"strict"</span>: <span class="kw">true</span>
+}
+</div>
+
+<h3>Complete Agentic Loop</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">import</span> json
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic
+
+client = Anthropic()
+tools = [{ <span class="cm"># tool definitions as above</span> }]
+
+<span class="kw">def</span> <span class="fn">execute_tool</span>(name: <span class="fn">str</span>, inputs: <span class="fn">dict</span>) -> <span class="fn">str</span>:
+    <span class="kw">if</span> name == <span class="str">"get_weather"</span>:
+        <span class="kw">return</span> json.<span class="fn">dumps</span>({<span class="str">"temp"</span>: <span class="num">72</span>, <span class="str">"condition"</span>: <span class="str">"sunny"</span>})
+    <span class="kw">return</span> json.<span class="fn">dumps</span>({<span class="str">"error"</span>: <span class="str">"Unknown tool"</span>})
+
+<span class="kw">def</span> <span class="fn">run_agent</span>(user_message: <span class="fn">str</span>):
+    messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_message}]
+
+    <span class="kw">while True</span>:
+        response = client.messages.<span class="fn">create</span>(
+            <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+            <span class="key">max_tokens</span>=<span class="num">4096</span>,
+            <span class="key">tools</span>=tools,
+            <span class="key">messages</span>=messages
+        )
+
+        <span class="cm"># Append assistant response (full content, not just text)</span>
+        messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content})
+
+        <span class="kw">if</span> response.stop_reason == <span class="str">"end_turn"</span>:
+            <span class="kw">return</span> response.content[<span class="num">-1</span>].text
+
+        <span class="cm"># Process tool calls</span>
+        tool_results = []
+        <span class="kw">for</span> block <span class="kw">in</span> response.content:
+            <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
+                result = <span class="fn">execute_tool</span>(block.name, block.input)
+                tool_results.<span class="fn">append</span>({
+                    <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+                    <span class="str">"tool_use_id"</span>: block.id,
+                    <span class="str">"content"</span>: result
+                })
+
+        messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+</div>
+
+<h3>tool_choice Modes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Mode</th><th>Behavior</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>{"type": "auto"}</code></td><td>Claude decides whether to call a tool</td><td>Default. Works on all models.</td></tr>
+    <tr><td><code>{"type": "any"}</code></td><td>Force Claude to call some tool</td><td>Removed on Fable 5.1 / Opus 5.5 (returns 400).</td></tr>
+    <tr><td><code>{"type": "tool", "name": "X"}</code></td><td>Force a specific tool</td><td>Removed on Fable 5.1 / Opus 5.5 (returns 400).</td></tr>
+    <tr><td><code>{"type": "none"}</code></td><td>Disable tool calling</td><td>Works on all models.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Use <code>disable_parallel_tool_use: true</code> inside <code>tool_choice</code> to limit Claude to one tool call per turn.</p>
+
+<h3>Strict Tool Use</h3>
+<p>Set <code>strict: true</code> as a <strong>top-level field on the tool definition</strong> (alongside <code>name</code>, <code>description</code>, <code>input_schema</code>), not on <code>tool_choice</code>. The schema must include <code>additionalProperties: false</code> and list all properties in <code>required</code>. This guarantees the tool call input validates exactly against your schema.</p>
+
+<h3>Error Handling in Tool Results</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="cm"># Return errors using is_error field - never drop a tool_result</span>
+{
+    <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+    <span class="str">"tool_use_id"</span>: block.id,
+    <span class="str">"content"</span>: <span class="str">"Error: City 'Atlantis' not found in database."</span>,
+    <span class="str">"is_error"</span>: <span class="kw">True</span>
+}
+</div>
+
+<h3>Server-Side Tools</h3>
+<p>These run on Anthropic's infrastructure. No client-side execution needed&mdash;results arrive as content blocks in the response.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tool</th><th>Type String</th><th>Result Block</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Web Search</strong></td><td><code>web_search_20260209</code></td><td><code>web_search_tool_result</code></td></tr>
+    <tr><td><strong>Web Fetch</strong></td><td><code>web_fetch_20260209</code></td><td><code>web_fetch_tool_result</code></td></tr>
+    <tr><td><strong>Code Execution</strong></td><td><code>code_execution_20260521</code></td><td><code>bash_code_execution_tool_result</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-warn">
+  <b>Do not combine web search + code execution</b>
+  The <code>web_search_20260209</code> and <code>web_fetch_20260209</code> tools have built-in dynamic filtering that uses code execution under the hood. Separately declaring <code>code_execution</code> alongside them creates a confusing second execution environment.
+</div>
+
+<h3>Client-Side Anthropic Tools</h3>
+<p>These are pre-defined by Anthropic but executed on your infrastructure. They use special <code>type</code> strings and have no <code>input_schema</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tool</th><th>Type String</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Bash</strong></td><td><code>bash_20250124</code></td><td>Execute shell commands</td></tr>
+    <tr><td><strong>Text Editor</strong></td><td><code>text_editor_20250728</code></td><td>Read, write, and edit files</td></tr>
+    <tr><td><strong>Computer Use</strong></td><td><code>computer_20251124</code></td><td>GUI interaction (screenshots, clicks, keyboard)</td></tr>
+    <tr><td><strong>Memory</strong></td><td><code>memory_20250818</code></td><td>Persistent memory across conversations</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Tool Use Token Overhead</h3>
+<p>Each tool definition adds tokens to the system prompt. Approximate overhead per model:</p>
+<ul>
+  <li>A simple tool definition adds roughly 200&ndash;400 input tokens per tool.</li>
+  <li>For large tool sets (50+ tools), use <strong>tool search</strong> (<code>tool_search_tool_regex_20251119</code> or <code>tool_search_tool_bm25_20251119</code>) with <code>defer_loading: true</code> on most tools to reduce per-request token overhead.</li>
+</ul>
+</section>
+
+<!-- ============================== PART 5 ============================== -->
+<section id="part5" class="page-break">
+<h2><span class="part-num">Part 05</span>Structured Outputs &amp; JSON Mode</h2>
+
+<h3>output_config.format with json_schema</h3>
+<p>Constrains the response to match a JSON Schema. Use <code>output_config: {format: {type: "json_schema", json_schema: {...}}}</code> on <code>messages.create()</code>.</p>
+
+<div class="notice notice-warn">
+  <b>Breaking Change: output_format is deprecated</b>
+  The old <code>output_format</code> parameter is deprecated. Use <code>output_config: {format: {...}}</code> instead. This is a required migration for all new code.
+</div>
+
+<h3>Python Example with Pydantic</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic
+
+client = Anthropic()
+
+<span class="kw">class</span> <span class="fn">MovieReview</span>(BaseModel):
+    title: <span class="fn">str</span>
+    rating: <span class="fn">float</span>
+    summary: <span class="fn">str</span>
+    pros: <span class="fn">list</span>[<span class="fn">str</span>]
+    cons: <span class="fn">list</span>[<span class="fn">str</span>]
+
+<span class="cm"># parse() auto-extracts the JSON schema from the Pydantic model</span>
+response = client.messages.<span class="fn">parse</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">1024</span>,
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Review the movie Inception"</span>}],
+    <span class="key">output_type</span>=MovieReview
+)
+
+<span class="cm"># response.parsed is a validated MovieReview instance</span>
+review = response.parsed
+<span class="fn">print</span>(<span class="str">f"</span>{review.title}<span class="str">: </span>{review.rating}<span class="str">/10"</span>)
+</div>
+
+<h3>TypeScript Example with Zod</h3>
+<div class="code-block"><span class="label">TypeScript</span>
+<span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+<span class="kw">import</span> { zodOutputFormat } <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk/helpers/zod"</span>;
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">"zod"</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">Anthropic</span>();
+
+<span class="kw">const</span> MovieReview = z.<span class="fn">object</span>({
+  <span class="key">title</span>: z.<span class="fn">string</span>(),
+  <span class="key">rating</span>: z.<span class="fn">number</span>(),
+  <span class="key">summary</span>: z.<span class="fn">string</span>(),
+  <span class="key">pros</span>: z.<span class="fn">array</span>(z.<span class="fn">string</span>()),
+  <span class="key">cons</span>: z.<span class="fn">array</span>(z.<span class="fn">string</span>()),
+});
+
+<span class="kw">const</span> response = <span class="kw">await</span> client.messages.<span class="fn">create</span>({
+  <span class="key">model</span>: <span class="str">"claude-opus-5"</span>,
+  <span class="key">max_tokens</span>: <span class="num">1024</span>,
+  <span class="key">messages</span>: [{ <span class="key">role</span>: <span class="str">"user"</span>, <span class="key">content</span>: <span class="str">"Review the movie Inception"</span> }],
+  <span class="key">output_config</span>: <span class="fn">zodOutputFormat</span>(MovieReview),
+});
+</div>
+
+<h3>Strict Tool Use as Alternative</h3>
+<p>For simpler structured data, you can define a tool with <code>strict: true</code> and instruct Claude to call it. This guarantees schema conformance on the tool input. However, <code>output_config.format</code> is preferred for general structured output because it constrains the <em>response</em> directly without requiring a fake tool call.</p>
+
+<h3>Schema Limitations</h3>
+<ul>
+  <li>No <strong>recursive schemas</strong> (no <code>$ref</code> to self)</li>
+  <li>No <code>minLength</code> / <code>maxLength</code> on strings</li>
+  <li>No <code>minimum</code> / <code>maximum</code> on numbers</li>
+  <li>No <code>pattern</code> (regex) constraints</li>
+  <li><code>additionalProperties: false</code> is <strong>required</strong></li>
+  <li>All properties must be listed in <code>required</code></li>
+  <li>Incompatible with <strong>citations</strong> (<code>citations: {enabled: true}</code> returns a 400)</li>
+</ul>
+
+<h3>Performance Notes</h3>
+<ul>
+  <li><strong>Grammar compilation</strong> &mdash; The first request with a new schema incurs a compilation cost. Subsequent requests with the same schema use a <strong>24-hour cache</strong>.</li>
+  <li><strong>Cache key</strong> &mdash; The full JSON schema is the cache key. Any change (even whitespace) creates a new compilation.</li>
+</ul>
+</section>
+
+<!-- ============================== PART 6 ============================== -->
+<section id="part6" class="page-break">
+<h2><span class="part-num">Part 06</span>Prompt Caching &mdash; Implementation Guide</h2>
+
+<h3>Two Caching Modes</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Automatic Caching</div>
+    <p>Top-level <code>cache_control: {"type": "ephemeral"}</code> on the <code>messages.create()</code> call. The API automatically determines optimal breakpoints. Simplest option.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Explicit Breakpoints</div>
+    <p>Per-block <code>cache_control</code> on individual content blocks within <code>system</code>, <code>tools</code>, or <code>messages</code>. Max 4 breakpoints per request. Gives fine-grained control.</p>
+  </div>
+</div>
+
+<h3>Python Code Examples</h3>
+<div class="code-block"><span class="label">Python &mdash; Automatic</span>
+response = client.messages.<span class="fn">create</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">4096</span>,
+    <span class="key">cache_control</span>={<span class="str">"type"</span>: <span class="str">"ephemeral"</span>},  <span class="cm"># top-level auto-caching</span>
+    <span class="key">system</span>=<span class="str">"You are a helpful assistant with expertise in Python."</span>,
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Explain decorators."</span>}]
+)
+</div>
+
+<div class="code-block"><span class="label">Python &mdash; Explicit Breakpoints</span>
+response = client.messages.<span class="fn">create</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">4096</span>,
+    <span class="key">system</span>=[
+        {
+            <span class="str">"type"</span>: <span class="str">"text"</span>,
+            <span class="str">"text"</span>: <span class="str">"&lt;very long system prompt with guidelines...&gt;"</span>,
+            <span class="str">"cache_control"</span>: {<span class="str">"type"</span>: <span class="str">"ephemeral"</span>}  <span class="cm"># breakpoint</span>
+        }
+    ],
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Summarize the guidelines."</span>}]
+)
+</div>
+
+<h3>TTL Options</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>TTL</th><th>Write Cost</th><th>Default?</th><th>Configuration</th></tr></thead>
+  <tbody>
+    <tr><td><strong>5 minutes</strong></td><td>1.25x standard input price</td><td>Yes (default)</td><td><code>{"type": "ephemeral"}</code></td></tr>
+    <tr><td><strong>1 hour</strong></td><td>2x standard input price</td><td>No</td><td><code>{"type": "ephemeral", "ttl": "1h"}</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cache Read Pricing</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Cache Read Rate</th></tr></thead>
+  <tbody>
+    <tr><td>Most models (Opus 5, Sonnet 5, etc.)</td><td>0.1x standard input price</td></tr>
+    <tr><td>Fable 5.1</td><td>0.025x standard input price</td></tr>
+    <tr><td>Opus 5.5</td><td>0.05x standard input price</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Minimum Token Requirements</h3>
+<p>The prefix must meet a minimum token count or it silently will not cache:</p>
+<ul>
+  <li><strong>512 tokens</strong> &mdash; Opus 5, Sonnet 5, Fable 5, Fable 5.1</li>
+  <li><strong>1024 tokens</strong> &mdash; Haiku 4.5</li>
+  <li><strong>2048&ndash;4096 tokens</strong> &mdash; Some older models</li>
+</ul>
+
+<h3>Tracking Cache Performance</h3>
+<div class="code-block"><span class="label">Python</span>
+usage = response.usage
+<span class="fn">print</span>(<span class="str">f"New input tokens:     </span>{usage.input_tokens}<span class="str">"</span>)
+<span class="fn">print</span>(<span class="str">f"Cache writes (new):   </span>{usage.cache_creation_input_tokens}<span class="str">"</span>)
+<span class="fn">print</span>(<span class="str">f"Cache reads (hits):   </span>{usage.cache_read_input_tokens}<span class="str">"</span>)
+<span class="cm"># If cache_read_input_tokens is 0 across requests, check for invalidators</span>
+</div>
+
+<h3>Cache Pre-Warming</h3>
+<p>Send a request with <code>max_tokens: 0</code> to populate the cache without generating output. Useful for warming the cache before a burst of traffic.</p>
+
+<h3>Cache Invalidation Hierarchy</h3>
+<p>Prompt caching uses <strong>prefix matching</strong>. The render order is:</p>
+<div class="decision-tree"><span class="model">tools</span> <span class="arrow">&rarr;</span> <span class="model">system</span> <span class="arrow">&rarr;</span> <span class="model">messages</span>
+
+Any byte change <span class="kw">anywhere</span> in the prefix invalidates
+everything after it.
+
+<span class="arrow">&darr;</span> Keep stable content first
+<span class="arrow">&darr;</span> Put volatile content (timestamps, IDs) after the last breakpoint
+<span class="arrow">&darr;</span> Use deterministic JSON serialization for tool definitions</div>
+
+<div class="notice notice-tip">
+  <b>Common Silent Invalidators</b>
+  <code>datetime.now()</code> in system prompts, unsorted JSON keys in tool schemas, varying tool sets between requests, per-request UUIDs before the cache breakpoint. If <code>cache_read_input_tokens</code> is consistently 0, audit your prefix for any of these.
+</div>
+
+<h3>Multi-Turn Automatic Caching</h3>
+<p>In multi-turn conversations, the growing message history naturally extends the cached prefix. Each new turn adds content after the previous cache breakpoint, so prior turns hit cache while only the new content incurs write costs.</p>
+
+<div class="highlight">
+  <div class="hl-title">Key Rule: Cache Reads and Rate Limits</div>
+  <p>Cache read tokens do <strong>NOT</strong> count toward ITPM (Input Tokens Per Minute) rate limits. This means heavily cached workloads can process far more total tokens per minute than uncached ones.</p>
+</div>
+</section>
+
+<!-- ============================== PART 7 ============================== -->
+<section id="part7" class="page-break">
+<h2><span class="part-num">Part 07</span>Batch Processing</h2>
+
+<h3>When to Use Batches</h3>
+<ul>
+  <li><strong>Large-volume processing</strong> &mdash; Thousands of requests that do not need real-time responses.</li>
+  <li><strong>Evaluations</strong> &mdash; Running test suites against prompts.</li>
+  <li><strong>Data processing</strong> &mdash; Classification, extraction, or summarization of large datasets.</li>
+  <li><strong>Cost optimization</strong> &mdash; 50% cheaper than standard API calls.</li>
+</ul>
+
+<h3>JSONL Request Format</h3>
+<p>Each line is an independent request with a <code>custom_id</code> for correlation:</p>
+<div class="code-block"><span class="label">JSONL</span>
+{<span class="key">"custom_id"</span>: <span class="str">"req-001"</span>, <span class="key">"params"</span>: {<span class="key">"model"</span>: <span class="str">"claude-sonnet-5"</span>, <span class="key">"max_tokens"</span>: <span class="num">1024</span>, <span class="key">"messages"</span>: [{<span class="key">"role"</span>: <span class="str">"user"</span>, <span class="key">"content"</span>: <span class="str">"Classify: positive or negative"</span>}]}}
+{<span class="key">"custom_id"</span>: <span class="str">"req-002"</span>, <span class="key">"params"</span>: {<span class="key">"model"</span>: <span class="str">"claude-sonnet-5"</span>, <span class="key">"max_tokens"</span>: <span class="num">1024</span>, <span class="key">"messages"</span>: [{<span class="key">"role"</span>: <span class="str">"user"</span>, <span class="key">"content"</span>: <span class="str">"Summarize this review..."</span>}]}}
+</div>
+
+<h3>Creating a Batch (Python)</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic
+<span class="kw">from</span> anthropic.types.messages <span class="kw">import</span> MessageCreateParamsNonStreaming
+<span class="kw">from</span> anthropic.types.messages.batch_create_params <span class="kw">import</span> Request
+
+client = Anthropic()
+
+batch = client.messages.batches.<span class="fn">create</span>(
+    <span class="key">requests</span>=[
+        Request(
+            <span class="key">custom_id</span>=<span class="str">"sentiment-001"</span>,
+            <span class="key">params</span>=MessageCreateParamsNonStreaming(
+                <span class="key">model</span>=<span class="str">"claude-sonnet-5"</span>,
+                <span class="key">max_tokens</span>=<span class="num">256</span>,
+                <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>,
+                           <span class="str">"content"</span>: <span class="str">"Classify as positive/negative: 'Great product!'"</span>}]
+            )
+        ),
+        Request(
+            <span class="key">custom_id</span>=<span class="str">"sentiment-002"</span>,
+            <span class="key">params</span>=MessageCreateParamsNonStreaming(
+                <span class="key">model</span>=<span class="str">"claude-sonnet-5"</span>,
+                <span class="key">max_tokens</span>=<span class="num">256</span>,
+                <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>,
+                           <span class="str">"content"</span>: <span class="str">"Classify as positive/negative: 'Terrible experience.'"</span>}]
+            )
+        ),
+    ]
+)
+
+<span class="fn">print</span>(<span class="str">f"Batch ID: </span>{batch.id}<span class="str">"</span>)
+</div>
+
+<h3>Polling for Results</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">import</span> time
+
+<span class="kw">while True</span>:
+    batch = client.messages.batches.<span class="fn">retrieve</span>(batch.id)
+    <span class="fn">print</span>(<span class="str">f"Status: </span>{batch.processing_status}<span class="str">"</span>)
+
+    <span class="kw">if</span> batch.processing_status == <span class="str">"ended"</span>:
+        <span class="kw">break</span>
+
+    time.<span class="fn">sleep</span>(<span class="num">60</span>)  <span class="cm"># poll every minute</span>
+</div>
+
+<h3>Retrieving Results</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">for</span> result <span class="kw">in</span> client.messages.batches.<span class="fn">results</span>(batch.id):
+    <span class="kw">match</span> result.result.type:
+        <span class="kw">case</span> <span class="str">"succeeded"</span>:
+            message = result.result.message
+            <span class="fn">print</span>(<span class="str">f"</span>{result.custom_id}<span class="str">: </span>{message.content[<span class="num">0</span>].text}<span class="str">"</span>)
+        <span class="kw">case</span> <span class="str">"errored"</span>:
+            <span class="fn">print</span>(<span class="str">f"</span>{result.custom_id}<span class="str">: ERROR - </span>{result.result.error}<span class="str">"</span>)
+        <span class="kw">case</span> <span class="str">"canceled"</span>:
+            <span class="fn">print</span>(<span class="str">f"</span>{result.custom_id}<span class="str">: Canceled"</span>)
+        <span class="kw">case</span> <span class="str">"expired"</span>:
+            <span class="fn">print</span>(<span class="str">f"</span>{result.custom_id}<span class="str">: Expired (24h limit)"</span>)
+</div>
+
+<div class="highlight">
+  <div class="hl-title">Batch Processing Key Facts</div>
+  <ul>
+    <li><strong>50% cost savings</strong> compared to standard API requests</li>
+    <li><strong>100,000 requests</strong> maximum per batch</li>
+    <li><strong>24-hour processing window</strong> &mdash; results expire after 24 hours</li>
+    <li>Results arrive in <strong>any order</strong> &mdash; key by <code>custom_id</code>, never by position</li>
+    <li>Processing statuses: <code>in_progress</code>, <code>ended</code>, <code>canceling</code>, <code>canceled</code>, <code>expired</code></li>
+    <li>Result types: <code>succeeded</code>, <code>errored</code>, <code>canceled</code>, <code>expired</code></li>
+  </ul>
+</div>
+</section>
+
+<!-- ============================== PART 8 ============================== -->
+<section id="part8" class="page-break">
+<h2><span class="part-num">Part 08</span>Thinking &amp; Reasoning &mdash; Developer Guide</h2>
+
+<h3>Adaptive Thinking (Current Standard)</h3>
+<p>On all current-generation models (Opus 4.6+, Sonnet 4.6+, Sonnet 5, Fable 5/5.1), use adaptive thinking. Claude dynamically decides when and how deeply to reason.</p>
+<div class="code-block"><span class="label">Python</span>
+response = client.messages.<span class="fn">create</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">16000</span>,
+    <span class="key">thinking</span>={<span class="str">"type"</span>: <span class="str">"adaptive"</span>, <span class="str">"display"</span>: <span class="str">"summarized"</span>},
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Prove that sqrt(2) is irrational."</span>}]
+)
+</div>
+
+<h3>Extended Thinking (Legacy)</h3>
+<p>Only supported on <strong>Haiku 4.5</strong> and older models. Uses a fixed token budget. This is deprecated for new code.</p>
+<div class="code-block"><span class="label">Python &mdash; Legacy (Haiku 4.5 only)</span>
+response = client.messages.<span class="fn">create</span>(
+    <span class="key">model</span>=<span class="str">"claude-haiku-4-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">16000</span>,
+    <span class="key">thinking</span>={<span class="str">"type"</span>: <span class="str">"enabled"</span>, <span class="str">"budget_tokens"</span>: <span class="num">8000</span>},
+    <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Solve this math problem..."</span>}]
+)
+<span class="cm"># budget_tokens must be less than max_tokens, minimum 1024</span>
+</div>
+
+<h3>Effort Parameter</h3>
+<p>Controls thinking depth. Set inside <code>output_config</code>, not top-level:</p>
+<div class="code-block"><span class="label">Python</span>
+response = client.messages.<span class="fn">create</span>(
+    <span class="key">model</span>=<span class="str">"claude-opus-5"</span>,
+    <span class="key">max_tokens</span>=<span class="num">4096</span>,
+    <span class="key">thinking</span>={<span class="str">"type"</span>: <span class="str">"adaptive"</span>},
+    <span class="key">output_config</span>={<span class="str">"effort"</span>: <span class="str">"xhigh"</span>},
+    <span class="key">messages</span>=[...]
+)
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Level</th><th>Use Case</th><th>Token Spend</th></tr></thead>
+  <tbody>
+    <tr><td><code>low</code></td><td>Simple tasks, subagents, classification</td><td>Minimal</td></tr>
+    <tr><td><code>medium</code></td><td>Routine work, cost-sensitive routes</td><td>Low</td></tr>
+    <tr><td><code>high</code></td><td>Default for most models. Balanced quality/cost.</td><td>Moderate</td></tr>
+    <tr><td><code>xhigh</code></td><td>Coding, agentic tasks. Best for most dev work.</td><td>High</td></tr>
+    <tr><td><code>max</code></td><td>When correctness matters more than cost.</td><td>Very High</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Thinking Blocks in Responses</h3>
+<p>When thinking is active, the response <code>content</code> array may include thinking blocks before text blocks:</p>
+<div class="code-block"><span class="label">Response Content Array</span>
+[
+  {
+    <span class="key">"type"</span>: <span class="str">"thinking"</span>,
+    <span class="key">"thinking"</span>: <span class="str">"Let me analyze this step by step..."</span>,
+    <span class="key">"signature"</span>: <span class="str">"dGhpbmtpbmdfc2lnbmF0dXJl..."</span>
+  },
+  {
+    <span class="key">"type"</span>: <span class="str">"text"</span>,
+    <span class="key">"text"</span>: <span class="str">"The answer is 42."</span>
+  }
+]
+</div>
+
+<h3>Multi-Turn with Thinking (Signature Required)</h3>
+<p>When continuing a conversation, you <strong>must</strong> pass thinking blocks back unchanged, including their <code>signature</code> field. Never modify the thinking text or signature.</p>
+<div class="code-block"><span class="label">Python</span>
+<span class="cm"># Append the FULL content (including thinking blocks) back</span>
+messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content})
+messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Can you elaborate?"</span>})
+<span class="cm"># Thinking blocks with matching signatures will be accepted</span>
+<span class="cm"># Thinking blocks from a different model are silently dropped</span>
+</div>
+
+<h3>Thinking with Tool Use</h3>
+<p>Thinking blocks can appear between tool calls. In an agentic loop, Claude may think before each tool call and again after processing results. The content array can look like: <code>[thinking, tool_use, tool_use, ...]</code> on one turn, then after tool results: <code>[thinking, text]</code> on the next.</p>
+
+<h3>Token Billing</h3>
+<ul>
+  <li>Thinking tokens count as <strong>output tokens</strong> and are billed at the output rate.</li>
+  <li>They count toward <code>max_tokens</code>.</li>
+  <li>With <code>display: "omitted"</code> (default on newer models), thinking blocks are still generated and billed, but the <code>thinking</code> field is empty.</li>
+  <li>With <code>display: "summarized"</code>, you get a readable summary (still not the raw chain of thought).</li>
+</ul>
+
+<div class="notice notice-info">
+  <b>When to Use Thinking</b>
+  Thinking significantly improves performance on: mathematical proofs, complex coding tasks, multi-step analysis, agentic decision-making, and tasks requiring careful reasoning. For simple classification or extraction, lower effort or no thinking may be more cost-effective.
+</div>
+</section>
+
+<!-- ============================== PART 9 ============================== -->
+<section id="part9" class="page-break">
+<h2><span class="part-num">Part 09</span>Rate Limits, Error Handling &amp; Production Resilience</h2>
+
+<h3>Three Rate Limit Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Limit Type</th><th>Abbreviation</th><th>What It Measures</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Requests Per Minute</strong></td><td>RPM</td><td>Total API requests per minute</td></tr>
+    <tr><td><strong>Input Tokens Per Minute</strong></td><td>ITPM</td><td>Input tokens processed per minute</td></tr>
+    <tr><td><strong>Output Tokens Per Minute</strong></td><td>OTPM</td><td>Output tokens generated per minute</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Usage Tiers</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tier</th><th>Monthly Cap</th><th>Access Level</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Start</strong></td><td>$500/month</td><td>Initial tier for new accounts</td></tr>
+    <tr><td><strong>Build</strong></td><td>$1,000/month</td><td>Increased limits after credit purchase</td></tr>
+    <tr><td><strong>Scale</strong></td><td>$200,000/month</td><td>Production workloads, highest standard limits</td></tr>
+    <tr><td><strong>Custom</strong></td><td>Negotiated</td><td>Enterprise, custom rate limits</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Scale Tier Rate Limits (Example)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>RPM</th><th>ITPM</th><th>OTPM</th></tr></thead>
+  <tbody>
+    <tr><td>Claude Opus 5.5</td><td>10,000</td><td>10,000,000</td><td>2,000,000</td></tr>
+    <tr><td>Claude Opus 5</td><td>10,000</td><td>10,000,000</td><td>2,000,000</td></tr>
+    <tr><td>Claude Sonnet 5</td><td>10,000</td><td>10,000,000</td><td>2,000,000</td></tr>
+    <tr><td>Claude Haiku 4.5</td><td>10,000</td><td>10,000,000</td><td>2,000,000</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cache-Aware ITPM</h3>
+<p>Cached tokens (reported as <code>cache_read_input_tokens</code>) do <strong>NOT</strong> count toward the ITPM rate limit. Only <code>input_tokens</code> and <code>cache_creation_input_tokens</code> count. This means a well-cached workload can effectively process far more total input per minute.</p>
+
+<h3>Token Bucket Algorithm</h3>
+<p>Rate limits use a <strong>token bucket</strong> model. The bucket fills at a constant rate (the limit) and drains with each request. Short bursts above the per-minute limit are allowed if the bucket has capacity, but sustained over-limit usage will trigger 429s.</p>
+
+<h3>HTTP 429 Handling</h3>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> anthropic <span class="kw">import</span> Anthropic, RateLimitError
+
+client = Anthropic()
+
+<span class="kw">try</span>:
+    response = client.messages.<span class="fn">create</span>(...)
+<span class="kw">except</span> RateLimitError <span class="kw">as</span> e:
+    <span class="cm"># SDK automatically retries 429s with exponential backoff</span>
+    <span class="cm"># This fires only after all retries are exhausted</span>
+    retry_after = e.response.headers.<span class="fn">get</span>(<span class="str">"retry-after"</span>)
+    <span class="fn">print</span>(<span class="str">f"Rate limited. Retry after: </span>{retry_after}<span class="str">s"</span>)
+</div>
+
+<h3>Response Headers</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Header</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>anthropic-ratelimit-requests-limit</code></td><td>Max RPM for your tier</td></tr>
+    <tr><td><code>anthropic-ratelimit-requests-remaining</code></td><td>Remaining RPM in current window</td></tr>
+    <tr><td><code>anthropic-ratelimit-requests-reset</code></td><td>When RPM bucket refills (ISO 8601)</td></tr>
+    <tr><td><code>anthropic-ratelimit-input-tokens-limit</code></td><td>Max ITPM</td></tr>
+    <tr><td><code>anthropic-ratelimit-input-tokens-remaining</code></td><td>Remaining ITPM</td></tr>
+    <tr><td><code>anthropic-ratelimit-output-tokens-limit</code></td><td>Max OTPM</td></tr>
+    <tr><td><code>anthropic-ratelimit-output-tokens-remaining</code></td><td>Remaining OTPM</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Spend Limit Errors</h3>
+<p>Distinct from rate limits: <code>error_code: "enforced_spend_limit_reached"</code> means you have hit your monthly spending cap. This is a 400-level error, not a 429. Solution: increase the spend limit in the Console, not retry.</p>
+
+<h3>SDK Automatic Retries</h3>
+<p>Both the Python and TypeScript SDKs automatically retry on 429 (rate limit), 408 (timeout), 409 (conflict), and 5xx (server error) with exponential backoff. Default: <strong>2 retries</strong> (configurable via <code>max_retries</code>). Wall-clock time can reach <code>timeout x (max_retries + 1)</code>.</p>
+
+<h3>Common HTTP Error Codes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Code</th><th>Type</th><th>Meaning</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>400</code></td><td><code>invalid_request_error</code></td><td>Malformed request, invalid params</td><td>Fix the request &mdash; do not retry</td></tr>
+    <tr><td><code>401</code></td><td><code>authentication_error</code></td><td>Invalid or missing API key</td><td>Check ANTHROPIC_API_KEY</td></tr>
+    <tr><td><code>403</code></td><td><code>permission_error</code></td><td>API key lacks required scope</td><td>Check key permissions</td></tr>
+    <tr><td><code>404</code></td><td><code>not_found_error</code></td><td>Resource not found</td><td>Check model ID / endpoint</td></tr>
+    <tr><td><code>429</code></td><td><code>rate_limit_error</code></td><td>Rate limit exceeded</td><td>Retry with backoff (SDK auto-retries)</td></tr>
+    <tr><td><code>500</code></td><td><code>api_error</code></td><td>Internal server error</td><td>Retry with backoff</td></tr>
+    <tr><td><code>529</code></td><td><code>overloaded_error</code></td><td>API is temporarily overloaded</td><td>Retry with backoff</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight">
+  <div class="hl-title">Best Practice: Catch a Chain, Not One Broad Class</div>
+  <p>Use specific exception types in order of specificity: <code>NotFoundError</code> &rarr; <code>RateLimitError</code> &rarr; <code>APIStatusError</code> &rarr; <code>APIConnectionError</code>. A single broad <code>except APIStatusError</code> loses the distinction between retryable and non-retryable failures.</p>
+</div>
+</section>
+
+<!-- ============================== PART 10 ============================== -->
+<section id="part10" class="page-break">
+<h2><span class="part-num">Part 10</span>Testing, Evaluation &amp; Quality Assurance</h2>
+
+<h3>Defining SMART Success Criteria</h3>
+<p>Before building evaluations, define <strong>SMART</strong> criteria: Specific, Measurable, Achievable, Relevant, Time-bound. Example: "The model should correctly extract all invoice line items with at least 95% accuracy on the test set."</p>
+
+<h3>Five Evaluation Types</h3>
+
+<h4>1. Exact Match</h4>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">def</span> <span class="fn">eval_exact_match</span>(expected: <span class="fn">str</span>, actual: <span class="fn">str</span>) -> <span class="fn">float</span>:
+    <span class="kw">return</span> <span class="num">1.0</span> <span class="kw">if</span> expected.strip().lower() == actual.strip().lower() <span class="kw">else</span> <span class="num">0.0</span>
+</div>
+
+<h4>2. Cosine Similarity (SBERT)</h4>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> sentence_transformers <span class="kw">import</span> SentenceTransformer
+<span class="kw">from</span> sklearn.metrics.pairwise <span class="kw">import</span> cosine_similarity
+
+model = <span class="fn">SentenceTransformer</span>(<span class="str">"all-MiniLM-L6-v2"</span>)
+
+<span class="kw">def</span> <span class="fn">eval_cosine_similarity</span>(expected: <span class="fn">str</span>, actual: <span class="fn">str</span>) -> <span class="fn">float</span>:
+    embeddings = model.<span class="fn">encode</span>([expected, actual])
+    score = <span class="fn">cosine_similarity</span>([embeddings[<span class="num">0</span>]], [embeddings[<span class="num">1</span>]])[<span class="num">0</span>][<span class="num">0</span>]
+    <span class="kw">return</span> <span class="fn">float</span>(score)
+</div>
+
+<h4>3. ROUGE-L (Longest Common Subsequence)</h4>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">from</span> rouge_score <span class="kw">import</span> rouge_scorer
+
+scorer = rouge_scorer.<span class="fn">RougeScorer</span>([<span class="str">"rougeL"</span>], use_stemmer=<span class="kw">True</span>)
+
+<span class="kw">def</span> <span class="fn">eval_rouge_l</span>(expected: <span class="fn">str</span>, actual: <span class="fn">str</span>) -> <span class="fn">float</span>:
+    scores = scorer.<span class="fn">score</span>(expected, actual)
+    <span class="kw">return</span> scores[<span class="str">"rougeL"</span>].fmeasure
+</div>
+
+<h4>4. LLM-Based Likert Scale</h4>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">def</span> <span class="fn">eval_llm_likert</span>(question: <span class="fn">str</span>, answer: <span class="fn">str</span>, reference: <span class="fn">str</span>) -> <span class="fn">int</span>:
+    <span class="cm"># Use a DIFFERENT model than the one being evaluated</span>
+    response = client.messages.<span class="fn">create</span>(
+        <span class="key">model</span>=<span class="str">"claude-sonnet-5"</span>,
+        <span class="key">max_tokens</span>=<span class="num">100</span>,
+        <span class="key">system</span>=<span class="str">"Rate the answer on a 1-5 scale for accuracy and completeness."</span>,
+        <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>:
+            <span class="str">f"Question: </span>{question}<span class="str">\nReference: </span>{reference}<span class="str">\nAnswer: </span>{answer}<span class="str">\nScore (1-5):"</span>}]
+    )
+    <span class="kw">return</span> <span class="fn">int</span>(response.content[<span class="num">0</span>].text.strip())
+</div>
+
+<h4>5. LLM-Based Binary Classification</h4>
+<div class="code-block"><span class="label">Python</span>
+<span class="kw">def</span> <span class="fn">eval_llm_binary</span>(question: <span class="fn">str</span>, answer: <span class="fn">str</span>, criteria: <span class="fn">str</span>) -> <span class="fn">bool</span>:
+    response = client.messages.<span class="fn">create</span>(
+        <span class="key">model</span>=<span class="str">"claude-sonnet-5"</span>,
+        <span class="key">max_tokens</span>=<span class="num">10</span>,
+        <span class="key">system</span>=<span class="str">"You are a strict evaluator. Answer PASS or FAIL only."</span>,
+        <span class="key">messages</span>=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>:
+            <span class="str">f"Criteria: </span>{criteria}<span class="str">\nQuestion: </span>{question}<span class="str">\nAnswer: </span>{answer}<span class="str">\nVerdict:"</span>}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text.strip().upper() == <span class="str">"PASS"</span>
+</div>
+
+<h3>Best Practices</h3>
+<ul>
+  <li>Use a <strong>different model</strong> for evaluation than the one being tested (prevents self-bias).</li>
+  <li>Include <strong>edge cases</strong>: empty inputs, very long inputs, adversarial prompts.</li>
+  <li><strong>Automate</strong> your eval suite&mdash;run it after every prompt change.</li>
+  <li><strong>Combine metrics</strong>: use both automated (exact match, ROUGE) and LLM-based judges.</li>
+  <li>Track scores over time to detect regressions.</li>
+</ul>
+
+<h3>Prompt Engineering Iteration Loop</h3>
+<div class="decision-tree">1. <span class="model">Define success criteria</span> (SMART, measurable)
+   <span class="arrow">&darr;</span>
+2. <span class="model">Build evaluation set</span> (20-50 test cases minimum)
+   <span class="arrow">&darr;</span>
+3. <span class="model">Draft initial prompt</span>
+   <span class="arrow">&darr;</span>
+4. <span class="model">Run evaluations</span> (automated + manual review)
+   <span class="arrow">&darr;</span>
+5. <span class="model">Analyze failures</span> (categorize error types)
+   <span class="arrow">&darr;</span>
+6. <span class="model">Refine prompt</span> (address specific failure modes)
+   <span class="arrow">&darr;</span>
+   Loop back to step 4 until criteria are met</div>
+</section>
+
+<!-- ============================== PART 11 ============================== -->
+<section id="part11" class="page-break">
+<h2><span class="part-num">Part 11</span>Security, Data Policies &amp; Production Deployment</h2>
+
+<h3>API Key Management</h3>
+<ul>
+  <li>Store keys in environment variables (<code>ANTHROPIC_API_KEY</code>) or a secrets manager.</li>
+  <li><strong>Never</strong> embed keys in client-side code, Git repos, or log files.</li>
+  <li>Set <strong>key expiration</strong> dates and rotate regularly.</li>
+  <li>Use <strong>Workspaces</strong> for team isolation&mdash;each workspace can have its own keys and rate limits.</li>
+  <li>OAuth-based authentication (<code>ant auth login</code>) is preferred over long-lived API keys for developer workflows.</li>
+</ul>
+
+<h3>Zero Data Retention (ZDR)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>ZDR-Eligible?</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Messages API</td><td>Yes</td><td>Standard API requests, no data stored</td></tr>
+    <tr><td>Batch API</td><td>Yes</td><td>Requests processed and discarded</td></tr>
+    <tr><td>Prompt Caching</td><td>Yes</td><td>Cached data is ephemeral, not persisted</td></tr>
+    <tr><td>Fable 5 / Fable 5.1</td><td>Conditional</td><td>Requires 30-day data retention unless expressly authorized</td></tr>
+    <tr><td>Managed Agents</td><td>No</td><td>Session state requires data retention</td></tr>
+    <tr><td>Claude.ai (consumer)</td><td>No</td><td>Conversations stored for product improvement</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>HIPAA Readiness</h3>
+<p>Anthropic offers HIPAA-compliant deployments through the API with a Business Associate Agreement (BAA). Requirements: ZDR-eligible features only, no PHI in prompt caching with extended TTLs, proper access controls.</p>
+
+<h3>Data Processor Roles</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td>Claude API (Anthropic)</td><td>Data processor (your org is controller)</td></tr>
+    <tr><td>Amazon Bedrock</td><td>AWS is processor (Anthropic is subprocessor)</td></tr>
+    <tr><td>Google Vertex AI</td><td>Google is processor (Anthropic is subprocessor)</td></tr>
+    <tr><td>claude.ai (consumer)</td><td>Anthropic is controller</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Input Validation &amp; Content Filtering</h3>
+<ul>
+  <li>Validate and sanitize all user inputs before sending to the API.</li>
+  <li>Set <code>metadata.user_id</code> for per-user abuse tracking.</li>
+  <li>Implement content moderation on both inputs and outputs for user-facing applications.</li>
+  <li>Use <strong>web search/fetch domain filtering</strong> (<code>allowed_domains</code> / <code>blocked_domains</code>) to restrict tool access.</li>
+</ul>
+
+<h3>Workspaces for Team Isolation</h3>
+<ul>
+  <li>Each workspace has <strong>independent API keys</strong> and rate limits.</li>
+  <li>Usage is tracked and billed per workspace.</li>
+  <li>Members can be assigned to specific workspaces with role-based access.</li>
+  <li>Useful for separating production / staging / development environments.</li>
+</ul>
+
+<h3>Cost Optimization Strategies</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Model Selection</div>
+    <p>Use the cheapest model that meets quality requirements. Haiku 4.5 for classification, Sonnet 5 for balanced tasks, Opus 5 for complex reasoning.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Prompt Caching</div>
+    <p>Cache stable prefixes (system prompts, tool definitions). Cache reads cost 0.1x. Biggest single lever for cost reduction.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Batch Processing</div>
+    <p>50% cost savings for non-latency-sensitive workloads. Use for evaluations, data processing, bulk operations.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Effort Tuning</div>
+    <p>Lower effort on simple tasks. A single model at lower effort often matches a cheaper model at high effort, while keeping cache benefits.</p>
+  </div>
+</div>
+
+<h3>Monitoring</h3>
+<ul>
+  <li><strong>Usage page</strong> in the Console &mdash; total tokens, cost breakdown by model and workspace.</li>
+  <li><strong>Rate limit charts</strong> &mdash; track utilization vs. limits across RPM, ITPM, OTPM.</li>
+  <li><strong>Cache hit rates</strong> &mdash; monitor <code>cache_read_input_tokens</code> vs. <code>cache_creation_input_tokens</code>.</li>
+  <li><strong>Response usage</strong> &mdash; every API response includes <code>usage</code> for per-request tracking.</li>
+</ul>
+</section>
+
+<!-- ============================== PART 12 ============================== -->
+<section id="part12" class="page-break">
+<h2><span class="part-num">Part 12</span>Practice Test &mdash; 50 Developer MCQs</h2>
+
+<div class="notice notice-info">
+  <b>Instructions</b>
+  Each question has exactly one correct answer, highlighted in green. Read the explanation for each question to understand the reasoning behind the correct answer. Questions cover developer-focused topics: API patterns, SDK usage, tool use, structured outputs, caching, batching, thinking, rate limits, error handling, and production deployment.
+</div>
+
+<!-- ========== API & SDK PATTERNS (8 questions) ========== -->
+
+<!-- Q1 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q1</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">Which two parameters are required on every <code>POST /v1/messages</code> request in addition to <code>messages</code>?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>model</code> and <code>system</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>model</code> and <code>max_tokens</code></li>
+    <li><span class="letter">C</span> <code>model</code> and <code>temperature</code></li>
+    <li><span class="letter">D</span> <code>max_tokens</code> and <code>stream</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The Messages API requires <code>model</code>, <code>max_tokens</code>, and <code>messages</code>. All other parameters (<code>system</code>, <code>temperature</code>, <code>stream</code>, etc.) are optional.</div>
+</div>
+
+<!-- Q2 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q2</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">In a multi-turn conversation, after receiving a response from the API, what should you append to the <code>messages</code> array?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Just the text string from <code>response.content[0].text</code></li>
+    <li class="correct-option"><span class="letter">B</span> The full <code>response.content</code> array as the assistant message content</li>
+    <li><span class="letter">C</span> The entire <code>response</code> object</li>
+    <li><span class="letter">D</span> A new <code>{"role": "assistant", "text": response.content[0].text}</code> object</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> You must append the full <code>response.content</code> (not just text) to preserve thinking blocks, tool_use blocks, and their signatures. Extracting only the text string silently loses compaction state and thinking signatures.</div>
+</div>
+
+<!-- Q3 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q3</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">Which SSE event type delivers the final <code>stop_reason</code> and total <code>output_tokens</code> during streaming?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>message_stop</code></li>
+    <li><span class="letter">B</span> <code>content_block_stop</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>message_delta</code></li>
+    <li><span class="letter">D</span> <code>message_start</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The <code>message_delta</code> event carries <code>stop_reason</code> and <code>usage.output_tokens</code>. <code>message_stop</code> is an empty signal that the stream has ended. <code>message_start</code> carries <code>input_tokens</code>.</div>
+</div>
+
+<!-- Q4 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q4</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">In the Python SDK, which is the recommended way to stream responses and get the assembled final message?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>client.messages.create(stream=True)</code> and manually parse SSE events</li>
+    <li class="correct-option"><span class="letter">B</span> <code>with client.messages.stream(...) as stream:</code> context manager with <code>stream.get_final_message()</code></li>
+    <li><span class="letter">C</span> <code>client.messages.stream_text(...)</code></li>
+    <li><span class="letter">D</span> <code>async for chunk in client.messages.create(stream=True):</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The SDK provides the <code>client.messages.stream()</code> context manager with <code>text_stream</code> for incremental text and <code>get_final_message()</code> for the assembled message. This is preferred over manually parsing SSE events.</div>
+</div>
+
+<!-- Q5 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q5</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">What is the maximum <code>max_tokens</code> value supported by Claude Opus 5 and other current-generation models?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 4,096</li>
+    <li><span class="letter">B</span> 16,384</li>
+    <li><span class="letter">C</span> 65,536</li>
+    <li class="correct-option"><span class="letter">D</span> 128,000</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> Current-generation models (Opus 4.6+, Sonnet 4.6+, Sonnet 5, Fable 5/5.1) support up to 128K <code>max_tokens</code>. However, values above ~16K require streaming to avoid HTTP timeouts.</div>
+</div>
+
+<!-- Q6 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q6</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">Where should sampling parameters (<code>temperature</code>, <code>top_p</code>, <code>top_k</code>) NOT be used?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude Haiku 4.5</li>
+    <li><span class="letter">B</span> Claude Sonnet 4.6</li>
+    <li class="correct-option"><span class="letter">C</span> Claude Opus 5 (or any 4.7+ / Sonnet 5 model)</li>
+    <li><span class="letter">D</span> All Claude models support these parameters</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Sampling parameters (<code>temperature</code>, <code>top_p</code>, <code>top_k</code>) are removed on Opus 4.7+, Opus 4.8, Opus 5, Sonnet 5, and Fable 5/5.1. Sending them returns a 400 error. They are still allowed on Opus 4.6, Sonnet 4.6, and Haiku 4.5.</div>
+</div>
+
+<!-- Q7 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q7</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">What does a <code>stop_reason</code> of <code>"refusal"</code> indicate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The API key does not have sufficient permissions</li>
+    <li><span class="letter">B</span> The request exceeded the rate limit</li>
+    <li class="correct-option"><span class="letter">C</span> A safety classifier declined the request (HTTP 200, check <code>stop_details.category</code>)</li>
+    <li><span class="letter">D</span> The model encountered an internal error</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> A <code>"refusal"</code> stop reason is returned as HTTP 200 (not an error status code). The <code>stop_details</code> object contains a <code>category</code> field (e.g., "cyber", "bio") and an <code>explanation</code>. Always check <code>stop_reason</code> before reading <code>content</code>.</div>
+</div>
+
+<!-- Q8 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q8</span>
+    <span class="q-tag">API &amp; SDK</span>
+  </div>
+  <p class="q-text">What is the default number of automatic retries in the Python and TypeScript SDKs?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 0 (no retries)</li>
+    <li><span class="letter">B</span> 1</li>
+    <li class="correct-option"><span class="letter">C</span> 2</li>
+    <li><span class="letter">D</span> 5</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Both SDKs default to 2 retries with exponential backoff for status codes 408, 409, 429, and 5xx, plus connection errors. Configurable via <code>max_retries</code>.</div>
+</div>
+
+<!-- ========== TOOL USE (8 questions) ========== -->
+
+<!-- Q9 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q9</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">Where should the <code>strict: true</code> field be placed in a tool definition?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Inside <code>tool_choice</code></li>
+    <li><span class="letter">B</span> Inside <code>input_schema</code></li>
+    <li class="correct-option"><span class="letter">C</span> As a top-level field on the tool definition, alongside <code>name</code> and <code>description</code></li>
+    <li><span class="letter">D</span> As a request-level parameter on <code>messages.create()</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> <code>strict: true</code> is a top-level field on the tool definition object (alongside <code>name</code>, <code>description</code>, <code>input_schema</code>). The schema must also include <code>additionalProperties: false</code> and all properties in <code>required</code>.</div>
+</div>
+
+<!-- Q10 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q10</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">In the agentic loop, after Claude returns a <code>tool_use</code> stop reason, what is the correct message structure to send back tool results?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> A new assistant message with the tool result text</li>
+    <li class="correct-option"><span class="letter">B</span> A user message containing an array of <code>tool_result</code> content blocks, each referencing <code>tool_use_id</code></li>
+    <li><span class="letter">C</span> A system message with the tool results</li>
+    <li><span class="letter">D</span> An assistant message with a <code>tool_result</code> block</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Tool results are sent as a <code>user</code> message containing <code>tool_result</code> blocks. Each block must reference the <code>tool_use_id</code> from the corresponding <code>tool_use</code> block. All parallel tool results go in a single user message.</div>
+</div>
+
+<!-- Q11 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q11</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">What is the correct type string for the Anthropic-defined bash tool?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>"bash"</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>"bash_20250124"</code></li>
+    <li><span class="letter">C</span> <code>"shell_tool"</code></li>
+    <li><span class="letter">D</span> <code>"computer_bash"</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Anthropic-defined tools use versioned type strings: <code>bash_20250124</code> for bash, <code>text_editor_20250728</code> for the text editor, <code>computer_20251124</code> for computer use, and <code>memory_20250818</code> for memory. They have no <code>input_schema</code>.</div>
+</div>
+
+<!-- Q12 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q12</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">When Claude makes multiple parallel tool calls in a single response, how should you return the results?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Send each tool result in a separate user message</li>
+    <li class="correct-option"><span class="letter">B</span> Send all tool results in a single user message containing all <code>tool_result</code> blocks</li>
+    <li><span class="letter">C</span> Send each tool result in a separate assistant message</li>
+    <li><span class="letter">D</span> Ignore the parallel calls and process only the first one</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> All parallel tool results must go in a single user message. Splitting them across multiple messages silently trains Claude to stop making parallel calls, degrading performance.</div>
+</div>
+
+<!-- Q13 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q13</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">Which tool_choice type is removed on Claude Fable 5.1 and returns a 400 error?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>{"type": "auto"}</code></li>
+    <li><span class="letter">B</span> <code>{"type": "none"}</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>{"type": "any"}</code> and <code>{"type": "tool", "name": "..."}</code></li>
+    <li><span class="letter">D</span> All tool_choice types are supported on all models</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Forced tool use (<code>"any"</code> and <code>"tool"</code>) is removed on Fable 5.1 and Opus 5.5. Use <code>"auto"</code> with a prompt instruction instead, and <code>strict: true</code> for schema-valid arguments.</div>
+</div>
+
+<!-- Q14 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q14</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">What is the current type string for the server-side web search tool?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>web_search</code></li>
+    <li><span class="letter">B</span> <code>web_search_20250305</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>web_search_20260209</code></li>
+    <li><span class="letter">D</span> <code>server_web_search</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The current web search tool type is <code>web_search_20260209</code>, which includes dynamic filtering. The older <code>web_search_20250305</code> is the basic variant for models older than Opus 4.6.</div>
+</div>
+
+<!-- Q15 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q15</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">How should a tool execution error be reported back to the API?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Omit the <code>tool_result</code> block entirely</li>
+    <li><span class="letter">B</span> Throw an exception in the tool handler</li>
+    <li class="correct-option"><span class="letter">C</span> Return a <code>tool_result</code> block with <code>is_error: true</code> and an error message in <code>content</code></li>
+    <li><span class="letter">D</span> Return an empty <code>tool_result</code> block</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Always return a <code>tool_result</code> with <code>is_error: true</code> and a descriptive error message. Never drop a tool_result block &mdash; Claude expects a result for every tool_use it made.</div>
+</div>
+
+<!-- Q16 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q16</span>
+    <span class="q-tag">Tool Use</span>
+  </div>
+  <p class="q-text">Why should you NOT declare <code>code_execution</code> separately when using <code>web_search_20260209</code>?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Code execution is not compatible with web search</li>
+    <li><span class="letter">B</span> It causes a rate limit error</li>
+    <li class="correct-option"><span class="letter">C</span> The <code>_20260209</code> variants have built-in code execution for dynamic filtering; a second environment confuses the model</li>
+    <li><span class="letter">D</span> Code execution costs extra tokens when combined with search</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The <code>web_search_20260209</code> and <code>web_fetch_20260209</code> tools use code execution under the hood for dynamic filtering. Declaring a separate <code>code_execution</code> tool creates a confusing second execution environment.</div>
+</div>
+
+<!-- ========== STRUCTURED OUTPUTS (6 questions) ========== -->
+
+<!-- Q17 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q17</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">What is the correct parameter path for specifying a JSON schema output format?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>output_format: {type: "json_schema", ...}</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>output_config: {format: {type: "json_schema", json_schema: {...}}}</code></li>
+    <li><span class="letter">C</span> <code>response_format: {type: "json_object"}</code></li>
+    <li><span class="letter">D</span> <code>format: {type: "json_schema", ...}</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Structured outputs use <code>output_config.format</code> with <code>type: "json_schema"</code> and the schema in <code>json_schema</code>. The old <code>output_format</code> parameter is deprecated.</div>
+</div>
+
+<!-- Q18 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q18</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">In the Python SDK, which method auto-validates the response against a Pydantic model?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>client.messages.create()</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>client.messages.parse()</code></li>
+    <li><span class="letter">C</span> <code>client.messages.validate()</code></li>
+    <li><span class="letter">D</span> <code>client.messages.structured()</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> <code>client.messages.parse()</code> accepts an <code>output_type</code> parameter with a Pydantic BaseModel class, automatically extracts the JSON schema, and returns a <code>response.parsed</code> attribute with the validated instance.</div>
+</div>
+
+<!-- Q19 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q19</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">In TypeScript, which helper function converts a Zod schema to the <code>output_config</code> format?</p>
+  <ul class="q-options">
+    <li class="correct-option"><span class="letter">A</span> <code>zodOutputFormat()</code></li>
+    <li><span class="letter">B</span> <code>zodToJsonSchema()</code></li>
+    <li><span class="letter">C</span> <code>zodResponseFormat()</code></li>
+    <li><span class="letter">D</span> <code>outputSchema()</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: A.</b> <code>zodOutputFormat()</code> from <code>@anthropic-ai/sdk/helpers/zod</code> converts a Zod schema to the <code>output_config</code> object expected by <code>messages.create()</code>.</div>
+</div>
+
+<!-- Q20 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q20</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">Which JSON Schema constraints are NOT supported in Claude's structured output schemas?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>type</code>, <code>properties</code>, <code>enum</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>minLength</code>, <code>maxLength</code>, <code>pattern</code>, recursive <code>$ref</code></li>
+    <li><span class="letter">C</span> <code>required</code>, <code>additionalProperties</code></li>
+    <li><span class="letter">D</span> <code>array</code>, <code>object</code>, <code>string</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude's structured outputs do not support <code>minLength</code>, <code>maxLength</code>, <code>minimum</code>, <code>maximum</code>, <code>pattern</code> (regex), or recursive schemas (<code>$ref</code> to self). <code>additionalProperties: false</code> is required, not optional.</div>
+</div>
+
+<!-- Q21 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q21</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">How long does the grammar compilation cache last for a given JSON schema?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 5 minutes</li>
+    <li><span class="letter">B</span> 1 hour</li>
+    <li class="correct-option"><span class="letter">C</span> 24 hours</li>
+    <li><span class="letter">D</span> 7 days</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The first request with a new schema incurs a compilation cost. The compiled grammar is cached for 24 hours. Any change to the schema (even whitespace) creates a new compilation.</div>
+</div>
+
+<!-- Q22 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q22</span>
+    <span class="q-tag">Structured Outputs</span>
+  </div>
+  <p class="q-text">What happens if you use <code>output_config.format</code> with <code>citations: {enabled: true}</code> on a document block?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Both features work together seamlessly</li>
+    <li><span class="letter">B</span> Citations are silently ignored</li>
+    <li class="correct-option"><span class="letter">C</span> The API returns a 400 error (they are incompatible)</li>
+    <li><span class="letter">D</span> The structured output format includes citation metadata</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Structured outputs (<code>output_config.format</code>) and citations are incompatible features. Using both returns a 400 error. You must choose one or the other.</div>
+</div>
+
+<!-- ========== PROMPT CACHING (6 questions) ========== -->
+
+<!-- Q23 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q23</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">What is the difference between automatic and explicit prompt caching?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Automatic uses a different API endpoint; explicit uses standard <code>messages.create()</code></li>
+    <li class="correct-option"><span class="letter">B</span> Automatic uses top-level <code>cache_control</code> with auto breakpoints; explicit places per-block <code>cache_control</code> on individual content blocks</li>
+    <li><span class="letter">C</span> Automatic is free; explicit has a 1.25x write cost</li>
+    <li><span class="letter">D</span> Automatic caches responses; explicit caches inputs</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Automatic caching sets <code>cache_control: {"type": "ephemeral"}</code> at the top level and the API picks optimal breakpoints. Explicit caching places <code>cache_control</code> on individual blocks within system/tools/messages for fine-grained control (max 4 breakpoints).</div>
+</div>
+
+<!-- Q24 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q24</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">What is the write cost multiplier for the 1-hour TTL cache option?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 1.0x (same as standard)</li>
+    <li><span class="letter">B</span> 1.25x</li>
+    <li class="correct-option"><span class="letter">C</span> 2.0x</li>
+    <li><span class="letter">D</span> 3.0x</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The 1-hour TTL (<code>"ttl": "1h"</code>) has a 2x write cost. The default 5-minute TTL has a 1.25x write cost. Cache reads are 0.1x for most models regardless of TTL.</div>
+</div>
+
+<!-- Q25 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q25</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">What is the minimum cacheable prefix size for Claude Opus 5?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 128 tokens</li>
+    <li><span class="letter">B</span> 256 tokens</li>
+    <li class="correct-option"><span class="letter">C</span> 512 tokens</li>
+    <li><span class="letter">D</span> 2048 tokens</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The minimum cacheable prefix is 512 tokens for Opus 5, Sonnet 5, Fable 5, and Fable 5.1. For Haiku 4.5, it is 1024 tokens. Prefixes shorter than the minimum silently will not cache.</div>
+</div>
+
+<!-- Q26 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q26</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">What is the correct render order used for cache prefix matching?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>messages</code> &rarr; <code>system</code> &rarr; <code>tools</code></li>
+    <li><span class="letter">B</span> <code>system</code> &rarr; <code>tools</code> &rarr; <code>messages</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>tools</code> &rarr; <code>system</code> &rarr; <code>messages</code></li>
+    <li><span class="letter">D</span> <code>system</code> &rarr; <code>messages</code> &rarr; <code>tools</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The cache prefix render order is <code>tools</code> &rarr; <code>system</code> &rarr; <code>messages</code>. Any byte change anywhere in the prefix invalidates everything after it. Keep stable content (frozen system prompt, deterministic tool list) first.</div>
+</div>
+
+<!-- Q27 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q27</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">How do you pre-warm a cache without generating any output?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Set <code>stream: false</code> and <code>temperature: 0</code></li>
+    <li class="correct-option"><span class="letter">B</span> Send a request with <code>max_tokens: 0</code></li>
+    <li><span class="letter">C</span> Use a dedicated <code>/v1/cache/warm</code> endpoint</li>
+    <li><span class="letter">D</span> Set <code>cache_control: {"type": "pre_warm"}</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Sending a request with <code>max_tokens: 0</code> populates the cache without generating any output. This is useful for warming the cache before a burst of traffic.</div>
+</div>
+
+<!-- Q28 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q28</span>
+    <span class="q-tag">Prompt Caching</span>
+  </div>
+  <p class="q-text">Do cache read tokens count toward the ITPM (Input Tokens Per Minute) rate limit?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Yes, all input tokens count equally</li>
+    <li class="correct-option"><span class="letter">B</span> No, cache read tokens are excluded from ITPM</li>
+    <li><span class="letter">C</span> Only on the Start and Build tiers</li>
+    <li><span class="letter">D</span> Only with the 1-hour TTL</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Cache read tokens (<code>cache_read_input_tokens</code>) do NOT count toward the ITPM rate limit. Only <code>input_tokens</code> and <code>cache_creation_input_tokens</code> count. This allows heavily cached workloads to process far more total tokens per minute.</div>
+</div>
+
+<!-- ========== BATCH PROCESSING (5 questions) ========== -->
+
+<!-- Q29 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q29</span>
+    <span class="q-tag">Batch Processing</span>
+  </div>
+  <p class="q-text">What is the cost savings for batch processing compared to standard API requests?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 25%</li>
+    <li class="correct-option"><span class="letter">B</span> 50%</li>
+    <li><span class="letter">C</span> 75%</li>
+    <li><span class="letter">D</span> No savings, same price</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Batch processing provides 50% cost savings compared to standard synchronous API requests, at the trade-off of higher latency (up to 24 hours).</div>
+</div>
+
+<!-- Q30 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q30</span>
+    <span class="q-tag">Batch Processing</span>
+  </div>
+  <p class="q-text">What is the <code>processing_status</code> value that indicates a batch has finished?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>"completed"</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>"ended"</code></li>
+    <li><span class="letter">C</span> <code>"finished"</code></li>
+    <li><span class="letter">D</span> <code>"done"</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The batch <code>processing_status</code> transitions through: <code>in_progress</code> &rarr; <code>ended</code>. Other possible statuses are <code>canceling</code>, <code>canceled</code>, and <code>expired</code>.</div>
+</div>
+
+<!-- Q31 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q31</span>
+    <span class="q-tag">Batch Processing</span>
+  </div>
+  <p class="q-text">How should you correlate batch results with the original requests?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> By the order results appear in the response</li>
+    <li class="correct-option"><span class="letter">B</span> By the <code>custom_id</code> field on each result</li>
+    <li><span class="letter">C</span> By the <code>message.id</code> of each response</li>
+    <li><span class="letter">D</span> By sequential numbering starting from 0</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Results arrive in any order (not the order submitted). Each result carries the <code>custom_id</code> you set in the request. Always key by <code>custom_id</code>, never by position.</div>
+</div>
+
+<!-- Q32 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q32</span>
+    <span class="q-tag">Batch Processing</span>
+  </div>
+  <p class="q-text">What is the maximum number of requests allowed in a single batch?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 1,000</li>
+    <li><span class="letter">B</span> 10,000</li>
+    <li class="correct-option"><span class="letter">C</span> 100,000</li>
+    <li><span class="letter">D</span> 1,000,000</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> A single batch can contain up to 100,000 requests. Batches have a 24-hour processing window before results expire.</div>
+</div>
+
+<!-- Q33 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q33</span>
+    <span class="q-tag">Batch Processing</span>
+  </div>
+  <p class="q-text">Which of the following is NOT a valid batch result type?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>succeeded</code></li>
+    <li><span class="letter">B</span> <code>errored</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>timed_out</code></li>
+    <li><span class="letter">D</span> <code>expired</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The valid batch result types are <code>succeeded</code>, <code>errored</code>, <code>canceled</code>, and <code>expired</code>. There is no <code>timed_out</code> type &mdash; requests that exceed the 24-hour window are marked as <code>expired</code>.</div>
+</div>
+
+<!-- ========== THINKING (5 questions) ========== -->
+
+<!-- Q34 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q34</span>
+    <span class="q-tag">Thinking</span>
+  </div>
+  <p class="q-text">What thinking configuration should you use for Claude Opus 5?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>{"type": "enabled", "budget_tokens": 8000}</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>{"type": "adaptive"}</code></li>
+    <li><span class="letter">C</span> <code>{"type": "enabled"}</code></li>
+    <li><span class="letter">D</span> <code>{"type": "standard"}</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> On Opus 4.6+ and all current models (except Haiku 4.5), use <code>{"type": "adaptive"}</code>. <code>budget_tokens</code> is removed on Opus 4.7+ and returns a 400 error. The legacy <code>{"type": "enabled", "budget_tokens": N}</code> is only for Haiku 4.5.</div>
+</div>
+
+<!-- Q35 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q35</span>
+    <span class="q-tag">Thinking</span>
+  </div>
+  <p class="q-text">Where is the <code>effort</code> parameter placed in the API request?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Top-level, alongside <code>model</code> and <code>max_tokens</code></li>
+    <li><span class="letter">B</span> Inside the <code>thinking</code> object</li>
+    <li class="correct-option"><span class="letter">C</span> Inside <code>output_config</code>: <code>output_config: {"effort": "high"}</code></li>
+    <li><span class="letter">D</span> As a query parameter on the URL</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The effort parameter is placed inside <code>output_config</code>, not top-level and not inside <code>thinking</code>. Valid levels: <code>low</code>, <code>medium</code>, <code>high</code> (default for most models), <code>xhigh</code>, <code>max</code>.</div>
+</div>
+
+<!-- Q36 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q36</span>
+    <span class="q-tag">Thinking</span>
+  </div>
+  <p class="q-text">What must you preserve when passing thinking blocks back in a multi-turn conversation?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Only the thinking text</li>
+    <li><span class="letter">B</span> Only the thinking block type</li>
+    <li class="correct-option"><span class="letter">C</span> The entire thinking block unchanged, including the <code>signature</code> field</li>
+    <li><span class="letter">D</span> Nothing &mdash; thinking blocks should be removed before the next turn</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Thinking blocks must be passed back unchanged, including their <code>signature</code> field. Never modify the thinking text or signature. Thinking blocks from a different model are silently dropped.</div>
+</div>
+
+<!-- Q37 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q37</span>
+    <span class="q-tag">Thinking</span>
+  </div>
+  <p class="q-text">How are thinking tokens billed?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> As input tokens at the input rate</li>
+    <li class="correct-option"><span class="letter">B</span> As output tokens at the output rate, counting toward <code>max_tokens</code></li>
+    <li><span class="letter">C</span> They are free and not billed</li>
+    <li><span class="letter">D</span> At a special reduced "thinking" rate</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Thinking tokens are classified as output tokens and billed at the output rate. They also count toward the <code>max_tokens</code> limit. With <code>display: "omitted"</code>, thinking still occurs and is billed, but the text field is empty.</div>
+</div>
+
+<!-- Q38 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q38</span>
+    <span class="q-tag">Thinking</span>
+  </div>
+  <p class="q-text">What happens if you send <code>thinking: {"type": "disabled"}</code> to Claude Fable 5.1?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Thinking is disabled and the model generates text directly</li>
+    <li class="correct-option"><span class="letter">B</span> The API returns a 400 error</li>
+    <li><span class="letter">C</span> Thinking is disabled but with reduced output quality</li>
+    <li><span class="letter">D</span> The parameter is silently ignored</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> On Fable 5 / Fable 5.1, thinking is always on. Explicit <code>{"type": "disabled"}</code> returns a 400 error. To reduce thinking depth, use lower <code>effort</code> levels instead of disabling it.</div>
+</div>
+
+<!-- ========== RATE LIMITS & ERROR HANDLING (6 questions) ========== -->
+
+<!-- Q39 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q39</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">What are the three types of rate limits enforced by the Claude API?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Requests per second, tokens per second, connections per second</li>
+    <li class="correct-option"><span class="letter">B</span> Requests per minute (RPM), input tokens per minute (ITPM), output tokens per minute (OTPM)</li>
+    <li><span class="letter">C</span> Requests per hour, tokens per hour, cost per hour</li>
+    <li><span class="letter">D</span> Concurrent requests, total tokens, daily budget</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The three rate limit types are RPM (Requests Per Minute), ITPM (Input Tokens Per Minute), and OTPM (Output Tokens Per Minute).</div>
+</div>
+
+<!-- Q40 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q40</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">Which HTTP status code indicates you have hit a rate limit?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 400</li>
+    <li><span class="letter">B</span> 403</li>
+    <li class="correct-option"><span class="letter">C</span> 429</li>
+    <li><span class="letter">D</span> 503</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> HTTP 429 is the rate limit error code. The response includes a <code>retry-after</code> header indicating when to retry. The SDKs automatically retry 429s with exponential backoff.</div>
+</div>
+
+<!-- Q41 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q41</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">How does the <code>enforced_spend_limit_reached</code> error differ from a rate limit error?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It uses HTTP 429 but with a different error code</li>
+    <li class="correct-option"><span class="letter">B</span> It is a 400-level error indicating the monthly spending cap has been hit (not retryable)</li>
+    <li><span class="letter">C</span> It is identical to a rate limit error</li>
+    <li><span class="letter">D</span> It uses HTTP 503 and requires waiting 24 hours</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Spend limit errors are 400-level errors, not 429s. They indicate you have hit your monthly spending cap. The solution is to increase the spend limit in the Console, not to retry the request.</div>
+</div>
+
+<!-- Q42 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q42</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">Which response header tells you how many requests remain in your current rate limit window?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>x-ratelimit-remaining</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>anthropic-ratelimit-requests-remaining</code></li>
+    <li><span class="letter">C</span> <code>rate-limit-remaining</code></li>
+    <li><span class="letter">D</span> <code>x-api-remaining-requests</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The Anthropic API uses <code>anthropic-ratelimit-*</code> prefixed headers: <code>-requests-limit</code>, <code>-requests-remaining</code>, <code>-requests-reset</code>, and similar for input-tokens and output-tokens.</div>
+</div>
+
+<!-- Q43 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q43</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">What does HTTP status code 529 indicate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Authentication failure</li>
+    <li><span class="letter">B</span> Invalid request parameters</li>
+    <li><span class="letter">C</span> Resource not found</li>
+    <li class="correct-option"><span class="letter">D</span> API is temporarily overloaded (retryable)</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> HTTP 529 is a non-standard code used by the Claude API for <code>overloaded_error</code>. The API is temporarily at capacity. Retry with exponential backoff.</div>
+</div>
+
+<!-- Q44 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q44</span>
+    <span class="q-tag">Rate Limits</span>
+  </div>
+  <p class="q-text">Why is it a best practice to catch specific exception types in a chain rather than a single broad <code>APIStatusError</code>?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Broad exceptions are not supported by the SDK</li>
+    <li class="correct-option"><span class="letter">B</span> A single broad catch loses the distinction between retryable (429, 5xx) and non-retryable (400, 404) failures</li>
+    <li><span class="letter">C</span> Broad exceptions cause performance issues</li>
+    <li><span class="letter">D</span> The SDK does not support catching <code>APIStatusError</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Catching <code>NotFoundError</code> &rarr; <code>RateLimitError</code> &rarr; <code>APIStatusError</code> &rarr; <code>APIConnectionError</code> lets you handle each failure mode appropriately (retry vs. fix vs. escalate).</div>
+</div>
+
+<!-- ========== TESTING & PRODUCTION (6 questions) ========== -->
+
+<!-- Q45 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q45</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">When using an LLM as an evaluator (LLM judge), which model should you use for evaluation?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The same model being evaluated</li>
+    <li class="correct-option"><span class="letter">B</span> A different model than the one being evaluated</li>
+    <li><span class="letter">C</span> Always use the cheapest model available</li>
+    <li><span class="letter">D</span> Always use the most expensive model available</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Using a different model for evaluation prevents self-bias, where the same model rates its own outputs favorably. For example, evaluate Opus outputs with Sonnet, or vice versa.</div>
+</div>
+
+<!-- Q46 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q46</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">Where should API keys be stored in a production application?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Hardcoded in the application source code</li>
+    <li><span class="letter">B</span> In a <code>.env</code> file committed to Git</li>
+    <li class="correct-option"><span class="letter">C</span> In environment variables or a secrets manager, never in source code or Git</li>
+    <li><span class="letter">D</span> In the client-side JavaScript bundle</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> API keys should be stored in environment variables or a dedicated secrets manager. Never commit keys to Git, embed them in client-side code, or log them.</div>
+</div>
+
+<!-- Q47 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q47</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">What does Zero Data Retention (ZDR) mean for API requests?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Responses are encrypted at rest</li>
+    <li><span class="letter">B</span> The API does not log request metadata</li>
+    <li class="correct-option"><span class="letter">C</span> Input and output data is not stored or used for model training after the request completes</li>
+    <li><span class="letter">D</span> API keys are rotated automatically</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Zero Data Retention means that request inputs and outputs are not persisted by Anthropic after the request completes, and are not used for model training. This is important for handling sensitive data.</div>
+</div>
+
+<!-- Q48 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q48</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">What is the role of Anthropic when you use the Claude API directly?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Data controller</li>
+    <li class="correct-option"><span class="letter">B</span> Data processor (your organization is the controller)</li>
+    <li><span class="letter">C</span> Data owner</li>
+    <li><span class="letter">D</span> Joint controller with your organization</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> When using the Claude API, Anthropic acts as the data processor. Your organization is the data controller, responsible for determining the purposes and means of processing.</div>
+</div>
+
+<!-- Q49 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q49</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">Which cost optimization strategy provides the largest single-lever reduction for most workloads?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Switching to a cheaper model</li>
+    <li class="correct-option"><span class="letter">B</span> Prompt caching (cache reads at 0.1x)</li>
+    <li><span class="letter">C</span> Reducing <code>max_tokens</code></li>
+    <li><span class="letter">D</span> Using batch processing</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Prompt caching is typically the largest single cost reduction lever because cache reads cost only 0.1x the standard input price, and most applications send the same system prompt and tool definitions on every request. It also does not reduce quality, unlike model downgrading or effort reduction.</div>
+</div>
+
+<!-- Q50 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q50</span>
+    <span class="q-tag">Testing &amp; Production</span>
+  </div>
+  <p class="q-text">What is the purpose of workspaces in the Anthropic Console?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> They provide different model versions for A/B testing</li>
+    <li><span class="letter">B</span> They are used to organize conversation history</li>
+    <li class="correct-option"><span class="letter">C</span> They provide team isolation with independent API keys, rate limits, and usage tracking</li>
+    <li><span class="letter">D</span> They enable faster model inference for premium tiers</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Workspaces provide team isolation with independent API keys, per-workspace rate limits, separate usage tracking and billing. They are useful for separating production, staging, and development environments.</div>
+</div>
+
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<div class="footer">
+  <p><strong>Anthropic Claude Developer Certification Study Guide</strong></p>
+  <p>Compiled from official documentation at <strong>platform.claude.com/docs</strong></p>
+  <p>This guide is for educational purposes. Always refer to the latest official documentation for the most current information.</p>
+  <p>Last updated: September 2026</p>
+</div>
+
+</body>
+</html>
