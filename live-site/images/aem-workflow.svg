@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#0891b2"/></marker>
+  </defs>
+  <rect width="720" height="280" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="360" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">AEM Workflow — Steps &amp; Launchers</text>
+  <!-- Start -->
+  <circle cx="50" cy="100" r="20" fill="#059669" filter="url(#ds)"/>
+  <text x="50" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">▶</text>
+  <text x="50" y="135" text-anchor="middle" font-size="8" fill="#64748b">START</text>
+  <!-- Arrow -->
+  <line x1="70" y1="100" x2="108" y2="100" stroke="#0891b2" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- Process Step -->
+  <rect x="115" y="75" width="120" height="50" rx="8" fill="#0891b2" filter="url(#ds)"/>
+  <text x="175" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Process Step</text>
+  <text x="175" y="112" text-anchor="middle" font-size="8" fill="#cffafe">Auto (Java code)</text>
+  <line x1="235" y1="100" x2="268" y2="100" stroke="#0891b2" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- Participant Step -->
+  <rect x="275" y="75" width="120" height="50" rx="8" fill="#7c3aed" filter="url(#ds)"/>
+  <text x="335" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Participant Step</text>
+  <text x="335" y="112" text-anchor="middle" font-size="8" fill="#ede9fe">Human approval</text>
+  <line x1="395" y1="100" x2="428" y2="100" stroke="#0891b2" stroke-width="2" marker-end="url(#ar)"/>
+  <!-- OR Split -->
+  <polygon points="490,75 530,100 490,125 450,100" fill="#d97706" filter="url(#ds)"/>
+  <text x="490" y="104" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">OR</text>
+  <!-- Branch 1 -->
+  <line x1="530" y1="90" x2="568" y2="70" stroke="#059669" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="575" y="50" width="110" height="40" rx="8" fill="#059669" filter="url(#ds)"/>
+  <text x="630" y="68" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">Approve ✓</text>
+  <text x="630" y="82" text-anchor="middle" font-size="8" fill="#d1fae5">Activate page</text>
+  <!-- Branch 2 -->
+  <line x1="530" y1="110" x2="568" y2="130" stroke="#dc2626" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="575" y="110" width="110" height="40" rx="8" fill="#dc2626" filter="url(#ds)"/>
+  <text x="630" y="128" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">Reject ✗</text>
+  <text x="630" y="142" text-anchor="middle" font-size="8" fill="#fecaca">Send back</text>
+  <!-- End -->
+  <circle cx="700" cy="70" r="12" fill="#1e293b" stroke="#059669" stroke-width="3"/>
+  <circle cx="700" cy="130" r="12" fill="#1e293b" stroke="#dc2626" stroke-width="3"/>
+  <!-- Launcher section -->
+  <rect x="30" y="165" width="660" height="95" rx="10" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text x="50" y="188" font-size="12" font-weight="700" fill="#0e7490">⚡ Workflow Launchers — Auto-Trigger Workflows</text>
+  <text x="50" y="210" font-size="10" fill="#475569">Launchers watch for JCR events and automatically start workflows when conditions are met:</text>
+  <rect x="50" y="220" width="150" height="26" rx="5" fill="#0891b2"/>
+  <text x="125" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Node Created</text>
+  <rect x="210" y="220" width="150" height="26" rx="5" fill="#7c3aed"/>
+  <text x="285" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Node Modified</text>
+  <rect x="370" y="220" width="150" height="26" rx="5" fill="#d97706"/>
+  <text x="445" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Node Deleted</text>
+  <rect x="530" y="220" width="150" height="26" rx="5" fill="#059669"/>
+  <text x="605" y="237" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Replicated</text>
+  <text x="360" y="268" text-anchor="middle" font-size="9" fill="#64748b">Example: DAM Update Asset workflow triggers on node created under /content/dam</text>
+</svg>

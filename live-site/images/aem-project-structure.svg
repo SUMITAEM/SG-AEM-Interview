@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="700" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="350" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">AEM Maven Project Structure (Archetype)</text>
+  <!-- Root -->
+  <rect x="240" y="48" width="220" height="36" rx="8" fill="#1e293b" filter="url(#ds)"/>
+  <text x="350" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#22d3ee">📁 mysite/ (reactor POM)</text>
+  <!-- Lines down -->
+  <line x1="350" y1="84" x2="350" y2="100" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="70" y1="100" x2="630" y2="100" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- Vertical drops -->
+  <line x1="70" y1="100" x2="70" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="175" y1="100" x2="175" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="280" y1="100" x2="280" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="385" y1="100" x2="385" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="490" y1="100" x2="490" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="595" y1="100" x2="595" y2="118" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- core -->
+  <rect x="20" y="118" width="100" height="100" rx="8" fill="#d97706" filter="url(#ds)"/>
+  <text x="70" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">core/</text>
+  <text x="70" y="155" text-anchor="middle" font-size="8" fill="#fef3c7">Java OSGi Bundle</text>
+  <line x1="30" y1="162" x2="110" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="70" y="175" text-anchor="middle" font-size="8" fill="#fde68a">Servlets</text>
+  <text x="70" y="187" text-anchor="middle" font-size="8" fill="#fde68a">Sling Models</text>
+  <text x="70" y="199" text-anchor="middle" font-size="8" fill="#fde68a">Services</text>
+  <text x="70" y="211" text-anchor="middle" font-size="8" fill="#fde68a">Workflows</text>
+  <!-- ui.apps -->
+  <rect x="130" y="118" width="100" height="100" rx="8" fill="#0891b2" filter="url(#ds)"/>
+  <text x="180" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ui.apps/</text>
+  <text x="180" y="155" text-anchor="middle" font-size="8" fill="#cffafe">Components</text>
+  <line x1="140" y1="162" x2="220" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="180" y="175" text-anchor="middle" font-size="8" fill="#a5f3fc">HTL Templates</text>
+  <text x="180" y="187" text-anchor="middle" font-size="8" fill="#a5f3fc">Dialogs</text>
+  <text x="180" y="199" text-anchor="middle" font-size="8" fill="#a5f3fc">ClientLibs</text>
+  <text x="180" y="211" text-anchor="middle" font-size="8" fill="#a5f3fc">Configs</text>
+  <!-- ui.content -->
+  <rect x="240" y="118" width="100" height="100" rx="8" fill="#7c3aed" filter="url(#ds)"/>
+  <text x="290" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ui.content/</text>
+  <text x="290" y="155" text-anchor="middle" font-size="8" fill="#ede9fe">Sample Content</text>
+  <line x1="250" y1="162" x2="330" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="290" y="175" text-anchor="middle" font-size="8" fill="#ddd6fe">Pages</text>
+  <text x="290" y="187" text-anchor="middle" font-size="8" fill="#ddd6fe">Templates</text>
+  <text x="290" y="199" text-anchor="middle" font-size="8" fill="#ddd6fe">Assets</text>
+  <text x="290" y="211" text-anchor="middle" font-size="8" fill="#ddd6fe">Tags</text>
+  <!-- ui.config -->
+  <rect x="350" y="118" width="100" height="100" rx="8" fill="#059669" filter="url(#ds)"/>
+  <text x="400" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ui.config/</text>
+  <text x="400" y="155" text-anchor="middle" font-size="8" fill="#d1fae5">OSGi Configs</text>
+  <line x1="360" y1="162" x2="440" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="400" y="175" text-anchor="middle" font-size="8" fill="#a7f3d0">config/</text>
+  <text x="400" y="187" text-anchor="middle" font-size="8" fill="#a7f3d0">config.author/</text>
+  <text x="400" y="199" text-anchor="middle" font-size="8" fill="#a7f3d0">config.publish/</text>
+  <text x="400" y="211" text-anchor="middle" font-size="8" fill="#a7f3d0">config.dev/</text>
+  <!-- ui.frontend -->
+  <rect x="460" y="118" width="100" height="100" rx="8" fill="#dc2626" filter="url(#ds)"/>
+  <text x="510" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">ui.frontend/</text>
+  <text x="510" y="155" text-anchor="middle" font-size="8" fill="#fecaca">Webpack Build</text>
+  <line x1="470" y1="162" x2="550" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="510" y="175" text-anchor="middle" font-size="8" fill="#fca5a5">SCSS/CSS</text>
+  <text x="510" y="187" text-anchor="middle" font-size="8" fill="#fca5a5">TypeScript/JS</text>
+  <text x="510" y="199" text-anchor="middle" font-size="8" fill="#fca5a5">Webpack Config</text>
+  <text x="510" y="211" text-anchor="middle" font-size="8" fill="#fca5a5">npm packages</text>
+  <!-- dispatcher -->
+  <rect x="565" y="118" width="100" height="100" rx="8" fill="#64748b" filter="url(#ds)"/>
+  <text x="615" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">dispatcher/</text>
+  <text x="615" y="155" text-anchor="middle" font-size="8" fill="#e2e8f0">Apache Config</text>
+  <line x1="575" y1="162" x2="655" y2="162" stroke="rgba(255,255,255,0.2)"/>
+  <text x="615" y="175" text-anchor="middle" font-size="8" fill="#cbd5e1">dispatcher.any</text>
+  <text x="615" y="187" text-anchor="middle" font-size="8" fill="#cbd5e1">vhosts</text>
+  <text x="615" y="199" text-anchor="middle" font-size="8" fill="#cbd5e1">filters</text>
+  <text x="615" y="211" text-anchor="middle" font-size="8" fill="#cbd5e1">cache rules</text>
+  <!-- Build commands -->
+  <rect x="30" y="240" width="640" height="140" rx="10" fill="#1e293b"/>
+  <text x="50" y="262" font-size="11" font-weight="700" fill="#22d3ee">Build Commands</text>
+  <text x="50" y="284" font-size="11" fill="#a5f3fc" font-family="'Consolas', monospace">$ mvn clean install -PautoInstallSinglePackage</text>
+  <text x="460" y="284" font-size="9" fill="#64748b"># Full build + deploy</text>
+  <text x="50" y="306" font-size="11" fill="#a5f3fc" font-family="'Consolas', monospace">$ mvn clean install -pl core -PautoInstallBundle</text>
+  <text x="460" y="306" font-size="9" fill="#64748b"># Core bundle only</text>
+  <text x="50" y="328" font-size="11" fill="#a5f3fc" font-family="'Consolas', monospace">$ mvn clean install -pl ui.frontend</text>
+  <text x="460" y="328" font-size="9" fill="#64748b"># Frontend only</text>
+  <text x="50" y="350" font-size="11" fill="#a5f3fc" font-family="'Consolas', monospace">$ mvn archetype:generate -Dfilter=aem-project-archetype</text>
+  <text x="460" y="350" font-size="9" fill="#64748b"># Generate new project</text>
+  <text x="350" y="375" text-anchor="middle" font-size="9" fill="#475569">AEM default: http://localhost:4502 | Profile auto-deploys to running instance</text>
+</svg>

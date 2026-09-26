@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="700" height="380" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">AEM 6.5 (On-Premise) vs AEM as a Cloud Service</text>
+  <!-- Headers -->
+  <rect x="30" y="45" width="310" height="40" rx="8" fill="#d97706" filter="url(#ds)"/>
+  <text x="185" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">🏢 AEM 6.5 (On-Premise)</text>
+  <rect x="360" y="45" width="310" height="40" rx="8" fill="#0891b2" filter="url(#ds)"/>
+  <text x="515" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">☁️ AEM as a Cloud Service</text>
+  <!-- Rows -->
+  <rect x="30" y="95" width="310" height="28" rx="4" fill="#fef3c7"/><text x="45" y="114" font-size="10" fill="#92400e">Deploy: Manual packages / Cloud Manager</text>
+  <rect x="360" y="95" width="310" height="28" rx="4" fill="#cffafe"/><text x="375" y="114" font-size="10" fill="#155e75">Deploy: Git-based CI/CD via Cloud Manager</text>
+
+  <rect x="30" y="128" width="310" height="28" rx="4" fill="#fff7ed"/><text x="45" y="147" font-size="10" fill="#92400e">/apps: Mutable (runtime changes OK)</text>
+  <rect x="360" y="128" width="310" height="28" rx="4" fill="#ecfeff"/><text x="375" y="147" font-size="10" fill="#155e75">/apps: Immutable (deploy via Git only)</text>
+
+  <rect x="30" y="161" width="310" height="28" rx="4" fill="#fef3c7"/><text x="45" y="180" font-size="10" fill="#92400e">OSGi Config: Felix Console (runtime)</text>
+  <rect x="360" y="161" width="310" height="28" rx="4" fill="#cffafe"/><text x="375" y="180" font-size="10" fill="#155e75">OSGi Config: .cfg.json files in Git repo</text>
+
+  <rect x="30" y="194" width="310" height="28" rx="4" fill="#fff7ed"/><text x="45" y="213" font-size="10" fill="#92400e">CRXDE: Available in all environments</text>
+  <rect x="360" y="194" width="310" height="28" rx="4" fill="#ecfeff"/><text x="375" y="213" font-size="10" fill="#155e75">CRXDE: Dev only (not in stage/prod)</text>
+
+  <rect x="30" y="227" width="310" height="28" rx="4" fill="#fef3c7"/><text x="45" y="246" font-size="10" fill="#92400e">Scaling: Manual (add more instances)</text>
+  <rect x="360" y="227" width="310" height="28" rx="4" fill="#cffafe"/><text x="375" y="246" font-size="10" fill="#155e75">Scaling: Auto-scaling (elastic)</text>
+
+  <rect x="30" y="260" width="310" height="28" rx="4" fill="#fff7ed"/><text x="45" y="279" font-size="10" fill="#92400e">Updates: Manual upgrade (downtime)</text>
+  <rect x="360" y="260" width="310" height="28" rx="4" fill="#ecfeff"/><text x="375" y="279" font-size="10" fill="#155e75">Updates: Always current (auto-updated)</text>
+
+  <rect x="30" y="293" width="310" height="28" rx="4" fill="#fef3c7"/><text x="45" y="312" font-size="10" fill="#92400e">DAM: DAM Update Asset workflow</text>
+  <rect x="360" y="293" width="310" height="28" rx="4" fill="#cffafe"/><text x="375" y="312" font-size="10" fill="#155e75">DAM: Asset Compute microservices</text>
+
+  <rect x="30" y="326" width="310" height="28" rx="4" fill="#fff7ed"/><text x="45" y="345" font-size="10" fill="#92400e">Dispatcher: Local Apache config</text>
+  <rect x="360" y="326" width="310" height="28" rx="4" fill="#ecfeff"/><text x="375" y="345" font-size="10" fill="#155e75">Dispatcher: Immutable config in Git</text>
+
+  <!-- Mutable paths callout -->
+  <rect x="360" y="358" width="310" height="18" rx="3" fill="#059669"/>
+  <text x="515" y="371" text-anchor="middle" font-size="8" font-weight="600" fill="#fff">Mutable paths: /content, /conf, /var, /tmp, /home only</text>
+</svg>

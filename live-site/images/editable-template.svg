@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#0891b2"/></marker>
+  </defs>
+  <rect width="700" height="340" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">Editable Template — Three Parts</text>
+  <!-- Structure -->
+  <rect x="25" y="50" width="200" height="180" rx="10" fill="#dc2626" filter="url(#ds)"/>
+  <text x="125" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">🔒 Structure</text>
+  <text x="125" y="92" text-anchor="middle" font-size="9" fill="#fecaca" font-weight="600">LOCKED — Authors cannot modify</text>
+  <line x1="40" y1="100" x2="210" y2="100" stroke="rgba(255,255,255,0.2)"/>
+  <rect x="45" y="110" width="160" height="24" rx="4" fill="rgba(0,0,0,0.2)"/>
+  <text x="125" y="126" text-anchor="middle" font-size="9" fill="#fca5a5">Header Component</text>
+  <rect x="45" y="140" width="160" height="40" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-dasharray="4,2"/>
+  <text x="125" y="156" text-anchor="middle" font-size="9" fill="#fecaca">Layout Container</text>
+  <text x="125" y="168" text-anchor="middle" font-size="7" fill="#fca5a5">(responsive grid)</text>
+  <rect x="45" y="186" width="160" height="24" rx="4" fill="rgba(0,0,0,0.2)"/>
+  <text x="125" y="202" text-anchor="middle" font-size="9" fill="#fca5a5">Footer Component</text>
+  <text x="125" y="222" text-anchor="middle" font-size="8" fill="#fecaca">Changes propagate to ALL pages</text>
+  <!-- Initial Content -->
+  <rect x="250" y="50" width="200" height="180" rx="10" fill="#0891b2" filter="url(#ds)"/>
+  <text x="350" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">📝 Initial Content</text>
+  <text x="350" y="92" text-anchor="middle" font-size="9" fill="#cffafe" font-weight="600">DEFAULT — Authors CAN edit/delete</text>
+  <line x1="265" y1="100" x2="435" y2="100" stroke="rgba(255,255,255,0.2)"/>
+  <rect x="270" y="110" width="160" height="24" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="350" y="126" text-anchor="middle" font-size="9" fill="#a5f3fc">Hero Image (default)</text>
+  <rect x="270" y="140" width="160" height="24" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="350" y="156" text-anchor="middle" font-size="9" fill="#a5f3fc">Title Component</text>
+  <rect x="270" y="170" width="160" height="24" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="350" y="186" text-anchor="middle" font-size="9" fill="#a5f3fc">Text Component</text>
+  <text x="350" y="210" text-anchor="middle" font-size="8" fill="#cffafe">Only affects NEW pages</text>
+  <text x="350" y="222" text-anchor="middle" font-size="8" fill="#cffafe">created from this template</text>
+  <!-- Policies -->
+  <rect x="475" y="50" width="200" height="180" rx="10" fill="#7c3aed" filter="url(#ds)"/>
+  <text x="575" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">⚙️ Policies</text>
+  <text x="575" y="92" text-anchor="middle" font-size="9" fill="#ede9fe" font-weight="600">RULES — Component behavior</text>
+  <line x1="490" y1="100" x2="660" y2="100" stroke="rgba(255,255,255,0.2)"/>
+  <rect x="495" y="110" width="160" height="22" rx="4" fill="rgba(0,0,0,0.2)"/>
+  <text x="575" y="126" text-anchor="middle" font-size="9" fill="#ddd6fe">Allowed Components</text>
+  <rect x="495" y="136" width="160" height="22" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="575" y="152" text-anchor="middle" font-size="9" fill="#ddd6fe">Style System Classes</text>
+  <rect x="495" y="162" width="160" height="22" rx="4" fill="rgba(0,0,0,0.2)"/>
+  <text x="575" y="178" text-anchor="middle" font-size="9" fill="#ddd6fe">Design Properties</text>
+  <rect x="495" y="188" width="160" height="22" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="575" y="204" text-anchor="middle" font-size="9" fill="#ddd6fe">Responsive Breakpoints</text>
+  <text x="575" y="222" text-anchor="middle" font-size="8" fill="#ede9fe">Stored in /conf/mysite/</text>
+  <!-- Path info -->
+  <rect x="25" y="250" width="650" height="70" rx="8" fill="#1e293b"/>
+  <text x="50" y="270" font-size="10" font-weight="600" fill="#22d3ee">Template Paths</text>
+  <text x="50" y="290" font-size="10" fill="#94a3b8" font-family="'Consolas', monospace">Templates:  <tspan fill="#a5f3fc">/conf/mysite/settings/wcm/templates/</tspan></text>
+  <text x="50" y="306" font-size="10" fill="#94a3b8" font-family="'Consolas', monospace">Policies:   <tspan fill="#c4b5fd">/conf/mysite/settings/wcm/policies/</tspan></text>
+  <text x="350" y="332" text-anchor="middle" font-size="9" fill="#94a3b8">Template Editor: /editor.html/conf/mysite/settings/wcm/templates/&lt;template&gt;</text>
+</svg>
