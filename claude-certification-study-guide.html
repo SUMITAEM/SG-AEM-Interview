@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthropic Claude Certification — Complete Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --page-max: 900px;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    --c-bg: #ffffff;
+    --c-surface: #f8f9fa;
+    --c-surface2: #f0f1f3;
+    --c-text: #1a1a2e;
+    --c-text2: #555770;
+    --c-accent: #6C3CE1;
+    --c-accent2: #4F1FBF;
+    --c-accent-soft: #EDE7F9;
+    --c-green: #0D7C5F;
+    --c-green-bg: #E8F5F0;
+    --c-red: #C62828;
+    --c-red-bg: #FDECEA;
+    --c-orange: #E65100;
+    --c-orange-bg: #FFF3E0;
+    --c-blue: #1565C0;
+    --c-blue-bg: #E3F2FD;
+    --c-border: #E0E0E6;
+    --c-border2: #D0D0D8;
+    --c-code-bg: #F5F3FF;
+    --radius: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--c-bg);
+    color: var(--c-text);
+    line-height: 1.7;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    html { font-size: 11pt; }
+    body { padding: 0; max-width: 100%; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    .cover { min-height: auto; padding: 40pt 0 24pt; }
+    section { page-break-inside: avoid; }
+    .question-card { page-break-inside: avoid; }
+    .code-block { page-break-inside: avoid; }
+    details { break-inside: avoid; }
+    details[open] > div { break-inside: avoid; }
+    a { color: var(--c-text) !important; text-decoration: none !important; }
+    .toc { page-break-after: always; }
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 40px;
+    border-bottom: 3px solid var(--c-accent);
+  }
+
+  .cover-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    background: var(--c-accent-soft);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 span { color: var(--c-accent); }
+
+  .cover-sub {
+    font-size: 1.15rem;
+    color: var(--c-text2);
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+
+  .cover-meta {
+    font-size: 0.8rem;
+    color: var(--c-text2);
+    border-top: 1px solid var(--c-border);
+    padding-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta strong { color: var(--c-text); }
+
+  /* ── NOTICE ── */
+  .notice {
+    border-left: 4px solid;
+    padding: 12px 16px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.88rem;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .notice-warn { border-color: var(--c-orange); background: var(--c-orange-bg); }
+  .notice-info { border-color: var(--c-blue); background: var(--c-blue-bg); }
+  .notice-tip { border-color: var(--c-green); background: var(--c-green-bg); }
+  .notice b { display: block; margin-bottom: 2px; }
+
+  /* ── TOC ── */
+  .toc {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--c-border);
+    margin-bottom: 32px;
+  }
+
+  .toc h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: 16px;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px 24px;
+  }
+
+  .toc a {
+    display: block;
+    color: var(--c-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--c-border);
+    transition: color 0.15s;
+  }
+
+  .toc a:hover { color: var(--c-accent); }
+
+  .toc a .num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--c-accent);
+    margin-right: 6px;
+  }
+
+  /* ── HEADINGS ── */
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 48px 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--c-accent);
+    color: var(--c-text);
+  }
+
+  h2 .part-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 28px 0 10px;
+    color: var(--c-accent2);
+  }
+
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 20px 0 8px;
+  }
+
+  p { margin: 8px 0; }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    background: var(--c-surface);
+    border-bottom: 2px solid var(--c-border2);
+    white-space: nowrap;
+    color: var(--c-text);
+  }
+
+  tbody td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--c-surface); }
+  td code, th code { font-size: 0.82em; }
+
+  /* ── CODE ── */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: var(--c-code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--c-accent2);
+  }
+
+  .code-block {
+    background: #1E1E2E;
+    color: #CDD6F4;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .code-block .label {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7F849C;
+    background: #313244;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .code-block .kw { color: #CBA6F7; }
+  .code-block .str { color: #A6E3A1; }
+  .code-block .num { color: #FAB387; }
+  .code-block .cm { color: #6C7086; font-style: italic; }
+  .code-block .fn { color: #89B4FA; }
+  .code-block .key { color: #89DCEB; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--c-accent);
+    margin-bottom: 6px;
+  }
+
+  .card p, .card ul { font-size: 0.88rem; color: var(--c-text2); }
+  .card ul { padding-left: 18px; }
+  .card li { margin: 3px 0; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  /* ── EXAMPLE BOX ── */
+  .example-box {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    margin: 16px 0;
+    overflow: hidden;
+  }
+
+  .example-box .ex-header {
+    background: var(--c-accent-soft);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-accent2);
+    letter-spacing: 0.03em;
+  }
+
+  .example-box .ex-body { padding: 14px 16px; }
+
+  .example-box .ex-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 8px 0 4px;
+  }
+
+  .ex-label.bad { color: var(--c-red); }
+  .ex-label.good { color: var(--c-green); }
+
+  .example-box .ex-text {
+    font-size: 0.88rem;
+    color: var(--c-text2);
+    padding: 8px 12px;
+    background: var(--c-surface);
+    border-radius: 4px;
+    margin: 4px 0 12px;
+    border-left: 3px solid var(--c-border);
+  }
+
+  .ex-text.bad-border { border-left-color: var(--c-red); }
+  .ex-text.good-border { border-left-color: var(--c-green); }
+
+  /* ── QUIZ ── */
+  .question-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 14px 0;
+  }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+
+  .q-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .q-text {
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .q-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px;
+  }
+
+  .q-options li {
+    padding: 6px 10px;
+    font-size: 0.88rem;
+    border-radius: 4px;
+    margin: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .q-options li .letter {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--c-accent);
+    min-width: 18px;
+  }
+
+  .q-options li.correct-option {
+    background: var(--c-green-bg);
+    border: 1px solid var(--c-green);
+    font-weight: 600;
+  }
+
+  .q-options li.correct-option .letter { color: var(--c-green); }
+
+  .q-explain {
+    font-size: 0.82rem;
+    color: var(--c-text2);
+    background: var(--c-bg);
+    border: 1px dashed var(--c-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    line-height: 1.5;
+  }
+
+  .q-explain b { color: var(--c-green); }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: var(--c-accent-soft);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border: 1px solid #D4C5F0;
+  }
+
+  .highlight .hl-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--c-accent2);
+    margin-bottom: 6px;
+  }
+
+  .highlight p, .highlight ul, .highlight li {
+    font-size: 0.88rem;
+    color: var(--c-text);
+  }
+
+  /* ── DECISION TREE ── */
+  .decision-tree {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    line-height: 1.8;
+    margin: 12px 0;
+    white-space: pre-wrap;
+  }
+
+  .decision-tree .arrow { color: var(--c-accent); font-weight: 700; }
+  .decision-tree .model { color: var(--c-green); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin: 48px 0 24px;
+    padding: 20px 0;
+    border-top: 2px solid var(--c-accent);
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--c-text2);
+  }
+
+  /* ── UTIL ── */
+  ul, ol { padding-left: 22px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--c-border); margin: 32px 0; }
+  mark { background: #FFEAA7; padding: 1px 4px; border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .cover h1 { font-size: 1.8rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ COVER ═══════════════════════════ -->
+<div class="cover">
+  <div class="cover-badge">Complete Study Guide &amp; Practice Test</div>
+  <h1>Anthropic <span>Claude</span><br>Certification Prep</h1>
+  <p class="cover-sub">Master Claude models, API, prompt engineering, tool use, safety, and pricing. Includes code examples, diagrams, and 50 exam-style MCQs with explanations.</p>
+  <div class="cover-meta">
+    <span><strong>Topics:</strong> 11 sections</span>
+    <span><strong>MCQs:</strong> 50 questions</span>
+    <span><strong>Source:</strong> Official Anthropic Docs</span>
+    <span><strong>Updated:</strong> September 2026</span>
+  </div>
+</div>
+
+<div class="notice notice-warn">
+  <b>Important Note</b>
+  As of September 2026, Anthropic has not publicly announced a certification called "CCAO-F." Anthropic offers free courses via <strong>Claude Academy</strong> (academy.claude.com). This guide covers all foundational knowledge from official documentation, suitable for any Claude assessment.
+</div>
+
+<!-- ═══════════════════════════ TOC ═══════════════════════════ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#part1"><span class="num">01</span> Anthropic &amp; Claude Overview</a>
+    <a href="#part2"><span class="num">02</span> Claude Model Family</a>
+    <a href="#part3"><span class="num">03</span> Platforms &amp; Deployment</a>
+    <a href="#part4"><span class="num">04</span> Pricing Deep Dive</a>
+    <a href="#part5"><span class="num">05</span> Messages API Fundamentals</a>
+    <a href="#part6"><span class="num">06</span> Tool Use &amp; Function Calling</a>
+    <a href="#part7"><span class="num">07</span> Vision &amp; Multimodal</a>
+    <a href="#part8"><span class="num">08</span> Thinking &amp; Reasoning</a>
+    <a href="#part9"><span class="num">09</span> Prompt Engineering</a>
+    <a href="#part10"><span class="num">10</span> Safety, Ethics &amp; Data Policies</a>
+    <a href="#part11"><span class="num">11</span> Practice Test — 50 MCQs</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ PART 1 ═══════════════════════════ -->
+<section id="part1">
+<h2><span class="part-num">Part 01</span>Anthropic &amp; Claude Overview</h2>
+
+<h3>What is Anthropic?</h3>
+<p>Anthropic is an AI safety company founded in 2021 that builds AI systems designed to be safe, beneficial, and understandable. Their flagship product is the <strong>Claude</strong> family of large language models.</p>
+
+<div class="highlight">
+  <div class="hl-title">Anthropic's Core Belief</div>
+  <p>"AI's impact could rival the industrial revolution, potentially arriving within a decade, but we aren't confident it will go well."</p>
+</div>
+
+<h3>What is Claude?</h3>
+<p>Claude is a family of state-of-the-art LLMs that excels at language, reasoning, analysis, coding, multilingual tasks, vision, and tool use. Anthropic offers two primary building paths:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Path</th><th>What It Is</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Messages API</strong></td><td>Direct model prompting access</td><td>Custom agent loops, fine-grained control</td></tr>
+    <tr><td><strong>Claude Managed Agents</strong></td><td>Pre-built configurable agent harness</td><td>Long-running tasks, async work</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Key Products &amp; Platforms</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Product</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><strong>claude.ai</strong></td><td>Consumer chat interface for interacting with Claude</td></tr>
+    <tr><td><strong>Claude API</strong></td><td>Developer API for building applications (platform.claude.com)</td></tr>
+    <tr><td><strong>Claude Console</strong></td><td>Browser-based playground for testing prompts and API calls</td></tr>
+    <tr><td><strong>Claude Code</strong></td><td>Official CLI for coding assistance in the terminal</td></tr>
+    <tr><td><strong>Claude Academy</strong></td><td>Free courses at academy.claude.com</td></tr>
+    <tr><td><strong>Claude Agent SDK</strong></td><td>SDK for building custom agents</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Study Resources</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Official Documentation</div>
+    <p>platform.claude.com/docs — Primary source for API, models, features, and guides.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude Academy</div>
+    <p>academy.claude.com — Free courses: "AI Fluency," AI capabilities/limitations, human-agent teams.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Prompt Engineering Tutorial</div>
+    <p>github.com/anthropics/prompt-eng-interactive-tutorial — Interactive, example-filled tutorial.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude Cookbook</div>
+    <p>platform.claude.com/cookbook — Jupyter notebooks for PDFs, embeddings, tool use, and more.</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 2 ═══════════════════════════ -->
+<section id="part2" class="page-break">
+<h2><span class="part-num">Part 02</span>Claude Model Family — Deep Dive</h2>
+
+<h3>Current Model Lineup (September 2026)</h3>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Model</th><th>API ID</th><th>Best For</th><th>Context</th><th>Max Out</th><th>Input</th><th>Output</th><th>Speed</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Fable 5.1</strong></td><td><code>claude-fable-5-1</code></td><td>Demanding reasoning, long-horizon agentic</td><td>1M</td><td>128K</td><td>$10</td><td>$50</td><td>Slower</td></tr>
+    <tr><td><strong>Opus 5.5</strong></td><td><code>claude-opus-5-5</code></td><td>Agentic coding &amp; knowledge work</td><td>1M</td><td>128K</td><td>$4</td><td>$20</td><td>Moderate</td></tr>
+    <tr><td><strong>Sonnet 5</strong></td><td><code>claude-sonnet-5</code></td><td>Speed + intelligence balance</td><td>1M</td><td>128K</td><td>$2</td><td>$10</td><td>Fast</td></tr>
+    <tr><td><strong>Haiku 4.5</strong></td><td><code>claude-haiku-4-5-20251001</code></td><td>Fastest, lowest cost, high volume</td><td>200K</td><td>64K</td><td>$1</td><td>$5</td><td>Fastest</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><em>All prices in USD per million tokens (MTok). All models support text + image input, text output, multilingual, vision, and tool use.</em></p>
+
+<h3>Model Selection Decision Tree</h3>
+<div class="decision-tree">Most capable reasoning / multi-day agentic tasks?
+  <span class="arrow">→</span> <span class="model">Fable 5.1</span>
+
+Complex coding &amp; long-running agent sessions?
+  <span class="arrow">→</span> <span class="model">Opus 5.5</span>
+
+Everyday tasks, best speed-to-intelligence ratio?
+  <span class="arrow">→</span> <span class="model">Sonnet 5</span>
+
+High volume, fastest speed, lowest cost?
+  <span class="arrow">→</span> <span class="model">Haiku 4.5</span>
+
+Unsure where to start?
+  <span class="arrow">→</span> <span class="model">Opus 5.5 (recommended default)</span></div>
+
+<h3>Key Facts to Remember</h3>
+<ul>
+  <li><strong>1M tokens</strong> ≈ 555,000 words (new tokenizer from Claude 4.7+)</li>
+  <li><strong>Haiku 4.5's 200K</strong> ≈ 150,000 words</li>
+  <li><strong>Tokenizer change:</strong> Claude 4.7+ produces ~30% more tokens for the same text</li>
+  <li><strong>Knowledge cutoffs:</strong> Fable 5.1 &amp; Opus 5.5 → June 2026; Sonnet 5 → Jan 2026; Haiku 4.5 → Feb 2025</li>
+  <li><strong>Effort parameter:</strong> Fable 5.1 defaults to "high," Opus 5.5 to "medium," Sonnet 5 to "high." Not supported on Haiku 4.5.</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  The model names follow a pattern: <strong>Fable</strong> = most capable, <strong>Opus</strong> = complex/agentic, <strong>Sonnet</strong> = balanced, <strong>Haiku</strong> = fastest/cheapest. Numbers indicate generation.
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 3 ═══════════════════════════ -->
+<section id="part3" class="page-break">
+<h2><span class="part-num">Part 03</span>Platforms &amp; Deployment</h2>
+
+<h3>Five Platforms for Claude</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Operator</th><th>Data Processor</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Claude API</strong></td><td>Anthropic (first-party)</td><td>Anthropic</td></tr>
+    <tr><td><strong>Amazon Bedrock</strong></td><td>AWS</td><td>AWS</td></tr>
+    <tr><td><strong>Claude Platform on AWS</strong></td><td>Anthropic (on AWS infra)</td><td>Anthropic</td></tr>
+    <tr><td><strong>Google Cloud (Vertex AI)</strong></td><td>Google</td><td>Google</td></tr>
+    <tr><td><strong>Microsoft Foundry</strong></td><td>Anthropic (on Azure)</td><td>Anthropic</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Feature Availability Labels</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Label</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Stable</strong></td><td>Fully supported, production-ready, standard API versioning</td></tr>
+    <tr><td><strong>Beta</strong></td><td>Preview for feedback, may change or be discontinued</td></tr>
+    <tr><td><strong>Deprecated</strong></td><td>Still functional, migration path provided</td></tr>
+    <tr><td><strong>Retired</strong></td><td>No longer available</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Claude Consumption Units (CCUs)</h3>
+<p>Used on Claude Platform on AWS and Microsoft Foundry:</p>
+<ul>
+  <li><strong>1 CCU = $0.01 USD</strong> (fixed)</li>
+  <li>Token usage rated at standard rates, then converted to CCUs</li>
+  <li>Billed hourly via marketplace, monthly invoices</li>
+  <li>Postpaid (arrears) only — no prepaid credits</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════ PART 4 ═══════════════════════════ -->
+<section id="part4" class="page-break">
+<h2><span class="part-num">Part 04</span>Pricing — Complete Reference</h2>
+
+<h3>Prompt Caching</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Operation</th><th>Cost Multiplier</th><th>Duration</th><th>Break-Even</th></tr></thead>
+  <tbody>
+    <tr><td>5-min cache write</td><td>1.25x base input</td><td>5 minutes</td><td>After 1 read</td></tr>
+    <tr><td>1-hour cache write</td><td>2x base input</td><td>1 hour</td><td>After 2 reads</td></tr>
+    <tr><td>Cache hit (standard)</td><td>0.1x (10%) base</td><td>—</td><td>—</td></tr>
+    <tr><td>Cache hit (Fable 5.1)</td><td>0.025x (2.5%) base</td><td>—</td><td>—</td></tr>
+    <tr><td>Cache hit (Opus 5.5)</td><td>0.05x (5%) base</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Batch Processing</h3>
+<div class="highlight">
+  <div class="hl-title">50% Discount on All Token Costs</div>
+  <p>Process large volumes asynchronously. Example: Opus 5.5 batch input = $2/MTok (vs $4 standard). Batch + prompt caching discounts <strong>stack</strong> together.</p>
+</div>
+
+<h3>Data Residency &amp; Fast Mode</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>Multiplier / Cost</th><th>Details</th></tr></thead>
+  <tbody>
+    <tr><td>US-only inference (<code>inference_geo: "us"</code>)</td><td>1.1x all token costs</td><td>Claude 4.6+ only. Global (default) = standard.</td></tr>
+    <tr><td>Fast mode — Opus 5.5</td><td>$8 in / $40 out per MTok</td><td>2x standard price. Stacks with other multipliers.</td></tr>
+    <tr><td>Fast mode — Opus 5/4.8</td><td>$10 in / $50 out per MTok</td><td>Research preview, Claude API only.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Tool-Specific Pricing</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tool</th><th>Additional Cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Web Search</strong></td><td>$10 per 1,000 searches + tokens</td></tr>
+    <tr><td><strong>Web Fetch</strong></td><td>No extra cost (tokens only)</td></tr>
+    <tr><td><strong>Code Execution</strong></td><td>Free with web search/fetch; else $0.05/hr after 1,550 free hrs/mo</td></tr>
+    <tr><td><strong>Managed Agents runtime</strong></td><td>$0.08 per session-hour (only while <code>running</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cost Optimization — Example Calculation</h3>
+<div class="example-box">
+  <div class="ex-header">Worked Example: 1-Hour Coding Session with Opus 5</div>
+  <div class="ex-body">
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Line Item</th><th>Calculation</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Input tokens (50K)</td><td>50,000 × $5 / 1,000,000</td><td>$0.25</td></tr>
+        <tr><td>Output tokens (15K)</td><td>15,000 × $25 / 1,000,000</td><td>$0.375</td></tr>
+        <tr><td>Session runtime</td><td>1.0 hr × $0.08</td><td>$0.08</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>$0.705</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px;">With prompt caching (40K cached reads): total drops to <strong>$0.525</strong> — a 25% saving.</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 5 ═══════════════════════════ -->
+<section id="part5" class="page-break">
+<h2><span class="part-num">Part 05</span>Messages API — Fundamentals</h2>
+
+<h3>Request Structure — Example</h3>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"model"</span>: <span class="str">"claude-opus-5-5"</span>,        <span class="cm">// REQUIRED</span>
+  <span class="key">"max_tokens"</span>: <span class="num">1024</span>,                <span class="cm">// REQUIRED</span>
+  <span class="key">"messages"</span>: [                       <span class="cm">// REQUIRED</span>
+    {
+      <span class="key">"role"</span>: <span class="str">"user"</span>,
+      <span class="key">"content"</span>: <span class="str">"What is the capital of France?"</span>
+    }
+  ],
+  <span class="key">"system"</span>: <span class="str">"You are a geography expert."</span>,  <span class="cm">// Optional</span>
+  <span class="key">"temperature"</span>: <span class="num">0.7</span>,                 <span class="cm">// Optional (0-1)</span>
+  <span class="key">"tools"</span>: [...],                      <span class="cm">// Optional</span>
+  <span class="key">"tool_choice"</span>: {<span class="key">"type"</span>: <span class="str">"auto"</span>}     <span class="cm">// Optional</span>
+}</div>
+
+<h3>Python SDK Example</h3>
+<div class="code-block"><span class="label">Python</span><span class="kw">import</span> anthropic
+
+client = anthropic.<span class="fn">Anthropic</span>()  <span class="cm"># reads ANTHROPIC_API_KEY from env</span>
+
+message = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    system=<span class="str">"You are a helpful coding assistant."</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Explain Python decorators."</span>}
+    ],
+)
+
+<span class="fn">print</span>(message.content[<span class="num">0</span>].text)</div>
+
+<h3>Stop Reasons</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Stop Reason</th><th>Meaning</th><th>What To Do</th></tr></thead>
+  <tbody>
+    <tr><td><code>end_turn</code></td><td>Claude finished naturally</td><td>Display response to user</td></tr>
+    <tr><td><code>max_tokens</code></td><td>Hit the max_tokens limit</td><td>Consider increasing max_tokens</td></tr>
+    <tr><td><code>stop_sequence</code></td><td>Hit a custom stop sequence</td><td>Process the partial response</td></tr>
+    <tr><td><code>tool_use</code></td><td>Claude wants to call tool(s)</td><td>Execute tool, return tool_result</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Content Block Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Type</th><th>In Request?</th><th>In Response?</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>text</code></td><td>Yes</td><td>Yes</td><td>Plain text content</td></tr>
+    <tr><td><code>image</code></td><td>Yes</td><td>No</td><td>Image input (base64, URL, file_id)</td></tr>
+    <tr><td><code>tool_use</code></td><td>No</td><td>Yes</td><td>Claude's tool call request</td></tr>
+    <tr><td><code>tool_result</code></td><td>Yes</td><td>No</td><td>Your tool execution results</td></tr>
+    <tr><td><code>thinking</code></td><td>No</td><td>Yes</td><td>Claude's reasoning steps</td></tr>
+    <tr><td><code>document</code></td><td>Yes</td><td>No</td><td>PDF or document content</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Authentication Best Practices</h3>
+<ul>
+  <li>Set <strong>expiration</strong> when creating API keys</li>
+  <li>Keep keys <strong>out of source control</strong></li>
+  <li>Never put keys in <strong>client-side code</strong> or prompts</li>
+  <li>Consider <strong>Workload Identity Federation</strong> as alternative to static keys</li>
+  <li>Headers: <code>x-api-key</code> + <code>anthropic-version: 2023-06-01</code></li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════ PART 6 ═══════════════════════════ -->
+<section id="part6" class="page-break">
+<h2><span class="part-num">Part 06</span>Tool Use &amp; Function Calling</h2>
+
+<h3>How Tool Use Works</h3>
+<div class="highlight">
+  <div class="hl-title">The Tool Use Loop</div>
+  <p><strong>1.</strong> Define tools (name, description, input_schema)<br>
+     <strong>2.</strong> Send request → Claude returns <code>tool_use</code> block<br>
+     <strong>3.</strong> Your code executes the tool<br>
+     <strong>4.</strong> Send <code>tool_result</code> back to Claude<br>
+     <strong>5.</strong> Claude formulates final response (or calls more tools)</p>
+</div>
+
+<h3>Defining a Tool — Example</h3>
+<div class="code-block"><span class="label">JSON — Tool Schema</span>{
+  <span class="key">"name"</span>: <span class="str">"get_weather"</span>,
+  <span class="key">"description"</span>: <span class="str">"Get the current weather for a location."</span>,
+  <span class="key">"input_schema"</span>: {
+    <span class="key">"type"</span>: <span class="str">"object"</span>,
+    <span class="key">"properties"</span>: {
+      <span class="key">"location"</span>: {
+        <span class="key">"type"</span>: <span class="str">"string"</span>,
+        <span class="key">"description"</span>: <span class="str">"City and state, e.g. San Francisco, CA"</span>
+      }
+    },
+    <span class="key">"required"</span>: [<span class="str">"location"</span>]
+  }
+}</div>
+
+<h3>Complete Tool Use — Python Example</h3>
+<div class="code-block"><span class="label">Python</span><span class="cm"># Step 1: Send request with tool definition</span>
+response = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    tools=[weather_tool],
+    tool_choice={<span class="str">"type"</span>: <span class="str">"auto"</span>},
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What's the weather in SF?"</span>}],
+)
+
+<span class="cm"># Step 2: Claude returns tool_use block</span>
+tool_use = <span class="fn">next</span>(b <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"tool_use"</span>)
+<span class="cm"># tool_use.name = "get_weather"</span>
+<span class="cm"># tool_use.input = {"location": "San Francisco, CA"}</span>
+
+<span class="cm"># Step 3: Execute tool &amp; send result back</span>
+weather_data = <span class="str">"15°C, partly cloudy"</span>  <span class="cm"># your lookup</span>
+followup = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    tools=[weather_tool],
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What's the weather in SF?"</span>},
+        {<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: [
+            {<span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+             <span class="str">"tool_use_id"</span>: tool_use.id,
+             <span class="str">"content"</span>: weather_data}
+        ]},
+    ],
+)</div>
+
+<h3>Tool Choice Modes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Mode</th><th>Behavior</th><th>Use When</th></tr></thead>
+  <tbody>
+    <tr><td><code>auto</code></td><td>Claude decides (default)</td><td>Most use cases</td></tr>
+    <tr><td><code>any</code></td><td>Must call <em>some</em> tool</td><td>Force tool use on every turn</td></tr>
+    <tr><td><code>tool</code></td><td>Must call a <em>specific</em> named tool</td><td>Forcing a particular action</td></tr>
+    <tr><td><code>none</code></td><td>No tool calls allowed</td><td>Text-only responses</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Client-Side vs. Server-Side Tools</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Client-Side (You Execute)</div>
+    <ul>
+      <li>Your own custom tools</li>
+      <li>Bash — shell commands</li>
+      <li>Text Editor — file manipulation</li>
+      <li>Computer Use — desktop control</li>
+      <li>Browser Use — web interaction</li>
+      <li>Memory — cross-conversation storage</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Server-Side (Anthropic Executes)</div>
+    <ul>
+      <li>Web Search — $10/1K searches</li>
+      <li>Web Fetch — no extra cost</li>
+      <li>Code Execution — sandboxed Python/bash</li>
+      <li>Advisor — consult smarter model</li>
+      <li>Tool Search — dynamic discovery</li>
+      <li>MCP Connector — remote MCP servers</li>
+    </ul>
+  </div>
+</div>
+
+<div class="notice notice-tip">
+  <b>Strict Mode</b>
+  Add <code>"strict": true</code> to tool definitions to guarantee Claude's arguments always match your schema exactly — critical for production pipelines.
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 7 ═══════════════════════════ -->
+<section id="part7" class="page-break">
+<h2><span class="part-num">Part 07</span>Vision &amp; Multimodal Capabilities</h2>
+
+<h3>Supported Image Formats</h3>
+<p>JPEG, PNG, GIF, WebP. Animations unsupported (only first frame used). Claude <strong>cannot</strong> generate, edit, or create images — it is understanding only.</p>
+
+<h3>Image Limits</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Limit</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Max dimensions</td><td>8,000 × 8,000 px</td></tr>
+    <tr><td>Max file size (API)</td><td>10 MB</td></tr>
+    <tr><td>Max file size (Bedrock/GCP)</td><td>5 MB</td></tr>
+    <tr><td>Max per API request (1M context)</td><td>600 images</td></tr>
+    <tr><td>Max per API request (200K context)</td><td>100 images</td></tr>
+    <tr><td>Max per message on claude.ai</td><td>20 images</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Visual Token Calculation</h3>
+<div class="highlight">
+  <div class="hl-title">Formula</div>
+  <p><strong>Visual tokens = ⌈width / 28⌉ × ⌈height / 28⌉</strong></p>
+  <p>Each 28×28 pixel patch = 1 visual token. A 1000×1000 image = ~1,296 tokens.</p>
+</div>
+
+<h3>Sending Images — Python Example</h3>
+<div class="code-block"><span class="label">Python — URL Source</span>message = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    messages=[{
+        <span class="str">"role"</span>: <span class="str">"user"</span>,
+        <span class="str">"content"</span>: [
+            {
+                <span class="str">"type"</span>: <span class="str">"image"</span>,
+                <span class="str">"source"</span>: {
+                    <span class="str">"type"</span>: <span class="str">"url"</span>,
+                    <span class="str">"url"</span>: <span class="str">"https://example.com/photo.jpg"</span>
+                }
+            },
+            {<span class="str">"type"</span>: <span class="str">"text"</span>, <span class="str">"text"</span>: <span class="str">"Describe this image."</span>}
+        ]
+    }],
+)</div>
+
+<p><strong>Three image source types:</strong> <code>base64</code>, <code>url</code>, <code>file</code> (via Files API <code>file_id</code>).</p>
+
+<div class="notice notice-info">
+  <b>Best Practice</b>
+  Place images <strong>before</strong> text in messages for best results. Use the Files API for repeated images to avoid re-sending base64 data every turn.
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 8 ═══════════════════════════ -->
+<section id="part8" class="page-break">
+<h2><span class="part-num">Part 08</span>Thinking &amp; Reasoning</h2>
+
+<h3>How Thinking Works</h3>
+<p>When thinking is active, Claude works through the problem step-by-step before answering. The reasoning arrives in <code>thinking</code> content blocks ahead of the <code>text</code> response.</p>
+
+<h3>Two Thinking Modes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Mode</th><th>Config</th><th>Models</th><th>Behavior</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Adaptive</strong></td><td><code>{"type": "adaptive"}</code></td><td>Claude 4.7+ (always on for 5.x)</td><td>Claude decides when and how deeply to think. Steered by <code>effort</code>.</td></tr>
+    <tr><td><strong>Extended</strong></td><td><code>{"type": "enabled", "budget_tokens": N}</code></td><td>Haiku 4.5, older models</td><td>Manual mode with explicit budget. Deprecated on 4.6 models.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Configuring Thinking — Example</h3>
+<div class="code-block"><span class="label">Python</span>response = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,
+    max_tokens=<span class="num">16000</span>,
+    thinking={<span class="str">"type"</span>: <span class="str">"adaptive"</span>, <span class="str">"display"</span>: <span class="str">"summarized"</span>},
+    messages=[{
+        <span class="str">"role"</span>: <span class="str">"user"</span>,
+        <span class="str">"content"</span>: <span class="str">"What is the GCD of 1071 and 462?"</span>
+    }],
+)
+
+<span class="kw">for</span> block <span class="kw">in</span> response.content:
+    <span class="kw">if</span> block.type == <span class="str">"thinking"</span>:
+        <span class="fn">print</span>(<span class="str">f"Thinking: </span>{block.thinking}<span class="str">"</span>)
+    <span class="kw">elif</span> block.type == <span class="str">"text"</span>:
+        <span class="fn">print</span>(<span class="str">f"Answer: </span>{block.text}<span class="str">"</span>)</div>
+
+<h3>Key Facts</h3>
+<ul>
+  <li>Thinking tokens are billed as <strong>output tokens</strong></li>
+  <li>They count toward <code>max_tokens</code></li>
+  <li><code>display: "summarized"</code> → visible reasoning text; <code>"omitted"</code> → empty thinking field</li>
+  <li>Thinking blocks carry a <code>signature</code> field — pass back unchanged in multi-turn conversations</li>
+  <li>Best for: math, coding, analysis, and agentic tasks</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════ PART 9 ═══════════════════════════ -->
+<section id="part9" class="page-break">
+<h2><span class="part-num">Part 09</span>Prompt Engineering — Best Practices</h2>
+
+<h3>The Five Core Principles</h3>
+
+<h4>1. Be Clear and Direct</h4>
+<div class="example-box">
+  <div class="ex-header">Example: Creating an Analytics Dashboard</div>
+  <div class="ex-body">
+    <div class="ex-label bad">Less Effective</div>
+    <div class="ex-text bad-border">Create an analytics dashboard</div>
+    <div class="ex-label good">More Effective</div>
+    <div class="ex-text good-border">Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation.</div>
+  </div>
+</div>
+
+<div class="highlight">
+  <div class="hl-title">Golden Rule</div>
+  <p>Show your prompt to a colleague with minimal context. If they'd be confused, Claude will be too.</p>
+</div>
+
+<h4>2. Add Context and Motivation</h4>
+<div class="example-box">
+  <div class="ex-header">Example: Formatting Constraint</div>
+  <div class="ex-body">
+    <div class="ex-label bad">Less Effective</div>
+    <div class="ex-text bad-border">NEVER use ellipses</div>
+    <div class="ex-label good">More Effective</div>
+    <div class="ex-text good-border">Your response will be read aloud by a text-to-speech engine, so never use ellipses since the TTS engine won't know how to pronounce them.</div>
+    <p style="font-size:0.82rem;color:var(--c-text2);margin-top:4px;"><em>Claude generalizes from the WHY — it will also avoid other TTS-unfriendly characters.</em></p>
+  </div>
+</div>
+
+<h4>3. Use Examples (Few-Shot Prompting)</h4>
+<p>Include <strong>3–5 examples</strong> for best results. Make them:</p>
+<ul>
+  <li><strong>Relevant</strong> — mirror your actual use case</li>
+  <li><strong>Diverse</strong> — cover edge cases</li>
+  <li><strong>Structured</strong> — wrap in <code>&lt;example&gt;</code> tags</li>
+</ul>
+
+<div class="code-block"><span class="label">Prompt Template</span>&lt;<span class="kw">examples</span>&gt;
+  &lt;<span class="kw">example</span>&gt;
+    &lt;<span class="key">input</span>&gt;What is 2+2?&lt;/<span class="key">input</span>&gt;
+    &lt;<span class="key">output</span>&gt;4&lt;/<span class="key">output</span>&gt;
+  &lt;/<span class="kw">example</span>&gt;
+  &lt;<span class="kw">example</span>&gt;
+    &lt;<span class="key">input</span>&gt;What is the capital of France?&lt;/<span class="key">input</span>&gt;
+    &lt;<span class="key">output</span>&gt;Paris&lt;/<span class="key">output</span>&gt;
+  &lt;/<span class="kw">example</span>&gt;
+&lt;/<span class="kw">examples</span>&gt;
+
+Now answer: &lt;<span class="key">input</span>&gt;{{USER_QUESTION}}&lt;/<span class="key">input</span>&gt;</div>
+
+<h4>4. Structure with XML Tags</h4>
+<p>XML tags help Claude parse complex prompts unambiguously:</p>
+<div class="code-block"><span class="label">Structured Prompt</span>&lt;<span class="kw">instructions</span>&gt;
+  Summarize the document in 3 bullet points.
+  Focus on key findings only.
+&lt;/<span class="kw">instructions</span>&gt;
+
+&lt;<span class="kw">document</span>&gt;
+  {{DOCUMENT_TEXT}}
+&lt;/<span class="kw">document</span>&gt;
+
+&lt;<span class="kw">output_format</span>&gt;
+  Return a JSON object with a "summary" array of 3 strings.
+&lt;/<span class="kw">output_format</span>&gt;</div>
+
+<h4>5. Give Claude a Role</h4>
+<div class="code-block"><span class="label">System Prompt</span><span class="cm">// Set via the "system" parameter</span>
+<span class="str">"You are a senior Python developer with 15 years of experience.
+You write clean, well-tested code and explain your decisions."</span></div>
+
+<h3>Advanced Techniques</h3>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Prompt Chaining</div>
+    <p>Break complex tasks into sequential sub-tasks. Output of step N becomes context for step N+1.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Structured Outputs</div>
+    <p>Two approaches: JSON output mode, or <code>strict: true</code> on tool definitions for validated schemas.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Long-Context Prompting</div>
+    <p>Place documents before queries. Use XML tags with <code>index</code> attributes for multiple docs.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Effort Parameter</div>
+    <p>Control thinking depth: <code>low</code>, <code>medium</code>, <code>high</code>. Not supported on Haiku 4.5.</p>
+  </div>
+</div>
+
+<h3>Mnemonic: CERRS</h3>
+<div class="highlight">
+  <div class="hl-title">Remember the 5 Principles</div>
+  <p>
+    <strong>C</strong>lear and direct instructions<br>
+    <strong>E</strong>xamples (3-5, diverse, in XML tags)<br>
+    <strong>R</strong>ole in system prompt<br>
+    <strong>R</strong>easoning context (explain WHY)<br>
+    <strong>S</strong>tructure with XML tags
+  </p>
+</div>
+</section>
+
+<!-- ═══════════════════════════ PART 10 ═══════════════════════════ -->
+<section id="part10" class="page-break">
+<h2><span class="part-num">Part 10</span>Safety, Ethics &amp; Data Policies</h2>
+
+<h3>Anthropic's Three Core Positions</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">1. Rapid Progress is Likely</div>
+    <p>Scaling laws show predictable capability improvement. Training costs remain far below major scientific projects.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">2. Alignment is Unsolved</div>
+    <p>"No one knows how to train very powerful AI systems to be robustly helpful, honest, and harmless."</p>
+  </div>
+  <div class="card">
+    <div class="card-title">3. Empirical Research is Essential</div>
+    <p>Problems may only emerge at scale. Safety work must engage with frontier models.</p>
+  </div>
+</div>
+
+<h3>Safety Research Portfolio</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Area</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Mechanistic Interpretability</strong></td><td>Reverse-engineering neural networks to audit for unsafe behaviors</td></tr>
+    <tr><td><strong>Scalable Oversight</strong></td><td>Using AI to help supervise AI training (Constitutional AI)</td></tr>
+    <tr><td><strong>Process-Oriented Learning</strong></td><td>Rewarding safe reasoning steps, not just outcomes</td></tr>
+    <tr><td><strong>Understanding Generalization</strong></td><td>Tracing how training data shapes emergent behaviors</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Three Preparedness Scenarios</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Scenario</th><th>Assumption</th><th>Strategy</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Optimistic</strong></td><td>Current techniques largely sufficient</td><td>Continue current approaches</td></tr>
+    <tr><td><strong>Intermediate</strong></td><td>Significant effort can prevent catastrophe</td><td>Invest heavily in safety research</td></tr>
+    <tr><td><strong>Pessimistic</strong></td><td>Safety may be unsolvable</td><td>Evidence-gathering becomes critical</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Anthropic <strong>hedges across all three</strong> rather than betting on one.</p>
+
+<h3>Data Retention &amp; Privacy</h3>
+
+<h4>Zero Data Retention (ZDR)</h4>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title" style="color:var(--c-green)">ZDR-Eligible</div>
+    <ul>
+      <li>Context windows, thinking, vision</li>
+      <li>PDF support, citations, search results</li>
+      <li>Structured outputs, prompt caching</li>
+      <li>Client-side tools (bash, editor, computer use)</li>
+      <li>Token counting, web search*, web fetch*</li>
+    </ul>
+    <p style="font-size:0.75rem;margin-top:4px;">*Except with dynamic filtering enabled</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--c-red)">NOT ZDR-Eligible</div>
+    <ul>
+      <li>Batch processing</li>
+      <li>Code execution</li>
+      <li>Files API</li>
+      <li>Agent Skills</li>
+      <li>MCP connector</li>
+    </ul>
+  </div>
+</div>
+
+<h4>Key Privacy Principles</h4>
+<ul>
+  <li>Retained data is <strong>never used for model training</strong> without express permission</li>
+  <li>Anthropic designs for the <strong>smallest possible retention footprint</strong></li>
+  <li><strong>HIPAA-ready</strong> API access available (same eligibility as ZDR)</li>
+  <li>On partner platforms (Bedrock, Google Cloud), the <strong>cloud provider</strong> is the data processor</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════ PART 11 ═══════════════════════════ -->
+<section id="part11" class="page-break">
+<h2><span class="part-num">Part 11</span>Practice Test — 50 MCQs with Answers</h2>
+
+<div class="notice notice-info">
+  <b>Instructions</b>
+  Each question has one correct answer highlighted in green. Read the explanation to understand <em>why</em> each answer is correct. Covers all exam domains.
+</div>
+
+<h3>Section A — Models &amp; Pricing (Q1–Q10)</h3>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q1</span><span class="q-tag">Models</span></div>
+  <div class="q-text">Which Claude model is recommended as the default starting point for most workloads?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Claude Fable 5.1</li>
+    <li class="correct-option"><span class="letter">B)</span> Claude Opus 5.5</li>
+    <li><span class="letter">C)</span> Claude Sonnet 5</li>
+    <li><span class="letter">D)</span> Claude Haiku 4.5</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> The docs state: "If you're unsure which model to use, start with Claude Opus 5.5 for most workloads."</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q2</span><span class="q-tag">Models</span></div>
+  <div class="q-text">What is the context window size for Claude Haiku 4.5?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 1M tokens</li>
+    <li><span class="letter">B)</span> 500K tokens</li>
+    <li class="correct-option"><span class="letter">C)</span> 200K tokens</li>
+    <li><span class="letter">D)</span> 100K tokens</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Haiku 4.5 has a 200K token context window. All other current models have 1M token windows.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q3</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What discount does the Batch API provide on standard token costs?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 25%</li>
+    <li class="correct-option"><span class="letter">B)</span> 50%</li>
+    <li><span class="letter">C)</span> 75%</li>
+    <li><span class="letter">D)</span> 30%</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> The Batch API allows asynchronous processing with a 50% discount on both input and output tokens.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q4</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What is the base output token price for Claude Sonnet 5?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> $5 / MTok</li>
+    <li class="correct-option"><span class="letter">B)</span> $10 / MTok</li>
+    <li><span class="letter">C)</span> $15 / MTok</li>
+    <li><span class="letter">D)</span> $20 / MTok</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Sonnet 5 is priced at $2/MTok input and $10/MTok output — the best speed-to-cost ratio.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q5</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What multiplier does the 5-minute prompt cache write incur over base input price?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 1.1x</li>
+    <li class="correct-option"><span class="letter">B)</span> 1.25x</li>
+    <li><span class="letter">C)</span> 1.5x</li>
+    <li><span class="letter">D)</span> 2x</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> 5-minute cache write = 1.25x base input. 1-hour cache write = 2x base input.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q6</span><span class="q-tag">Models</span></div>
+  <div class="q-text">What is the maximum output token limit for Claude Fable 5.1?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 64K tokens</li>
+    <li class="correct-option"><span class="letter">B)</span> 128K tokens</li>
+    <li><span class="letter">C)</span> 256K tokens</li>
+    <li><span class="letter">D)</span> 1M tokens</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Fable 5.1, Opus 5.5, and Sonnet 5 all support up to 128K output tokens. Haiku supports 64K.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q7</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What is the cache hit cost for Claude Fable 5.1 relative to base input?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 10% (0.1x)</li>
+    <li><span class="letter">B)</span> 5% (0.05x)</li>
+    <li class="correct-option"><span class="letter">C)</span> 2.5% (0.025x)</li>
+    <li><span class="letter">D)</span> 1% (0.01x)</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Fable 5.1 cache hits = 2.5% of base ($0.25/MTok). Standard = 10%. Opus 5.5 = 5%.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q8</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">Which pricing multiplier applies when using US-only data residency?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 1.0x (no change)</li>
+    <li><span class="letter">B)</span> 1.05x</li>
+    <li class="correct-option"><span class="letter">C)</span> 1.1x</li>
+    <li><span class="letter">D)</span> 1.25x</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> <code>inference_geo: "us"</code> incurs a 1.1x multiplier on all token pricing categories.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q9</span><span class="q-tag">Platforms</span></div>
+  <div class="q-text">How many platforms currently offer Claude models?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Three</li>
+    <li><span class="letter">B)</span> Four</li>
+    <li class="correct-option"><span class="letter">C)</span> Five</li>
+    <li><span class="letter">D)</span> Six</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Claude API, Amazon Bedrock, Claude Platform on AWS, Google Cloud/Vertex AI, Microsoft Foundry.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q10</span><span class="q-tag">Models</span></div>
+  <div class="q-text">What is the default effort level for Claude Opus 5.5?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> low</li>
+    <li class="correct-option"><span class="letter">B)</span> medium</li>
+    <li><span class="letter">C)</span> high</li>
+    <li><span class="letter">D)</span> Not supported</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Opus 5.5 defaults to "medium." Fable 5.1 and Sonnet 5 default to "high." Haiku doesn't support it.</div>
+</div>
+
+<h3>Section B — API &amp; Tools (Q11–Q20)</h3>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q11</span><span class="q-tag">API</span></div>
+  <div class="q-text">What <code>stop_reason</code> indicates Claude wants to call a tool?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> end_turn</li>
+    <li class="correct-option"><span class="letter">B)</span> tool_use</li>
+    <li><span class="letter">C)</span> stop_sequence</li>
+    <li><span class="letter">D)</span> max_tokens</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> The response has <code>stop_reason: "tool_use"</code> and contains <code>tool_use</code> content blocks.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q12</span><span class="q-tag">Tools</span></div>
+  <div class="q-text">Which <code>tool_choice</code> type forces Claude to call a specific named tool?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> auto</li>
+    <li><span class="letter">B)</span> any</li>
+    <li class="correct-option"><span class="letter">C)</span> tool</li>
+    <li><span class="letter">D)</span> required</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> <code>tool</code> forces a specific tool; <code>any</code> forces some tool; <code>auto</code> lets Claude decide.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q13</span><span class="q-tag">Tools</span></div>
+  <div class="q-text">Server-side tools run on which infrastructure?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> The user's application server</li>
+    <li class="correct-option"><span class="letter">B)</span> Anthropic's infrastructure</li>
+    <li><span class="letter">C)</span> AWS Lambda</li>
+    <li><span class="letter">D)</span> The client browser</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Server tools (web search, web fetch, code execution) run on Anthropic's infrastructure.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q14</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What is the per-search cost for the Web Search tool?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> $1 per 1,000 searches</li>
+    <li><span class="letter">B)</span> $5 per 1,000 searches</li>
+    <li class="correct-option"><span class="letter">C)</span> $10 per 1,000 searches</li>
+    <li><span class="letter">D)</span> Free</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Web search = $10 per 1,000 searches, plus standard token costs for search content.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q15</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What additional cost does the Web Fetch tool incur beyond tokens?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> $5 per 1,000 fetches</li>
+    <li><span class="letter">B)</span> $0.01 per fetch</li>
+    <li class="correct-option"><span class="letter">C)</span> No additional cost</li>
+    <li><span class="letter">D)</span> $10 per 1,000 fetches</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Web fetch has no additional charges — you only pay token costs for fetched content.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q16</span><span class="q-tag">API</span></div>
+  <div class="q-text">Which parameter sets the system prompt in the Messages API?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> context</li>
+    <li><span class="letter">B)</span> instructions</li>
+    <li class="correct-option"><span class="letter">C)</span> system</li>
+    <li><span class="letter">D)</span> prompt</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> The <code>system</code> parameter sets the system prompt for behavior and context.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q17</span><span class="q-tag">Pricing</span></div>
+  <div class="q-text">What is the session runtime charge for Claude Managed Agents?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> $0.04 per session-hour</li>
+    <li class="correct-option"><span class="letter">B)</span> $0.08 per session-hour</li>
+    <li><span class="letter">C)</span> $0.15 per session-hour</li>
+    <li><span class="letter">D)</span> Free</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> $0.08/session-hour, metered to the millisecond only while status is <code>running</code>.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q18</span><span class="q-tag">API</span></div>
+  <div class="q-text">Which content block type must you send back after executing a tool?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> tool_output</li>
+    <li><span class="letter">B)</span> tool_response</li>
+    <li class="correct-option"><span class="letter">C)</span> tool_result</li>
+    <li><span class="letter">D)</span> function_result</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Send a <code>tool_result</code> block with the <code>tool_use_id</code> and result content.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q19</span><span class="q-tag">Tools</span></div>
+  <div class="q-text">What is the MCP connector used for?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Managing Claude's memory</li>
+    <li class="correct-option"><span class="letter">B)</span> Connecting to remote MCP servers from the API</li>
+    <li><span class="letter">C)</span> Monitoring Claude's performance</li>
+    <li><span class="letter">D)</span> Compressing prompts</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> The MCP connector connects to remote Model Context Protocol servers directly from the Messages API.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q20</span><span class="q-tag">Tools</span></div>
+  <div class="q-text">Which is NOT an Anthropic-schema client tool?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Bash</li>
+    <li><span class="letter">B)</span> Text Editor</li>
+    <li class="correct-option"><span class="letter">C)</span> Web Search</li>
+    <li><span class="letter">D)</span> Computer Use</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Web Search is a <em>server-side</em> tool. The others are client-side tools.</div>
+</div>
+
+<h3>Section C — Prompt Engineering (Q21–Q30)</h3>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q21</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">What is Anthropic's "golden rule" for prompt clarity?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Use the longest prompt possible</li>
+    <li class="correct-option"><span class="letter">B)</span> Show it to a colleague with minimal context</li>
+    <li><span class="letter">C)</span> Always use XML tags</li>
+    <li><span class="letter">D)</span> Include at least 10 examples</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> If a colleague with minimal context would be confused, Claude will be too.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q22</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">How many examples does Anthropic recommend for few-shot prompting?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 1–2</li>
+    <li class="correct-option"><span class="letter">B)</span> 3–5</li>
+    <li><span class="letter">C)</span> 7–10</li>
+    <li><span class="letter">D)</span> 15+</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> 3–5 examples, made relevant, diverse, and wrapped in <code>&lt;example&gt;</code> tags.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q23</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">What format does Anthropic recommend for structuring complex prompts?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> JSON</li>
+    <li><span class="letter">B)</span> YAML</li>
+    <li class="correct-option"><span class="letter">C)</span> XML tags</li>
+    <li><span class="letter">D)</span> Markdown headers</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> XML tags help Claude parse prompts unambiguously: <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code>.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q24</span><span class="q-tag">Thinking</span></div>
+  <div class="q-text">What is "adaptive thinking" in Claude 4.7+?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> A fixed thinking template</li>
+    <li class="correct-option"><span class="letter">B)</span> Claude dynamically decides when and how much to think</li>
+    <li><span class="letter">C)</span> User manually sets budget_tokens</li>
+    <li><span class="letter">D)</span> Thinking is always disabled</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Adaptive thinking = Claude dynamically decides. It's the only mode on 4.7+.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q25</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">Where should role information be placed?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> In the first user message</li>
+    <li class="correct-option"><span class="letter">B)</span> In the system prompt</li>
+    <li><span class="letter">C)</span> As a tool definition</li>
+    <li><span class="letter">D)</span> In stop_sequences</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Set roles in the system prompt to focus Claude's behavior and tone.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q26</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">What is prompt chaining?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Multiple simultaneous API calls</li>
+    <li class="correct-option"><span class="letter">B)</span> Breaking complex tasks into sequential sub-tasks</li>
+    <li><span class="letter">C)</span> Linking multiple models together</li>
+    <li><span class="letter">D)</span> Caching prompts across sessions</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Each step focuses on one aspect, passing its output as context to the next.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q27</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">Why does adding context/motivation improve prompts?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> It makes prompts longer</li>
+    <li class="correct-option"><span class="letter">B)</span> Claude generalizes from the explanation</li>
+    <li><span class="letter">C)</span> It forces XML tag usage</li>
+    <li><span class="letter">D)</span> It reduces token count</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Claude is smart enough to generalize from the WHY behind a constraint.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q28</span><span class="q-tag">Features</span></div>
+  <div class="q-text">What does the <code>effort</code> parameter control?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Output format</li>
+    <li class="correct-option"><span class="letter">B)</span> How many tokens Claude uses when responding</li>
+    <li><span class="letter">C)</span> The model's temperature</li>
+    <li><span class="letter">D)</span> API rate limits</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Trades off between response thoroughness and token efficiency.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q29</span><span class="q-tag">Prompting</span></div>
+  <div class="q-text">What tags should wrap few-shot examples in prompts?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> &lt;sample&gt;</li>
+    <li><span class="letter">B)</span> &lt;demo&gt;</li>
+    <li class="correct-option"><span class="letter">C)</span> &lt;example&gt;</li>
+    <li><span class="letter">D)</span> &lt;test&gt;</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Wrap in <code>&lt;example&gt;</code> tags (multiple in <code>&lt;examples&gt;</code>) to distinguish from instructions.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q30</span><span class="q-tag">Tools</span></div>
+  <div class="q-text">What does <code>strict: true</code> guarantee in a tool definition?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> The tool always executes</li>
+    <li class="correct-option"><span class="letter">B)</span> Claude's arguments match your schema exactly</li>
+    <li><span class="letter">C)</span> The tool runs server-side</li>
+    <li><span class="letter">D)</span> Error messages are suppressed</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Guarantees Claude's tool call arguments always conform to your JSON schema.</div>
+</div>
+
+<h3>Section D — Features (Q31–Q40)</h3>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q31</span><span class="q-tag">Features</span></div>
+  <div class="q-text">Which feature grounds responses in source documents with exact references?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Structured outputs</li>
+    <li class="correct-option"><span class="letter">B)</span> Citations</li>
+    <li><span class="letter">C)</span> Search results</li>
+    <li><span class="letter">D)</span> Prompt caching</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Citations provide exact references to sentences and passages for verifiable outputs.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q32</span><span class="q-tag">Vision</span></div>
+  <div class="q-text">What image formats does Claude's vision support?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> JPEG and PNG only</li>
+    <li class="correct-option"><span class="letter">B)</span> JPEG, PNG, GIF, and WebP</li>
+    <li><span class="letter">C)</span> All image formats</li>
+    <li><span class="letter">D)</span> JPEG, PNG, and SVG</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> JPEG, PNG, GIF, WebP. Animations unsupported (only first frame).</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q33</span><span class="q-tag">Vision</span></div>
+  <div class="q-text">What is the maximum image dimension Claude accepts?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> 4096 × 4096 px</li>
+    <li class="correct-option"><span class="letter">B)</span> 8000 × 8000 px</li>
+    <li><span class="letter">C)</span> 2576 × 2576 px</li>
+    <li><span class="letter">D)</span> 1920 × 1080 px</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Maximum dimensions per image are 8000 × 8000 px.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q34</span><span class="q-tag">Vision</span></div>
+  <div class="q-text">How are visual tokens calculated for images?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Total pixels / 1000</li>
+    <li class="correct-option"><span class="letter">B)</span> ⌈width/28⌉ × ⌈height/28⌉</li>
+    <li><span class="letter">C)</span> Width × Height</li>
+    <li><span class="letter">D)</span> File size in KB</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Each 28×28 pixel patch = 1 visual token.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q35</span><span class="q-tag">Features</span></div>
+  <div class="q-text">What does "compaction at a token threshold" do?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Compresses images</li>
+    <li class="correct-option"><span class="letter">B)</span> Summarizes earlier conversation when tokens reach trigger</li>
+    <li><span class="letter">C)</span> Reduces prompt cache size</li>
+    <li><span class="letter">D)</span> Removes stop sequences</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Server-side context summarization for long-running conversations.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q36</span><span class="q-tag">Features</span></div>
+  <div class="q-text">Which feature processes large request volumes asynchronously?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Streaming</li>
+    <li><span class="letter">B)</span> Prompt caching</li>
+    <li class="correct-option"><span class="letter">C)</span> Batch processing</li>
+    <li><span class="letter">D)</span> Fast mode</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Batch processing = async processing at 50% token discount.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q37</span><span class="q-tag">Features</span></div>
+  <div class="q-text">How many approaches does structured outputs offer?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> One</li>
+    <li class="correct-option"><span class="letter">B)</span> Two</li>
+    <li><span class="letter">C)</span> Three</li>
+    <li><span class="letter">D)</span> Four</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> JSON outputs for structured data, and strict tool use for validated inputs.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q38</span><span class="q-tag">Vision</span></div>
+  <div class="q-text">Which source types can provide images in the API?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Base64 only</li>
+    <li><span class="letter">B)</span> URL only</li>
+    <li class="correct-option"><span class="letter">C)</span> Base64, URL, and file_id</li>
+    <li><span class="letter">D)</span> Base64 and URL only</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Three types: base64-encoded, URL reference, and file_id from the Files API.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q39</span><span class="q-tag">Features</span></div>
+  <div class="q-text">What does the Token Counting API help you do?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Count words in responses</li>
+    <li class="correct-option"><span class="letter">B)</span> Determine token count before sending</li>
+    <li><span class="letter">C)</span> Track billing automatically</li>
+    <li><span class="letter">D)</span> Measure response latency</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Lets you determine token count before sending — useful for prompt optimization.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q40</span><span class="q-tag">Vision</span></div>
+  <div class="q-text">Can Claude generate, edit, or create images?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Yes, all models can</li>
+    <li><span class="letter">B)</span> Only Fable 5.1 can</li>
+    <li class="correct-option"><span class="letter">C)</span> No, understanding only</li>
+    <li><span class="letter">D)</span> Yes, with the Vision tool</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Claude is image understanding only — it cannot generate, edit, or create images.</div>
+</div>
+
+<h3>Section E — Safety &amp; Data (Q41–Q50)</h3>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q41</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">What is Anthropic's position on using customer data for model training?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> All data is used</li>
+    <li><span class="letter">B)</span> Used unless opted out</li>
+    <li class="correct-option"><span class="letter">C)</span> Never used without express permission</li>
+    <li><span class="letter">D)</span> Only anonymized data</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Retained data is never used for model training without express permission.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q42</span><span class="q-tag">Data</span></div>
+  <div class="q-text">What does ZDR stand for?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Zero Downtime Recovery</li>
+    <li class="correct-option"><span class="letter">B)</span> Zero Data Retention</li>
+    <li><span class="letter">C)</span> Zero Delay Response</li>
+    <li><span class="letter">D)</span> Zone Data Replication</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Zero Data Retention — no storage of customer prompts or responses for eligible features.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q43</span><span class="q-tag">Data</span></div>
+  <div class="q-text">Which feature is NOT ZDR-eligible?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Context windows</li>
+    <li><span class="letter">B)</span> Vision</li>
+    <li class="correct-option"><span class="letter">C)</span> Batch processing</li>
+    <li><span class="letter">D)</span> PDF support</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Batch processing is NOT ZDR-eligible. The others are.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q44</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">What are Anthropic's three preparedness scenarios?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Small, medium, large</li>
+    <li class="correct-option"><span class="letter">B)</span> Optimistic, intermediate, pessimistic</li>
+    <li><span class="letter">C)</span> Internal, external, hybrid</li>
+    <li><span class="letter">D)</span> Current, near-term, long-term</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Optimistic (techniques suffice), intermediate (effort prevents catastrophe), pessimistic (may be unsolvable).</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q45</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">Which research area involves reverse-engineering neural networks?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Scalable oversight</li>
+    <li><span class="letter">B)</span> Process-oriented learning</li>
+    <li class="correct-option"><span class="letter">C)</span> Mechanistic interpretability</li>
+    <li><span class="letter">D)</span> Understanding generalization</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> Mechanistic interpretability: reverse-engineering neural networks to audit for unsafe behaviors.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q46</span><span class="q-tag">Data</span></div>
+  <div class="q-text">On Amazon Bedrock, who is the data processor?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Anthropic</li>
+    <li class="correct-option"><span class="letter">B)</span> The cloud provider (AWS)</li>
+    <li><span class="letter">C)</span> The customer</li>
+    <li><span class="letter">D)</span> A third-party auditor</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> On Bedrock and Google Cloud, the cloud provider is the data processor. On Claude API, Anthropic is.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q47</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">What is Constitutional AI?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> A legal compliance framework</li>
+    <li class="correct-option"><span class="letter">B)</span> A technique using AI to supervise AI training</li>
+    <li><span class="letter">C)</span> A government regulation</li>
+    <li><span class="letter">D)</span> A model architecture</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Part of scalable oversight — using AI principles to help supervise AI training.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q48</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">What does Anthropic say about AI alignment?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Fully solved</li>
+    <li><span class="letter">B)</span> Mostly solved with minor gaps</li>
+    <li class="correct-option"><span class="letter">C)</span> No one knows how to achieve robust alignment</li>
+    <li><span class="letter">D)</span> Impossible to solve</li>
+  </ul>
+  <div class="q-explain"><b>Answer: C.</b> "No one knows how to train very powerful AI systems to be robustly helpful, honest, and harmless."</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q49</span><span class="q-tag">Data</span></div>
+  <div class="q-text">Does Anthropic offer HIPAA-ready API access?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> No</li>
+    <li class="correct-option"><span class="letter">B)</span> Yes, with same eligibility as ZDR</li>
+    <li><span class="letter">C)</span> Yes, for all features</li>
+    <li><span class="letter">D)</span> Only on Bedrock</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Yes, with the same feature eligibility structure as ZDR.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-num">Q50</span><span class="q-tag">Safety</span></div>
+  <div class="q-text">Why does safety research require frontier models?</div>
+  <ul class="q-options">
+    <li><span class="letter">A)</span> Smaller models are too expensive</li>
+    <li class="correct-option"><span class="letter">B)</span> Problems may only emerge at scale</li>
+    <li><span class="letter">C)</span> Legal requirements mandate it</li>
+    <li><span class="letter">D)</span> Smaller models lack safety features</li>
+  </ul>
+  <div class="q-explain"><b>Answer: B.</b> Large models behave qualitatively differently — safety problems may only emerge at scale.</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<div class="footer">
+  <p><strong>Anthropic Claude Certification Prep — Complete Study Guide</strong></p>
+  <p>All content sourced from official Anthropic documentation (platform.claude.com/docs).<br>Last updated September 2026. Compiled for educational purposes.</p>
+</div>
+
+</body>
+</html>
