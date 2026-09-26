@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anthropic Claude Certification — Complete Study Guide</title>
+<title>Claude Certified Associate Foundations (CCAO-F) — Exam Prep Study Guide</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -508,1360 +508,1712 @@
 
 <!-- ═══════════════════════════ COVER ═══════════════════════════ -->
 <div class="cover">
-  <div class="cover-badge">Complete Study Guide &amp; Practice Test</div>
-  <h1>Anthropic <span>Claude</span><br>Certification Prep</h1>
-  <p class="cover-sub">Master Claude models, API, prompt engineering, tool use, safety, and pricing. Includes code examples, diagrams, and 50 exam-style MCQs with explanations.</p>
+  <div class="cover-badge">CCAO-F Official Syllabus Aligned</div>
+  <h1>Claude Certified <span>Associate</span><br>Foundations Exam Prep</h1>
+  <p class="cover-sub">Master prompting, output evaluation, model selection, workflow design, governance, and troubleshooting — with 50 exam-style MCQs.</p>
   <div class="cover-meta">
-    <span><strong>Topics:</strong> 11 sections</span>
+    <span><strong>Topics:</strong> 7 official sections</span>
     <span><strong>MCQs:</strong> 50 questions</span>
-    <span><strong>Source:</strong> Official Anthropic Docs</span>
+    <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
     <span><strong>Updated:</strong> September 2026</span>
   </div>
 </div>
 
-<div class="notice notice-warn">
-  <b>Important Note</b>
-  As of September 2026, Anthropic has not publicly announced a certification called "CCAO-F." Anthropic offers free courses via <strong>Claude Academy</strong> (academy.claude.com). This guide covers all foundational knowledge from official documentation, suitable for any Claude assessment.
+<div class="notice notice-info">
+  <b>About This Guide</b>
+  This study guide is aligned to the official CCAO-F (Claude Certified Associate Foundations) 7-topic syllabus from the Tutorials Dojo LinkedIn Learning course. It targets business users, analysts, and professionals who <strong>use</strong> Claude (via claude.ai, Console, or simple API calls) rather than those who build applications with the SDK. Content focuses on practical usage, prompt writing, evaluating outputs, choosing the right product/model, workflow design, governance, and troubleshooting.
 </div>
 
 <!-- ═══════════════════════════ TOC ═══════════════════════════ -->
 <div class="toc">
   <h2>Table of Contents</h2>
   <div class="toc-grid">
-    <a href="#part1"><span class="num">01</span> Anthropic &amp; Claude Overview</a>
-    <a href="#part2"><span class="num">02</span> Claude Model Family</a>
-    <a href="#part3"><span class="num">03</span> Platforms &amp; Deployment</a>
-    <a href="#part4"><span class="num">04</span> Pricing Deep Dive</a>
-    <a href="#part5"><span class="num">05</span> Messages API Fundamentals</a>
-    <a href="#part6"><span class="num">06</span> Tool Use &amp; Function Calling</a>
-    <a href="#part7"><span class="num">07</span> Vision &amp; Multimodal</a>
-    <a href="#part8"><span class="num">08</span> Thinking &amp; Reasoning</a>
-    <a href="#part9"><span class="num">09</span> Prompt Engineering</a>
-    <a href="#part10"><span class="num">10</span> Safety, Ethics &amp; Data Policies</a>
-    <a href="#part11"><span class="num">11</span> Practice Test — 50 MCQs</a>
+    <a href="#part1"><span class="num">01</span> Prompting and Task Execution</a>
+    <a href="#part2"><span class="num">02</span> Output Evaluation and Validation</a>
+    <a href="#part3"><span class="num">03</span> Product and Model Selection</a>
+    <a href="#part4"><span class="num">04</span> Workflow Integration and Solution Design</a>
+    <a href="#part5"><span class="num">05</span> Configuration and Knowledge Management</a>
+    <a href="#part6"><span class="num">06</span> Governance, Risk, and Responsible Use</a>
+    <a href="#part7"><span class="num">07</span> Troubleshooting and Optimization</a>
+    <a href="#part8"><span class="num">08</span> Practice Test &mdash; 50 MCQs</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════ PART 1 ═══════════════════════════ -->
-<section id="part1">
-<h2><span class="part-num">Part 01</span>Anthropic &amp; Claude Overview</h2>
 
-<h3>What is Anthropic?</h3>
-<p>Anthropic is an AI safety company founded in 2021 that builds AI systems designed to be safe, beneficial, and understandable. Their flagship product is the <strong>Claude</strong> family of large language models.</p>
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 1 — PROMPTING AND TASK EXECUTION
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part1" class="page-break">
+<h2><span class="part-num">Part 01</span>Prompting and Task Execution</h2>
 
+<h3>What Is a Prompt?</h3>
+<p>A <strong>prompt</strong> is the instruction you give to Claude to get a desired output. It can be a question, a command, a set of instructions, or a combination of all three. Every interaction with Claude begins with a prompt — whether you type it into claude.ai, paste it into the Console playground, or send it via the API.</p>
+<p>Prompting is the single most important skill for the CCAO-F exam. The quality of Claude's output is directly determined by the quality of your prompt.</p>
+
+<h3>Claude's Interaction Model</h3>
+<p>Claude conversations are structured around three message roles:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Role</th><th>Purpose</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>System Prompt</strong></td><td>Persistent instructions that define Claude's behavior across the entire conversation</td><td>"You are a helpful financial analyst. Always provide data in tables."</td></tr>
+    <tr><td><strong>User Message</strong></td><td>Your actual question or instruction</td><td>"Summarize Q3 revenue by region."</td></tr>
+    <tr><td><strong>Assistant Response</strong></td><td>Claude's output</td><td>The summary table Claude generates</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>The Golden Rule of Prompting</h3>
 <div class="highlight">
-  <div class="hl-title">Anthropic's Core Belief</div>
-  <p>"AI's impact could rival the industrial revolution, potentially arriving within a decade, but we aren't confident it will go well."</p>
+  <div class="hl-title">The Colleague Test</div>
+  <p>"Show your prompt to a colleague with minimal context. If they would be confused about what to do, Claude will be too." Clarity for a human equals clarity for Claude.</p>
 </div>
 
-<h3>What is Claude?</h3>
-<p>Claude is a family of state-of-the-art LLMs that excels at language, reasoning, analysis, coding, multilingual tasks, vision, and tool use. Anthropic offers two primary building paths:</p>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Path</th><th>What It Is</th><th>Best For</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Messages API</strong></td><td>Direct model prompting access</td><td>Custom agent loops, fine-grained control</td></tr>
-    <tr><td><strong>Claude Managed Agents</strong></td><td>Pre-built configurable agent harness</td><td>Long-running tasks, async work</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Key Products &amp; Platforms</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Product</th><th>Description</th></tr></thead>
-  <tbody>
-    <tr><td><strong>claude.ai</strong></td><td>Consumer chat interface for interacting with Claude</td></tr>
-    <tr><td><strong>Claude API</strong></td><td>Developer API for building applications (platform.claude.com)</td></tr>
-    <tr><td><strong>Claude Console</strong></td><td>Browser-based playground for testing prompts and API calls</td></tr>
-    <tr><td><strong>Claude Code</strong></td><td>Official CLI for coding assistance in the terminal</td></tr>
-    <tr><td><strong>Claude Academy</strong></td><td>Free courses at academy.claude.com</td></tr>
-    <tr><td><strong>Claude Agent SDK</strong></td><td>SDK for building custom agents</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Study Resources</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">Official Documentation</div>
-    <p>platform.claude.com/docs — Primary source for API, models, features, and guides.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Claude Academy</div>
-    <p>academy.claude.com — Free courses: "AI Fluency," AI capabilities/limitations, human-agent teams.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Prompt Engineering Tutorial</div>
-    <p>github.com/anthropics/prompt-eng-interactive-tutorial — Interactive, example-filled tutorial.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Claude Cookbook</div>
-    <p>platform.claude.com/cookbook — Jupyter notebooks for PDFs, embeddings, tool use, and more.</p>
-  </div>
-</div>
-</section>
-
-<!-- ═══════════════════════════ PART 2 ═══════════════════════════ -->
-<section id="part2" class="page-break">
-<h2><span class="part-num">Part 02</span>Claude Model Family — Deep Dive</h2>
-
-<h3>Current Model Lineup (September 2026)</h3>
-<div class="table-wrap">
-<table>
-  <thead>
-    <tr><th>Model</th><th>API ID</th><th>Best For</th><th>Context</th><th>Max Out</th><th>Input</th><th>Output</th><th>Speed</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Fable 5.1</strong></td><td><code>claude-fable-5-1</code></td><td>Demanding reasoning, long-horizon agentic</td><td>1M</td><td>128K</td><td>$10</td><td>$50</td><td>Slower</td></tr>
-    <tr><td><strong>Opus 5.5</strong></td><td><code>claude-opus-5-5</code></td><td>Agentic coding &amp; knowledge work</td><td>1M</td><td>128K</td><td>$4</td><td>$20</td><td>Moderate</td></tr>
-    <tr><td><strong>Sonnet 5</strong></td><td><code>claude-sonnet-5</code></td><td>Speed + intelligence balance</td><td>1M</td><td>128K</td><td>$2</td><td>$10</td><td>Fast</td></tr>
-    <tr><td><strong>Haiku 4.5</strong></td><td><code>claude-haiku-4-5-20251001</code></td><td>Fastest, lowest cost, high volume</td><td>200K</td><td>64K</td><td>$1</td><td>$5</td><td>Fastest</td></tr>
-  </tbody>
-</table>
-</div>
-
-<p><em>All prices in USD per million tokens (MTok). All models support text + image input, text output, multilingual, vision, and tool use.</em></p>
-
-<h3>Model Selection Decision Tree</h3>
-<div class="decision-tree">Most capable reasoning / multi-day agentic tasks?
-  <span class="arrow">→</span> <span class="model">Fable 5.1</span>
-
-Complex coding &amp; long-running agent sessions?
-  <span class="arrow">→</span> <span class="model">Opus 5.5</span>
-
-Everyday tasks, best speed-to-intelligence ratio?
-  <span class="arrow">→</span> <span class="model">Sonnet 5</span>
-
-High volume, fastest speed, lowest cost?
-  <span class="arrow">→</span> <span class="model">Haiku 4.5</span>
-
-Unsure where to start?
-  <span class="arrow">→</span> <span class="model">Opus 5.5 (recommended default)</span></div>
-
-<h3>Key Facts to Remember</h3>
-<ul>
-  <li><strong>1M tokens</strong> ≈ 555,000 words (new tokenizer from Claude 4.7+)</li>
-  <li><strong>Haiku 4.5's 200K</strong> ≈ 150,000 words</li>
-  <li><strong>Tokenizer change:</strong> Claude 4.7+ produces ~30% more tokens for the same text</li>
-  <li><strong>Knowledge cutoffs:</strong> Fable 5.1 &amp; Opus 5.5 → June 2026; Sonnet 5 → Jan 2026; Haiku 4.5 → Feb 2025</li>
-  <li><strong>Effort parameter:</strong> Fable 5.1 defaults to "high," Opus 5.5 to "medium," Sonnet 5 to "high." Not supported on Haiku 4.5.</li>
-</ul>
-
-<div class="notice notice-tip">
-  <b>Exam Tip</b>
-  The model names follow a pattern: <strong>Fable</strong> = most capable, <strong>Opus</strong> = complex/agentic, <strong>Sonnet</strong> = balanced, <strong>Haiku</strong> = fastest/cheapest. Numbers indicate generation.
-</div>
-</section>
-
-<!-- ═══════════════════════════ PART 3 ═══════════════════════════ -->
-<section id="part3" class="page-break">
-<h2><span class="part-num">Part 03</span>Platforms &amp; Deployment</h2>
-
-<h3>Five Platforms for Claude</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Platform</th><th>Operator</th><th>Data Processor</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Claude API</strong></td><td>Anthropic (first-party)</td><td>Anthropic</td></tr>
-    <tr><td><strong>Amazon Bedrock</strong></td><td>AWS</td><td>AWS</td></tr>
-    <tr><td><strong>Claude Platform on AWS</strong></td><td>Anthropic (on AWS infra)</td><td>Anthropic</td></tr>
-    <tr><td><strong>Google Cloud (Vertex AI)</strong></td><td>Google</td><td>Google</td></tr>
-    <tr><td><strong>Microsoft Foundry</strong></td><td>Anthropic (on Azure)</td><td>Anthropic</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Feature Availability Labels</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Label</th><th>Meaning</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Stable</strong></td><td>Fully supported, production-ready, standard API versioning</td></tr>
-    <tr><td><strong>Beta</strong></td><td>Preview for feedback, may change or be discontinued</td></tr>
-    <tr><td><strong>Deprecated</strong></td><td>Still functional, migration path provided</td></tr>
-    <tr><td><strong>Retired</strong></td><td>No longer available</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Claude Consumption Units (CCUs)</h3>
-<p>Used on Claude Platform on AWS and Microsoft Foundry:</p>
-<ul>
-  <li><strong>1 CCU = $0.01 USD</strong> (fixed)</li>
-  <li>Token usage rated at standard rates, then converted to CCUs</li>
-  <li>Billed hourly via marketplace, monthly invoices</li>
-  <li>Postpaid (arrears) only — no prepaid credits</li>
-</ul>
-</section>
-
-<!-- ═══════════════════════════ PART 4 ═══════════════════════════ -->
-<section id="part4" class="page-break">
-<h2><span class="part-num">Part 04</span>Pricing — Complete Reference</h2>
-
-<h3>Prompt Caching</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Operation</th><th>Cost Multiplier</th><th>Duration</th><th>Break-Even</th></tr></thead>
-  <tbody>
-    <tr><td>5-min cache write</td><td>1.25x base input</td><td>5 minutes</td><td>After 1 read</td></tr>
-    <tr><td>1-hour cache write</td><td>2x base input</td><td>1 hour</td><td>After 2 reads</td></tr>
-    <tr><td>Cache hit (standard)</td><td>0.1x (10%) base</td><td>—</td><td>—</td></tr>
-    <tr><td>Cache hit (Fable 5.1)</td><td>0.025x (2.5%) base</td><td>—</td><td>—</td></tr>
-    <tr><td>Cache hit (Opus 5.5)</td><td>0.05x (5%) base</td><td>—</td><td>—</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Batch Processing</h3>
-<div class="highlight">
-  <div class="hl-title">50% Discount on All Token Costs</div>
-  <p>Process large volumes asynchronously. Example: Opus 5.5 batch input = $2/MTok (vs $4 standard). Batch + prompt caching discounts <strong>stack</strong> together.</p>
-</div>
-
-<h3>Data Residency &amp; Fast Mode</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Feature</th><th>Multiplier / Cost</th><th>Details</th></tr></thead>
-  <tbody>
-    <tr><td>US-only inference (<code>inference_geo: "us"</code>)</td><td>1.1x all token costs</td><td>Claude 4.6+ only. Global (default) = standard.</td></tr>
-    <tr><td>Fast mode — Opus 5.5</td><td>$8 in / $40 out per MTok</td><td>2x standard price. Stacks with other multipliers.</td></tr>
-    <tr><td>Fast mode — Opus 5/4.8</td><td>$10 in / $50 out per MTok</td><td>Research preview, Claude API only.</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Tool-Specific Pricing</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Tool</th><th>Additional Cost</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Web Search</strong></td><td>$10 per 1,000 searches + tokens</td></tr>
-    <tr><td><strong>Web Fetch</strong></td><td>No extra cost (tokens only)</td></tr>
-    <tr><td><strong>Code Execution</strong></td><td>Free with web search/fetch; else $0.05/hr after 1,550 free hrs/mo</td></tr>
-    <tr><td><strong>Managed Agents runtime</strong></td><td>$0.08 per session-hour (only while <code>running</code>)</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Cost Optimization — Example Calculation</h3>
-<div class="example-box">
-  <div class="ex-header">Worked Example: 1-Hour Coding Session with Opus 5</div>
-  <div class="ex-body">
-    <div class="table-wrap">
-    <table>
-      <thead><tr><th>Line Item</th><th>Calculation</th><th>Cost</th></tr></thead>
-      <tbody>
-        <tr><td>Input tokens (50K)</td><td>50,000 × $5 / 1,000,000</td><td>$0.25</td></tr>
-        <tr><td>Output tokens (15K)</td><td>15,000 × $25 / 1,000,000</td><td>$0.375</td></tr>
-        <tr><td>Session runtime</td><td>1.0 hr × $0.08</td><td>$0.08</td></tr>
-        <tr><td><strong>Total</strong></td><td></td><td><strong>$0.705</strong></td></tr>
-      </tbody>
-    </table>
-    </div>
-    <p style="font-size:0.82rem;color:var(--c-text2);margin-top:8px;">With prompt caching (40K cached reads): total drops to <strong>$0.525</strong> — a 25% saving.</p>
-  </div>
-</div>
-</section>
-
-<!-- ═══════════════════════════ PART 5 ═══════════════════════════ -->
-<section id="part5" class="page-break">
-<h2><span class="part-num">Part 05</span>Messages API — Fundamentals</h2>
-
-<h3>Request Structure — Example</h3>
-<div class="code-block"><span class="label">JSON</span>{
-  <span class="key">"model"</span>: <span class="str">"claude-opus-5-5"</span>,        <span class="cm">// REQUIRED</span>
-  <span class="key">"max_tokens"</span>: <span class="num">1024</span>,                <span class="cm">// REQUIRED</span>
-  <span class="key">"messages"</span>: [                       <span class="cm">// REQUIRED</span>
-    {
-      <span class="key">"role"</span>: <span class="str">"user"</span>,
-      <span class="key">"content"</span>: <span class="str">"What is the capital of France?"</span>
-    }
-  ],
-  <span class="key">"system"</span>: <span class="str">"You are a geography expert."</span>,  <span class="cm">// Optional</span>
-  <span class="key">"temperature"</span>: <span class="num">0.7</span>,                 <span class="cm">// Optional (0-1)</span>
-  <span class="key">"tools"</span>: [...],                      <span class="cm">// Optional</span>
-  <span class="key">"tool_choice"</span>: {<span class="key">"type"</span>: <span class="str">"auto"</span>}     <span class="cm">// Optional</span>
-}</div>
-
-<h3>Python SDK Example</h3>
-<div class="code-block"><span class="label">Python</span><span class="kw">import</span> anthropic
-
-client = anthropic.<span class="fn">Anthropic</span>()  <span class="cm"># reads ANTHROPIC_API_KEY from env</span>
-
-message = client.messages.<span class="fn">create</span>(
-    model=<span class="str">"claude-opus-5-5"</span>,
-    max_tokens=<span class="num">1024</span>,
-    system=<span class="str">"You are a helpful coding assistant."</span>,
-    messages=[
-        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Explain Python decorators."</span>}
-    ],
-)
-
-<span class="fn">print</span>(message.content[<span class="num">0</span>].text)</div>
-
-<h3>Stop Reasons</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Stop Reason</th><th>Meaning</th><th>What To Do</th></tr></thead>
-  <tbody>
-    <tr><td><code>end_turn</code></td><td>Claude finished naturally</td><td>Display response to user</td></tr>
-    <tr><td><code>max_tokens</code></td><td>Hit the max_tokens limit</td><td>Consider increasing max_tokens</td></tr>
-    <tr><td><code>stop_sequence</code></td><td>Hit a custom stop sequence</td><td>Process the partial response</td></tr>
-    <tr><td><code>tool_use</code></td><td>Claude wants to call tool(s)</td><td>Execute tool, return tool_result</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Content Block Types</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Type</th><th>In Request?</th><th>In Response?</th><th>Purpose</th></tr></thead>
-  <tbody>
-    <tr><td><code>text</code></td><td>Yes</td><td>Yes</td><td>Plain text content</td></tr>
-    <tr><td><code>image</code></td><td>Yes</td><td>No</td><td>Image input (base64, URL, file_id)</td></tr>
-    <tr><td><code>tool_use</code></td><td>No</td><td>Yes</td><td>Claude's tool call request</td></tr>
-    <tr><td><code>tool_result</code></td><td>Yes</td><td>No</td><td>Your tool execution results</td></tr>
-    <tr><td><code>thinking</code></td><td>No</td><td>Yes</td><td>Claude's reasoning steps</td></tr>
-    <tr><td><code>document</code></td><td>Yes</td><td>No</td><td>PDF or document content</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Authentication Best Practices</h3>
-<ul>
-  <li>Set <strong>expiration</strong> when creating API keys</li>
-  <li>Keep keys <strong>out of source control</strong></li>
-  <li>Never put keys in <strong>client-side code</strong> or prompts</li>
-  <li>Consider <strong>Workload Identity Federation</strong> as alternative to static keys</li>
-  <li>Headers: <code>x-api-key</code> + <code>anthropic-version: 2023-06-01</code></li>
-</ul>
-</section>
-
-<!-- ═══════════════════════════ PART 6 ═══════════════════════════ -->
-<section id="part6" class="page-break">
-<h2><span class="part-num">Part 06</span>Tool Use &amp; Function Calling</h2>
-
-<h3>How Tool Use Works</h3>
-<div class="highlight">
-  <div class="hl-title">The Tool Use Loop</div>
-  <p><strong>1.</strong> Define tools (name, description, input_schema)<br>
-     <strong>2.</strong> Send request → Claude returns <code>tool_use</code> block<br>
-     <strong>3.</strong> Your code executes the tool<br>
-     <strong>4.</strong> Send <code>tool_result</code> back to Claude<br>
-     <strong>5.</strong> Claude formulates final response (or calls more tools)</p>
-</div>
-
-<h3>Defining a Tool — Example</h3>
-<div class="code-block"><span class="label">JSON — Tool Schema</span>{
-  <span class="key">"name"</span>: <span class="str">"get_weather"</span>,
-  <span class="key">"description"</span>: <span class="str">"Get the current weather for a location."</span>,
-  <span class="key">"input_schema"</span>: {
-    <span class="key">"type"</span>: <span class="str">"object"</span>,
-    <span class="key">"properties"</span>: {
-      <span class="key">"location"</span>: {
-        <span class="key">"type"</span>: <span class="str">"string"</span>,
-        <span class="key">"description"</span>: <span class="str">"City and state, e.g. San Francisco, CA"</span>
-      }
-    },
-    <span class="key">"required"</span>: [<span class="str">"location"</span>]
-  }
-}</div>
-
-<h3>Complete Tool Use — Python Example</h3>
-<div class="code-block"><span class="label">Python</span><span class="cm"># Step 1: Send request with tool definition</span>
-response = client.messages.<span class="fn">create</span>(
-    model=<span class="str">"claude-opus-5-5"</span>,
-    max_tokens=<span class="num">1024</span>,
-    tools=[weather_tool],
-    tool_choice={<span class="str">"type"</span>: <span class="str">"auto"</span>},
-    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What's the weather in SF?"</span>}],
-)
-
-<span class="cm"># Step 2: Claude returns tool_use block</span>
-tool_use = <span class="fn">next</span>(b <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"tool_use"</span>)
-<span class="cm"># tool_use.name = "get_weather"</span>
-<span class="cm"># tool_use.input = {"location": "San Francisco, CA"}</span>
-
-<span class="cm"># Step 3: Execute tool &amp; send result back</span>
-weather_data = <span class="str">"15°C, partly cloudy"</span>  <span class="cm"># your lookup</span>
-followup = client.messages.<span class="fn">create</span>(
-    model=<span class="str">"claude-opus-5-5"</span>,
-    max_tokens=<span class="num">1024</span>,
-    tools=[weather_tool],
-    messages=[
-        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What's the weather in SF?"</span>},
-        {<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content},
-        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: [
-            {<span class="str">"type"</span>: <span class="str">"tool_result"</span>,
-             <span class="str">"tool_use_id"</span>: tool_use.id,
-             <span class="str">"content"</span>: weather_data}
-        ]},
-    ],
-)</div>
-
-<h3>Tool Choice Modes</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Mode</th><th>Behavior</th><th>Use When</th></tr></thead>
-  <tbody>
-    <tr><td><code>auto</code></td><td>Claude decides (default)</td><td>Most use cases</td></tr>
-    <tr><td><code>any</code></td><td>Must call <em>some</em> tool</td><td>Force tool use on every turn</td></tr>
-    <tr><td><code>tool</code></td><td>Must call a <em>specific</em> named tool</td><td>Forcing a particular action</td></tr>
-    <tr><td><code>none</code></td><td>No tool calls allowed</td><td>Text-only responses</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Client-Side vs. Server-Side Tools</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">Client-Side (You Execute)</div>
-    <ul>
-      <li>Your own custom tools</li>
-      <li>Bash — shell commands</li>
-      <li>Text Editor — file manipulation</li>
-      <li>Computer Use — desktop control</li>
-      <li>Browser Use — web interaction</li>
-      <li>Memory — cross-conversation storage</li>
-    </ul>
-  </div>
-  <div class="card">
-    <div class="card-title">Server-Side (Anthropic Executes)</div>
-    <ul>
-      <li>Web Search — $10/1K searches</li>
-      <li>Web Fetch — no extra cost</li>
-      <li>Code Execution — sandboxed Python/bash</li>
-      <li>Advisor — consult smarter model</li>
-      <li>Tool Search — dynamic discovery</li>
-      <li>MCP Connector — remote MCP servers</li>
-    </ul>
-  </div>
-</div>
-
-<div class="notice notice-tip">
-  <b>Strict Mode</b>
-  Add <code>"strict": true</code> to tool definitions to guarantee Claude's arguments always match your schema exactly — critical for production pipelines.
-</div>
-</section>
-
-<!-- ═══════════════════════════ PART 7 ═══════════════════════════ -->
-<section id="part7" class="page-break">
-<h2><span class="part-num">Part 07</span>Vision &amp; Multimodal Capabilities</h2>
-
-<h3>Supported Image Formats</h3>
-<p>JPEG, PNG, GIF, WebP. Animations unsupported (only first frame used). Claude <strong>cannot</strong> generate, edit, or create images — it is understanding only.</p>
-
-<h3>Image Limits</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Limit</th><th>Value</th></tr></thead>
-  <tbody>
-    <tr><td>Max dimensions</td><td>8,000 × 8,000 px</td></tr>
-    <tr><td>Max file size (API)</td><td>10 MB</td></tr>
-    <tr><td>Max file size (Bedrock/GCP)</td><td>5 MB</td></tr>
-    <tr><td>Max per API request (1M context)</td><td>600 images</td></tr>
-    <tr><td>Max per API request (200K context)</td><td>100 images</td></tr>
-    <tr><td>Max per message on claude.ai</td><td>20 images</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Visual Token Calculation</h3>
-<div class="highlight">
-  <div class="hl-title">Formula</div>
-  <p><strong>Visual tokens = ⌈width / 28⌉ × ⌈height / 28⌉</strong></p>
-  <p>Each 28×28 pixel patch = 1 visual token. A 1000×1000 image = ~1,296 tokens.</p>
-</div>
-
-<h3>Sending Images — Python Example</h3>
-<div class="code-block"><span class="label">Python — URL Source</span>message = client.messages.<span class="fn">create</span>(
-    model=<span class="str">"claude-opus-5-5"</span>,
-    max_tokens=<span class="num">1024</span>,
-    messages=[{
-        <span class="str">"role"</span>: <span class="str">"user"</span>,
-        <span class="str">"content"</span>: [
-            {
-                <span class="str">"type"</span>: <span class="str">"image"</span>,
-                <span class="str">"source"</span>: {
-                    <span class="str">"type"</span>: <span class="str">"url"</span>,
-                    <span class="str">"url"</span>: <span class="str">"https://example.com/photo.jpg"</span>
-                }
-            },
-            {<span class="str">"type"</span>: <span class="str">"text"</span>, <span class="str">"text"</span>: <span class="str">"Describe this image."</span>}
-        ]
-    }],
-)</div>
-
-<p><strong>Three image source types:</strong> <code>base64</code>, <code>url</code>, <code>file</code> (via Files API <code>file_id</code>).</p>
-
-<div class="notice notice-info">
-  <b>Best Practice</b>
-  Place images <strong>before</strong> text in messages for best results. Use the Files API for repeated images to avoid re-sending base64 data every turn.
-</div>
-</section>
-
-<!-- ═══════════════════════════ PART 8 ═══════════════════════════ -->
-<section id="part8" class="page-break">
-<h2><span class="part-num">Part 08</span>Thinking &amp; Reasoning</h2>
-
-<h3>How Thinking Works</h3>
-<p>When thinking is active, Claude works through the problem step-by-step before answering. The reasoning arrives in <code>thinking</code> content blocks ahead of the <code>text</code> response.</p>
-
-<h3>Two Thinking Modes</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Mode</th><th>Config</th><th>Models</th><th>Behavior</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Adaptive</strong></td><td><code>{"type": "adaptive"}</code></td><td>Claude 4.7+ (always on for 5.x)</td><td>Claude decides when and how deeply to think. Steered by <code>effort</code>.</td></tr>
-    <tr><td><strong>Extended</strong></td><td><code>{"type": "enabled", "budget_tokens": N}</code></td><td>Haiku 4.5, older models</td><td>Manual mode with explicit budget. Deprecated on 4.6 models.</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Configuring Thinking — Example</h3>
-<div class="code-block"><span class="label">Python</span>response = client.messages.<span class="fn">create</span>(
-    model=<span class="str">"claude-opus-5-5"</span>,
-    max_tokens=<span class="num">16000</span>,
-    thinking={<span class="str">"type"</span>: <span class="str">"adaptive"</span>, <span class="str">"display"</span>: <span class="str">"summarized"</span>},
-    messages=[{
-        <span class="str">"role"</span>: <span class="str">"user"</span>,
-        <span class="str">"content"</span>: <span class="str">"What is the GCD of 1071 and 462?"</span>
-    }],
-)
-
-<span class="kw">for</span> block <span class="kw">in</span> response.content:
-    <span class="kw">if</span> block.type == <span class="str">"thinking"</span>:
-        <span class="fn">print</span>(<span class="str">f"Thinking: </span>{block.thinking}<span class="str">"</span>)
-    <span class="kw">elif</span> block.type == <span class="str">"text"</span>:
-        <span class="fn">print</span>(<span class="str">f"Answer: </span>{block.text}<span class="str">"</span>)</div>
-
-<h3>Key Facts</h3>
-<ul>
-  <li>Thinking tokens are billed as <strong>output tokens</strong></li>
-  <li>They count toward <code>max_tokens</code></li>
-  <li><code>display: "summarized"</code> → visible reasoning text; <code>"omitted"</code> → empty thinking field</li>
-  <li>Thinking blocks carry a <code>signature</code> field — pass back unchanged in multi-turn conversations</li>
-  <li>Best for: math, coding, analysis, and agentic tasks</li>
-</ul>
-</section>
-
-<!-- ═══════════════════════════ PART 9 ═══════════════════════════ -->
-<section id="part9" class="page-break">
-<h2><span class="part-num">Part 09</span>Prompt Engineering — Best Practices</h2>
-
-<h3>The Five Core Principles</h3>
+<h3>Five Core Prompting Principles</h3>
 
 <h4>1. Be Clear and Direct</h4>
-<div class="example-box">
-  <div class="ex-header">Example: Creating an Analytics Dashboard</div>
-  <div class="ex-body">
-    <div class="ex-label bad">Less Effective</div>
-    <div class="ex-text bad-border">Create an analytics dashboard</div>
-    <div class="ex-label good">More Effective</div>
-    <div class="ex-text good-border">Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation.</div>
-  </div>
-</div>
+<p>Give specific instructions. State the desired format, constraints, and output structure. Do not assume Claude will infer what you want.</p>
 
-<div class="highlight">
-  <div class="hl-title">Golden Rule</div>
-  <p>Show your prompt to a colleague with minimal context. If they'd be confused, Claude will be too.</p>
+<div class="example-box">
+  <div class="ex-header">Principle 1 — Be Clear and Direct</div>
+  <div class="ex-body">
+    <div class="ex-label bad">Vague Prompt</div>
+    <div class="ex-text bad-border">"Create an analytics dashboard."</div>
+    <div class="ex-label good">Clear Prompt</div>
+    <div class="ex-text good-border">"Create an analytics dashboard with user engagement metrics, revenue trends, and conversion funnels. Include filters for date range and region. Present the data as a summary table followed by key takeaways in bullet points."</div>
+  </div>
 </div>
 
 <h4>2. Add Context and Motivation</h4>
+<p>Explain <strong>why</strong> you need the output, not just what you need. When Claude understands the purpose, it makes better decisions about format, tone, and depth.</p>
+
 <div class="example-box">
-  <div class="ex-header">Example: Formatting Constraint</div>
+  <div class="ex-header">Principle 2 — Add Context and Motivation</div>
   <div class="ex-body">
-    <div class="ex-label bad">Less Effective</div>
-    <div class="ex-text bad-border">NEVER use ellipses</div>
-    <div class="ex-label good">More Effective</div>
-    <div class="ex-text good-border">Your response will be read aloud by a text-to-speech engine, so never use ellipses since the TTS engine won't know how to pronounce them.</div>
-    <p style="font-size:0.82rem;color:var(--c-text2);margin-top:4px;"><em>Claude generalizes from the WHY — it will also avoid other TTS-unfriendly characters.</em></p>
+    <div class="ex-label bad">No Context</div>
+    <div class="ex-text bad-border">"NEVER use ellipses."</div>
+    <div class="ex-label good">With Context</div>
+    <div class="ex-text good-border">"Your response will be read aloud by a text-to-speech engine, so never use ellipses since the engine won't know how to pronounce them. Also avoid abbreviations for the same reason."</div>
   </div>
 </div>
 
 <h4>3. Use Examples (Few-Shot Prompting)</h4>
-<p>Include <strong>3–5 examples</strong> for best results. Make them:</p>
-<ul>
-  <li><strong>Relevant</strong> — mirror your actual use case</li>
-  <li><strong>Diverse</strong> — cover edge cases</li>
-  <li><strong>Structured</strong> — wrap in <code>&lt;example&gt;</code> tags</li>
-</ul>
+<p>Provide 3-5 examples of input/output pairs. Examples are more powerful than lengthy descriptions. Wrap them in <code>&lt;example&gt;</code> XML tags and make them relevant and diverse.</p>
 
-<div class="code-block"><span class="label">Prompt Template</span>&lt;<span class="kw">examples</span>&gt;
-  &lt;<span class="kw">example</span>&gt;
-    &lt;<span class="key">input</span>&gt;What is 2+2?&lt;/<span class="key">input</span>&gt;
-    &lt;<span class="key">output</span>&gt;4&lt;/<span class="key">output</span>&gt;
-  &lt;/<span class="kw">example</span>&gt;
-  &lt;<span class="kw">example</span>&gt;
-    &lt;<span class="key">input</span>&gt;What is the capital of France?&lt;/<span class="key">input</span>&gt;
-    &lt;<span class="key">output</span>&gt;Paris&lt;/<span class="key">output</span>&gt;
-  &lt;/<span class="kw">example</span>&gt;
-&lt;/<span class="kw">examples</span>&gt;
+<div class="code-block"><span class="label">Prompt with Examples</span>
+<span class="cm">&lt;!-- System prompt with few-shot examples --&gt;</span>
+Classify each customer review as POSITIVE, NEGATIVE, or NEUTRAL.
 
-Now answer: &lt;<span class="key">input</span>&gt;{{USER_QUESTION}}&lt;/<span class="key">input</span>&gt;</div>
+<span class="key">&lt;example&gt;</span>
+  <span class="key">&lt;input&gt;</span>The product arrived on time and works great!<span class="key">&lt;/input&gt;</span>
+  <span class="key">&lt;output&gt;</span>POSITIVE<span class="key">&lt;/output&gt;</span>
+<span class="key">&lt;/example&gt;</span>
+
+<span class="key">&lt;example&gt;</span>
+  <span class="key">&lt;input&gt;</span>Completely broken out of the box. Returning it.<span class="key">&lt;/input&gt;</span>
+  <span class="key">&lt;output&gt;</span>NEGATIVE<span class="key">&lt;/output&gt;</span>
+<span class="key">&lt;/example&gt;</span>
+
+<span class="key">&lt;example&gt;</span>
+  <span class="key">&lt;input&gt;</span>It's okay. Nothing special but it gets the job done.<span class="key">&lt;/input&gt;</span>
+  <span class="key">&lt;output&gt;</span>NEUTRAL<span class="key">&lt;/output&gt;</span>
+<span class="key">&lt;/example&gt;</span>
+</div>
 
 <h4>4. Structure with XML Tags</h4>
-<p>XML tags help Claude parse complex prompts unambiguously:</p>
-<div class="code-block"><span class="label">Structured Prompt</span>&lt;<span class="kw">instructions</span>&gt;
-  Summarize the document in 3 bullet points.
-  Focus on key findings only.
-&lt;/<span class="kw">instructions</span>&gt;
+<p>Use XML tags like <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code>, and <code>&lt;output&gt;</code> to organize your prompt. Claude is trained to recognize these structural boundaries, and structured prompts produce significantly better results.</p>
 
-&lt;<span class="kw">document</span>&gt;
-  {{DOCUMENT_TEXT}}
-&lt;/<span class="kw">document</span>&gt;
+<div class="code-block"><span class="label">Structured Prompt Template</span>
+<span class="key">&lt;instructions&gt;</span>
+You are a contract analyst. Extract key terms from the
+provided agreement and present them in a table.
+<span class="key">&lt;/instructions&gt;</span>
 
-&lt;<span class="kw">output_format</span>&gt;
-  Return a JSON object with a "summary" array of 3 strings.
-&lt;/<span class="kw">output_format</span>&gt;</div>
+<span class="key">&lt;context&gt;</span>
+This is a vendor services agreement for a SaaS platform.
+The legal team needs a quick summary before the review meeting.
+<span class="key">&lt;/context&gt;</span>
+
+<span class="key">&lt;input&gt;</span>
+{{CONTRACT_TEXT_HERE}}
+<span class="key">&lt;/input&gt;</span>
+
+<span class="key">&lt;output_format&gt;</span>
+Return a table with columns: Clause | Summary | Risk Level (Low/Medium/High)
+<span class="key">&lt;/output_format&gt;</span>
+</div>
 
 <h4>5. Give Claude a Role</h4>
-<div class="code-block"><span class="label">System Prompt</span><span class="cm">// Set via the "system" parameter</span>
-<span class="str">"You are a senior Python developer with 15 years of experience.
-You write clean, well-tested code and explain your decisions."</span></div>
+<p>Set a persona in the system prompt to prime Claude's expertise and communication style. Roles significantly improve domain-specific outputs.</p>
 
-<h3>Advanced Techniques</h3>
-
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">Prompt Chaining</div>
-    <p>Break complex tasks into sequential sub-tasks. Output of step N becomes context for step N+1.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Structured Outputs</div>
-    <p>Two approaches: JSON output mode, or <code>strict: true</code> on tool definitions for validated schemas.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Long-Context Prompting</div>
-    <p>Place documents before queries. Use XML tags with <code>index</code> attributes for multiple docs.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Effort Parameter</div>
-    <p>Control thinking depth: <code>low</code>, <code>medium</code>, <code>high</code>. Not supported on Haiku 4.5.</p>
+<div class="example-box">
+  <div class="ex-header">Principle 5 — Assign a Role</div>
+  <div class="ex-body">
+    <div class="ex-label bad">No Role</div>
+    <div class="ex-text bad-border">"Help me analyze my investment portfolio."</div>
+    <div class="ex-label good">With Role</div>
+    <div class="ex-text good-border">"You are a senior financial analyst with 20 years of experience in portfolio management. Analyze the following investment portfolio. Focus on diversification gaps, risk exposure, and recommend rebalancing strategies. Present findings in a professional report format."</div>
   </div>
 </div>
 
-<h3>Mnemonic: CERRS</h3>
-<div class="highlight">
-  <div class="hl-title">Remember the 5 Principles</div>
-  <p>
-    <strong>C</strong>lear and direct instructions<br>
-    <strong>E</strong>xamples (3-5, diverse, in XML tags)<br>
-    <strong>R</strong>ole in system prompt<br>
-    <strong>R</strong>easoning context (explain WHY)<br>
-    <strong>S</strong>tructure with XML tags
-  </p>
+<h3>Prompt Types for Business Tasks</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Task Type</th><th>Description</th><th>Example Prompt</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Summarization</strong></td><td>Condense long content</td><td>"Summarize this quarterly report in 5 bullet points focusing on revenue growth."</td></tr>
+    <tr><td><strong>Analysis</strong></td><td>Examine data for patterns</td><td>"Analyze these customer reviews and identify the top 3 recurring complaints."</td></tr>
+    <tr><td><strong>Content Creation</strong></td><td>Generate text</td><td>"Write a professional email to a client explaining the project delay."</td></tr>
+    <tr><td><strong>Classification</strong></td><td>Categorize items</td><td>"Classify each support ticket as billing, technical, or general inquiry."</td></tr>
+    <tr><td><strong>Extraction</strong></td><td>Pull specific data</td><td>"Extract all dates, amounts, and company names from this contract."</td></tr>
+    <tr><td><strong>Brainstorming</strong></td><td>Generate creative ideas</td><td>"Generate 10 marketing campaign ideas for launching a new fitness app."</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Defined Constraints</h3>
+<p>Constraints are boundaries you set for the task. They help Claude produce output that matches your exact needs.</p>
+<ul>
+  <li><strong>Length:</strong> "Respond in under 200 words" or "Write exactly 5 bullet points"</li>
+  <li><strong>Format:</strong> "Return as a numbered list" or "Use a markdown table"</li>
+  <li><strong>Tone:</strong> "Use a formal business tone" or "Write in a friendly, conversational style"</li>
+  <li><strong>Audience:</strong> "This is for a C-level executive" or "Explain to a non-technical reader"</li>
+  <li><strong>Scope:</strong> "Only use information from the provided document" or "Do not include external sources"</li>
+</ul>
+
+<h3>Iterative Prompting</h3>
+<p>Rarely is the first prompt perfect. Iterative prompting means refining your prompt based on Claude's output quality:</p>
+<ol>
+  <li>Write your initial prompt and review the output</li>
+  <li>Identify gaps — is it too long? Too vague? Wrong format?</li>
+  <li>Add missing constraints, examples, or context</li>
+  <li>Re-run and compare</li>
+  <li>Repeat until output quality meets your needs</li>
+</ol>
+
+<h3>Multi-Turn Conversations</h3>
+<p>In multi-turn conversations, Claude retains context from previous messages. You can build on earlier responses, ask follow-up questions, or refine outputs incrementally. Key tips:</p>
+<ul>
+  <li>Reference previous output: "In your analysis above, expand on point 3."</li>
+  <li>Add new constraints: "Now rewrite that summary for a non-technical audience."</li>
+  <li>Course-correct: "That's too detailed. Give me the top 3 points only."</li>
+</ul>
+
+<h3>Prompt Templates and Reusability</h3>
+<p>For recurring tasks, create prompt templates with placeholders. This ensures consistency and saves time.</p>
+<div class="code-block"><span class="label">Template Example</span>
+<span class="key">&lt;instructions&gt;</span>
+Summarize the following {{DOCUMENT_TYPE}} for the
+{{TARGET_AUDIENCE}} team. Focus on {{FOCUS_AREAS}}.
+Keep the summary to {{MAX_LENGTH}} words.
+<span class="key">&lt;/instructions&gt;</span>
+
+<span class="key">&lt;document&gt;</span>
+{{DOCUMENT_CONTENT}}
+<span class="key">&lt;/document&gt;</span>
+</div>
+
+<h3>Common Prompting Mistakes</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Vague Instructions</div>
+    <p>Telling Claude to "help with marketing" without specifying the task, audience, or format.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">No Examples</div>
+    <p>Expecting Claude to match a very specific output style without showing what that style looks like.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Missing Constraints</div>
+    <p>Not specifying length, format, or tone — leading to outputs that are too long, too short, or off-target.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Overloading a Single Prompt</div>
+    <p>Asking Claude to do five unrelated tasks in one prompt. Break complex requests into steps.</p>
+  </div>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Prompting is the largest section on the CCAO-F exam. Know the five core principles by heart, and be able to identify good vs. bad prompts in multiple-choice scenarios.
 </div>
 </section>
 
-<!-- ═══════════════════════════ PART 10 ═══════════════════════════ -->
-<section id="part10" class="page-break">
-<h2><span class="part-num">Part 10</span>Safety, Ethics &amp; Data Policies</h2>
 
-<h3>Anthropic's Three Core Positions</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">1. Rapid Progress is Likely</div>
-    <p>Scaling laws show predictable capability improvement. Training costs remain far below major scientific projects.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">2. Alignment is Unsolved</div>
-    <p>"No one knows how to train very powerful AI systems to be robustly helpful, honest, and harmless."</p>
-  </div>
-  <div class="card">
-    <div class="card-title">3. Empirical Research is Essential</div>
-    <p>Problems may only emerge at scale. Safety work must engage with frontier models.</p>
-  </div>
-</div>
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 2 — OUTPUT EVALUATION AND VALIDATION
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part2" class="page-break">
+<h2><span class="part-num">Part 02</span>Output Evaluation and Validation</h2>
 
-<h3>Safety Research Portfolio</h3>
+<h3>Why Evaluate Outputs?</h3>
+<p>Claude can produce impressive-sounding text that is factually wrong, incomplete, or off-format. Output evaluation is the process of systematically checking Claude's responses against your requirements. Without evaluation, you risk using hallucinated facts, inconsistent formatting, or missing critical information.</p>
+
+<h3>Manual Evaluation Techniques</h3>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Area</th><th>Description</th></tr></thead>
+  <thead><tr><th>Check</th><th>What to Look For</th><th>How to Apply</th></tr></thead>
   <tbody>
-    <tr><td><strong>Mechanistic Interpretability</strong></td><td>Reverse-engineering neural networks to audit for unsafe behaviors</td></tr>
-    <tr><td><strong>Scalable Oversight</strong></td><td>Using AI to help supervise AI training (Constitutional AI)</td></tr>
-    <tr><td><strong>Process-Oriented Learning</strong></td><td>Rewarding safe reasoning steps, not just outcomes</td></tr>
-    <tr><td><strong>Understanding Generalization</strong></td><td>Tracing how training data shapes emergent behaviors</td></tr>
+    <tr><td><strong>Accuracy</strong></td><td>Are the facts correct?</td><td>Cross-reference claims with source documents or known data</td></tr>
+    <tr><td><strong>Completeness</strong></td><td>Does it cover all required points?</td><td>Compare output against your prompt requirements one by one</td></tr>
+    <tr><td><strong>Format Compliance</strong></td><td>Does it match the requested format?</td><td>Check for correct structure (table, list, JSON, etc.)</td></tr>
+    <tr><td><strong>Tone/Style</strong></td><td>Is it appropriate for the audience?</td><td>Read as if you are the intended recipient</td></tr>
+    <tr><td><strong>Consistency</strong></td><td>Does the response contradict itself?</td><td>Look for conflicting statements within the same output</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Three Preparedness Scenarios</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Scenario</th><th>Assumption</th><th>Strategy</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Optimistic</strong></td><td>Current techniques largely sufficient</td><td>Continue current approaches</td></tr>
-    <tr><td><strong>Intermediate</strong></td><td>Significant effort can prevent catastrophe</td><td>Invest heavily in safety research</td></tr>
-    <tr><td><strong>Pessimistic</strong></td><td>Safety may be unsolvable</td><td>Evidence-gathering becomes critical</td></tr>
-  </tbody>
-</table>
-</div>
-<p>Anthropic <strong>hedges across all three</strong> rather than betting on one.</p>
+<h3>Automated Evaluation Approaches</h3>
 
-<h3>Data Retention &amp; Privacy</h3>
+<h4>Exact Match</h4>
+<p>For categorical or classification outputs, compare Claude's answer to the known correct answer character-for-character. Best for tasks with definitive right answers (e.g., "Is this email spam? YES/NO").</p>
 
-<h4>Zero Data Retention (ZDR)</h4>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title" style="color:var(--c-green)">ZDR-Eligible</div>
-    <ul>
-      <li>Context windows, thinking, vision</li>
-      <li>PDF support, citations, search results</li>
-      <li>Structured outputs, prompt caching</li>
-      <li>Client-side tools (bash, editor, computer use)</li>
-      <li>Token counting, web search*, web fetch*</li>
-    </ul>
-    <p style="font-size:0.75rem;margin-top:4px;">*Except with dynamic filtering enabled</p>
-  </div>
-  <div class="card">
-    <div class="card-title" style="color:var(--c-red)">NOT ZDR-Eligible</div>
-    <ul>
-      <li>Batch processing</li>
-      <li>Code execution</li>
-      <li>Files API</li>
-      <li>Agent Skills</li>
-      <li>MCP connector</li>
-    </ul>
-  </div>
+<h4>Semantic Similarity</h4>
+<p>Compare the <strong>meaning</strong> of Claude's output against a reference answer, not the exact words. Useful when multiple phrasings can be correct. Often uses embedding-based similarity scores.</p>
+
+<h4>LLM-as-Judge</h4>
+<p>Use Claude itself (or another model) to evaluate output quality. Provide a rubric and ask the judge model to rate the response on a Likert scale (1-5) across dimensions like accuracy, helpfulness, and clarity.</p>
+
+<div class="code-block"><span class="label">LLM-as-Judge Prompt</span>
+Rate the following response on a scale of 1-5 for each criterion:
+
+<span class="key">&lt;criteria&gt;</span>
+- Accuracy: Are all facts correct? (1=many errors, 5=fully accurate)
+- Completeness: Does it address all parts of the question? (1=missing most, 5=complete)
+- Clarity: Is it easy to understand? (1=confusing, 5=crystal clear)
+<span class="key">&lt;/criteria&gt;</span>
+
+<span class="key">&lt;response_to_evaluate&gt;</span>
+{{CLAUDE_OUTPUT}}
+<span class="key">&lt;/response_to_evaluate&gt;</span>
+
+Provide your scores as a JSON object with brief justifications.
 </div>
 
-<h4>Key Privacy Principles</h4>
+<h4>Binary Checks</h4>
+<p>Simple yes/no validations: Does the output contain PII? Is it toxic? Does it mention competitors? These can be automated as guard-rails before showing output to end users.</p>
+
+<h3>Validation Strategies</h3>
 <ul>
-  <li>Retained data is <strong>never used for model training</strong> without express permission</li>
-  <li>Anthropic designs for the <strong>smallest possible retention footprint</strong></li>
-  <li><strong>HIPAA-ready</strong> API access available (same eligibility as ZDR)</li>
-  <li>On partner platforms (Bedrock, Google Cloud), the <strong>cloud provider</strong> is the data processor</li>
+  <li><strong>Cross-reference with source documents:</strong> If you gave Claude a report to summarize, verify the summary against the original document</li>
+  <li><strong>Consistency checks across multiple runs:</strong> Run the same prompt several times — if answers differ significantly on factual questions, the prompt needs improvement</li>
+  <li><strong>Human-in-the-loop review:</strong> For critical outputs (legal, medical, financial), always have a qualified human review before acting on Claude's response</li>
+  <li><strong>Chained verification:</strong> Ask Claude to verify its own output — "Review your response above and identify any claims that are not directly supported by the provided document"</li>
+</ul>
+
+<h3>Red Flags in Claude's Outputs</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Confident but Wrong (Hallucination)</div>
+    <p>Claude states a fact with certainty that turns out to be incorrect. Common with specific numbers, dates, URLs, and citations.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Overly Verbose or Generic</div>
+    <p>The response is long and sounds good but doesn't actually answer your specific question. Often a sign the prompt was too vague.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Missing Requested Elements</div>
+    <p>You asked for 5 bullet points and got 3, or asked for a table and got prose. Indicates the prompt needs clearer format constraints.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Internal Contradictions</div>
+    <p>Claude says "revenue increased by 15%" in one paragraph and "revenue was flat" in another. Cross-check all claims.</p>
+  </div>
+</div>
+
+<h3>Output Quality Metrics</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Metric</th><th>Definition</th><th>How to Measure</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Accuracy</strong></td><td>Factual correctness of the response</td><td>Human verification or fact-checking against sources</td></tr>
+    <tr><td><strong>Relevance</strong></td><td>How well the response addresses the actual question</td><td>Does it answer what was asked, not something adjacent?</td></tr>
+    <tr><td><strong>Coherence</strong></td><td>Logical flow and readability</td><td>Read aloud — does it make sense from start to finish?</td></tr>
+    <tr><td><strong>Completeness</strong></td><td>Covers all required aspects of the task</td><td>Checklist against prompt requirements</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Feedback Loops</h3>
+<p>Use evaluation results to improve your prompts iteratively. If Claude consistently gets a certain type of question wrong, add examples of that type to your prompt. If outputs are too verbose, add explicit length constraints. Document what worked and what didn't to build a library of effective prompts for your use cases.</p>
+
+<h3>When to Trust vs. Verify</h3>
+<div class="highlight">
+  <div class="hl-title">Trust vs. Verify Decision Framework</div>
+  <ul>
+    <li><strong>High trust, minimal verification:</strong> Creative brainstorming, first drafts, idea generation, casual summaries</li>
+    <li><strong>Moderate trust, spot-check:</strong> Email drafts, meeting notes, general analysis, non-critical content</li>
+    <li><strong>Low trust, full verification:</strong> Financial figures, legal clauses, medical information, data-driven decisions, anything published externally</li>
+    <li><strong>Never trust without expert review:</strong> Medical diagnosis, legal advice, safety-critical systems, compliance decisions</li>
+  </ul>
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 3 — PRODUCT AND MODEL SELECTION
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part3" class="page-break">
+<h2><span class="part-num">Part 03</span>Product and Model Selection</h2>
+
+<h3>Claude Product Lineup</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Product</th><th>What It Is</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td><strong>claude.ai</strong></td><td>Consumer chat interface (Free, Pro, Team, Enterprise tiers)</td><td>Individual users, quick questions, document analysis, everyday tasks</td></tr>
+    <tr><td><strong>Claude API</strong></td><td>Developer access for building custom applications</td><td>Developers integrating Claude into products, automated workflows</td></tr>
+    <tr><td><strong>Claude Console</strong></td><td>Browser-based playground for testing prompts and API calls</td><td>Experimenting with prompts, debugging, comparing model outputs</td></tr>
+    <tr><td><strong>Claude Code</strong></td><td>Agentic coding tool (CLI, IDE extensions, Desktop, Web)</td><td>Software engineers — coding assistance, codebase exploration, debugging</td></tr>
+    <tr><td><strong>Claude for Enterprise</strong></td><td>Team features: admin controls, SSO, workspace isolation</td><td>Organizations needing security, compliance, and centralized management</td></tr>
+    <tr><td><strong>Claude Managed Agents</strong></td><td>Pre-built agent harness for long-running autonomous tasks</td><td>Complex multi-step tasks that run asynchronously without constant oversight</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Current Model Family</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Strength</th><th>Input/Output (per MTok)</th><th>Context</th><th>Max Output</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Fable 5.1</strong></td><td>Most capable reasoning, long-horizon agentic tasks</td><td>$10 / $50</td><td>1M tokens</td><td>128K tokens</td></tr>
+    <tr><td><strong>Opus 5.5</strong></td><td>Agentic coding and knowledge work (recommended default)</td><td>$4 / $20</td><td>1M tokens</td><td>128K tokens</td></tr>
+    <tr><td><strong>Sonnet 5</strong></td><td>Best speed + intelligence balance for everyday use</td><td>$2 / $10</td><td>1M tokens</td><td>128K tokens</td></tr>
+    <tr><td><strong>Haiku 4.5</strong></td><td>Fastest, lowest cost — high volume tasks</td><td>$1 / $5</td><td>200K tokens</td><td>64K tokens</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Model Selection Decision Tree</h3>
+<div class="decision-tree">Need the most capable reasoning?     <span class="arrow">--></span> <span class="model">Fable 5.1</span>
+Complex coding and agent workflows?   <span class="arrow">--></span> <span class="model">Opus 5.5</span>
+Everyday tasks, cost-efficient?       <span class="arrow">--></span> <span class="model">Sonnet 5</span>
+High volume, fastest response?        <span class="arrow">--></span> <span class="model">Haiku 4.5</span>
+Unsure where to start?               <span class="arrow">--></span> <span class="model">Opus 5.5 (recommended default)</span></div>
+
+<h3>Key Model Differences</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>Fable 5.1</th><th>Opus 5.5</th><th>Sonnet 5</th><th>Haiku 4.5</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Context Window</strong></td><td>1M</td><td>1M</td><td>1M</td><td>200K</td></tr>
+    <tr><td><strong>Max Output</strong></td><td>128K</td><td>128K</td><td>128K</td><td>64K</td></tr>
+    <tr><td><strong>Thinking Mode</strong></td><td>Adaptive</td><td>Adaptive</td><td>Adaptive</td><td>Extended only</td></tr>
+    <tr><td><strong>Effort Parameter</strong></td><td>Default: high</td><td>Default: medium</td><td>Default: high</td><td>Not supported</td></tr>
+    <tr><td><strong>Best Use</strong></td><td>Advanced reasoning</td><td>Coding &amp; agents</td><td>General tasks</td><td>High-volume, speed</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>When to Use Which Product</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Quick Question or Document Chat</div>
+    <p>Use <strong>claude.ai</strong>. Upload a PDF, ask a question, get an answer. No setup needed.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Testing &amp; Iterating on Prompts</div>
+    <p>Use the <strong>Console playground</strong>. Compare outputs, adjust parameters, save prompt versions.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Building an Application</div>
+    <p>Use the <strong>Claude API</strong>. Integrate Claude into your product with full control over parameters.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Coding Assistance</div>
+    <p>Use <strong>Claude Code</strong>. Explore codebases, debug, refactor, write tests — all from your terminal or IDE.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Long-Running Autonomous Tasks</div>
+    <p>Use <strong>Managed Agents</strong>. Set up a task, let it run, and get notified when it's done.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Enterprise Deployment</div>
+    <p>Use <strong>Claude for Enterprise</strong>. SSO, admin controls, workspace isolation, usage analytics.</p>
+  </div>
+</div>
+
+<h3>Pricing Awareness</h3>
+<p>Claude pricing is based on <strong>tokens</strong> — units of text (roughly 4 characters or 3/4 of a word). Pricing is quoted per <strong>million tokens (MTok)</strong>. Input tokens (what you send) are cheaper than output tokens (what Claude generates). Key cost-saving strategies:</p>
+<ul>
+  <li><strong>Use the right model:</strong> Don't use Fable for a simple summarization — Sonnet or Haiku will do at a fraction of the cost</li>
+  <li><strong>Prompt caching:</strong> Reuse repeated prompt prefixes to reduce input costs by up to 90%</li>
+  <li><strong>Batch processing:</strong> For non-urgent bulk tasks, batch API saves 50% on all token costs</li>
+  <li><strong>Shorter prompts:</strong> Trim unnecessary context — every token costs money</li>
 </ul>
 </section>
 
-<!-- ═══════════════════════════ PART 11 ═══════════════════════════ -->
-<section id="part11" class="page-break">
-<h2><span class="part-num">Part 11</span>Practice Test — 50 MCQs with Answers</h2>
 
-<div class="notice notice-info">
-  <b>Instructions</b>
-  Each question has one correct answer highlighted in green. Read the explanation to understand <em>why</em> each answer is correct. Covers all exam domains.
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 4 — WORKFLOW INTEGRATION AND SOLUTION DESIGN
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part4" class="page-break">
+<h2><span class="part-num">Part 04</span>Workflow Integration and Solution Design</h2>
+
+<h3>Integrating Claude into Business Workflows</h3>
+<p>Claude becomes most valuable when integrated into existing business processes rather than used in isolation. The goal is to identify repetitive, knowledge-intensive tasks where Claude can save time while maintaining quality through human oversight.</p>
+
+<h3>Common Integration Patterns</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pattern</th><th>Description</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Human-in-the-Loop</strong></td><td>Claude drafts, human reviews and approves</td><td>Claude drafts customer emails, agent reviews before sending</td></tr>
+    <tr><td><strong>Automated Pipeline</strong></td><td>Claude processes data in batch without human review per item</td><td>Classify 10,000 support tickets overnight</td></tr>
+    <tr><td><strong>Conversational Interface</strong></td><td>Claude powers a chatbot for customers or internal teams</td><td>IT helpdesk bot that answers common questions</td></tr>
+    <tr><td><strong>Augmented Decision-Making</strong></td><td>Claude analyzes data and presents options, human decides</td><td>Claude summarizes vendor proposals, manager picks the winner</td></tr>
+  </tbody>
+</table>
 </div>
 
-<h3>Section A — Models &amp; Pricing (Q1–Q10)</h3>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q1</span><span class="q-tag">Models</span></div>
-  <div class="q-text">Which Claude model is recommended as the default starting point for most workloads?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Claude Fable 5.1</li>
-    <li class="correct-option"><span class="letter">B)</span> Claude Opus 5.5</li>
-    <li><span class="letter">C)</span> Claude Sonnet 5</li>
-    <li><span class="letter">D)</span> Claude Haiku 4.5</li>
+<h3>Workflow Design Principles</h3>
+<div class="highlight">
+  <div class="hl-title">Four Principles for Workflow Design</div>
+  <ul>
+    <li><strong>Start simple, iterate:</strong> Begin with one task, prove value, then expand</li>
+    <li><strong>Define clear inputs and outputs:</strong> Specify exactly what goes into each step and what comes out</li>
+    <li><strong>Plan for failure modes:</strong> What happens if Claude gives a wrong output? Build fallbacks</li>
+    <li><strong>Monitor and measure quality:</strong> Track accuracy, speed, and cost over time</li>
   </ul>
-  <div class="q-explain"><b>Answer: B.</b> The docs state: "If you're unsure which model to use, start with Claude Opus 5.5 for most workloads."</div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q2</span><span class="q-tag">Models</span></div>
-  <div class="q-text">What is the context window size for Claude Haiku 4.5?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 1M tokens</li>
-    <li><span class="letter">B)</span> 500K tokens</li>
-    <li class="correct-option"><span class="letter">C)</span> 200K tokens</li>
-    <li><span class="letter">D)</span> 100K tokens</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Haiku 4.5 has a 200K token context window. All other current models have 1M token windows.</div>
+<h3>Solution Design Patterns</h3>
+
+<h4>Single-Shot</h4>
+<p>One prompt, one response. Best for straightforward tasks like Q&amp;A, summarization, or simple classification.</p>
+
+<h4>Multi-Turn</h4>
+<p>A conversation with follow-ups. Best for customer support, tutoring, or iterative analysis where context builds over time.</p>
+
+<h4>Prompt Chaining</h4>
+<p>Break a complex task into sequential steps where the output of one step becomes the input for the next. This improves quality by letting Claude focus on one thing at a time.</p>
+
+<div class="code-block"><span class="label">Prompt Chaining Example</span>
+<span class="cm">Step 1:</span> Extract key facts from this document.
+       <span class="arrow">--></span> Output: list of facts
+
+<span class="cm">Step 2:</span> Organize these facts into categories.
+       <span class="arrow">--></span> Output: categorized facts
+
+<span class="cm">Step 3:</span> Write an executive summary using
+       the categorized facts. Keep it under 300 words.
+       <span class="arrow">--></span> Output: polished summary
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q3</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What discount does the Batch API provide on standard token costs?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 25%</li>
-    <li class="correct-option"><span class="letter">B)</span> 50%</li>
-    <li><span class="letter">C)</span> 75%</li>
-    <li><span class="letter">D)</span> 30%</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> The Batch API allows asynchronous processing with a 50% discount on both input and output tokens.</div>
+<h4>Fan-Out</h4>
+<p>Process multiple items in parallel. Best for batch tasks like classifying hundreds of documents or generating product descriptions for a catalog.</p>
+
+<h4>Router</h4>
+<p>Classify the input first, then route it to a specialized prompt. For example, classify a customer inquiry as billing, technical, or general, then use a different prompt template for each category.</p>
+
+<h3>Real-World Use Cases</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Customer Support</div>
+    <ul>
+      <li>Ticket classification (auto-tag by category)</li>
+      <li>Response drafting (agent reviews before sending)</li>
+      <li>FAQ generation from historical tickets</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Content Creation</div>
+    <ul>
+      <li>Outline generation from brief</li>
+      <li>First draft writing</li>
+      <li>Editing and tone adjustment</li>
+      <li>SEO optimization suggestions</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Data Analysis</div>
+    <ul>
+      <li>Extract data from unstructured text</li>
+      <li>Transform into structured format</li>
+      <li>Generate summary insights</li>
+      <li>Create visualizations from data</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Legal/Compliance</div>
+    <ul>
+      <li>Contract clause extraction</li>
+      <li>Risk identification and flagging</li>
+      <li>Regulatory compliance checks</li>
+      <li>Summary report generation</li>
+    </ul>
+  </div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q4</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What is the base output token price for Claude Sonnet 5?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> $5 / MTok</li>
-    <li class="correct-option"><span class="letter">B)</span> $10 / MTok</li>
-    <li><span class="letter">C)</span> $15 / MTok</li>
-    <li><span class="letter">D)</span> $20 / MTok</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Sonnet 5 is priced at $2/MTok input and $10/MTok output — the best speed-to-cost ratio.</div>
+<h3>Batch Processing</h3>
+<p>When you have large-volume, non-time-sensitive tasks, use the <strong>Batch API</strong> for a 50% discount on all token costs. Batch processing submits multiple requests at once and returns results asynchronously (typically within hours). Ideal for:</p>
+<ul>
+  <li>Classifying thousands of documents overnight</li>
+  <li>Generating product descriptions for an entire catalog</li>
+  <li>Bulk data extraction from archived records</li>
+  <li>Large-scale content moderation</li>
+</ul>
+
+<h3>API vs. claude.ai: When to Use Each</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Factor</th><th>claude.ai</th><th>Claude API</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Setup</strong></td><td>None — just open the browser</td><td>Requires API key and code/integration</td></tr>
+    <tr><td><strong>Volume</strong></td><td>One-off or low volume</td><td>High volume, automated tasks</td></tr>
+    <tr><td><strong>Customization</strong></td><td>Limited (system prompt via Projects)</td><td>Full control over all parameters</td></tr>
+    <tr><td><strong>Cost</strong></td><td>Subscription-based (Pro/Team/Enterprise)</td><td>Pay-per-token</td></tr>
+    <tr><td><strong>Best For</strong></td><td>Individual knowledge work, ad hoc tasks</td><td>Production applications, pipelines, integrations</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q5</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What multiplier does the 5-minute prompt cache write incur over base input price?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 1.1x</li>
-    <li class="correct-option"><span class="letter">B)</span> 1.25x</li>
-    <li><span class="letter">C)</span> 1.5x</li>
-    <li><span class="letter">D)</span> 2x</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> 5-minute cache write = 1.25x base input. 1-hour cache write = 2x base input.</div>
+<h3>Projects Feature in claude.ai</h3>
+<p>Projects let you organize related conversations with shared context. You can upload documents, set persistent instructions, and start new conversations that all share the same knowledge base. This is the simplest way for non-developers to create a "custom Claude" without writing code.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 5 — CONFIGURATION AND KNOWLEDGE MANAGEMENT
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part5" class="page-break">
+<h2><span class="part-num">Part 05</span>Configuration and Knowledge Management</h2>
+
+<h3>Configuration Options</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Parameter</th><th>What It Does</th><th>Typical Values</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Temperature</strong></td><td>Controls randomness. Lower = more deterministic/factual. Higher = more creative/varied.</td><td>0.0 (factual) to 1.0 (creative). Default varies by model.</td></tr>
+    <tr><td><strong>Max Tokens</strong></td><td>Sets the maximum number of tokens Claude will generate in its response</td><td>256 (short answer), 1024 (paragraph), 4096 (essay), up to 128K</td></tr>
+    <tr><td><strong>System Prompt</strong></td><td>Persistent instructions that apply across the entire conversation</td><td>Role, guidelines, output format, constraints</td></tr>
+    <tr><td><strong>Stop Sequences</strong></td><td>Custom strings that halt generation when Claude produces them</td><td>"---", "END", custom delimiters</td></tr>
+    <tr><td><strong>Top-p</strong></td><td>Nucleus sampling — limits token selection to cumulative probability</td><td>0.9 is common. Usually leave at default.</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q6</span><span class="q-tag">Models</span></div>
-  <div class="q-text">What is the maximum output token limit for Claude Fable 5.1?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 64K tokens</li>
-    <li class="correct-option"><span class="letter">B)</span> 128K tokens</li>
-    <li><span class="letter">C)</span> 256K tokens</li>
-    <li><span class="letter">D)</span> 1M tokens</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Fable 5.1, Opus 5.5, and Sonnet 5 all support up to 128K output tokens. Haiku supports 64K.</div>
+<div class="example-box">
+  <div class="ex-header">Temperature Guidance</div>
+  <div class="ex-body">
+    <div class="ex-label good">Temperature = 0 (or very low)</div>
+    <div class="ex-text good-border">Use for: factual Q&amp;A, data extraction, classification, code generation, compliance checks. You want the same answer every time.</div>
+    <div class="ex-label good">Temperature = 0.5-0.7 (moderate)</div>
+    <div class="ex-text good-border">Use for: email drafts, general analysis, content summaries. A balance of consistency and natural variation.</div>
+    <div class="ex-label good">Temperature = 1.0 (high)</div>
+    <div class="ex-text good-border">Use for: creative writing, brainstorming, generating diverse ideas. You want variety and surprise.</div>
+  </div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q7</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What is the cache hit cost for Claude Fable 5.1 relative to base input?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 10% (0.1x)</li>
-    <li><span class="letter">B)</span> 5% (0.05x)</li>
-    <li class="correct-option"><span class="letter">C)</span> 2.5% (0.025x)</li>
-    <li><span class="letter">D)</span> 1% (0.01x)</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Fable 5.1 cache hits = 2.5% of base ($0.25/MTok). Standard = 10%. Opus 5.5 = 5%.</div>
+<h3>Knowledge Management</h3>
+
+<h4>System Prompts as Knowledge Containers</h4>
+<p>System prompts can embed company policies, style guides, product information, and domain expertise. This "primes" Claude with the knowledge it needs for your specific use case. Structure the knowledge with XML tags for clarity.</p>
+
+<div class="code-block"><span class="label">Knowledge-Rich System Prompt</span>
+You are a customer support agent for Acme Software.
+
+<span class="key">&lt;company_policies&gt;</span>
+- Refund window: 30 days from purchase
+- Free tier: 5 projects, 1GB storage
+- Pro tier: unlimited projects, 100GB storage, priority support
+- Enterprise: custom pricing, SLA, dedicated account manager
+<span class="key">&lt;/company_policies&gt;</span>
+
+<span class="key">&lt;tone_guidelines&gt;</span>
+- Professional but friendly
+- Use the customer's first name
+- Acknowledge frustration before offering solutions
+- Never promise features that don't exist
+<span class="key">&lt;/tone_guidelines&gt;</span>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q8</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">Which pricing multiplier applies when using US-only data residency?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 1.0x (no change)</li>
-    <li><span class="letter">B)</span> 1.05x</li>
-    <li class="correct-option"><span class="letter">C)</span> 1.1x</li>
-    <li><span class="letter">D)</span> 1.25x</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> <code>inference_geo: "us"</code> incurs a 1.1x multiplier on all token pricing categories.</div>
+<h4>Context Window as Working Memory</h4>
+<p>The context window is everything Claude can reference during a conversation — all previous messages, system prompt, and uploaded documents. It is NOT training data. Think of it as Claude's "desk" — what's currently in front of it. Key facts:</p>
+<ul>
+  <li>1M tokens for Fable, Opus, and Sonnet (~750,000 words)</li>
+  <li>200K tokens for Haiku (~150,000 words)</li>
+  <li>When the window fills up, oldest messages may be trimmed</li>
+  <li>Claude does not remember previous conversations (no persistent memory by default)</li>
+</ul>
+
+<h4>Uploading Documents</h4>
+<p>In claude.ai and via the API, you can upload files for Claude to analyze:</p>
+<ul>
+  <li><strong>PDFs:</strong> Claude can read text and analyze visual content (charts, diagrams)</li>
+  <li><strong>Images:</strong> JPEG, PNG, GIF, WebP — Claude describes, analyzes, and extracts information from images</li>
+  <li><strong>Text files:</strong> Plain text, CSV, code files</li>
+  <li><strong>Spreadsheets:</strong> Excel files for data analysis</li>
+</ul>
+
+<h4>Projects in claude.ai</h4>
+<p>Projects provide shared instructions and uploaded knowledge that persist across multiple conversations. They are the simplest way to create a "custom Claude" without code. A project can include:</p>
+<ul>
+  <li>A custom system prompt (project instructions)</li>
+  <li>Uploaded reference documents (PDFs, text files)</li>
+  <li>Multiple conversations that all share the same context</li>
+</ul>
+
+<h3>Best Practices for Knowledge Management</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Keep System Prompts Focused</div>
+    <p>Don't dump everything into one system prompt. Organize by purpose: role, policies, format rules, constraints.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Use XML Tags for Structure</div>
+    <p>Separate different types of knowledge with XML tags so Claude can distinguish instructions from reference material.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Update Knowledge Regularly</div>
+    <p>Claude has a training data cutoff. If your policies or products change, update the system prompt and uploaded documents.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Separate Instructions from Data</div>
+    <p>Put "what to do" in one section and "reference material" in another. This prevents Claude from confusing the two.</p>
+  </div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q9</span><span class="q-tag">Platforms</span></div>
-  <div class="q-text">How many platforms currently offer Claude models?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Three</li>
-    <li><span class="letter">B)</span> Four</li>
-    <li class="correct-option"><span class="letter">C)</span> Five</li>
-    <li><span class="letter">D)</span> Six</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Claude API, Amazon Bedrock, Claude Platform on AWS, Google Cloud/Vertex AI, Microsoft Foundry.</div>
+<h3>Limitations to Know</h3>
+<div class="notice notice-warn">
+  <b>Key Limitations</b>
+  <strong>Context window limits:</strong> Even with 1M tokens, very large document sets may not fit. Prioritize the most relevant content.<br>
+  <strong>Knowledge cutoff:</strong> Claude doesn't know about events after its training data cutoff date. Always provide current information in the prompt for time-sensitive tasks.<br>
+  <strong>No persistent memory:</strong> Each conversation starts fresh unless you use Projects to carry over context. Claude does not "learn" from your previous conversations.
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q10</span><span class="q-tag">Models</span></div>
-  <div class="q-text">What is the default effort level for Claude Opus 5.5?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> low</li>
-    <li class="correct-option"><span class="letter">B)</span> medium</li>
-    <li><span class="letter">C)</span> high</li>
-    <li><span class="letter">D)</span> Not supported</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Opus 5.5 defaults to "medium." Fable 5.1 and Sonnet 5 default to "high." Haiku doesn't support it.</div>
+<h3>Vision Capabilities</h3>
+<p>Claude can analyze images uploaded directly in claude.ai or sent via the API. Supported formats include JPEG, PNG, GIF, and WebP. Use cases include:</p>
+<ul>
+  <li>Describing and interpreting charts, graphs, and diagrams</li>
+  <li>Extracting text from screenshots or photos (OCR-like behavior)</li>
+  <li>Analyzing product images, UI mockups, or design documents</li>
+  <li>Comparing multiple images for differences</li>
+</ul>
+
+<h3>PDF Processing</h3>
+<p>Claude can read both the text content and visual elements of PDF documents. It can summarize multi-page reports, extract key data from forms, and answer questions about the content. For large PDFs, consider breaking them into sections and processing each separately.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 6 — GOVERNANCE, RISK, AND RESPONSIBLE USE
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part6" class="page-break">
+<h2><span class="part-num">Part 06</span>Governance, Risk, and Responsible Use</h2>
+
+<h3>Anthropic's AI Safety Philosophy</h3>
+<p>Anthropic was founded on the belief that AI will be transformative and that safety must be a core priority, not an afterthought. Their approach rests on three core positions:</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Rapid Progress Is Likely</div>
+    <p>AI capabilities are advancing quickly. Anthropic believes transformative AI could arrive within the next decade, making safety research urgent.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Alignment Is Unsolved</div>
+    <p>There is no proven way to guarantee that powerful AI systems will behave as intended. Research is needed to solve this problem before it becomes critical.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Empirical Research Is Essential</div>
+    <p>Safety cannot be solved theoretically alone. Building and testing AI systems provides the data needed to develop practical safety techniques.</p>
+  </div>
 </div>
 
-<h3>Section B — API &amp; Tools (Q11–Q20)</h3>
+<h4>Three Preparedness Scenarios</h4>
+<p>Anthropic plans for three possible futures:</p>
+<ul>
+  <li><strong>Optimistic:</strong> AI development goes well. Safety research succeeds, and AI benefits everyone.</li>
+  <li><strong>Intermediate:</strong> Some challenges arise but are manageable with careful governance and technical solutions.</li>
+  <li><strong>Pessimistic:</strong> Significant risks materialize. Strong safety measures and governance structures are critical.</li>
+</ul>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q11</span><span class="q-tag">API</span></div>
-  <div class="q-text">What <code>stop_reason</code> indicates Claude wants to call a tool?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> end_turn</li>
-    <li class="correct-option"><span class="letter">B)</span> tool_use</li>
-    <li><span class="letter">C)</span> stop_sequence</li>
-    <li><span class="letter">D)</span> max_tokens</li>
+<h4>Key Research Areas</h4>
+<ul>
+  <li><strong>Mechanistic Interpretability:</strong> Understanding what's happening inside the model — why does it produce a specific output?</li>
+  <li><strong>Scalable Oversight:</strong> Techniques for humans to effectively supervise AI systems as they become more capable.</li>
+  <li><strong>Constitutional AI (CAI):</strong> Training AI to follow a set of principles (a "constitution") rather than relying solely on human feedback.</li>
+</ul>
+
+<h3>Responsible Use Principles</h3>
+<div class="highlight">
+  <div class="hl-title">Five Responsible Use Guidelines</div>
+  <ul>
+    <li><strong>Always verify critical outputs</strong> with human review before acting on them</li>
+    <li><strong>Don't use Claude for high-stakes decisions</strong> (medical diagnosis, legal advice, safety-critical systems) without expert oversight</li>
+    <li><strong>Respect Anthropic's Acceptable Use Policy (AUP)</strong> — certain uses are prohibited</li>
+    <li><strong>Be transparent about AI use</strong> with end users when appropriate</li>
+    <li><strong>Don't share sensitive data unnecessarily</strong> in prompts — minimize data exposure</li>
   </ul>
-  <div class="q-explain"><b>Answer: B.</b> The response has <code>stop_reason: "tool_use"</code> and contains <code>tool_use</code> content blocks.</div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q12</span><span class="q-tag">Tools</span></div>
-  <div class="q-text">Which <code>tool_choice</code> type forces Claude to call a specific named tool?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> auto</li>
-    <li><span class="letter">B)</span> any</li>
-    <li class="correct-option"><span class="letter">C)</span> tool</li>
-    <li><span class="letter">D)</span> required</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> <code>tool</code> forces a specific tool; <code>any</code> forces some tool; <code>auto</code> lets Claude decide.</div>
+<h3>Data Privacy and Security</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Data Processor</th><th>Training Data Use</th><th>Key Feature</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Claude API (direct)</strong></td><td>Anthropic</td><td>Not used for training without permission</td><td>Zero Data Retention (ZDR) eligible</td></tr>
+    <tr><td><strong>AWS Bedrock</strong></td><td>AWS</td><td>Not used for training</td><td>Runs in your AWS account</td></tr>
+    <tr><td><strong>GCP Vertex AI</strong></td><td>Google Cloud</td><td>Not used for training</td><td>Runs in your GCP project</td></tr>
+    <tr><td><strong>claude.ai (Free/Pro)</strong></td><td>Anthropic</td><td>May be used to improve models unless opted out</td><td>Consumer terms apply</td></tr>
+    <tr><td><strong>claude.ai (Enterprise)</strong></td><td>Anthropic</td><td>Not used for training</td><td>Workspace isolation, admin controls</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q13</span><span class="q-tag">Tools</span></div>
-  <div class="q-text">Server-side tools run on which infrastructure?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> The user's application server</li>
-    <li class="correct-option"><span class="letter">B)</span> Anthropic's infrastructure</li>
-    <li><span class="letter">C)</span> AWS Lambda</li>
-    <li><span class="letter">D)</span> The client browser</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Server tools (web search, web fetch, code execution) run on Anthropic's infrastructure.</div>
+<h4>Zero Data Retention (ZDR)</h4>
+<p>With ZDR, prompts and responses are not stored by Anthropic after processing. This is available for API customers who meet eligibility requirements. HIPAA readiness is available through the same eligibility pathway.</p>
+
+<h3>Risks to Manage</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Risk</th><th>Description</th><th>Mitigation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Hallucination</strong></td><td>Claude generates plausible but factually incorrect information</td><td>Verify critical facts, ask Claude to cite sources, constrain to provided data</td></tr>
+    <tr><td><strong>Bias</strong></td><td>Outputs may reflect biases present in training data</td><td>Review for fairness, test with diverse inputs, use inclusive prompt language</td></tr>
+    <tr><td><strong>Over-reliance</strong></td><td>Users substitute Claude for professional expertise</td><td>Establish clear guidelines about when human experts must be consulted</td></tr>
+    <tr><td><strong>Data Leakage</strong></td><td>Sensitive data included in prompts could be exposed</td><td>Minimize data in prompts, use ZDR, redact PII before sending</td></tr>
+    <tr><td><strong>Prompt Injection</strong></td><td>Malicious inputs designed to override system instructions</td><td>Validate user input, separate data from instructions with XML tags</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q14</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What is the per-search cost for the Web Search tool?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> $1 per 1,000 searches</li>
-    <li><span class="letter">B)</span> $5 per 1,000 searches</li>
-    <li class="correct-option"><span class="letter">C)</span> $10 per 1,000 searches</li>
-    <li><span class="letter">D)</span> Free</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Web search = $10 per 1,000 searches, plus standard token costs for search content.</div>
+<h3>Governance Framework</h3>
+<p>Organizations deploying Claude should establish a governance framework that includes:</p>
+<ol>
+  <li><strong>Define acceptable use policies</strong> — What tasks can Claude be used for? What is off-limits?</li>
+  <li><strong>Establish review processes</strong> — Who reviews AI-generated content before it's published or acted upon?</li>
+  <li><strong>Train team members</strong> — Ensure everyone understands responsible AI use, prompt best practices, and output evaluation</li>
+  <li><strong>Monitor outputs</strong> — Track quality, accuracy, and compliance over time with regular audits</li>
+  <li><strong>Document AI usage</strong> — Maintain audit trails of how AI is used in decision-making processes</li>
+</ol>
+
+<h3>Content Filtering and Refusal Behavior</h3>
+<p>Claude has built-in safety classifiers that filter harmful content. Claude may decline requests that violate its safety policies or Anthropic's Acceptable Use Policy (AUP). Common reasons for refusal:</p>
+<ul>
+  <li>Requests for harmful, illegal, or unethical content</li>
+  <li>Attempts to generate malware, weapons instructions, or CSAM</li>
+  <li>Requests that could cause real-world harm to specific individuals</li>
+  <li>Some edge cases where Claude is overly cautious — in these cases, rephrasing the request with legitimate context usually resolves the issue</li>
+</ul>
+
+<h3>Enterprise Controls</h3>
+<p>Claude for Enterprise provides organizational safeguards:</p>
+<ul>
+  <li><strong>Workspace isolation:</strong> Separate environments for different teams or projects</li>
+  <li><strong>SSO integration:</strong> Single sign-on with your identity provider</li>
+  <li><strong>Admin dashboards:</strong> Monitor usage, costs, and compliance</li>
+  <li><strong>Usage policies:</strong> Enforce organizational rules about acceptable use</li>
+  <li><strong>Data protection:</strong> Enterprise data is not used for model training</li>
+</ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 7 — TROUBLESHOOTING AND OPTIMIZATION
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part7" class="page-break">
+<h2><span class="part-num">Part 07</span>Troubleshooting and Optimization</h2>
+
+<h3>Common Issues and Fixes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Problem</th><th>Cause</th><th>Solution</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Response too vague</strong></td><td>Prompt lacks specificity</td><td>Be more specific, add examples, define output format</td></tr>
+    <tr><td><strong>Response too long</strong></td><td>No length constraint</td><td>Set <code>max_tokens</code>, add "Be concise" instruction, specify word/bullet count</td></tr>
+    <tr><td><strong>Response too short</strong></td><td>Prompt doesn't request detail</td><td>Ask for detailed explanation, request specific sections or sub-topics</td></tr>
+    <tr><td><strong>Wrong format</strong></td><td>No format specification</td><td>Provide explicit format instructions with an example of the desired output</td></tr>
+    <tr><td><strong>Hallucination</strong></td><td>Claude fills knowledge gaps</td><td>Add "only use the provided information," ask Claude to cite sources, provide reference data</td></tr>
+    <tr><td><strong>Inconsistent results</strong></td><td>Temperature too high, prompt too open</td><td>Lower temperature, add more examples, be more specific</td></tr>
+    <tr><td><strong>Claude refuses request</strong></td><td>Safety classifier triggered</td><td>Rephrase with legitimate context, check AUP compliance, try different model</td></tr>
+    <tr><td><strong>Hitting context limits</strong></td><td>Too much content in conversation</td><td>Summarize earlier context, remove unnecessary details, start new conversation</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q15</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What additional cost does the Web Fetch tool incur beyond tokens?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> $5 per 1,000 fetches</li>
-    <li><span class="letter">B)</span> $0.01 per fetch</li>
-    <li class="correct-option"><span class="letter">C)</span> No additional cost</li>
-    <li><span class="letter">D)</span> $10 per 1,000 fetches</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Web fetch has no additional charges — you only pay token costs for fetched content.</div>
+<h3>Optimization Strategies</h3>
+
+<h4>Prompt Optimization</h4>
+<p>The most impactful optimization is improving your prompt. Small changes in wording, structure, or examples can dramatically improve output quality.</p>
+<ul>
+  <li>Iterate on wording — change one thing at a time and compare results</li>
+  <li>Add or remove constraints based on output quality</li>
+  <li>Include few-shot examples for complex or nuanced tasks</li>
+  <li>Use XML tags to separate instructions from data</li>
+</ul>
+
+<h4>Model Optimization</h4>
+<p>Use the cheapest model that meets your quality requirements. Don't default to the most expensive model for every task.</p>
+
+<div class="example-box">
+  <div class="ex-header">Model Selection by Task Complexity</div>
+  <div class="ex-body">
+    <div class="ex-label good">Simple classification/extraction</div>
+    <div class="ex-text good-border">Haiku 4.5 — fast, cheap, accurate for well-defined tasks</div>
+    <div class="ex-label good">General writing and analysis</div>
+    <div class="ex-text good-border">Sonnet 5 — best balance of speed, quality, and cost</div>
+    <div class="ex-label good">Complex reasoning and coding</div>
+    <div class="ex-text good-border">Opus 5.5 — strong agentic capabilities, recommended default</div>
+    <div class="ex-label good">Hardest reasoning challenges</div>
+    <div class="ex-text good-border">Fable 5.1 — most capable, use for tasks where other models fall short</div>
+  </div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q16</span><span class="q-tag">API</span></div>
-  <div class="q-text">Which parameter sets the system prompt in the Messages API?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> context</li>
-    <li><span class="letter">B)</span> instructions</li>
-    <li class="correct-option"><span class="letter">C)</span> system</li>
-    <li><span class="letter">D)</span> prompt</li>
+<h4>Cost Optimization</h4>
+<ul>
+  <li><strong>Prompt caching:</strong> Cache repeated prompt prefixes — cache hit costs 10% of normal input cost</li>
+  <li><strong>Batch processing:</strong> 50% discount on all token costs for non-urgent bulk tasks</li>
+  <li><strong>Shorter prompts:</strong> Remove unnecessary context and verbose instructions</li>
+  <li><strong>Right-sized models:</strong> Don't use Fable for a task Haiku can handle</li>
+</ul>
+
+<h4>Latency Optimization</h4>
+<ul>
+  <li>Use faster models (Haiku, Sonnet) for time-sensitive tasks</li>
+  <li>Shorter prompts mean faster responses</li>
+  <li>Streaming: show Claude's response token-by-token for perceived speed</li>
+  <li>Set appropriate <code>max_tokens</code> to prevent unnecessarily long responses</li>
+</ul>
+
+<h4>Quality Optimization</h4>
+<ul>
+  <li>Enable thinking/chain-of-thought for complex reasoning tasks</li>
+  <li>Use the effort parameter to control how much thinking Claude does</li>
+  <li>Add more few-shot examples for nuanced tasks</li>
+  <li>Use prompt chaining to break complex tasks into manageable steps</li>
+</ul>
+
+<h3>Prompt Caching Basics</h3>
+<div class="highlight">
+  <div class="hl-title">How Prompt Caching Works</div>
+  <p>When you send the same prompt prefix repeatedly (e.g., a long system prompt with policies and examples), caching stores it so subsequent requests only pay a fraction of the input cost.</p>
+  <ul>
+    <li><strong>5-minute cache:</strong> Write cost = 1.25x input. Read cost = 10% of input. Pays off after just 1 read.</li>
+    <li><strong>1-hour cache:</strong> Write cost = 2x input. Read cost = 10% of input. Pays off after 2 reads.</li>
+    <li>Best for: system prompts, few-shot examples, and large context blocks that repeat across requests.</li>
   </ul>
-  <div class="q-explain"><b>Answer: C.</b> The <code>system</code> parameter sets the system prompt for behavior and context.</div>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q17</span><span class="q-tag">Pricing</span></div>
-  <div class="q-text">What is the session runtime charge for Claude Managed Agents?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> $0.04 per session-hour</li>
-    <li class="correct-option"><span class="letter">B)</span> $0.08 per session-hour</li>
-    <li><span class="letter">C)</span> $0.15 per session-hour</li>
-    <li><span class="letter">D)</span> Free</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> $0.08/session-hour, metered to the millisecond only while status is <code>running</code>.</div>
+<h3>Batch Processing Basics</h3>
+<ul>
+  <li>Submit multiple requests at once (up to thousands)</li>
+  <li>50% discount on all token costs (input and output)</li>
+  <li>Results delivered asynchronously, typically within hours</li>
+  <li>Ideal for non-time-sensitive, large-volume tasks</li>
+  <li>Use cases: document classification, data extraction, content generation at scale</li>
+</ul>
+
+<h3>Debugging Techniques</h3>
+<ol>
+  <li><strong>Examine Claude's reasoning:</strong> Enable thinking mode to see Claude's step-by-step reasoning process. This reveals where it goes wrong.</li>
+  <li><strong>Change one thing at a time:</strong> When iterating on a prompt, change only one element per attempt so you can identify what helps.</li>
+  <li><strong>Test with edge cases:</strong> Try unusual inputs, very long texts, ambiguous requests, and adversarial inputs.</li>
+  <li><strong>Compare models:</strong> Run the same prompt on different models — if Haiku fails but Sonnet succeeds, the task may need more reasoning capability.</li>
+  <li><strong>Simplify the prompt:</strong> If a complex prompt fails, strip it down to essentials and add elements back one by one.</li>
+</ol>
+
+<h3>Performance Metrics to Track</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Metric</th><th>What to Track</th><th>Why It Matters</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Output Quality</strong></td><td>Accuracy, relevance, completeness scores</td><td>The whole point — are you getting good answers?</td></tr>
+    <tr><td><strong>Response Time</strong></td><td>Latency in milliseconds/seconds</td><td>User experience, SLA compliance</td></tr>
+    <tr><td><strong>Cost per Task</strong></td><td>Tokens consumed x model pricing</td><td>Budget management, ROI calculation</td></tr>
+    <tr><td><strong>User Satisfaction</strong></td><td>Feedback scores, adoption rates</td><td>Are people actually finding Claude helpful?</td></tr>
+  </tbody>
+</table>
 </div>
 
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q18</span><span class="q-tag">API</span></div>
-  <div class="q-text">Which content block type must you send back after executing a tool?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> tool_output</li>
-    <li><span class="letter">B)</span> tool_response</li>
-    <li class="correct-option"><span class="letter">C)</span> tool_result</li>
-    <li><span class="letter">D)</span> function_result</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Send a <code>tool_result</code> block with the <code>tool_use_id</code> and result content.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q19</span><span class="q-tag">Tools</span></div>
-  <div class="q-text">What is the MCP connector used for?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Managing Claude's memory</li>
-    <li class="correct-option"><span class="letter">B)</span> Connecting to remote MCP servers from the API</li>
-    <li><span class="letter">C)</span> Monitoring Claude's performance</li>
-    <li><span class="letter">D)</span> Compressing prompts</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> The MCP connector connects to remote Model Context Protocol servers directly from the Messages API.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q20</span><span class="q-tag">Tools</span></div>
-  <div class="q-text">Which is NOT an Anthropic-schema client tool?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Bash</li>
-    <li><span class="letter">B)</span> Text Editor</li>
-    <li class="correct-option"><span class="letter">C)</span> Web Search</li>
-    <li><span class="letter">D)</span> Computer Use</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Web Search is a <em>server-side</em> tool. The others are client-side tools.</div>
-</div>
-
-<h3>Section C — Prompt Engineering (Q21–Q30)</h3>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q21</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">What is Anthropic's "golden rule" for prompt clarity?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Use the longest prompt possible</li>
-    <li class="correct-option"><span class="letter">B)</span> Show it to a colleague with minimal context</li>
-    <li><span class="letter">C)</span> Always use XML tags</li>
-    <li><span class="letter">D)</span> Include at least 10 examples</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> If a colleague with minimal context would be confused, Claude will be too.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q22</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">How many examples does Anthropic recommend for few-shot prompting?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 1–2</li>
-    <li class="correct-option"><span class="letter">B)</span> 3–5</li>
-    <li><span class="letter">C)</span> 7–10</li>
-    <li><span class="letter">D)</span> 15+</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> 3–5 examples, made relevant, diverse, and wrapped in <code>&lt;example&gt;</code> tags.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q23</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">What format does Anthropic recommend for structuring complex prompts?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> JSON</li>
-    <li><span class="letter">B)</span> YAML</li>
-    <li class="correct-option"><span class="letter">C)</span> XML tags</li>
-    <li><span class="letter">D)</span> Markdown headers</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> XML tags help Claude parse prompts unambiguously: <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code>.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q24</span><span class="q-tag">Thinking</span></div>
-  <div class="q-text">What is "adaptive thinking" in Claude 4.7+?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> A fixed thinking template</li>
-    <li class="correct-option"><span class="letter">B)</span> Claude dynamically decides when and how much to think</li>
-    <li><span class="letter">C)</span> User manually sets budget_tokens</li>
-    <li><span class="letter">D)</span> Thinking is always disabled</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Adaptive thinking = Claude dynamically decides. It's the only mode on 4.7+.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q25</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">Where should role information be placed?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> In the first user message</li>
-    <li class="correct-option"><span class="letter">B)</span> In the system prompt</li>
-    <li><span class="letter">C)</span> As a tool definition</li>
-    <li><span class="letter">D)</span> In stop_sequences</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Set roles in the system prompt to focus Claude's behavior and tone.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q26</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">What is prompt chaining?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Multiple simultaneous API calls</li>
-    <li class="correct-option"><span class="letter">B)</span> Breaking complex tasks into sequential sub-tasks</li>
-    <li><span class="letter">C)</span> Linking multiple models together</li>
-    <li><span class="letter">D)</span> Caching prompts across sessions</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Each step focuses on one aspect, passing its output as context to the next.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q27</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">Why does adding context/motivation improve prompts?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> It makes prompts longer</li>
-    <li class="correct-option"><span class="letter">B)</span> Claude generalizes from the explanation</li>
-    <li><span class="letter">C)</span> It forces XML tag usage</li>
-    <li><span class="letter">D)</span> It reduces token count</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Claude is smart enough to generalize from the WHY behind a constraint.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q28</span><span class="q-tag">Features</span></div>
-  <div class="q-text">What does the <code>effort</code> parameter control?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Output format</li>
-    <li class="correct-option"><span class="letter">B)</span> How many tokens Claude uses when responding</li>
-    <li><span class="letter">C)</span> The model's temperature</li>
-    <li><span class="letter">D)</span> API rate limits</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Trades off between response thoroughness and token efficiency.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q29</span><span class="q-tag">Prompting</span></div>
-  <div class="q-text">What tags should wrap few-shot examples in prompts?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> &lt;sample&gt;</li>
-    <li><span class="letter">B)</span> &lt;demo&gt;</li>
-    <li class="correct-option"><span class="letter">C)</span> &lt;example&gt;</li>
-    <li><span class="letter">D)</span> &lt;test&gt;</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Wrap in <code>&lt;example&gt;</code> tags (multiple in <code>&lt;examples&gt;</code>) to distinguish from instructions.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q30</span><span class="q-tag">Tools</span></div>
-  <div class="q-text">What does <code>strict: true</code> guarantee in a tool definition?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> The tool always executes</li>
-    <li class="correct-option"><span class="letter">B)</span> Claude's arguments match your schema exactly</li>
-    <li><span class="letter">C)</span> The tool runs server-side</li>
-    <li><span class="letter">D)</span> Error messages are suppressed</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Guarantees Claude's tool call arguments always conform to your JSON schema.</div>
-</div>
-
-<h3>Section D — Features (Q31–Q40)</h3>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q31</span><span class="q-tag">Features</span></div>
-  <div class="q-text">Which feature grounds responses in source documents with exact references?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Structured outputs</li>
-    <li class="correct-option"><span class="letter">B)</span> Citations</li>
-    <li><span class="letter">C)</span> Search results</li>
-    <li><span class="letter">D)</span> Prompt caching</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Citations provide exact references to sentences and passages for verifiable outputs.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q32</span><span class="q-tag">Vision</span></div>
-  <div class="q-text">What image formats does Claude's vision support?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> JPEG and PNG only</li>
-    <li class="correct-option"><span class="letter">B)</span> JPEG, PNG, GIF, and WebP</li>
-    <li><span class="letter">C)</span> All image formats</li>
-    <li><span class="letter">D)</span> JPEG, PNG, and SVG</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> JPEG, PNG, GIF, WebP. Animations unsupported (only first frame).</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q33</span><span class="q-tag">Vision</span></div>
-  <div class="q-text">What is the maximum image dimension Claude accepts?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> 4096 × 4096 px</li>
-    <li class="correct-option"><span class="letter">B)</span> 8000 × 8000 px</li>
-    <li><span class="letter">C)</span> 2576 × 2576 px</li>
-    <li><span class="letter">D)</span> 1920 × 1080 px</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Maximum dimensions per image are 8000 × 8000 px.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q34</span><span class="q-tag">Vision</span></div>
-  <div class="q-text">How are visual tokens calculated for images?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Total pixels / 1000</li>
-    <li class="correct-option"><span class="letter">B)</span> ⌈width/28⌉ × ⌈height/28⌉</li>
-    <li><span class="letter">C)</span> Width × Height</li>
-    <li><span class="letter">D)</span> File size in KB</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Each 28×28 pixel patch = 1 visual token.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q35</span><span class="q-tag">Features</span></div>
-  <div class="q-text">What does "compaction at a token threshold" do?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Compresses images</li>
-    <li class="correct-option"><span class="letter">B)</span> Summarizes earlier conversation when tokens reach trigger</li>
-    <li><span class="letter">C)</span> Reduces prompt cache size</li>
-    <li><span class="letter">D)</span> Removes stop sequences</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Server-side context summarization for long-running conversations.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q36</span><span class="q-tag">Features</span></div>
-  <div class="q-text">Which feature processes large request volumes asynchronously?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Streaming</li>
-    <li><span class="letter">B)</span> Prompt caching</li>
-    <li class="correct-option"><span class="letter">C)</span> Batch processing</li>
-    <li><span class="letter">D)</span> Fast mode</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Batch processing = async processing at 50% token discount.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q37</span><span class="q-tag">Features</span></div>
-  <div class="q-text">How many approaches does structured outputs offer?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> One</li>
-    <li class="correct-option"><span class="letter">B)</span> Two</li>
-    <li><span class="letter">C)</span> Three</li>
-    <li><span class="letter">D)</span> Four</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> JSON outputs for structured data, and strict tool use for validated inputs.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q38</span><span class="q-tag">Vision</span></div>
-  <div class="q-text">Which source types can provide images in the API?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Base64 only</li>
-    <li><span class="letter">B)</span> URL only</li>
-    <li class="correct-option"><span class="letter">C)</span> Base64, URL, and file_id</li>
-    <li><span class="letter">D)</span> Base64 and URL only</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Three types: base64-encoded, URL reference, and file_id from the Files API.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q39</span><span class="q-tag">Features</span></div>
-  <div class="q-text">What does the Token Counting API help you do?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Count words in responses</li>
-    <li class="correct-option"><span class="letter">B)</span> Determine token count before sending</li>
-    <li><span class="letter">C)</span> Track billing automatically</li>
-    <li><span class="letter">D)</span> Measure response latency</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Lets you determine token count before sending — useful for prompt optimization.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q40</span><span class="q-tag">Vision</span></div>
-  <div class="q-text">Can Claude generate, edit, or create images?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Yes, all models can</li>
-    <li><span class="letter">B)</span> Only Fable 5.1 can</li>
-    <li class="correct-option"><span class="letter">C)</span> No, understanding only</li>
-    <li><span class="letter">D)</span> Yes, with the Vision tool</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Claude is image understanding only — it cannot generate, edit, or create images.</div>
-</div>
-
-<h3>Section E — Safety &amp; Data (Q41–Q50)</h3>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q41</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">What is Anthropic's position on using customer data for model training?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> All data is used</li>
-    <li><span class="letter">B)</span> Used unless opted out</li>
-    <li class="correct-option"><span class="letter">C)</span> Never used without express permission</li>
-    <li><span class="letter">D)</span> Only anonymized data</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Retained data is never used for model training without express permission.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q42</span><span class="q-tag">Data</span></div>
-  <div class="q-text">What does ZDR stand for?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Zero Downtime Recovery</li>
-    <li class="correct-option"><span class="letter">B)</span> Zero Data Retention</li>
-    <li><span class="letter">C)</span> Zero Delay Response</li>
-    <li><span class="letter">D)</span> Zone Data Replication</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Zero Data Retention — no storage of customer prompts or responses for eligible features.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q43</span><span class="q-tag">Data</span></div>
-  <div class="q-text">Which feature is NOT ZDR-eligible?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Context windows</li>
-    <li><span class="letter">B)</span> Vision</li>
-    <li class="correct-option"><span class="letter">C)</span> Batch processing</li>
-    <li><span class="letter">D)</span> PDF support</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Batch processing is NOT ZDR-eligible. The others are.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q44</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">What are Anthropic's three preparedness scenarios?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Small, medium, large</li>
-    <li class="correct-option"><span class="letter">B)</span> Optimistic, intermediate, pessimistic</li>
-    <li><span class="letter">C)</span> Internal, external, hybrid</li>
-    <li><span class="letter">D)</span> Current, near-term, long-term</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Optimistic (techniques suffice), intermediate (effort prevents catastrophe), pessimistic (may be unsolvable).</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q45</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">Which research area involves reverse-engineering neural networks?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Scalable oversight</li>
-    <li><span class="letter">B)</span> Process-oriented learning</li>
-    <li class="correct-option"><span class="letter">C)</span> Mechanistic interpretability</li>
-    <li><span class="letter">D)</span> Understanding generalization</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> Mechanistic interpretability: reverse-engineering neural networks to audit for unsafe behaviors.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q46</span><span class="q-tag">Data</span></div>
-  <div class="q-text">On Amazon Bedrock, who is the data processor?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Anthropic</li>
-    <li class="correct-option"><span class="letter">B)</span> The cloud provider (AWS)</li>
-    <li><span class="letter">C)</span> The customer</li>
-    <li><span class="letter">D)</span> A third-party auditor</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> On Bedrock and Google Cloud, the cloud provider is the data processor. On Claude API, Anthropic is.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q47</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">What is Constitutional AI?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> A legal compliance framework</li>
-    <li class="correct-option"><span class="letter">B)</span> A technique using AI to supervise AI training</li>
-    <li><span class="letter">C)</span> A government regulation</li>
-    <li><span class="letter">D)</span> A model architecture</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Part of scalable oversight — using AI principles to help supervise AI training.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q48</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">What does Anthropic say about AI alignment?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Fully solved</li>
-    <li><span class="letter">B)</span> Mostly solved with minor gaps</li>
-    <li class="correct-option"><span class="letter">C)</span> No one knows how to achieve robust alignment</li>
-    <li><span class="letter">D)</span> Impossible to solve</li>
-  </ul>
-  <div class="q-explain"><b>Answer: C.</b> "No one knows how to train very powerful AI systems to be robustly helpful, honest, and harmless."</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q49</span><span class="q-tag">Data</span></div>
-  <div class="q-text">Does Anthropic offer HIPAA-ready API access?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> No</li>
-    <li class="correct-option"><span class="letter">B)</span> Yes, with same eligibility as ZDR</li>
-    <li><span class="letter">C)</span> Yes, for all features</li>
-    <li><span class="letter">D)</span> Only on Bedrock</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Yes, with the same feature eligibility structure as ZDR.</div>
-</div>
-
-<div class="question-card">
-  <div class="q-header"><span class="q-num">Q50</span><span class="q-tag">Safety</span></div>
-  <div class="q-text">Why does safety research require frontier models?</div>
-  <ul class="q-options">
-    <li><span class="letter">A)</span> Smaller models are too expensive</li>
-    <li class="correct-option"><span class="letter">B)</span> Problems may only emerge at scale</li>
-    <li><span class="letter">C)</span> Legal requirements mandate it</li>
-    <li><span class="letter">D)</span> Smaller models lack safety features</li>
-  </ul>
-  <div class="q-explain"><b>Answer: B.</b> Large models behave qualitatively differently — safety problems may only emerge at scale.</div>
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Troubleshooting questions on the CCAO-F exam typically present a problem scenario and ask which fix to apply. Focus on the relationship between symptoms and solutions: vague output = more specific prompt, hallucination = constrain to provided data, too long = add length constraints.
 </div>
 </section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 8 — PRACTICE TEST: 50 MCQs
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="part8" class="page-break">
+<h2><span class="part-num">Part 08</span>Practice Test &mdash; 50 MCQs</h2>
+
+<p>50 exam-style questions distributed across all 7 official CCAO-F topics. Each question has 4 options with one correct answer and an explanation.</p>
+
+<hr>
+
+<!-- ═══ TOPIC 1: Prompting and Task Execution (Q1-Q10) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 01</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">According to the "Golden Rule" of prompting, what is the best way to test if your prompt is clear enough for Claude?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Run the prompt 10 times and check for consistency</li>
+    <li class="correct-option"><span class="letter">B</span> Show the prompt to a colleague with minimal context and see if they understand what to do</li>
+    <li><span class="letter">C</span> Use the longest possible prompt to ensure nothing is left out</li>
+    <li><span class="letter">D</span> Test the prompt with the most expensive model first</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The Golden Rule states: "Show your prompt to a colleague with minimal context. If they'd be confused, Claude will be too." Clarity for a human equals clarity for Claude.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 02</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">Which prompting principle is demonstrated by wrapping input/output pairs in <code>&lt;example&gt;</code> XML tags?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Be Clear and Direct</li>
+    <li><span class="letter">B</span> Add Context and Motivation</li>
+    <li class="correct-option"><span class="letter">C</span> Use Examples (Few-Shot Prompting)</li>
+    <li><span class="letter">D</span> Give Claude a Role</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Few-shot prompting uses input/output examples wrapped in XML tags to show Claude exactly what format and quality you expect. 3-5 relevant, diverse examples are recommended.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 03</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">A prompt says: "NEVER use ellipses." A better version adds: "Your response will be read aloud by a TTS engine, so never use ellipses since the engine won't know how to pronounce them." Which principle does this improvement demonstrate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Structure with XML Tags</li>
+    <li class="correct-option"><span class="letter">B</span> Add Context and Motivation</li>
+    <li><span class="letter">C</span> Give Claude a Role</li>
+    <li><span class="letter">D</span> Use Examples (Few-Shot Prompting)</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Adding the "why" behind the constraint (TTS engine compatibility) helps Claude understand the reasoning and apply the rule more consistently. Context and motivation explain purpose, not just rules.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 04</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">Which of the following is the best prompt for a data extraction task?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> "Get the data from this contract."</li>
+    <li><span class="letter">B</span> "Analyze this contract thoroughly."</li>
+    <li class="correct-option"><span class="letter">C</span> "Extract all dates, monetary amounts, and party names from this contract. Return as a table with columns: Item, Value, Page Number."</li>
+    <li><span class="letter">D</span> "Read this contract."</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> This prompt is clear and direct — it specifies exactly what to extract (dates, amounts, names), and the output format (table with specific columns). The other options are too vague.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 05</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">You want Claude to act as a senior financial analyst when reviewing your investment portfolio. Where should you place this role instruction?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> At the end of your user message</li>
+    <li class="correct-option"><span class="letter">B</span> In the system prompt</li>
+    <li><span class="letter">C</span> In an XML tag inside the document</li>
+    <li><span class="letter">D</span> In a follow-up message after the first response</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Role assignments belong in the system prompt because they define persistent behavior across the entire conversation. The system prompt primes Claude's expertise and communication style before any user messages.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 06</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">What is the purpose of using XML tags like <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, and <code>&lt;input&gt;</code> in a prompt?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> To make the prompt look more professional</li>
+    <li><span class="letter">B</span> To increase Claude's processing speed</li>
+    <li class="correct-option"><span class="letter">C</span> To create clear structural boundaries between different parts of the prompt</li>
+    <li><span class="letter">D</span> To enable Claude's vision capabilities</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> XML tags organize prompts by separating instructions, context, input data, and output format into clearly delineated sections. Claude is trained to recognize these boundaries, producing significantly better results.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 07</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">A content team uses the same prompt structure daily to summarize news articles. What practice should they adopt?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Write a new prompt from scratch each time for freshness</li>
+    <li class="correct-option"><span class="letter">B</span> Create a prompt template with placeholders like {{ARTICLE_TEXT}} and {{AUDIENCE}}</li>
+    <li><span class="letter">C</span> Always use the shortest possible prompt to reduce costs</li>
+    <li><span class="letter">D</span> Use only multi-turn conversations for all summarization</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Prompt templates with placeholders ensure consistency, save time, and make it easy to reuse proven prompts. The team can swap in different article text and audience without re-engineering the prompt.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 08</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">You ask Claude to "help with marketing" and receive a vague, unfocused response. What is the most likely cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The model is too small for this task</li>
+    <li><span class="letter">B</span> The temperature is set too low</li>
+    <li class="correct-option"><span class="letter">C</span> The prompt lacks specificity — no task, audience, or format was specified</li>
+    <li><span class="letter">D</span> Claude cannot handle marketing tasks</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> "Help with marketing" is a classic vague prompt. It doesn't specify the task (email campaign? slogan?), the audience, or the desired format. The number one prompting mistake is giving vague instructions.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 09</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">In iterative prompting, what is the recommended approach when Claude's first output isn't quite right?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Switch to a completely different model</li>
+    <li><span class="letter">B</span> Rewrite the entire prompt from scratch</li>
+    <li class="correct-option"><span class="letter">C</span> Identify specific gaps (too long? wrong format? missing info?) and adjust the prompt accordingly</li>
+    <li><span class="letter">D</span> Add more data to the context window until it works</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Iterative prompting is a refinement process: review the output, identify what's missing or wrong, then add constraints, examples, or context to address those specific issues. Changing one thing at a time helps isolate what works.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 10</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">You want Claude to classify support tickets into 4 categories. What is the most effective prompting technique?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Describe each category in long paragraphs</li>
+    <li><span class="letter">B</span> Tell Claude to "classify the tickets" with no other guidance</li>
+    <li><span class="letter">C</span> Use the most expensive model available</li>
+    <li class="correct-option"><span class="letter">D</span> Provide 3-5 examples of tickets already classified into each category, wrapped in example tags</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> Few-shot examples are the most effective technique for classification tasks. Showing Claude several correctly classified examples for each category is more powerful than lengthy descriptions of what each category means.</div>
+</div>
+
+<!-- ═══ TOPIC 2: Output Evaluation and Validation (Q11-Q18) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 11</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">What is a "hallucination" in the context of Claude's output?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> When Claude refuses to answer a question</li>
+    <li class="correct-option"><span class="letter">B</span> When Claude generates plausible-sounding but factually incorrect information with confidence</li>
+    <li><span class="letter">C</span> When Claude's response is too short</li>
+    <li><span class="letter">D</span> When Claude repeats the same phrase multiple times</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Hallucination refers to Claude producing text that sounds confident and plausible but is factually wrong. This is especially common with specific numbers, dates, URLs, and citations. Always verify critical facts.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 12</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">Which evaluation method uses Claude (or another LLM) to rate the quality of an output on a 1-5 scale?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Exact match evaluation</li>
+    <li><span class="letter">B</span> Semantic similarity</li>
+    <li class="correct-option"><span class="letter">C</span> LLM-as-judge</li>
+    <li><span class="letter">D</span> Binary check</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> LLM-as-judge uses Claude itself (or another model) to evaluate output quality against a rubric. You provide criteria (accuracy, completeness, clarity) and have the judge model rate the response on a Likert scale.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 13</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">You ask Claude to summarize a quarterly report. The summary sounds great but includes a revenue figure that doesn't appear in the original document. What is the best next step?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Trust the figure since Claude is generally accurate</li>
+    <li><span class="letter">B</span> Ask Claude to confirm the figure</li>
+    <li class="correct-option"><span class="letter">C</span> Cross-reference the figure against the original source document</li>
+    <li><span class="letter">D</span> Raise the temperature to get a more accurate response</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When Claude produces specific numbers or facts, always cross-reference against source documents. Asking Claude to confirm its own hallucination is unreliable — it may confidently restate the wrong information. Always verify with the original source.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 14</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">Which evaluation approach is best for checking whether Claude's response contains personally identifiable information (PII)?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Semantic similarity</li>
+    <li class="correct-option"><span class="letter">B</span> Binary check</li>
+    <li><span class="letter">C</span> Exact match</li>
+    <li><span class="letter">D</span> LLM-as-judge with Likert scale</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Binary checks are simple yes/no validations: "Does this output contain PII? Yes or No." They work well as automated guard-rails for safety concerns like PII detection, toxicity screening, or competitor mentions.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 15</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">You run the same factual prompt five times and get five different answers. What does this indicate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The model is broken</li>
+    <li><span class="letter">B</span> The API is experiencing issues</li>
+    <li class="correct-option"><span class="letter">C</span> The prompt needs improvement — possibly lower temperature, more examples, or more specific instructions</li>
+    <li><span class="letter">D</span> Factual tasks always produce different answers</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Inconsistent results on factual questions suggest the prompt is too open-ended. Lowering temperature (for more deterministic output), adding examples, and being more specific about the expected answer format will improve consistency.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 16</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">For which category of output should you ALWAYS require human expert review before acting on it?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Creative brainstorming ideas</li>
+    <li><span class="letter">B</span> First drafts of blog posts</li>
+    <li class="correct-option"><span class="letter">C</span> Medical information, legal advice, and financial figures</li>
+    <li><span class="letter">D</span> Meeting note summaries</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> High-stakes domains like medical, legal, and financial require expert human review. The consequences of acting on incorrect information in these areas can be severe. Claude can assist but should never be the sole decision-maker.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 17</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">What is the purpose of a feedback loop in output evaluation?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> To retrain the Claude model on your data</li>
+    <li><span class="letter">B</span> To automatically fix hallucinations</li>
+    <li class="correct-option"><span class="letter">C</span> To use evaluation results to iteratively improve your prompts over time</li>
+    <li><span class="letter">D</span> To reduce API costs</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Feedback loops connect evaluation back to prompt improvement. If Claude consistently makes the same type of error, you add examples or constraints to the prompt to address that specific issue. This is a continuous improvement cycle.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 18</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">Which red flag should concern you most about Claude's output quality?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The response uses bullet points instead of numbered lists</li>
+    <li><span class="letter">B</span> The response is slightly shorter than requested</li>
+    <li class="correct-option"><span class="letter">C</span> The response says "revenue increased by 15%" in one paragraph and "revenue was flat" in another</li>
+    <li><span class="letter">D</span> The response uses formal language when you wanted casual</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Internal contradictions are a serious red flag because they indicate Claude may be generating text without consistent underlying reasoning. Contradictory facts within the same response should always be verified against source data.</div>
+</div>
+
+<!-- ═══ TOPIC 3: Product and Model Selection (Q19-Q25) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 19</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">Which Claude product is best for a non-technical business user who wants to upload a PDF and ask questions about it?</p>
+  <ul class="q-options">
+    <li class="correct-option"><span class="letter">A</span> claude.ai</li>
+    <li><span class="letter">B</span> Claude API</li>
+    <li><span class="letter">C</span> Claude Code</li>
+    <li><span class="letter">D</span> Claude Agent SDK</li>
+  </ul>
+  <div class="q-explain"><b>Correct: A.</b> claude.ai is the consumer chat interface — no technical setup required. Users can upload PDFs directly and ask questions. The API and Code products require technical knowledge to use.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 20</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">A company needs to classify 50,000 customer support tickets overnight using Claude. Which model and approach should they choose?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fable 5.1 via claude.ai for highest accuracy</li>
+    <li><span class="letter">B</span> Opus 5.5 via Console playground, one at a time</li>
+    <li class="correct-option"><span class="letter">C</span> Haiku 4.5 via Batch API for speed and 50% cost savings</li>
+    <li><span class="letter">D</span> Sonnet 5 via Claude Code</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> For high-volume classification that doesn't need real-time results, Haiku 4.5 via the Batch API is optimal. Haiku is fast and cheap for well-defined classification, and Batch API provides a 50% discount on all token costs.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 21</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">What is the context window size for Haiku 4.5 compared to other Claude models?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 1M tokens, same as all other models</li>
+    <li class="correct-option"><span class="letter">B</span> 200K tokens, smaller than Fable/Opus/Sonnet which have 1M</li>
+    <li><span class="letter">C</span> 500K tokens</li>
+    <li><span class="letter">D</span> 100K tokens</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Haiku 4.5 has a 200K token context window, while Fable 5.1, Opus 5.5, and Sonnet 5 all have 1M token context windows. Haiku also has a smaller max output of 64K vs. 128K for the others.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 22</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">A team wants to experiment with different prompts and compare outputs side-by-side before building an application. Which product should they use?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude Code</li>
+    <li><span class="letter">B</span> Claude Managed Agents</li>
+    <li class="correct-option"><span class="letter">C</span> Claude Console (playground)</li>
+    <li><span class="letter">D</span> Claude for Enterprise</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The Console playground is specifically designed for testing and iterating on prompts. It lets you adjust parameters, compare outputs across models, and save prompt versions — ideal for pre-development experimentation.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 23</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">Which Claude model is recommended as the default starting point if you are unsure which model to use?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fable 5.1</li>
+    <li class="correct-option"><span class="letter">B</span> Opus 5.5</li>
+    <li><span class="letter">C</span> Haiku 4.5</li>
+    <li><span class="letter">D</span> Sonnet 5</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Opus 5.5 is the recommended default for most tasks. It offers strong reasoning and agentic capabilities at a moderate cost. Start with Opus, then scale up to Fable for the hardest tasks or down to Sonnet/Haiku for simpler ones.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 24</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">Claude pricing is quoted per "MTok." What does MTok stand for?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Maximum Token limit</li>
+    <li><span class="letter">B</span> Model Token count</li>
+    <li class="correct-option"><span class="letter">C</span> Million tokens</li>
+    <li><span class="letter">D</span> Minimum Token requirement</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> MTok means million tokens. Pricing is expressed as cost per million input tokens and cost per million output tokens. For example, Sonnet 5 costs $2 per MTok input and $10 per MTok output.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 25</span>
+    <span class="q-tag">Product &amp; Model</span>
+  </div>
+  <p class="q-text">Which product is best for a manager who wants to set up a shared knowledge base with company policies and have multiple team members use it in their own conversations?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude API with custom code</li>
+    <li><span class="letter">B</span> Claude Code CLI</li>
+    <li class="correct-option"><span class="letter">C</span> Projects in claude.ai (Team/Enterprise tier)</li>
+    <li><span class="letter">D</span> Claude Managed Agents</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Projects in claude.ai let you upload documents and set shared instructions that persist across conversations. On the Team/Enterprise tier, multiple team members can access the same project, making it the simplest no-code solution for shared knowledge.</div>
+</div>
+
+<!-- ═══ TOPIC 4: Workflow Integration and Solution Design (Q26-Q32) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 26</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">A customer support team wants Claude to draft email responses that agents review before sending. What integration pattern is this?</p>
+  <ul class="q-options">
+    <li class="correct-option"><span class="letter">A</span> Human-in-the-loop</li>
+    <li><span class="letter">B</span> Automated pipeline</li>
+    <li><span class="letter">C</span> Conversational interface</li>
+    <li><span class="letter">D</span> Fan-out pattern</li>
+  </ul>
+  <div class="q-explain"><b>Correct: A.</b> Human-in-the-loop means Claude generates the draft and a human reviews/approves before it goes out. This is the most common and safest integration pattern for customer-facing content.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 27</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">You need to process a complex document by first extracting key facts, then categorizing them, then writing a summary. What solution design pattern is this?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Single-shot</li>
+    <li><span class="letter">B</span> Fan-out</li>
+    <li class="correct-option"><span class="letter">C</span> Prompt chaining</li>
+    <li><span class="letter">D</span> Router</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Prompt chaining breaks complex tasks into sequential steps where each step's output feeds into the next. Extract -> Categorize -> Summarize is a classic chain. This improves quality by letting Claude focus on one task at a time.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 28</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">What is the primary advantage of using the Batch API over standard API calls for bulk processing?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Higher accuracy</li>
+    <li><span class="letter">B</span> Real-time streaming responses</li>
+    <li class="correct-option"><span class="letter">C</span> 50% discount on all token costs</li>
+    <li><span class="letter">D</span> Larger context window</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Batch API provides a 50% discount on both input and output token costs. The trade-off is that results are delivered asynchronously rather than in real-time. Ideal for overnight processing of large document sets.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 29</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">An incoming support ticket should first be classified as "billing," "technical," or "general," then routed to a specialized prompt for each category. What pattern is this?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fan-out</li>
+    <li><span class="letter">B</span> Multi-turn</li>
+    <li><span class="letter">C</span> Single-shot</li>
+    <li class="correct-option"><span class="letter">D</span> Router</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> A router pattern classifies the input first, then routes it to a specialized handler. This is ideal when different categories of input require fundamentally different prompts or processing logic.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 30</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">What is the first principle of workflow design when integrating Claude into a business process?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Automate everything from day one</li>
+    <li class="correct-option"><span class="letter">B</span> Start simple, iterate</li>
+    <li><span class="letter">C</span> Use the most expensive model for best results</li>
+    <li><span class="letter">D</span> Build for scale before proving value</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Start with a single, well-defined task. Prove that Claude adds value, measure quality and cost, then expand. Trying to automate an entire workflow at once is risky and harder to debug.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 31</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">Which scenario is the best fit for the fan-out design pattern?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> A multi-step analysis of a single document</li>
+    <li><span class="letter">B</span> An interactive tutoring conversation</li>
+    <li class="correct-option"><span class="letter">C</span> Generating product descriptions for 500 items in a catalog</li>
+    <li><span class="letter">D</span> A Q&amp;A chatbot for internal employees</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Fan-out processes multiple items in parallel using the same prompt. Generating descriptions for 500 products is a classic fan-out case — each item is independent and uses the same template.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 32</span>
+    <span class="q-tag">Workflow Design</span>
+  </div>
+  <p class="q-text">A non-technical manager wants to create a "custom Claude" for their team with company policies and shared instructions, without writing any code. What should they use?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude API with system prompts</li>
+    <li><span class="letter">B</span> Claude Agent SDK</li>
+    <li class="correct-option"><span class="letter">C</span> Projects feature in claude.ai</li>
+    <li><span class="letter">D</span> Claude Code with a CLAUDE.md file</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Projects in claude.ai let you upload documents and set persistent instructions without any code. Multiple team members can use the project, and all conversations share the same knowledge base. It's the simplest path to a "custom Claude."</div>
+</div>
+
+<!-- ═══ TOPIC 5: Configuration and Knowledge Management (Q33-Q38) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 33</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">You need Claude to produce the most deterministic, consistent output for a data extraction task. What temperature setting should you use?</p>
+  <ul class="q-options">
+    <li class="correct-option"><span class="letter">A</span> Temperature = 0 (or very low)</li>
+    <li><span class="letter">B</span> Temperature = 0.5</li>
+    <li><span class="letter">C</span> Temperature = 1.0</li>
+    <li><span class="letter">D</span> Temperature setting has no effect on consistency</li>
+  </ul>
+  <div class="q-explain"><b>Correct: A.</b> Temperature = 0 produces the most deterministic output. For factual tasks like data extraction, classification, and compliance checks, low temperature ensures you get the same answer every time.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 34</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">What is the context window?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The amount of data Claude was trained on</li>
+    <li class="correct-option"><span class="letter">B</span> Everything Claude can reference during a conversation — system prompt, all messages, and uploaded documents</li>
+    <li><span class="letter">C</span> The number of conversations Claude remembers</li>
+    <li><span class="letter">D</span> The maximum number of users who can chat simultaneously</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The context window is like Claude's "working memory" — it includes everything currently in the conversation: system prompt, all user and assistant messages, and any uploaded content. It is NOT training data and does NOT persist across conversations.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 35</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">Which parameter controls the maximum number of tokens Claude generates in its response?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Temperature</li>
+    <li class="correct-option"><span class="letter">B</span> Max tokens</li>
+    <li><span class="letter">C</span> Top-p</li>
+    <li><span class="letter">D</span> Stop sequences</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Max tokens sets the upper limit on how long Claude's response can be. It doesn't force Claude to generate exactly that many tokens, but Claude will stop when it reaches the limit. Useful for controlling response length and cost.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 36</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">You want to embed company refund policies, pricing tiers, and tone guidelines into every Claude conversation for your support team. Where should this information go?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> In every user message</li>
+    <li class="correct-option"><span class="letter">B</span> In the system prompt</li>
+    <li><span class="letter">C</span> In a separate training dataset</li>
+    <li><span class="letter">D</span> In Claude's long-term memory</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The system prompt is the right place for persistent knowledge like policies, pricing, and guidelines. It applies to the entire conversation, ensuring Claude has this context for every response. Claude does not have "long-term memory" by default.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 37</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">Claude's training data has a cutoff date. What should you do when asking about recent events?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Ask Claude to search the internet for current information</li>
+    <li><span class="letter">B</span> Use a higher temperature to get more creative answers about recent events</li>
+    <li class="correct-option"><span class="letter">C</span> Provide the current information directly in the prompt or upload a recent document</li>
+    <li><span class="letter">D</span> Use a different AI that has no knowledge cutoff</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Since Claude has a knowledge cutoff, the best approach for time-sensitive topics is to provide the current information directly — paste it into the prompt or upload a recent document. Claude will analyze what you give it, even if it's after its training cutoff.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 38</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">Which image formats does Claude support for vision analysis?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Only JPEG and PNG</li>
+    <li><span class="letter">B</span> JPEG, PNG, and SVG</li>
+    <li class="correct-option"><span class="letter">C</span> JPEG, PNG, GIF, and WebP</li>
+    <li><span class="letter">D</span> All image formats including PSD and TIFF</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude's vision capabilities support JPEG, PNG, GIF, and WebP formats. These can be uploaded in claude.ai or sent via the API for analysis, description, text extraction, and comparison.</div>
+</div>
+
+<!-- ═══ TOPIC 6: Governance, Risk, and Responsible Use (Q39-Q44) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 39</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">What are Anthropic's three core positions on AI development?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Speed, scale, and simplicity</li>
+    <li><span class="letter">B</span> Open source, community-driven, and free access</li>
+    <li class="correct-option"><span class="letter">C</span> Rapid progress is likely, alignment is unsolved, and empirical research is essential</li>
+    <li><span class="letter">D</span> Profit, growth, and market share</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Anthropic was founded on these three core beliefs: AI capabilities are advancing rapidly, there is no proven way to guarantee AI alignment, and building/testing actual systems is necessary to develop practical safety techniques.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 40</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">What is Zero Data Retention (ZDR)?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude automatically deletes all its training data after each query</li>
+    <li class="correct-option"><span class="letter">B</span> Prompts and responses are not stored by Anthropic after processing</li>
+    <li><span class="letter">C</span> Claude has no memory within a conversation</li>
+    <li><span class="letter">D</span> All conversation history is permanently deleted every 24 hours</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> With ZDR, Anthropic does not store the prompts you send or the responses Claude generates after they are processed and returned. This is available for API customers who meet eligibility requirements and is important for sensitive data handling.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 41</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">What is "prompt injection" and why is it a risk?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Adding too many tokens to a prompt, causing it to exceed the context window</li>
+    <li><span class="letter">B</span> Using Claude to inject data into a database</li>
+    <li class="correct-option"><span class="letter">C</span> Malicious user input designed to override system prompt instructions and make Claude behave differently than intended</li>
+    <li><span class="letter">D</span> A technique for improving prompt quality by injecting more examples</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Prompt injection is a security risk where untrusted user input (e.g., in a chatbot) contains instructions that try to override the system prompt. Mitigation: validate user input, separate data from instructions with XML tags, and use input sanitization.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 42</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">Which of the following is a recommended practice when using Claude in an organization?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Allow all employees unrestricted access with no guidelines</li>
+    <li><span class="letter">B</span> Use Claude's output as-is for all external communications</li>
+    <li class="correct-option"><span class="letter">C</span> Define acceptable use policies and establish review processes for AI-generated content</li>
+    <li><span class="letter">D</span> Keep AI usage secret from stakeholders</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Organizations should define what Claude can and cannot be used for, establish who reviews AI-generated content, train team members on responsible use, and document how AI is used in decision-making for audit trails.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 43</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">When Claude declines a request, what should you do first?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> File a complaint with Anthropic</li>
+    <li><span class="letter">B</span> Try to trick Claude into answering by disguising the request</li>
+    <li class="correct-option"><span class="letter">C</span> Rephrase with legitimate context and check if the request complies with Anthropic's Acceptable Use Policy</li>
+    <li><span class="letter">D</span> Switch to a different AI provider immediately</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude sometimes refuses requests that are actually legitimate because it misinterprets intent. Rephrasing with clear, legitimate context usually resolves the issue. If the request violates the AUP, the refusal is appropriate.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 44</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">What is Constitutional AI (CAI)?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> An AI system that studies constitutional law</li>
+    <li><span class="letter">B</span> A framework for government regulation of AI</li>
+    <li class="correct-option"><span class="letter">C</span> An Anthropic training approach where AI follows a set of principles (a "constitution") rather than relying solely on human feedback</li>
+    <li><span class="letter">D</span> A type of prompt engineering that uses legal documents</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Constitutional AI is one of Anthropic's key research contributions. Instead of relying only on human feedback (RLHF), the model is trained to follow a set of written principles. This makes the model's behavior more transparent and consistent.</div>
+</div>
+
+<!-- ═══ TOPIC 7: Troubleshooting and Optimization (Q45-Q50) ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 45</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">Claude keeps generating long, verbose responses when you need concise answers. What is the best fix?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Switch to a different model</li>
+    <li class="correct-option"><span class="letter">B</span> Set max_tokens, add "Be concise" to the prompt, and specify the exact word/bullet count you want</li>
+    <li><span class="letter">C</span> Lower the temperature to 0</li>
+    <li><span class="letter">D</span> Remove the system prompt entirely</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Multiple strategies work together for controlling length: set max_tokens as a hard limit, add explicit conciseness instructions like "Be concise" or "Respond in under 100 words," and specify the exact format (e.g., "5 bullet points maximum").</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 46</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">What does prompt caching accomplish and when does it pay off?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It stores Claude's responses for reuse, paying off immediately</li>
+    <li><span class="letter">B</span> It speeds up model training, paying off after 100 requests</li>
+    <li class="correct-option"><span class="letter">C</span> It reuses repeated prompt prefixes to reduce input costs — the 5-minute cache pays off after just 1 read</li>
+    <li><span class="letter">D</span> It caches entire conversations permanently for free</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Prompt caching stores repeated prompt prefixes (like long system prompts). A cache hit costs only 10% of normal input cost. The 5-minute cache (1.25x write cost) pays off after just 1 read; the 1-hour cache (2x write) after 2 reads.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 47</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">Claude is producing hallucinated facts about a company that don't appear in the provided document. What is the most effective fix?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Use a more expensive model</li>
+    <li><span class="letter">B</span> Increase the temperature for more varied responses</li>
+    <li class="correct-option"><span class="letter">C</span> Add the instruction "Only use information from the provided document. If information is not available, say so."</li>
+    <li><span class="letter">D</span> Ask Claude to think harder</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Constraining Claude to only use provided information is the most effective way to prevent hallucination. Explicitly telling Claude to say "I don't have this information" when data is missing prevents it from filling gaps with invented facts.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 48</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">You're debugging a prompt that isn't working well. What technique helps you see Claude's reasoning process?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Set temperature to maximum</li>
+    <li><span class="letter">B</span> Remove all examples from the prompt</li>
+    <li class="correct-option"><span class="letter">C</span> Enable thinking/chain-of-thought mode</li>
+    <li><span class="letter">D</span> Switch to a faster model</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Thinking mode (also called extended thinking or chain-of-thought) shows Claude's step-by-step reasoning process. This reveals where Claude's logic goes wrong, making it much easier to identify and fix the root cause of poor outputs.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 49</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">You have a simple classification task that Opus 5.5 handles well. What optimization should you consider first?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Upgrade to Fable 5.1 for better accuracy</li>
+    <li><span class="letter">B</span> Add more examples to the prompt</li>
+    <li class="correct-option"><span class="letter">C</span> Try Haiku 4.5 or Sonnet 5 — if the quality is comparable, use the cheaper model</li>
+    <li><span class="letter">D</span> Increase the context window size</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Model optimization means using the cheapest model that meets your quality needs. If a simple classification task works well with Opus, it likely works just as well with Sonnet or Haiku at a fraction of the cost. Always try a cheaper model first.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 50</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">Which combination of strategies provides the greatest cost savings for a high-volume, non-urgent batch task with a long, repeated system prompt?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fable 5.1 + streaming + high temperature</li>
+    <li><span class="letter">B</span> Opus 5.5 + prompt caching only</li>
+    <li class="correct-option"><span class="letter">C</span> Haiku 4.5 + Batch API (50% off) + prompt caching (90% off repeated prefix)</li>
+    <li><span class="letter">D</span> Sonnet 5 + max_tokens set to minimum</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Maximum cost savings come from layering multiple strategies: use the cheapest adequate model (Haiku), use Batch API for 50% off all tokens, and cache the repeated system prompt prefix for 90% off input costs. Combined, these can reduce costs by 80%+ compared to naive API usage.</div>
+</div>
+
+</section>
+
 
 <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <div class="footer">
-  <p><strong>Anthropic Claude Certification Prep — Complete Study Guide</strong></p>
-  <p>All content sourced from official Anthropic documentation (platform.claude.com/docs).<br>Last updated September 2026. Compiled for educational purposes.</p>
+  <p><strong>Claude Certified Associate Foundations (CCAO-F) — Exam Prep Study Guide</strong></p>
+  <p>Aligned to official CCAO-F syllabus (7 topics). Content sourced from official Anthropic documentation. Updated September 2026.</p>
 </div>
 
 </body>
