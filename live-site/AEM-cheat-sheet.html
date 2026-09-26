@@ -219,18 +219,31 @@ a:hover { text-decoration: underline; }
   margin-bottom: 0;
 }
 .header-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 17px;
-  margin-bottom: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  background: rgba(8,145,178,0.08);
+  padding: 3px;
+  animation: logoGlow 3s ease-in-out infinite, logoFloat 4s ease-in-out infinite, logoPulse 6s ease-in-out infinite;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.header-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  animation-play-state: paused;
+}
+@keyframes logoGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(8,145,178,0.4), 0 0 20px rgba(8,145,178,0.1); }
+  50% { box-shadow: 0 0 16px rgba(8,145,178,0.8), 0 0 40px rgba(8,145,178,0.3); }
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 .header h1 {
   font-size: 30px;
@@ -734,7 +747,7 @@ pre code {
 
 <!-- ===== HEADER ===== -->
 <header class="header">
-  <div class="header-logo">SG</div>
+  <img src="sg-logo.png" alt="SG" class="header-logo">
   <h1>AEM Interview Cheat Sheet</h1>
   <p class="subtitle">Complete Quick Reference &mdash; All Topics at a Glance</p>
   <p class="stats-line">25 Topics &bull; 30 Flashcards &bull; Searchable &bull; Interactive</p>
