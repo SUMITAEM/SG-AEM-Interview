@@ -654,6 +654,22 @@ pre code {
 .key-recall ul { margin: 0; padding-left: 16px; }
 .key-recall li { font-size: 12.5px; font-weight: 500; margin: 2px 0; }
 
+/* ===== SECTION IMAGES ===== */
+.section-img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: #f8fafc;
+}
+:root[data-theme="dark"] .section-img { border-color: #334155; background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .section-img { border-color: #334155; background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+}
+@media print { .section-img { box-shadow: none; border: 1px solid #ccc; } }
+
 /* ===== DIAGRAM BOX ===== */
 .diagram {
   font-family: var(--mono);
@@ -920,16 +936,15 @@ pre code {
   <div class="section-body"><div class="section-content">
 
   <h3>Technology Stack</h3>
-  <div class="diagram">AEM Application
-  +-- Apache Sling   (RESTful resource resolution)
-  |     +-- JCR / Apache Jackrabbit Oak  (content repository)
-  |           +-- OSGi / Apache Felix    (modular runtime)
-  |                 +-- Java VM</div>
+  <img src="images/aem-architecture-stack.svg" alt="AEM Architecture Stack — 5 layers: Application, Sling, JCR, OSGi, Java" class="section-img">
   <ul>
     <li><strong>AEM</strong> = CMS built on <strong>Apache Sling</strong> + <strong>JCR (Jackrabbit Oak)</strong> + <strong>OSGi (Apache Felix)</strong></li>
     <li>Everything is a JCR node (tree of nodes and properties)</li>
     <li>Sling maps URLs to JCR resources; OSGi manages service lifecycle</li>
   </ul>
+
+  <h3>Author → Publish → Dispatcher Architecture</h3>
+  <img src="images/aem-author-publish.svg" alt="AEM Author, Publish, Dispatcher, CDN architecture with replication and flush agents" class="section-img">
 
   <h3>Instances</h3>
   <table>
@@ -1049,6 +1064,9 @@ mvn clean install -DskipTests</code></pre>
   </div>
   <div class="section-body"><div class="section-content">
 
+  <h3>Bundle Lifecycle</h3>
+  <img src="images/osgi-bundle-lifecycle.svg" alt="OSGi Bundle Lifecycle — INSTALLED → RESOLVED → STARTING → ACTIVE → STOPPING → UNINSTALLED" class="section-img">
+
   <h3>Core Concepts</h3>
   <ul>
     <li><strong>OSGi</strong> = modular Java; hot-deploy/update/remove bundles without restart</li>
@@ -1126,6 +1144,9 @@ mvn clean install -DskipTests</code></pre>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body"><div class="section-content">
+
+  <h3>Request Processing Flow</h3>
+  <img src="images/aem-request-flow.svg" alt="Sling Request Processing — Browser → Dispatcher → Sling Engine → JCR → Response" class="section-img">
 
   <h3>What is Sling?</h3>
   <ul>
@@ -1349,6 +1370,7 @@ public class HeroModel {
   <div class="section-body"><div class="section-content">
 
   <h3>Component Structure</h3>
+  <img src="images/aem-component-structure.svg" alt="AEM Component folder structure — .content.xml, _cq_dialog, HTL, Model, ClientLib, editConfig" class="section-img">
   <ul>
     <li><code>.content.xml</code> &mdash; metadata (jcr:primaryType, componentGroup, sling:resourceSuperType)</li>
     <li><code>_cq_dialog/</code> &mdash; Touch UI dialog (Granite/Coral fields)</li>
@@ -1651,6 +1673,7 @@ public class MyStep implements WorkflowProcess {
   </ul>
 
   <h3>CF vs XF Comparison</h3>
+  <img src="images/cf-vs-xf.svg" alt="Content Fragments vs Experience Fragments — structured data vs visual components" class="section-img">
   <table>
     <tr><th>Criteria</th><th>Content Fragment</th><th>Experience Fragment</th></tr>
     <tr><td>Content type</td><td>Structured data (headless)</td><td>Visual components (rendered)</td></tr>
@@ -1750,6 +1773,9 @@ p.limit=10</code></pre>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body"><div class="section-content">
+
+  <h3>Caching Layers — Request Journey</h3>
+  <img src="images/aem-caching-layers.svg" alt="AEM Caching Layers — Browser → CDN → Dispatcher → AEM Publish with hit rates and latency" class="section-img">
 
   <h3>What is Dispatcher?</h3>
   <ul>

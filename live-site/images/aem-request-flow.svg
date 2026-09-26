@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="rb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0891b2"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="rp" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#059669"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+    <linearGradient id="ro" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#fbbf24"/></linearGradient>
+    <filter id="ds"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="720" height="280" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="360" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#0e7490">Sling Request Processing Flow</text>
+  <!-- Browser -->
+  <rect x="20" y="80" width="100" height="80" rx="10" fill="#1e293b" filter="url(#ds)"/>
+  <text x="70" y="112" text-anchor="middle" font-size="22">🌐</text>
+  <text x="70" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#e2e8f0">Browser</text>
+  <text x="70" y="150" text-anchor="middle" font-size="9" fill="#94a3b8">HTTP Request</text>
+  <!-- Arrow 1 -->
+  <line x1="120" y1="120" x2="155" y2="120" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowT)"/>
+  <defs><marker id="arrowT" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#0891b2"/></marker></defs>
+  <!-- Dispatcher -->
+  <rect x="160" y="80" width="110" height="80" rx="10" fill="url(#ro)" filter="url(#ds)"/>
+  <text x="215" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Dispatcher</text>
+  <text x="215" y="125" text-anchor="middle" font-size="9" fill="#fef3c7">Cache Check</text>
+  <text x="215" y="138" text-anchor="middle" font-size="9" fill="#fef3c7">Filter Rules</text>
+  <text x="215" y="151" text-anchor="middle" font-size="9" fill="#fef3c7">Load Balance</text>
+  <!-- Arrow 2 -->
+  <line x1="270" y1="120" x2="305" y2="120" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowT)"/>
+  <!-- Sling Engine -->
+  <rect x="310" y="60" width="120" height="120" rx="10" fill="url(#rp)" filter="url(#ds)"/>
+  <text x="370" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Sling Engine</text>
+  <line x1="325" y1="96" x2="415" y2="96" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="370" y="112" text-anchor="middle" font-size="9" fill="#ede9fe">1. URL Decomposition</text>
+  <text x="370" y="126" text-anchor="middle" font-size="9" fill="#ede9fe">2. Resource Resolution</text>
+  <text x="370" y="140" text-anchor="middle" font-size="9" fill="#ede9fe">3. Servlet Resolution</text>
+  <text x="370" y="154" text-anchor="middle" font-size="9" fill="#ede9fe">4. Filter Chain</text>
+  <text x="370" y="168" text-anchor="middle" font-size="9" fill="#ede9fe">5. Script Execution</text>
+  <!-- Arrow 3 -->
+  <line x1="430" y1="120" x2="465" y2="120" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowT)"/>
+  <!-- JCR -->
+  <rect x="470" y="80" width="100" height="80" rx="10" fill="url(#rg)" filter="url(#ds)"/>
+  <text x="520" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">JCR / Oak</text>
+  <text x="520" y="125" text-anchor="middle" font-size="9" fill="#d1fae5">Node Lookup</text>
+  <text x="520" y="138" text-anchor="middle" font-size="9" fill="#d1fae5">Properties</text>
+  <text x="520" y="151" text-anchor="middle" font-size="9" fill="#d1fae5">Content Tree</text>
+  <!-- Arrow 4 -->
+  <line x1="570" y1="120" x2="605" y2="120" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowT)"/>
+  <!-- Response -->
+  <rect x="610" y="80" width="90" height="80" rx="10" fill="url(#rb)" filter="url(#ds)"/>
+  <text x="655" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Response</text>
+  <text x="655" y="125" text-anchor="middle" font-size="9" fill="#cffafe">HTML / JSON</text>
+  <text x="655" y="138" text-anchor="middle" font-size="9" fill="#cffafe">Rendered by</text>
+  <text x="655" y="151" text-anchor="middle" font-size="9" fill="#cffafe">HTL Script</text>
+  <!-- URL decomposition example -->
+  <rect x="80" y="200" width="560" height="60" rx="8" fill="#1e293b"/>
+  <text x="360" y="222" text-anchor="middle" font-size="10" fill="#94a3b8" font-weight="600">URL DECOMPOSITION EXAMPLE</text>
+  <text x="100" y="244" font-size="11" fill="#22d3ee" font-family="'Consolas', monospace">/content/mysite/en/page</text>
+  <text x="325" y="244" font-size="11" fill="#a78bfa" font-family="'Consolas', monospace">.mobile</text>
+  <text x="395" y="244" font-size="11" fill="#34d399" font-family="'Consolas', monospace">.html</text>
+  <text x="440" y="244" font-size="11" fill="#fbbf24" font-family="'Consolas', monospace">/suffix</text>
+  <text x="500" y="244" font-size="11" fill="#f87171" font-family="'Consolas', monospace">?key=val</text>
+  <text x="115" y="256" font-size="8" fill="#64748b">resource path</text>
+  <text x="330" y="256" font-size="8" fill="#64748b">selector</text>
+  <text x="395" y="256" font-size="8" fill="#64748b">ext</text>
+  <text x="445" y="256" font-size="8" fill="#64748b">suffix</text>
+  <text x="510" y="256" font-size="8" fill="#64748b">params</text>
+</svg>
