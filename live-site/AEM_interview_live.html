@@ -47,6 +47,8 @@ p{margin:6px 0;}ul,ol{margin:6px 0;padding-left:20px;}li{margin:3px 0;}
 code{font-family:var(--mono);font-size:.85em;background:#eef1f5;padding:1px 4px;border-radius:3px;color:#2a3542;}
 pre{font-family:var(--mono);font-size:12px;background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:var(--radius);overflow-x:auto;line-height:1.5;margin:10px 0;}
 pre code{background:none;padding:0;color:inherit;}
+.topic-img{width:100%;max-width:100%;border-radius:var(--radius);border:1px solid var(--line);margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.06);background:#f8fafc;}
+[data-theme="dark"] .topic-img{border-color:#334155;background:#1e293b;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
 .diagram{font-family:var(--mono);font-size:11.5px;background:#eef1f5;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;white-space:pre;overflow-x:auto;margin:10px 0;color:#2a3542;}
 [data-theme="dark"] .diagram{background:#1e293b;color:#e2e8f0;border-color:#334155;}
 table{width:100%;border-collapse:collapse;margin:10px 0 16px 0;font-size:13px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -1556,6 +1558,7 @@ t67:[
 
 const NOTES={};
 NOTES.t1=`
+<img src="images/aem-architecture-stack.svg" alt="AEM Architecture Stack" class="topic-img">
 <h3 class="block-title">What is AEM?</h3>
 <p>Adobe Experience Manager (AEM) is an enterprise CMS built on four foundational technologies:</p>
 <ul>
@@ -2055,6 +2058,7 @@ java -jar cq-author-p4502.jar -nofork</pre>
 `;
 
 NOTES.t4=`
+<img src="images/aem-project-structure.svg" alt="AEM Maven Project Structure" class="topic-img">
 <h3 class="block-title">AEM Project Structure</h3>
 <p>A standard AEM project uses a Maven multi-module (reactor) structure. Each module has a specific responsibility and deploys to a specific location in the repository.</p>
 
@@ -2166,6 +2170,7 @@ Deployed to AEM as ClientLib</div>
 `;
 
 NOTES.t5=`
+<img src="images/aem-component-structure.svg" alt="AEM Component Structure" class="topic-img">
 <h3 class="block-title">AEM Components Overview</h3>
 <p>Components are the building blocks of AEM pages. Each component is a reusable module with a rendering script (HTL), optional dialog (authoring UI), ClientLib (CSS/JS), and optional Sling Model (backend logic).</p>
 
@@ -2497,6 +2502,7 @@ pageManager.copy(page, "/content/mysite/en/about-copy", null, false, true);</pre
 `;
 
 NOTES.t8=`
+<img src="images/editable-template.svg" alt="Editable Template — Structure, Initial Content, Policies" class="topic-img">
 <h3 class="block-title">Editable Templates</h3>
 <p>Editable Templates (introduced in AEM 6.2) let template authors create and manage templates in the AEM UI without developer involvement. They replace Static Templates (legacy, defined in /apps).</p>
 
@@ -2707,6 +2713,7 @@ components/include/comp3 = "core/wcm/components/image"</pre>
 `;
 
 NOTES.t10=`
+<img src="images/aem-author-publish.svg" alt="AEM Author Publish Dispatcher CDN Architecture" class="topic-img">
 <h3 class="block-title">Replication Overview</h3>
 <p>Replication transfers content from Author to Publish instances, making authored content publicly available. It's the bridge between content creation and delivery.</p>
 
@@ -2932,6 +2939,7 @@ replicator.replicate(session, ReplicationActionType.DELETE, "/content/mysite/en/
 `;
 
 NOTES.t11=`
+<img src="images/aem-caching-layers.svg" alt="AEM Caching Layers" class="topic-img">
 <h3 class="block-title">Dispatcher Overview</h3>
 <p>The Dispatcher is an Apache HTTP Server module providing caching, load balancing, and security filtering in front of AEM Publish instances. It's the primary performance layer.</p>
 
@@ -3336,6 +3344,7 @@ public class MyService {
 `;
 
 NOTES.t14=`
+<img src="images/cf-vs-xf.svg" alt="Content Fragments vs Experience Fragments" class="topic-img">
 <h3 class="block-title">Content Fragments</h3>
 <p>Content Fragments (CF) are structured, channel-agnostic content stored in DAM. They separate content from presentation, enabling headless delivery via JSON/GraphQL alongside traditional page rendering.</p>
 
@@ -3640,6 +3649,7 @@ NOTES.t15=`
 `;
 
 NOTES.t16=`
+<img src="images/aem-workflow.svg" alt="AEM Workflow Steps and Launchers" class="topic-img">
 <h3 class="block-title">AEM Workflows</h3>
 <p>Workflows automate multi-step business processes: content approval, asset processing, translation, notifications. They consist of steps that execute sequentially or in parallel branches.</p>
 
@@ -4150,6 +4160,7 @@ public class ContentChangeListener implements ResourceChangeListener {
 `;
 
 NOTES.t21=`
+<img src="images/msm-live-copy.svg" alt="MSM Blueprint to Live Copy" class="topic-img">
 <h3 class="block-title">Multi Site Manager (MSM)</h3>
 <p>MSM enables managing multiple related websites from a single content source. Content flows from a Blueprint (master) to Live Copies (derived sites) with configurable inheritance.</p>
 
@@ -4694,6 +4705,7 @@ while (nodes.hasNext()) {
 `;
 
 NOTES.t26=`
+<img src="images/sling-model-flow.svg" alt="Sling Model Injection and Lifecycle" class="topic-img">
 <h3 class="block-title">Sling Models</h3>
 <p>Sling Models are annotation-driven Java classes that map JCR content to Java objects. They're the recommended Use-API for HTL templates, replacing WCMUsePojo and JS Use-API.</p>
 
@@ -5105,6 +5117,7 @@ NOTES.t27=`
 `;
 
 NOTES.t28=`
+<img src="images/osgi-bundle-lifecycle.svg" alt="OSGi Bundle Lifecycle" class="topic-img">
 <h3 class="block-title">OSGi Components</h3>
 <p>OSGi Declarative Services (DS) components are the building blocks of AEM's modular architecture. They are Java classes managed by the OSGi container with lifecycle control, dependency injection, and configuration support.</p>
 
@@ -5382,6 +5395,7 @@ public class MyApiServiceImpl implements MyApiService {
 `;
 
 NOTES.t30=`
+<img src="images/aem-request-flow.svg" alt="Sling Request Processing Flow" class="topic-img">
 <h3 class="block-title">Sling Servlets</h3>
 <p>Servlets handle HTTP requests in AEM. They're OSGi components registered with Sling to respond to specific paths or resource types.</p>
 
@@ -6574,6 +6588,7 @@ AEM Internal (furthest from user)
 `;
 
 NOTES.t44=`
+<img src="images/aem-security.svg" alt="AEM Security Layers" class="topic-img">
 <h3 class="block-title">Security & Permissions</h3>
 <p>AEM security covers authentication (who are you?), authorization (what can you do?), and protection against common web attacks (XSS, CSRF, content exposure).</p>
 
@@ -7525,6 +7540,7 @@ public class MyServiceImpl implements MyService {
 `;
 
 NOTES.t56=`
+<img src="images/aem-6-5-vs-cloud.svg" alt="AEM 6.5 vs AEM as a Cloud Service Comparison" class="topic-img">
 <h3 class="block-title">AEMaaCS vs AEM 6.5</h3>
 <p>This is one of the most common 2024-2026 interview topics. Know the differences cold.</p>
 
