@@ -641,11 +641,11 @@
 <div class="cover">
   <div class="cover-badge">CCAR-F Official Syllabus Aligned</div>
   <h1><span>Claude</span> Certified Architect<br>Foundations Exam Prep</h1>
-  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 60 exam-style MCQs.</p>
+  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 87 exam-style MCQs.</p>
   <div class="cover-meta">
     <span><strong>Exam:</strong> CCAR-F (Architect Foundations)</span>
     <span><strong>Topics:</strong> 18 official sections</span>
-    <span><strong>MCQs:</strong> 60 questions</span>
+    <span><strong>MCQs:</strong> 87 questions</span>
     <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
     <span><strong>Updated:</strong> September 2026</span>
   </div>
@@ -678,7 +678,7 @@
     <a href="#part16"><span class="num">16</span> Context Window Management</a>
     <a href="#part17"><span class="num">17</span> Escalation Triggers</a>
     <a href="#part18"><span class="num">18</span> Error Context and Common Mistakes</a>
-    <a href="#part19"><span class="num">19</span> Practice Test &mdash; 60 Architect MCQs</a>
+    <a href="#part19"><span class="num">19</span> Practice Test &mdash; 87 Architect MCQs</a>
   </div>
 </div>
 
@@ -2378,11 +2378,11 @@ result = client.messages.<span class="fn">parse</span>(
 
 <!-- ============================== PART 19: PRACTICE TEST ============================== -->
 <section id="part19" class="page-break">
-<h2><span class="part-num">Part 19</span>Practice Test &mdash; 60 Architect MCQs</h2>
+<h2><span class="part-num">Part 19</span>Practice Test &mdash; 87 Architect MCQs</h2>
 
 <div class="notice notice-info">
   <b>Instructions</b>
-  60 questions covering all 18 architect-level topics. Each question has one correct answer (highlighted in green). Read the explanation for each question to understand the reasoning. Questions are distributed across all topics as they would appear on the CCAR-F exam.
+  87 questions covering all 18 architect-level topics. Each question has one correct answer (highlighted in green). Read the explanation for each question to understand the reasoning. Questions are distributed across all topics as they would appear on the CCAR-F exam.
 </div>
 
 <!-- Q1 -->
@@ -3347,11 +3347,445 @@ result = client.messages.<span class="fn">parse</span>(
   <div class="q-explain"><b>Correct: C.</b> Claude does not have calibrated uncertainty &mdash; it does not reliably know how confident it is. Saying "only if confident" effectively does nothing because Claude tends to present itself as confident about most outputs. Replace with explicit, observable match criteria: "Flag if the code concatenates user input into SQL strings without parameterized queries."</div>
 </div>
 
+<!-- ========== NEW QUESTIONS Q61-Q87 ========== -->
+
+<!-- Q61 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 61</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">In an agentic loop, after executing a tool call requested by Claude, what is the correct way to return the tool result?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Send a new API request with only the tool result and the original system prompt</li>
+    <li><span class="letter">B</span> Replace the assistant message with the tool result and re-send the conversation</li>
+    <li class="correct-option"><span class="letter">C</span> Append the assistant message (with the tool_use block) and a new user message containing the tool_result block, then send the full conversation back</li>
+    <li><span class="letter">D</span> Parse the tool result into natural language and append it as a plain user message</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The agentic loop requires preserving the full conversation history. After Claude responds with a <code>tool_use</code> block, the orchestrator must append that assistant message as-is, then append a new user-role message containing the <code>tool_result</code> content block with the matching <code>tool_use_id</code>. This lets Claude see its own request and the result in context. Dropping messages or restructuring the history breaks Claude's ability to reason about multi-step tool chains.</div>
+</div>
+
+<!-- Q62 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 62</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">An agentic loop terminates whenever <code>stop_reason</code> is <code>"end_turn"</code>. During testing, the agent stops after only one tool call even though the task requires three steps. What is the most likely cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The model's temperature is too low</li>
+    <li class="correct-option"><span class="letter">B</span> The loop exits on <code>"end_turn"</code> but should only exit when <code>stop_reason</code> is <b>not</b> <code>"tool_use"</code> &mdash; Claude may emit a text turn between tool calls that produces <code>"end_turn"</code></li>
+    <li><span class="letter">C</span> The tool definitions are missing the <code>required</code> field</li>
+    <li><span class="letter">D</span> The API key lacks permission for multi-turn tool use</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> A common mistake is treating any <code>"end_turn"</code> as the signal to stop. Claude may produce an intermediate text response (e.g., summarizing progress) that yields <code>"end_turn"</code> before it issues the next tool call. The correct loop condition is: continue while <code>stop_reason === "tool_use"</code>; only stop when the model's final content block is text and <code>stop_reason</code> is <code>"end_turn"</code> with no pending tool_use blocks.</div>
+</div>
+
+<!-- Q63 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 63</span>
+    <span class="q-tag">Hub-and-Spoke</span>
+  </div>
+  <p class="q-text">In a hub-and-spoke multi-agent RAG system, the coordinator agent retrieves documents from a vector store and then delegates summarization to a specialist agent. What architectural advantage does this provide over a single-agent design?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It reduces the total number of API calls to Claude</li>
+    <li><span class="letter">B</span> It eliminates the need for a vector database</li>
+    <li class="correct-option"><span class="letter">C</span> The coordinator keeps a compact working context while the specialist processes full document chunks in isolation, preventing context window bloat in the orchestration layer</li>
+    <li><span class="letter">D</span> It allows using different programming languages for retrieval and summarization</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Hub-and-spoke separates concerns: the coordinator (hub) manages workflow and maintains a compact context with only summaries, while specialist agents (spokes) handle heavy document processing in their own context windows. This prevents the coordinator's context from filling up with raw document text, keeping orchestration decisions sharp and within token budgets.</div>
+</div>
+
+<!-- Q64 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 64</span>
+    <span class="q-tag">Hub-and-Spoke</span>
+  </div>
+  <p class="q-text">A hub-and-spoke system's coordinator agent produces answers that are missing information from some spoke agents. Logs show all spokes returned results. What is the most likely architectural issue?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The spokes are using incompatible model versions</li>
+    <li><span class="letter">B</span> The coordinator's temperature is set too high</li>
+    <li class="correct-option"><span class="letter">C</span> The coordinator's context window is overloaded &mdash; too many spoke results are being concatenated into a single prompt, causing information loss in the middle of the context</li>
+    <li><span class="letter">D</span> The spoke agents are running concurrently instead of sequentially</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When all spokes return valid results but the coordinator misses some, the problem is usually context overload. If the combined spoke outputs exceed what the coordinator can attend to, information in the middle gets lost (the "Lost in the Middle" effect). The fix is to have spokes return concise summaries rather than full outputs, or to have the coordinator process spoke results in batches.</div>
+</div>
+
+<!-- Q65 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 65</span>
+    <span class="q-tag">Task Tool</span>
+  </div>
+  <p class="q-text">When designing tools for a Claude-based agent, the "stakes-proportionate" rule states that:</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Higher-stakes tools should have more detailed JSON Schema definitions</li>
+    <li class="correct-option"><span class="letter">B</span> The level of human oversight and confirmation gates should increase proportionally with the potential impact of the tool action</li>
+    <li><span class="letter">C</span> More expensive API calls should be rate-limited more aggressively</li>
+    <li><span class="letter">D</span> Tools that take longer to execute should have higher timeout values</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The stakes-proportionate rule means matching oversight to impact. Read-only tools (search, fetch) can run autonomously; write tools (create file, update DB) should require confirmation; irreversible, high-blast-radius tools (delete production data, send mass emails) need explicit human approval. This prevents catastrophic errors while keeping low-risk automation fast.</div>
+</div>
+
+<!-- Q66 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 66</span>
+    <span class="q-tag">Hooks</span>
+  </div>
+  <p class="q-text">An architect relies on a system prompt instruction telling Claude to "always run linting before committing code." Why is this insufficient, and what is the correct alternative?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude cannot run terminal commands, so the instruction is impossible</li>
+    <li><span class="letter">B</span> The instruction is fine but should be placed in CLAUDE.md instead of the system prompt</li>
+    <li class="correct-option"><span class="letter">C</span> Prompt instructions are best-effort and can be skipped; a pre-commit hook in the settings guarantees the linter runs as a deterministic, code-enforced gate</li>
+    <li><span class="letter">D</span> Claude always runs linting automatically, so the instruction is redundant</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Prompts influence Claude's behavior but cannot guarantee it &mdash; Claude may skip steps due to context limits, ambiguity, or competing instructions. Hooks are deterministic: a pre-commit hook configured in <code>settings.json</code> executes the linter as a hard gate before every commit, regardless of what Claude decides. Correctness guarantees belong in code (hooks, CI), not in prompts.</div>
+</div>
+
+<!-- Q67 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 67</span>
+    <span class="q-tag">Tool Descriptions</span>
+  </div>
+  <p class="q-text">When writing tool descriptions for Claude, why should you include a "vs. similar tools" clause (e.g., "Use <code>searchUsers</code> for name lookups; use <code>getUserById</code> when you already have the ID")?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It increases the token count, which improves Claude's reasoning</li>
+    <li class="correct-option"><span class="letter">B</span> It disambiguates overlapping tools so Claude selects the right one instead of guessing or defaulting to the first match</li>
+    <li><span class="letter">C</span> Claude requires comparative descriptions to parse tool schemas</li>
+    <li><span class="letter">D</span> It is required by the API and will cause a validation error if omitted</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> When multiple tools have overlapping functionality, Claude may pick the wrong one. Adding a "vs. similar tools" clause in the description explicitly states when to use this tool versus the alternative. This is especially important when tools share similar names or parameters &mdash; the clause acts as a decision boundary that reduces misselection.</div>
+</div>
+
+<!-- Q68 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 68</span>
+    <span class="q-tag">Tool Descriptions</span>
+  </div>
+  <p class="q-text">When using Claude's vision capability, how does Claude calculate the number of tokens consumed by an image?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Each image always costs a fixed 1,000 tokens regardless of size</li>
+    <li><span class="letter">B</span> Token cost equals the image's file size in kilobytes</li>
+    <li class="correct-option"><span class="letter">C</span> The image is divided into tiles based on its dimensions, and each tile costs a fixed number of tokens &mdash; larger or higher-resolution images consume more tokens</li>
+    <li><span class="letter">D</span> Images are converted to base64 text first, and the text length determines token count</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude's vision tokenization is tile-based. The image is divided into a grid of tiles depending on its pixel dimensions. Each tile has a fixed token cost. This means a small icon might cost a few hundred tokens while a large screenshot can cost thousands. Architects should resize images before sending them to control costs and stay within context budgets.</div>
+</div>
+
+<!-- Q69 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 69</span>
+    <span class="q-tag">Error Handling</span>
+  </div>
+  <p class="q-text">A tool returns an empty array <code>[]</code> when searching for users matching a query. How should the orchestrator report this to Claude?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Return an error: <code>{"is_error": true, "message": "No results found"}</code></li>
+    <li class="correct-option"><span class="letter">B</span> Return a successful result: <code>{"results": [], "message": "Search completed. No users matched the query."}</code></li>
+    <li><span class="letter">C</span> Omit the tool_result and let Claude infer the empty result from the silence</li>
+    <li><span class="letter">D</span> Retry the search with broader parameters before returning anything</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> An empty result set is not an error &mdash; it is a valid outcome of a successful operation. Reporting it as an error would cause Claude to attempt error recovery (retries, alternative approaches) when none is needed. The distinction matters: access failures (network timeout, permission denied) are errors; valid empty results (no matches) are successful responses that happen to contain no data.</div>
+</div>
+
+<!-- Q70 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 70</span>
+    <span class="q-tag">Error Handling</span>
+  </div>
+  <p class="q-text">When designing error responses for tools in a multi-agent system, what is the key principle for making errors actionable?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Always return a generic "Operation failed" message to avoid leaking implementation details</li>
+    <li><span class="letter">B</span> Include the full stack trace so Claude can debug the issue</li>
+    <li class="correct-option"><span class="letter">C</span> Return distinguishable error categories (e.g., retryable vs. permanent, auth vs. validation) so Claude can select the appropriate recovery strategy</li>
+    <li><span class="letter">D</span> Convert all errors to HTTP status codes since Claude understands them natively</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude needs to distinguish between error types to respond appropriately. A retryable error (rate limit, timeout) warrants a retry; a permanent error (invalid input, resource not found) requires a different approach; an auth error means escalation. Generic error messages force Claude to guess, leading to wasted retries or missed recovery paths. Design error responses with clear categories and enough context for informed decision-making.</div>
+</div>
+
+<!-- Q71 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 71</span>
+    <span class="q-tag">MCP</span>
+  </div>
+  <p class="q-text">A developer reports that Claude Code cannot access tools from their custom MCP server, even though the server is running. The MCP server is defined in the project's <code>.mcp.json</code> file. What is the first diagnostic step?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Restart Claude Code to refresh the MCP connection cache</li>
+    <li><span class="letter">B</span> Check if the MCP server has the latest SDK version installed</li>
+    <li class="correct-option"><span class="letter">C</span> Verify the MCP server configuration in <code>.mcp.json</code> is correct and that Claude Code has been restarted or the MCP server re-initialized after the config change &mdash; then check <code>/mcp</code> output to see if the server and its tools appear</li>
+    <li><span class="letter">D</span> Increase the MCP server's timeout value in the configuration</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When MCP tools are not available, the most common cause is a configuration issue. The <code>/mcp</code> command in Claude Code shows which MCP servers are connected and what tools they expose. If the server does not appear, the config in <code>.mcp.json</code> may have a typo, the server process may have crashed, or Claude Code may need to be restarted to pick up the configuration.</div>
+</div>
+
+<!-- Q72 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 72</span>
+    <span class="q-tag">Tool Scoping</span>
+  </div>
+  <p class="q-text">What is the recommended number of tools to expose to a single Claude agent, and why?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 1&ndash;3 tools, because Claude can only hold a few tool schemas in context</li>
+    <li class="correct-option"><span class="letter">B</span> 5&ndash;15 tools, because too few limits capability while too many dilutes tool selection accuracy and wastes context tokens on unused schemas</li>
+    <li><span class="letter">C</span> 50+ tools, because Claude performs better with more options to choose from</li>
+    <li><span class="letter">D</span> Exactly 1 tool per agent, following the single-responsibility principle</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The 5&ndash;15 tool guideline balances capability with accuracy. Fewer than 5 tools often means the agent cannot complete tasks without workarounds. More than 15&ndash;20 tools increases the chance that Claude picks the wrong one, wastes tokens on schema overhead, and makes descriptions harder to disambiguate. When you need more tools, split into specialized sub-agents (hub-and-spoke) with focused tool sets.</div>
+</div>
+
+<!-- Q73 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 73</span>
+    <span class="q-tag">CLAUDE.md</span>
+  </div>
+  <p class="q-text">A team notices that Claude Code keeps ignoring their convention of using <code>snake_case</code> for Python files despite having the rule documented. The rule is in a <code>docs/team-conventions.md</code> file referenced in the project README. What is the most likely cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude Code cannot read Markdown files</li>
+    <li class="correct-option"><span class="letter">B</span> The convention is not in a <code>CLAUDE.md</code> file &mdash; Claude Code only auto-loads <code>CLAUDE.md</code> files (at repo root, <code>.claude/</code>, or parent directories), not arbitrary docs referenced in README</li>
+    <li><span class="letter">C</span> The <code>snake_case</code> rule conflicts with Claude's built-in Python formatting</li>
+    <li><span class="letter">D</span> The team needs to add the rule to <code>.editorconfig</code> instead</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude Code automatically loads <code>CLAUDE.md</code> files from specific locations: the repository root, the <code>.claude/</code> directory, parent directories, and the current working directory. It does not automatically read arbitrary documentation files even if they are linked from the README. Team conventions must be placed in <code>CLAUDE.md</code> to be consistently applied.</div>
+</div>
+
+<!-- Q74 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 74</span>
+    <span class="q-tag">Skills</span>
+  </div>
+  <p class="q-text">What is the key difference between putting instructions in <code>CLAUDE.md</code> versus defining them as a skill?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Skills are written in YAML while CLAUDE.md uses Markdown</li>
+    <li class="correct-option"><span class="letter">B</span> <code>CLAUDE.md</code> contents are loaded automatically on every turn (consuming tokens always), while skills load on-demand only when invoked, saving context budget for task-specific workflows</li>
+    <li><span class="letter">C</span> Skills can call tools but CLAUDE.md instructions cannot</li>
+    <li><span class="letter">D</span> There is no functional difference &mdash; skills are just a naming convention for CLAUDE.md sections</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> This is the fundamental trade-off: <code>CLAUDE.md</code> is always-on context, loaded every turn regardless of relevance. Skills use progressive disclosure &mdash; they load into context only when triggered (via slash command or automatic matching). Put universal rules (coding style, security policies) in CLAUDE.md; put task-specific workflows (PR review checklist, deploy procedure) in skills to avoid wasting tokens when those workflows are not active.</div>
+</div>
+
+<!-- Q75 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 75</span>
+    <span class="q-tag">Path/Fork</span>
+  </div>
+  <p class="q-text">In a multi-agent system, how do path-specific rules (instructions that only apply when working on certain file paths or modules) affect the token budget?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Path-specific rules have no effect on token budget because they are compiled at build time</li>
+    <li><span class="letter">B</span> All path rules are loaded into every agent regardless of path, increasing baseline cost</li>
+    <li class="correct-option"><span class="letter">C</span> Path-specific rules are loaded only into agents working on matching paths, keeping other agents' contexts lean and preserving their token budgets for task-relevant content</li>
+    <li><span class="letter">D</span> Path rules are stored in the vector database and retrieved via RAG at zero prompt cost</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Path-scoped instructions (e.g., rules for <code>src/frontend/**</code> vs. <code>src/backend/**</code>) are a form of progressive disclosure at the architecture level. An agent working on backend code does not need frontend conventions in its context. By scoping rules to paths, you keep each agent's context focused and avoid wasting tokens on irrelevant instructions &mdash; critical when operating near context window limits.</div>
+</div>
+
+<!-- Q76 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 76</span>
+    <span class="q-tag">CLI / CI-CD</span>
+  </div>
+  <p class="q-text">When running Claude Code in a CI/CD pipeline (headless mode), which flag is required to pass a prompt non-interactively?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>--batch</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>-p</code> (pipe mode), which accepts the prompt as an argument and outputs the result to stdout without interactive UI</li>
+    <li><span class="letter">C</span> <code>--headless</code></li>
+    <li><span class="letter">D</span> <code>--stdin</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The <code>-p</code> (or <code>--print</code>) flag puts Claude Code into pipe mode: it accepts the prompt as a command-line argument, runs non-interactively (no TUI), and prints the result to stdout. This is essential for CI/CD integration where there is no terminal for interactive input. Example: <code>claude -p "review this diff for security issues" &lt; diff.txt</code></div>
+</div>
+
+<!-- Q77 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 77</span>
+    <span class="q-tag">Match Criteria</span>
+  </div>
+  <p class="q-text">When writing few-shot examples for Claude, why is it important to show the reasoning process in the examples, not just the final answer?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude cannot produce correct answers without seeing worked examples first</li>
+    <li class="correct-option"><span class="letter">B</span> Showing reasoning teaches Claude the evaluation criteria and decision process, making it generalize to novel inputs rather than pattern-matching only on inputs that look like the examples</li>
+    <li><span class="letter">C</span> It increases token count, which improves response quality linearly</li>
+    <li><span class="letter">D</span> The API requires reasoning traces in all few-shot examples</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Few-shot examples with reasoning (chain-of-thought exemplars) teach Claude <em>how</em> to decide, not just <em>what</em> to decide. When examples only show input &rarr; output, Claude may overfit to surface features. When examples show input &rarr; reasoning &rarr; output, Claude learns the evaluation criteria and applies them to novel cases it has not seen before. This is especially critical for classification and judgment tasks.</div>
+</div>
+
+<!-- Q78 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 78</span>
+    <span class="q-tag">Match Criteria</span>
+  </div>
+  <p class="q-text">In Claude's prompting, what is the priority order when instructions conflict across different sources?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> User message &gt; system prompt &gt; tool results (most recent message always wins)</li>
+    <li class="correct-option"><span class="letter">B</span> System prompt &gt; user message &gt; tool results &mdash; the system prompt is the highest-priority instruction source, followed by direct user instructions, with tool results treated as data rather than instructions</li>
+    <li><span class="letter">C</span> All sources have equal priority and Claude resolves conflicts randomly</li>
+    <li><span class="letter">D</span> Tool results &gt; system prompt &gt; user message because tool results are the most recent context</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude's instruction hierarchy places the system prompt at the highest priority because it represents the developer's intent. User messages come next as direct instructions. Tool results are treated as data, not instructions &mdash; this is critical for security because tool results may contain untrusted content (e.g., web page text, database records). An architect must understand this hierarchy to prevent prompt injection via tool results.</div>
+</div>
+
+<!-- Q79 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 79</span>
+    <span class="q-tag">JSON Schema</span>
+  </div>
+  <p class="q-text">An agent extracts structured data from invoices. Sometimes a field (e.g., "purchase_order_number") is genuinely absent from the document, but Claude fabricates a plausible value instead of leaving it empty. What is the best schema-level fix?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Remove the field from the schema entirely</li>
+    <li><span class="letter">B</span> Add a system prompt instruction saying "do not make up data"</li>
+    <li class="correct-option"><span class="letter">C</span> Make the field nullable in the JSON Schema and add a description stating "set to null if not present in the source document" &mdash; giving Claude a valid way to express absence</li>
+    <li><span class="letter">D</span> Set a default value of "N/A" for the field</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When a schema requires a field but the source data does not contain it, Claude has no valid way to express "not found" and defaults to fabricating a plausible value. Making the field nullable (e.g., <code>"type": ["string", "null"]</code>) gives Claude a legitimate output for absent data. The description reinforces when to use null. This is a structural fix that outperforms prompt-only instructions because the schema itself permits the "absent" state.</div>
+</div>
+
+<!-- Q80 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 80</span>
+    <span class="q-tag">JSON Schema</span>
+  </div>
+  <p class="q-text">Claude produces a JSON tool call that fails schema validation (e.g., a required field is missing). What is the recommended recovery technique?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Silently fill in defaults for missing fields and proceed</li>
+    <li><span class="letter">B</span> Terminate the agentic loop and return an error to the user</li>
+    <li class="correct-option"><span class="letter">C</span> Return the validation error as a tool_result with <code>is_error: true</code> and the specific validation failure message, so Claude can correct and retry</li>
+    <li><span class="letter">D</span> Strip the invalid fields and send only the valid portion to the tool</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The retry-with-error-feedback technique sends the validation error back to Claude as a tool result with <code>is_error: true</code>. The error message should be specific (e.g., "Missing required field 'user_id'") so Claude knows exactly what to fix. Claude is very good at self-correcting when given clear error feedback. This approach usually succeeds within 1&ndash;2 retries and avoids both silent data corruption (option A) and premature failure (option B).</div>
+</div>
+
+<!-- Q81 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 81</span>
+    <span class="q-tag">API / Cost</span>
+  </div>
+  <p class="q-text">How do prompt caching and extended thinking interact in the Claude API, and what is the cost implication?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Extended thinking tokens are cached and reused across requests, reducing cost on repeated queries</li>
+    <li class="correct-option"><span class="letter">B</span> Prompt caching reduces input token costs for repeated prefixes, but extended thinking tokens are generated fresh each request and billed at output token rates &mdash; caching does not reduce thinking costs</li>
+    <li><span class="letter">C</span> Prompt caching and extended thinking cannot be used together</li>
+    <li><span class="letter">D</span> Extended thinking disables the prompt cache entirely for that request</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Prompt caching and extended thinking are independent features. Prompt caching saves money on repeated input prefixes (system prompts, tool definitions) by caching them server-side. Extended thinking generates reasoning tokens at output token rates on every request &mdash; these are never cached because they are generated, not input. An architect should use both together: cache stable prefixes to save on input costs, while budgeting for thinking tokens that are always fresh.</div>
+</div>
+
+<!-- Q82 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 82</span>
+    <span class="q-tag">Context Window</span>
+  </div>
+  <p class="q-text">What is the "Lost in the Middle" problem, and how does it affect architect-level system design?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude forgets the system prompt when the conversation exceeds 10 turns</li>
+    <li class="correct-option"><span class="letter">B</span> Claude attends more reliably to information at the beginning and end of the context window, while information in the middle is more likely to be overlooked &mdash; architects must place critical instructions and data at the edges</li>
+    <li><span class="letter">C</span> Claude loses track of which agent is speaking in a multi-agent conversation</li>
+    <li><span class="letter">D</span> The API drops tokens from the middle of the request when the context is full</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The "Lost in the Middle" phenomenon means Claude's attention is U-shaped: it attends strongly to the beginning (system prompt, early messages) and end (recent messages) but less reliably to content in the middle of long contexts. Architects should structure prompts so that critical instructions are in the system prompt (beginning) and reiterate key constraints near the end. For RAG, place the most relevant documents closest to the query.</div>
+</div>
+
+<!-- Q83 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 83</span>
+    <span class="q-tag">Context Window</span>
+  </div>
+  <p class="q-text">When building a legal document review agent, an architect wraps each document's relevant facts in <code>&lt;case-facts&gt;</code> XML tags. What advantage does this provide?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> XML tags compress the content to use fewer tokens</li>
+    <li><span class="letter">B</span> Claude automatically validates XML and will flag malformed documents</li>
+    <li class="correct-option"><span class="letter">C</span> XML tags create semantic boundaries that help Claude locate and attend to specific content blocks within a large context, reducing the risk of information being overlooked</li>
+    <li><span class="letter">D</span> XML tags are required by the API for structured content longer than 1,000 tokens</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude understands XML tags as semantic delimiters. Wrapping content in descriptive tags like <code>&lt;case-facts&gt;</code> creates named, findable regions within the context. This helps Claude attend to specific sections when instructed (e.g., "analyze the content in <code>&lt;case-facts&gt;</code>") and reduces the Lost in the Middle effect by giving the model structural anchors. It is a zero-cost technique &mdash; the tags add minimal tokens but significantly improve retrieval from long contexts.</div>
+</div>
+
+<!-- Q84 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 84</span>
+    <span class="q-tag">Escalation</span>
+  </div>
+  <p class="q-text">In a customer service agent, a user becomes frustrated and demands to speak to a human. Is user frustration alone a valid trigger for escalation?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Yes &mdash; any expression of frustration should immediately escalate to a human</li>
+    <li class="correct-option"><span class="letter">B</span> No &mdash; frustration alone is not a valid trigger. Escalation should be based on objective criteria: the agent has exhausted its capabilities, the request requires authority it lacks, or there is a safety/compliance requirement for human review</li>
+    <li><span class="letter">C</span> Yes &mdash; frustrated users are more likely to leave negative reviews</li>
+    <li><span class="letter">D</span> No &mdash; the agent should never escalate because it reduces automation metrics</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Frustration is an emotional signal, not a capability signal. A user may be frustrated because of a slow network, a confusing UI, or an issue the agent can actually resolve. Escalating on frustration alone leads to unnecessary handoffs, increased human workload, and inconsistent escalation behavior. Valid escalation triggers are objective: the agent lacks the authority (e.g., issue a refund above $500), the task requires verification it cannot perform, or policy mandates human review.</div>
+</div>
+
+<!-- Q85 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 85</span>
+    <span class="q-tag">Escalation</span>
+  </div>
+  <p class="q-text">Which of the following is a valid, well-designed escalation trigger in an agentic system?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The user has sent more than 5 messages in the conversation</li>
+    <li><span class="letter">B</span> Claude's confidence score drops below 0.7</li>
+    <li class="correct-option"><span class="letter">C</span> The agent needs to perform an action that requires authority beyond its permission scope (e.g., modifying production data), or a verification flag indicates the output must be human-reviewed before delivery</li>
+    <li><span class="letter">D</span> The user asks a question outside the agent's training data</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Well-designed escalation triggers are based on objective, observable conditions: authority gaps (the agent lacks permission for the required action), verification flags (policy requires human review for certain output types), safety boundaries (the request touches compliance-sensitive areas), or capability limits (the agent has exhausted all available tools and strategies). These triggers are deterministic and auditable, unlike subjective measures like confidence scores or message counts.</div>
+</div>
+
+<!-- Q86 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 86</span>
+    <span class="q-tag">Error Context</span>
+  </div>
+  <p class="q-text">In a multi-agent system, a sub-agent encounters a database connection error. What structured error context should be propagated back to the coordinator agent?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Just the error message string: "Connection refused"</li>
+    <li><span class="letter">B</span> The full stack trace and database credentials for debugging</li>
+    <li class="correct-option"><span class="letter">C</span> A structured object containing: what was attempted ("Query user preferences table"), what failed ("TCP connection to db-primary:5432 timed out after 5000ms"), and relevant state ("Retry 2 of 3, fallback db-replica available")</li>
+    <li><span class="letter">D</span> A boolean <code>success: false</code> flag with no additional context</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Structured error context enables the coordinator to make informed recovery decisions. The three-part structure &mdash; what was attempted, what failed, and relevant state &mdash; gives the coordinator enough information to decide whether to retry, failover, or escalate. A bare error message (A) lacks context; a stack trace (B) wastes tokens and may leak secrets; a boolean (D) provides no diagnostic value. Good error context is the difference between intelligent recovery and blind retries.</div>
+</div>
+
+<!-- Q87 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 87</span>
+    <span class="q-tag">Error Context</span>
+  </div>
+  <p class="q-text">An architect designs an error handling policy that propagates errors to the coordinator only after all retries are exhausted. Why is this a common mistake?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It is not a mistake &mdash; the coordinator should only see final outcomes</li>
+    <li class="correct-option"><span class="letter">B</span> The coordinator loses visibility into transient failures and cannot make informed decisions (e.g., switching strategies, reallocating to a different sub-agent) while retries are still happening &mdash; errors should be reported immediately with retry status</li>
+    <li><span class="letter">C</span> It causes the coordinator to time out while waiting for the sub-agent</li>
+    <li><span class="letter">D</span> Exhausting retries is too expensive in terms of API calls</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Waiting until retries are exhausted before reporting is a "silent failure" anti-pattern. The coordinator has no visibility into what is happening and cannot intervene &mdash; it might switch to an alternative sub-agent, try a different approach, or inform the user about a delay. Errors should be propagated immediately with context about retry state ("attempt 1/3 failed, retrying"). This lets the coordinator make architecture-level decisions (failover, parallelization) instead of waiting blindly for a sub-agent that may be stuck in a retry loop.</div>
+</div>
+
 </section>
 
 <!-- ============================== FOOTER ============================== -->
 <div class="footer">
-  <p>Aligned to official CCAR-F syllabus (18 topics, 60 MCQs). Content sourced from official Anthropic documentation. Updated September 2026.</p>
+  <p>Aligned to official CCAR-F syllabus (18 topics, 87 MCQs). Content sourced from official Anthropic documentation. Updated September 2026.</p>
 </div>
 
 <script>

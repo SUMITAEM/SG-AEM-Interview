@@ -664,10 +664,10 @@
 <div class="cover">
   <div class="cover-badge">CCAO-F Official Syllabus Aligned</div>
   <h1>Claude Certified <span>Associate</span><br>Foundations Exam Prep</h1>
-  <p class="cover-sub">Master prompting, output evaluation, product selection, workflow design, configuration, governance, and troubleshooting — with 60 exam-style MCQs.</p>
+  <p class="cover-sub">Master prompting, output evaluation, product selection, workflow design, configuration, governance, and troubleshooting — with 79 exam-style MCQs.</p>
   <div class="cover-meta">
     <span><strong>Topics:</strong> 7 official sections</span>
-    <span><strong>MCQs:</strong> 60 questions</span>
+    <span><strong>MCQs:</strong> 79 questions</span>
     <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
     <span><strong>Updated:</strong> September 2026</span>
   </div>
@@ -689,7 +689,7 @@
     <a href="#part5"><span class="num">05</span> Configuration and Knowledge Management</a>
     <a href="#part6"><span class="num">06</span> Governance, Risk, and Responsible Use</a>
     <a href="#part7"><span class="num">07</span> Troubleshooting and Optimization</a>
-    <a href="#part8"><span class="num">08</span> Practice Test &mdash; 60 MCQs</a>
+    <a href="#part8"><span class="num">08</span> Practice Test &mdash; 79 MCQs</a>
   </div>
 </div>
 
@@ -2021,12 +2021,12 @@ All checks pass?                                  <span class="arrow">--></span>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     PART 8 — PRACTICE TEST: 60 MCQs
+     PART 8 — PRACTICE TEST: 79 MCQs
      ═══════════════════════════════════════════════════════════════ -->
 <section id="part8" class="page-break">
-<h2><span class="part-num">Part 08</span>Practice Test &mdash; 60 MCQs</h2>
+<h2><span class="part-num">Part 08</span>Practice Test &mdash; 79 MCQs</h2>
 
-<p>60 exam-style questions distributed across all 7 official CCAO-F topics. Each question has 4 options with one correct answer and an explanation.</p>
+<p>79 exam-style questions distributed across all 7 official CCAO-F topics. Each question has 4 options with one correct answer and an explanation.</p>
 
 <hr>
 
@@ -2942,6 +2942,305 @@ All checks pass?                                  <span class="arrow">--></span>
     <li><span class="letter">D</span> Remove all constraints from the prompt</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Inconsistent results on factual questions point to three issues: temperature too high (lowering makes output more deterministic), prompt too open (adding specificity narrows the acceptable response range), and lack of examples (few-shot examples anchor the expected format and content).</div>
+</div>
+
+<!-- ═══ NEW: Q61-Q63 — Prompting ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 61</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">You need Claude to write a 2,000-word market analysis covering competitive landscape, pricing trends, and customer sentiment. What is the most effective prompting approach?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Send a single prompt asking for the full analysis in one response</li>
+    <li class="correct-option"><span class="letter">B</span> Decompose the task into subtasks — first competitive landscape, then pricing trends, then customer sentiment — and prompt Claude for each section sequentially</li>
+    <li><span class="letter">C</span> Ask Claude to generate an outline, then paste the outline into a new conversation and request the full text</li>
+    <li><span class="letter">D</span> Write the analysis yourself and ask Claude only to proofread it</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Task decomposition breaks a complex deliverable into focused subtasks, which lets Claude give each section deeper attention and higher-quality output. A single monolithic prompt often produces shallow treatment of each area. Sequential subtasks also let you review and course-correct between sections, improving the final result.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 62</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">You prompted Claude to write a customer email, but the tone is too formal and the email is twice as long as you wanted. What is the best prompt iteration workflow?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Start a brand-new conversation and rewrite the prompt from scratch</li>
+    <li><span class="letter">B</span> Add "make it shorter" as a follow-up message</li>
+    <li class="correct-option"><span class="letter">C</span> Give specific feedback in the same conversation: "Rewrite this email in a casual, friendly tone and keep it under 150 words"</li>
+    <li><span class="letter">D</span> Switch to a different model and try the exact same prompt</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Effective prompt iteration means giving Claude specific, actionable feedback within the same conversation so it can refine its output. Stating the desired tone ("casual, friendly") and a concrete constraint ("under 150 words") gives Claude clear targets. Vague feedback like "make it shorter" lacks precision, while starting over discards useful conversational context.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 63</span>
+    <span class="q-tag">Prompting</span>
+  </div>
+  <p class="q-text">Which prompting strategy should you change when switching from a creative task (brainstorming taglines) to an analytical task (summarizing quarterly financials)?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Use the exact same prompt structure for both — consistency is key</li>
+    <li><span class="letter">B</span> Always use few-shot examples regardless of task type</li>
+    <li class="correct-option"><span class="letter">C</span> For creative tasks, use open-ended prompts encouraging variety; for analytical tasks, add structured constraints, specify output format, and emphasize accuracy over originality</li>
+    <li><span class="letter">D</span> Creative tasks require longer prompts than analytical tasks</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Different task types benefit from different prompting strategies. Creative tasks thrive with open-ended instructions that encourage exploration and diverse ideas. Analytical tasks require structured prompts with explicit output formats, accuracy requirements, and constraints that reduce hallucination risk. Adapting your strategy by task type is a core associate-level skill.</div>
+</div>
+
+<!-- ═══ NEW: Q64-Q67 — Output Evaluation ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 64</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">Claude generated a technical explanation of your product's API rate-limiting feature. You need to share it with non-technical sales staff. What is the best editing approach?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Send it as-is — the sales team can look up terms they don't understand</li>
+    <li><span class="letter">B</span> Delete the technical content and write a new version yourself</li>
+    <li class="correct-option"><span class="letter">C</span> Ask Claude to rewrite the explanation for a non-technical audience, replacing jargon with plain language and adding real-world analogies</li>
+    <li><span class="letter">D</span> Add a glossary at the end and keep the original text unchanged</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Editing output for audience means adapting the language, depth, and framing to match the reader's expertise. Asking Claude to rewrite for non-technical readers leverages its ability to simplify concepts while preserving accuracy. A glossary still forces readers to decode jargon, and sending technical content to non-technical staff creates confusion and misunderstanding.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 65</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">You asked Claude the same question three times using slightly different prompts and received three different responses. How should you evaluate which output is best?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Always choose the longest response — more detail means higher quality</li>
+    <li><span class="letter">B</span> Pick the first response since Claude's initial answer is typically the most accurate</li>
+    <li class="correct-option"><span class="letter">C</span> Compare all three against your specific criteria: accuracy of facts, completeness of coverage, appropriate tone, and fitness for the intended use case</li>
+    <li><span class="letter">D</span> Average the three responses by copying content from each into a combined document</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Comparing multiple outputs requires evaluating each against defined criteria rather than relying on superficial measures like length. The best output is the one that most accurately addresses the task requirements, covers all necessary points, uses the right tone, and is ready for its intended purpose. This systematic comparison is a key output evaluation skill.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 66</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">You need Claude to analyze customer feedback data. Which output format should you request for maximum usability?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> A long prose paragraph summarizing all findings</li>
+    <li><span class="letter">B</span> Raw bullet points with no categorization</li>
+    <li class="correct-option"><span class="letter">C</span> A structured format with categories (e.g., positive themes, negative themes, feature requests), each with a summary, supporting quotes, and frequency indicators</li>
+    <li><span class="letter">D</span> A single numerical sentiment score with no supporting details</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Choosing the right output format depends on how the output will be used. For data analysis, structured formats with clear categories, supporting evidence, and quantitative indicators are far more actionable than prose paragraphs or bare numbers. Specifying the desired format in your prompt ensures Claude delivers output that is immediately useful for decision-making.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 67</span>
+    <span class="q-tag">Output Evaluation</span>
+  </div>
+  <p class="q-text">Claude's response includes a statistic: "According to a 2024 McKinsey report, 78% of enterprises have adopted generative AI." How should you handle this citation?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Trust it — Claude has access to all published reports</li>
+    <li class="correct-option"><span class="letter">B</span> Verify the claim by searching for the original McKinsey report, since Claude can fabricate plausible-sounding citations and statistics</li>
+    <li><span class="letter">C</span> Remove all statistics from the output to avoid risk</li>
+    <li><span class="letter">D</span> Ask Claude to confirm whether it made up the statistic — if it says "yes, it's real," you can trust it</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude can generate plausible-sounding but fabricated citations, statistics, and source attributions — a well-known hallucination pattern. You must independently verify any specific claim, statistic, or citation by checking the original source. Asking Claude to self-verify is unreliable because it may confidently affirm a hallucinated fact. Fact-checking citations is a critical output evaluation responsibility.</div>
+</div>
+
+<!-- ═══ NEW: Q68-Q71 — Product/Model Selection ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 68</span>
+    <span class="q-tag">Product/Model</span>
+  </div>
+  <p class="q-text">You need Claude to research a topic by reading multiple web sources and synthesizing findings into a comprehensive brief. Which feature should you use?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Standard chat mode with copy-pasted URLs</li>
+    <li class="correct-option"><span class="letter">B</span> Research mode, which allows Claude to autonomously browse the web, read multiple sources, and produce a cited synthesis</li>
+    <li><span class="letter">C</span> Artifacts, which creates interactive web pages</li>
+    <li><span class="letter">D</span> Code Execution, which runs Python scripts</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Research mode (available on claude.ai) enables Claude to autonomously search the web, visit multiple pages, and compile a comprehensive, cited research brief. This is purpose-built for tasks requiring multi-source synthesis. Standard chat lacks web access, Artifacts are for creating interactive content, and Code Execution is for running computations — none are designed for web research.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 69</span>
+    <span class="q-tag">Product/Model</span>
+  </div>
+  <p class="q-text">A colleague asks you to create a quick interactive calculator that sales reps can use to estimate subscription pricing. Which Claude feature is most appropriate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Ask Claude to describe the calculation steps in plain text</li>
+    <li><span class="letter">B</span> Use Research mode to find existing pricing calculators online</li>
+    <li class="correct-option"><span class="letter">C</span> Use Artifacts to have Claude generate a shareable interactive web application with input fields, calculations, and a styled results display</li>
+    <li><span class="letter">D</span> Use Code Execution to run a Python script that computes one example</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Artifacts allow Claude to create interactive web applications (HTML/CSS/JavaScript) that users can interact with directly, share via link, and use repeatedly. A pricing calculator with input fields and dynamic results is a perfect Artifacts use case. Code Execution would only run a single computation, Research mode is for web research, and plain text cannot provide interactivity.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 70</span>
+    <span class="q-tag">Product/Model</span>
+  </div>
+  <p class="q-text">You have a CSV file with 10,000 rows of sales data and need to calculate year-over-year growth rates, identify outliers, and generate summary statistics. Which feature should you use?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Paste the entire CSV into the chat and ask Claude to analyze it</li>
+    <li><span class="letter">B</span> Use Research mode to find industry benchmarks</li>
+    <li class="correct-option"><span class="letter">C</span> Use Code Execution (Analysis tool) to upload the file and have Claude write and run Python code that performs the calculations precisely</li>
+    <li><span class="letter">D</span> Ask Claude to estimate the statistics without seeing the data</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Code Execution (also called the Analysis tool) lets Claude write and execute Python code in a sandbox, which is ideal for precise numerical analysis of large datasets. It can load the CSV, compute exact growth rates, run statistical tests for outliers, and produce accurate summary statistics. Pasting 10,000 rows into chat exceeds practical limits and Claude's mental math on large datasets is unreliable.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 71</span>
+    <span class="q-tag">Product/Model</span>
+  </div>
+  <p class="q-text">You have been working with Claude on a long project and notice the conversation is getting very long. Claude seems to be losing track of earlier instructions. What is the best approach to manage conversation memory?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Keep going in the same conversation — Claude has unlimited memory</li>
+    <li class="correct-option"><span class="letter">B</span> Start a new conversation but include a summary of key decisions and context from the previous conversation, and use Projects or custom instructions to persist reusable context</li>
+    <li><span class="letter">C</span> Delete older messages to free up memory space</li>
+    <li><span class="letter">D</span> Switch to a different model — more expensive models have better memory</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude's context window is finite, and very long conversations can cause earlier context to be summarized or lost. The best practice is to start a fresh conversation with a curated summary of prior decisions and key context. Using Projects or custom instructions to persist reusable context (style guides, project specs, standing instructions) ensures Claude has essential information without filling the context window with conversation history.</div>
+</div>
+
+<!-- ═══ NEW: Q72-Q73 — Workflow ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 72</span>
+    <span class="q-tag">Workflow</span>
+  </div>
+  <p class="q-text">Your team currently follows a 5-step content review process. A manager suggests replacing the entire process with Claude. What is the recommended approach?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Replace all 5 steps with Claude immediately to maximize efficiency gains</li>
+    <li><span class="letter">B</span> Reject the idea — AI should not be involved in established workflows</li>
+    <li class="correct-option"><span class="letter">C</span> Augment first: identify which steps Claude can assist with (e.g., drafting, grammar checking) while keeping human review for judgment-heavy steps like brand alignment and final approval</li>
+    <li><span class="letter">D</span> Wait until Claude is 100% accurate before integrating it into any workflow</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The augment-first approach is a core principle of responsible AI workflow integration. Rather than wholesale replacement, identify tasks where Claude adds the most value (drafting, consistency checking, formatting) while preserving human oversight for decisions requiring judgment, institutional knowledge, and accountability. This reduces risk, builds team trust, and delivers immediate value.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 73</span>
+    <span class="q-tag">Workflow</span>
+  </div>
+  <p class="q-text">You want to convince your VP that adopting Claude for the marketing team's workflow is worth the investment. What is the most effective way to communicate Claude's value?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Share general AI hype articles and industry predictions</li>
+    <li><span class="letter">B</span> Focus exclusively on cost reduction numbers</li>
+    <li class="correct-option"><span class="letter">C</span> Demonstrate a concrete pilot: show a before/after comparison of a real task (e.g., content brief creation), with measurable time savings, quality improvements, and team feedback</li>
+    <li><span class="letter">D</span> Promise that Claude will replace two full-time employees</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Stakeholders respond best to concrete evidence from their own context. A pilot project with before/after metrics (time saved, quality score, team satisfaction) provides tangible proof of value. General hype lacks credibility, focusing only on cost reduction misses quality and speed gains, and promising headcount replacement creates resistance and is often inaccurate.</div>
+</div>
+
+<!-- ═══ NEW: Q74-Q75 — Configuration ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 74</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">Your team uses Google Workspace. You want Claude to reference specific Google Docs and recent emails when answering questions. What should you configure?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Copy and paste content from Google Docs into every conversation manually</li>
+    <li class="correct-option"><span class="letter">B</span> Connect Google Drive and Gmail integrations so Claude can search and reference your documents and emails directly within conversations</li>
+    <li><span class="letter">C</span> Export all Google Docs as PDFs and upload them one at a time</li>
+    <li><span class="letter">D</span> Ask Claude to access your Google account using your password</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Claude supports Google Drive and Gmail connectors (integrations) that allow it to search and reference your documents and emails within conversations, with proper authorization. This eliminates manual copy-pasting and keeps Claude's context up to date with your latest files. Never share passwords with Claude — integrations use secure OAuth authorization. Uploading PDFs one at a time is inefficient and loses document structure.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 75</span>
+    <span class="q-tag">Configuration</span>
+  </div>
+  <p class="q-text">You set up a Claude Project with custom instructions and knowledge files six months ago. The team's brand guidelines and product lineup have since changed. What should you do?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Nothing — Claude automatically stays current with your company's changes</li>
+    <li><span class="letter">B</span> Delete the project and start from scratch</li>
+    <li class="correct-option"><span class="letter">C</span> Review and update the project's custom instructions and knowledge files to reflect current guidelines, then verify outputs against the updated standards</li>
+    <li><span class="letter">D</span> Create a second project with updated files and use both simultaneously</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Configuration maintenance is an ongoing responsibility. Claude Projects do not auto-update — the knowledge files and custom instructions reflect what you uploaded at setup time. When business context changes (new brand guidelines, updated products, revised processes), you must update the project's configuration and then test that Claude's outputs align with the new standards. Running two parallel projects with conflicting information creates confusion.</div>
+</div>
+
+<!-- ═══ NEW: Q76-Q77 — Governance ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 76</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">A colleague wants to paste a customer complaint email — including the customer's full name, phone number, and account number — into Claude for help drafting a response. What should you advise?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Go ahead — Claude is a secure internal tool and the data is safe</li>
+    <li><span class="letter">B</span> Only remove the phone number but keep the name and account number</li>
+    <li class="correct-option"><span class="letter">C</span> Redact or anonymize all personally identifiable information (PII) — replace the name, phone number, and account number with placeholders before pasting into Claude</li>
+    <li><span class="letter">D</span> Use a different AI tool that specializes in customer data</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> PII redaction is a fundamental governance practice. Before sharing any content with Claude, remove or replace personally identifiable information such as names, phone numbers, account numbers, email addresses, and other sensitive data with generic placeholders (e.g., "[Customer Name]", "[Account #]"). This protects customer privacy regardless of the platform's security measures and aligns with data protection policies.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 77</span>
+    <span class="q-tag">Governance</span>
+  </div>
+  <p class="q-text">As a Claude Certified Associate, your team asks you to design a custom API integration that automatically processes customer data through Claude. What should you do?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Build the integration yourself — you have the Claude certification</li>
+    <li><span class="letter">B</span> Refuse to help since it involves customer data</li>
+    <li class="correct-option"><span class="letter">C</span> Escalate to a Claude Certified Developer or Architect — API integrations with automated data processing exceed the Associate scope, which focuses on interactive use</li>
+    <li><span class="letter">D</span> Use the Claude web interface to process each request manually instead</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The Associate certification covers interactive use of Claude through claude.ai, Console, and simple API calls — not custom integrations with automated data pipelines. Building API integrations that automatically process customer data requires Developer or Architect-level expertise for proper error handling, security, data governance, and compliance. Knowing when to escalate is itself an important Associate-level competency.</div>
+</div>
+
+<!-- ═══ NEW: Q78-Q79 — Troubleshooting ═══ -->
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 78</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">Your team uses Claude daily for drafting emails, but the process involves copying content between three different tools. How should you optimize this workflow?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Accept the copying steps — that is just how AI tools work</li>
+    <li><span class="letter">B</span> Stop using Claude and go back to writing emails manually</li>
+    <li class="correct-option"><span class="letter">C</span> Map the full workflow, identify friction points (the copy-paste steps), and evaluate whether integrations (Gmail connector, Projects with templates) or a different approach can reduce or eliminate manual handoffs</li>
+    <li><span class="letter">D</span> Hire a team member whose sole job is to handle the copying</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Workflow optimization starts with mapping the end-to-end process and identifying bottlenecks or unnecessary manual steps. Copy-pasting between tools is a common friction point that can often be eliminated through integrations (e.g., Gmail connector), project templates, or restructuring the workflow. An optimized workflow should minimize context-switching and manual data transfer while preserving quality checks.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q 79</span>
+    <span class="q-tag">Troubleshooting</span>
+  </div>
+  <p class="q-text">You are using Claude Sonnet for a complex legal contract review and finding that it misses subtle clause interactions and edge-case implications. What is the best troubleshooting step?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Add more documents to the context window to give Claude more background</li>
+    <li class="correct-option"><span class="letter">B</span> Switch to Claude Opus, which has stronger reasoning capabilities for complex analytical tasks requiring nuanced understanding</li>
+    <li><span class="letter">C</span> Switch to Claude Haiku for faster processing, then review the output more carefully yourself</li>
+    <li><span class="letter">D</span> Lower the temperature to zero — this will make Claude more thorough</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> When a model struggles with tasks requiring deep reasoning, nuanced analysis, and understanding of complex interactions, it is a signal to move up to a more capable model. Opus is designed for complex reasoning tasks like legal analysis, scientific review, and multi-step logical problems. Haiku would perform worse, not better. Temperature affects randomness, not analytical depth. Adding more context does not improve the model's reasoning capability.</div>
 </div>
 
 </section>
