@@ -573,27 +573,28 @@
   opacity: 0.9;
 }
 
-/* Hide correct-option highlight and explanation until answered */
-.q-interactive .correct-option {
+/* FORCE all options identical before answering */
+.q-interactive .q-options li,
+.q-interactive .q-options li.correct-option {
   background: transparent !important;
-  border-color: var(--c-border, #E0E0E6) !important;
-}
-.q-interactive .correct-option .letter {
-  background: var(--c-surface2, #f0f1f3) !important;
-  color: var(--c-text2, #555770) !important;
-}
-.q-interactive .q-explain {
-  display: none !important;
-}
-
-/* Make options clickable */
-.q-interactive .q-options li {
+  border: 1.5px solid var(--c-border, #E0E0E6) !important;
+  font-weight: 400 !important;
+  color: var(--c-text, #1a1a2e) !important;
+  opacity: 1 !important;
   cursor: pointer;
   transition: all 0.15s;
-  border: 1.5px solid var(--c-border, #E0E0E6);
   border-radius: 8px;
   padding: 10px 14px;
   margin: 4px 0;
+}
+.q-interactive .q-options li .letter,
+.q-interactive .q-options li.correct-option .letter {
+  background: var(--c-surface2, #f0f1f3) !important;
+  color: var(--c-text2, #555770) !important;
+  font-weight: 600 !important;
+}
+.q-interactive .q-explain {
+  display: none !important;
 }
 .q-interactive .q-options li:hover:not(.q-answered) {
   border-color: var(--c-accent, #6C3CE1);
