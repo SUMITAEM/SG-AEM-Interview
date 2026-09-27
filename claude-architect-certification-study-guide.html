@@ -1661,9 +1661,31 @@ jobs:
 <span class="kw">&lt;/examples&gt;</span>
 </div>
 
+<h3>Showing Reasoning in Examples</h3>
+<p>Include the <strong>reasoning process</strong> in your few-shot examples, not just the answer. This teaches Claude <em>how to think</em> about matching, not just what the output should be:</p>
+<div class="code-block"><span class="label">Example with Reasoning</span><span class="kw">&lt;example&gt;</span>
+  <span class="kw">&lt;input&gt;</span>2024-03-15 event in Paris<span class="kw">&lt;/input&gt;</span>
+  <span class="kw">&lt;reasoning&gt;</span>
+    Contains "2024-03-15" which is YYYY-MM-DD format. ✓
+    Contains "Paris" which is a city name. ✓
+    Both criteria met.
+  <span class="kw">&lt;/reasoning&gt;</span>
+  <span class="kw">&lt;output&gt;</span>match: true<span class="kw">&lt;/output&gt;</span>
+<span class="kw">&lt;/example&gt;</span></div>
+
+<h3>How Prompting Works in Claude</h3>
+<p>Claude processes prompts in a specific priority order:</p>
+<ul>
+  <li><strong>System prompt</strong> &mdash; highest authority, persistent behavior rules</li>
+  <li><strong>Tool descriptions</strong> &mdash; guide tool selection and usage</li>
+  <li><strong>Few-shot examples</strong> &mdash; demonstrate expected patterns</li>
+  <li><strong>User message</strong> &mdash; the specific request to handle</li>
+</ul>
+<p>Match criteria should be in the <strong>system prompt</strong> (always present) while examples go in <strong>user context</strong> or cached prompt blocks. This separation ensures criteria aren't diluted by conversation history.</p>
+
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  "Only if you're confident" is an anti-pattern &mdash; it does nothing because Claude lacks calibrated uncertainty. Replace with explicit, observable match criteria. Use 3-5 few-shot examples with at least one positive, one negative, and one edge case.
+  "Only if you're confident" is an anti-pattern &mdash; it does nothing because Claude lacks calibrated uncertainty. Replace with explicit, observable match criteria. Show reasoning in examples, not just answers. Use 3-5 few-shot examples with at least one positive, one negative, and one edge case.
 </div>
 </section>
 
@@ -1734,6 +1756,34 @@ result = client.messages.<span class="fn">parse</span>(
   <p><code>object</code>, <code>array</code>, <code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>enum</code>, <code>const</code>, <code>anyOf</code>, <code>allOf</code>, <code>$ref</code>/<code>$defs</code></p>
 </div>
 
+<h3>Preventing Syntax Errors with JSON Schema</h3>
+<p>Without structured output, Claude generates free-form text that <em>might</em> be valid JSON. With <code>output_config.format</code>, the grammar engine <strong>guarantees</strong> syntactically correct output &mdash; no missing commas, no trailing brackets, no unquoted keys. The schema acts as a parser constraint during generation.</p>
+
+<h3>Handling Fabricated Data and Empty Fields</h3>
+<p>Even with schema conformance, Claude may <strong>fabricate values</strong> to fill required fields. Mitigations:</p>
+<ul>
+  <li>Use <code>nullable</code> types for fields that might not have data: <code>"type": ["string", "null"]</code></li>
+  <li>Add instructions: "Return null for any field you cannot determine from the input"</li>
+  <li>Validate outputs against source data, not just schema</li>
+</ul>
+
+<h3>Using Optional, Nullable Fields, and Enum Values</h3>
+<ul>
+  <li><strong>Optional fields:</strong> Omit from <code>required</code> array &mdash; Claude may or may not include them</li>
+  <li><strong>Nullable:</strong> <code>"type": ["string", "null"]</code> &mdash; field is present but value can be null</li>
+  <li><strong>Enum:</strong> <code>"enum": ["low", "medium", "high"]</code> &mdash; restricts to exact values, prevents hallucinated categories</li>
+  <li><strong>Const:</strong> <code>"const": "v1"</code> &mdash; forces a fixed value (useful for schema versioning)</li>
+</ul>
+
+<h3>Retry-with-Error-Feedback Technique</h3>
+<p>When structured output fails validation (business logic, not syntax), use this pattern:</p>
+<ol>
+  <li>Get initial response with structured output</li>
+  <li>Run your business validation on the parsed result</li>
+  <li>If validation fails, send a follow-up message with the error: <em>"The previous output had these issues: [errors]. Please fix and regenerate."</em></li>
+  <li>Include the original output and specific error details in the retry</li>
+</ol>
+
 <h3>Limitations</h3>
 <ul>
   <li>No recursive schemas</li>
@@ -1744,7 +1794,7 @@ result = client.messages.<span class="fn">parse</span>(
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Use <code>client.messages.parse()</code> in Python (with Pydantic) or <code>zodOutputFormat()</code> in TypeScript (with Zod) for type-safe structured output. The first request with a new schema is slower due to grammar compilation. <code>additionalProperties: false</code> is required.
+  Structured output prevents syntax errors but NOT fabricated data &mdash; validate business logic separately. Use nullable fields + "return null if unknown" instruction to prevent fabrication. The retry-with-error-feedback technique handles validation failures. <code>additionalProperties: false</code> is required.
 </div>
 </section>
 
@@ -1811,6 +1861,27 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
 </div>
 
+<h3>When to Use Synchronous vs Batch API</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Criteria</th><th>Synchronous API</th><th>Batch API</th></tr></thead>
+  <tbody>
+    <tr><td>Latency</td><td>Real-time (milliseconds-seconds)</td><td>Async (minutes-hours)</td></tr>
+    <tr><td>Cost</td><td>Full price</td><td>50% discount</td></tr>
+    <tr><td>Use case</td><td>Chat, interactive, user-facing</td><td>Bulk processing, evals, data pipelines</td></tr>
+    <tr><td>Max requests</td><td>Rate-limited per minute</td><td>100K per batch</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Prompt Caching and Extended Thinking</h3>
+<p>These two features interact with cost differently:</p>
+<ul>
+  <li><strong>Prompt caching:</strong> Reduces input cost (cache hit = 10% of base). Cached content still occupies context window.</li>
+  <li><strong>Extended thinking:</strong> Increases output cost (thinking tokens billed as output). Improves quality for complex tasks.</li>
+  <li><strong>Combined:</strong> Cache the system prompt + tool definitions (reduces input cost) while using thinking for complex reasoning (increases output but improves quality). Net effect depends on task.</li>
+</ul>
+
 <h3>Latency Optimization</h3>
 <ul>
   <li><strong>Streaming</strong> &mdash; Show tokens as they arrive for perceived speed</li>
@@ -1855,13 +1926,51 @@ result = client.messages.<span class="fn">parse</span>(
   <li><strong>Output</strong> &mdash; the model's response counts against the window</li>
 </ul>
 
-<h3>Context Rot</h3>
-<p><strong>Context rot</strong> is the degradation of model accuracy as the context window fills. Even though the model can technically handle 1M tokens, performance on specific instructions and recall of early context degrades as more content is added. The model may:</p>
+<h3>Progressive Summarization and Detail Loss</h3>
+<p><strong>Progressive summarization</strong> replaces older conversation turns with increasingly compressed summaries. The trade-off: each compression round loses some detail. Strategies to minimize loss:</p>
 <ul>
-  <li>Forget instructions from the system prompt</li>
-  <li>Miss relevant information buried in long conversations</li>
-  <li>Produce lower-quality outputs due to attention dilution</li>
+  <li>Summarize <strong>observations</strong> aggressively (tool output details)</li>
+  <li>Preserve <strong>decisions and reasoning</strong> verbatim (why something was done)</li>
+  <li>Keep <strong>current task state</strong> at full fidelity</li>
+  <li>Use structured summaries: "Completed: X. Found: Y. Still needed: Z."</li>
 </ul>
+
+<h3>Case-Facts Blocks</h3>
+<p>A <strong>case-facts block</strong> is a structured summary placed at the top of context containing the essential facts about the current task. This ensures critical information is never lost to summarization:</p>
+<div class="code-block"><span class="label">Case-Facts Pattern</span><span class="kw">&lt;case-facts&gt;</span>
+  <span class="key">Task:</span> <span class="str">Migrate user authentication from JWT to OAuth2</span>
+  <span class="key">Files modified:</span> <span class="str">auth.py, middleware.py, config.yaml</span>
+  <span class="key">Tests passing:</span> <span class="str">14/16 (2 failing: test_refresh, test_revoke)</span>
+  <span class="key">Blockers:</span> <span class="str">Redis session store not configured</span>
+  <span class="key">Next step:</span> <span class="str">Fix test_refresh_token after Redis setup</span>
+<span class="kw">&lt;/case-facts&gt;</span></div>
+
+<h3>The "Lost in the Middle" Problem</h3>
+<p>LLMs attend most strongly to the <strong>beginning</strong> and <strong>end</strong> of the context window, with weaker attention to content in the middle. This means:</p>
+<ul>
+  <li>Instructions at the start (system prompt) and end (latest user message) are most reliably followed</li>
+  <li>Information buried in the middle of a long conversation may be overlooked</li>
+  <li><strong>Fix:</strong> Place key findings at the top of tool results, not buried in verbose output</li>
+</ul>
+
+<h3>Placing Key Findings at the Top</h3>
+<p>When returning tool results, structure them with the most important information <strong>first</strong>:</p>
+<ul>
+  <li><strong>Lead with the answer:</strong> "Found 3 security vulnerabilities" before listing details</li>
+  <li><strong>Summary before details:</strong> Brief conclusion, then supporting evidence</li>
+  <li><strong>Use structured tags:</strong> <code>&lt;finding&gt;</code>, <code>&lt;summary&gt;</code>, <code>&lt;details&gt;</code> to separate importance levels</li>
+</ul>
+
+<h3>Using Structured Tags and Trimming Verbose Results</h3>
+<p>Wrap tool outputs in XML tags so the agent can selectively attend to important parts. Trim verbose outputs before returning:</p>
+<ul>
+  <li>Log files: return only ERROR/WARNING lines, not full logs</li>
+  <li>API responses: extract relevant fields, drop metadata</li>
+  <li>Search results: return top-N matches with snippets, not full documents</li>
+</ul>
+
+<h3>Context Rot</h3>
+<p><strong>Context rot</strong> is the degradation of model accuracy as the context window fills. Even though the model can technically handle 1M tokens, performance degrades as more content is added.</p>
 
 <h3>Compaction</h3>
 <p>Claude Code supports <strong>server-side auto-summarization</strong> (compaction) when the conversation approaches the context limit. The system automatically summarizes older parts of the conversation to free up space while preserving the most important information.</p>
@@ -1905,8 +2014,48 @@ result = client.messages.<span class="fn">parse</span>(
 <section id="part17" class="page-break">
 <h2><span class="part-num">Part 17</span>Escalation Triggers</h2>
 
-<h3>When to Escalate</h3>
-<p>Not every situation should be handled automatically by an agent. Escalation triggers define when the system should stop and involve a human or fall back to a different approach.</p>
+<h3>Valid Escalation Triggers</h3>
+<p>Not every situation should be escalated. Valid triggers are <strong>objective conditions</strong>, not subjective feelings:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Valid Trigger</th><th>Example</th><th>Why It's Valid</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Human explicitly requests</strong></td><td>"Let me speak to a person"</td><td>Direct request = always escalate</td></tr>
+    <tr><td><strong>Authority gap</strong></td><td>Agent can't approve refunds > $500</td><td>Exceeds agent's authorization scope</td></tr>
+    <tr><td><strong>Verification flag</strong></td><td>Identity verification needed</td><td>Security requirement beyond agent capability</td></tr>
+    <tr><td><strong>Safety concern</strong></td><td>User mentions self-harm</td><td>Requires trained human response</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Why Frustration or Complexity Alone Are NOT Valid Triggers</h3>
+<div class="notice notice-warn">
+  <b>Common Mistake</b>
+  Escalating because the customer is frustrated or the issue seems complex is <strong>wrong</strong>. A frustrated customer with a simple billing question should be resolved by the agent, not escalated. Complexity alone doesn't warrant escalation — the agent should attempt resolution first.
+</div>
+<ul>
+  <li><strong>Frustration + simple issue</strong> = agent resolves with empathy, doesn't escalate</li>
+  <li><strong>Calm customer + authority gap</strong> = escalate (regardless of customer emotion)</li>
+  <li><strong>Complex issue within agent scope</strong> = agent handles it (that's what agents are for)</li>
+</ul>
+
+<h3>Handling Frustrated Customers with Simple Issues</h3>
+<p>When a customer is frustrated but the issue is within the agent's scope:</p>
+<ol>
+  <li><strong>Acknowledge the frustration</strong> — "I understand this is frustrating"</li>
+  <li><strong>Don't escalate just because of tone</strong> — resolve the actual issue</li>
+  <li><strong>Solve the problem efficiently</strong> — frustrated customers want resolution, not transfers</li>
+  <li><strong>Only escalate if a valid trigger exists</strong> — authority gap, verification needed, explicit request</li>
+</ol>
+
+<h3>When to Escalate Immediately</h3>
+<ul>
+  <li>User explicitly asks for human assistance</li>
+  <li>Safety/emergency situations (threats, self-harm mentions)</li>
+  <li>Legal/compliance requirements that mandate human review</li>
+  <li>Financial operations exceeding authorized thresholds</li>
+  <li>Data access requests requiring identity verification</li>
+</ul>
 
 <h3>Escalation Patterns</h3>
 <div class="table-wrap">
@@ -1979,12 +2128,53 @@ result = client.messages.<span class="fn">parse</span>(
 </table>
 </div>
 
+<h3>Structured Error Context in Multi-Agent Systems</h3>
+<p>In hub-spoke architectures, errors must flow back to the coordinator with enough context to make decisions. Structure error responses as objects, not strings:</p>
+<div class="code-block"><span class="label">JSON — Structured Error</span>{
+  <span class="key">"status"</span>: <span class="str">"error"</span>,
+  <span class="key">"error_type"</span>: <span class="str">"timeout"</span>,
+  <span class="key">"attempted"</span>: <span class="str">"Query users table for active subscriptions"</span>,
+  <span class="key">"details"</span>: <span class="str">"Connection timeout after 5000ms to db.example.com:5432"</span>,
+  <span class="key">"retry_count"</span>: <span class="num">2</span>,
+  <span class="key">"max_retries"</span>: <span class="num">3</span>,
+  <span class="key">"alternatives"</span>: [<span class="str">"Try read replica"</span>, <span class="str">"Use cached data (15min stale)"</span>]
+}</div>
+<p>The coordinator can then decide: retry, try an alternative, or escalate — based on structured data, not parsing error strings.</p>
+
+<h3>Importance of Alternative Approaches</h3>
+<p>When a tool fails, <strong>suggest alternatives</strong> in the error response. This is critical because:</p>
+<ul>
+  <li>Claude can choose the best alternative without human intervention</li>
+  <li>Prevents the agent from getting stuck in a retry loop on a permanently broken path</li>
+  <li>Enables graceful degradation: "Primary DB unavailable → use cached data → inform user data may be stale"</li>
+</ul>
+
+<h3>Common Mistake: Waiting Until Retries Are Exhausted</h3>
+<div class="notice notice-warn">
+  <b>Anti-Pattern</b>
+  Don't blindly retry 3 times then fail. After the <strong>first failure</strong>, check if the error is retryable at all. A 401 (auth error) won't succeed on retry — it's a permanent failure. Only retry <strong>transient</strong> errors (429, 500, 503, network timeouts).
+</div>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Error Type</th><th>Retryable?</th><th>Correct Action</th></tr></thead>
+  <tbody>
+    <tr><td>429 Rate Limit</td><td>Yes</td><td>Retry with backoff (use retry-after header)</td></tr>
+    <tr><td>500 Server Error</td><td>Yes</td><td>Retry 2-3 times with exponential backoff</td></tr>
+    <tr><td>401 Auth Error</td><td><strong>No</strong></td><td>Report immediately, don't waste retries</td></tr>
+    <tr><td>400 Bad Request</td><td><strong>No</strong></td><td>Fix the request, retrying won't help</td></tr>
+    <tr><td>Network Timeout</td><td>Yes</td><td>Retry with increased timeout</td></tr>
+    <tr><td>404 Not Found</td><td><strong>No</strong></td><td>Resource doesn't exist, try alternative</td></tr>
+  </tbody>
+</table>
+</div>
+
 <h3>Error Context Best Practices</h3>
 <p>When returning errors to Claude (via <code>tool_result</code> with <code>is_error: true</code>), always include:</p>
 <ul>
   <li><strong>What was attempted</strong> &mdash; "Tried to query database table 'users'"</li>
   <li><strong>What failed</strong> &mdash; "Connection timeout after 5000ms"</li>
   <li><strong>Relevant state</strong> &mdash; "Server: db.example.com:5432, current retry: 2/3"</li>
+  <li><strong>Suggested alternatives</strong> &mdash; "Try read replica at db-ro.example.com"</li>
 </ul>
 
 <h3>Debugging Agents</h3>
