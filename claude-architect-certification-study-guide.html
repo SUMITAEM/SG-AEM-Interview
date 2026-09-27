@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Certified Architect Foundations (CCAR-F) — Exam Prep Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --page-max: 900px;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    --c-bg: #ffffff;
+    --c-surface: #f8f9fa;
+    --c-surface2: #f0f1f3;
+    --c-text: #1a1a2e;
+    --c-text2: #555770;
+    --c-accent: #6C3CE1;
+    --c-accent2: #4F1FBF;
+    --c-accent-soft: #EDE7F9;
+    --c-green: #0D7C5F;
+    --c-green-bg: #E8F5F0;
+    --c-red: #C62828;
+    --c-red-bg: #FDECEA;
+    --c-orange: #E65100;
+    --c-orange-bg: #FFF3E0;
+    --c-blue: #1565C0;
+    --c-blue-bg: #E3F2FD;
+    --c-border: #E0E0E6;
+    --c-border2: #D0D0D8;
+    --c-code-bg: #F5F3FF;
+    --radius: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--c-bg);
+    color: var(--c-text);
+    line-height: 1.7;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* == PRINT == */
+  @media print {
+    html { font-size: 11pt; }
+    body { padding: 0; max-width: 100%; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    .cover { min-height: auto; padding: 40pt 0 24pt; }
+    section { page-break-inside: avoid; }
+    .question-card { page-break-inside: avoid; }
+    .code-block { page-break-inside: avoid; }
+    details { break-inside: avoid; }
+    details[open] > div { break-inside: avoid; }
+    a { color: var(--c-text) !important; text-decoration: none !important; }
+    .toc { page-break-after: always; }
+  }
+
+  /* == COVER == */
+  .cover {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 40px;
+    border-bottom: 3px solid var(--c-accent);
+  }
+
+  .cover-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    background: var(--c-accent-soft);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 span { color: var(--c-accent); }
+
+  .cover-sub {
+    font-size: 1.15rem;
+    color: var(--c-text2);
+    max-width: 580px;
+    margin-bottom: 24px;
+  }
+
+  .cover-meta {
+    font-size: 0.8rem;
+    color: var(--c-text2);
+    border-top: 1px solid var(--c-border);
+    padding-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta strong { color: var(--c-text); }
+
+  /* == NOTICE == */
+  .notice {
+    border-left: 4px solid;
+    padding: 12px 16px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.88rem;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .notice-warn { border-color: var(--c-orange); background: var(--c-orange-bg); }
+  .notice-info { border-color: var(--c-blue); background: var(--c-blue-bg); }
+  .notice-tip { border-color: var(--c-green); background: var(--c-green-bg); }
+  .notice b { display: block; margin-bottom: 2px; }
+
+  /* == TOC == */
+  .toc {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--c-border);
+    margin-bottom: 32px;
+  }
+
+  .toc h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: 16px;
+    border-bottom: none;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px 24px;
+  }
+
+  .toc a {
+    display: block;
+    color: var(--c-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--c-border);
+    transition: color 0.15s;
+  }
+
+  .toc a:hover { color: var(--c-accent); }
+
+  .toc a .num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--c-accent);
+    margin-right: 6px;
+  }
+
+  /* == HEADINGS == */
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 48px 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--c-accent);
+    color: var(--c-text);
+  }
+
+  h2 .part-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 28px 0 10px;
+    color: var(--c-accent2);
+  }
+
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 20px 0 8px;
+  }
+
+  p { margin: 8px 0; }
+
+  /* == TABLES == */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    background: var(--c-surface);
+    border-bottom: 2px solid var(--c-border2);
+    white-space: nowrap;
+    color: var(--c-text);
+  }
+
+  tbody td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--c-surface); }
+  td code, th code { font-size: 0.82em; }
+
+  /* == CODE == */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: var(--c-code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--c-accent2);
+  }
+
+  .code-block {
+    background: #1E1E2E;
+    color: #CDD6F4;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .code-block .label {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7F849C;
+    background: #313244;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .code-block .kw { color: #CBA6F7; }
+  .code-block .str { color: #A6E3A1; }
+  .code-block .num { color: #FAB387; }
+  .code-block .cm { color: #6C7086; font-style: italic; }
+  .code-block .fn { color: #89B4FA; }
+  .code-block .key { color: #89DCEB; }
+
+  /* == CARDS == */
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--c-accent);
+    margin-bottom: 6px;
+  }
+
+  .card p, .card ul { font-size: 0.88rem; color: var(--c-text2); }
+  .card ul { padding-left: 18px; }
+  .card li { margin: 3px 0; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  /* == EXAMPLE BOX == */
+  .example-box {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    margin: 16px 0;
+    overflow: hidden;
+  }
+
+  .example-box .ex-header {
+    background: var(--c-accent-soft);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-accent2);
+    letter-spacing: 0.03em;
+  }
+
+  .example-box .ex-body { padding: 14px 16px; }
+
+  /* == QUIZ == */
+  .question-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 14px 0;
+  }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+
+  .q-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .q-text {
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .q-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px;
+  }
+
+  .q-options li {
+    padding: 6px 10px;
+    font-size: 0.88rem;
+    border-radius: 4px;
+    margin: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .q-options li .letter {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--c-accent);
+    min-width: 18px;
+  }
+
+  .q-options li.correct-option {
+    background: var(--c-green-bg);
+    border: 1px solid var(--c-green);
+    font-weight: 600;
+  }
+
+  .q-options li.correct-option .letter { color: var(--c-green); }
+
+  .q-explain {
+    font-size: 0.82rem;
+    color: var(--c-text2);
+    background: var(--c-bg);
+    border: 1px dashed var(--c-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    line-height: 1.5;
+  }
+
+  .q-explain b { color: var(--c-green); }
+
+  /* == HIGHLIGHT BOX == */
+  .highlight {
+    background: var(--c-accent-soft);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border: 1px solid #D4C5F0;
+  }
+
+  .highlight .hl-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--c-accent2);
+    margin-bottom: 6px;
+  }
+
+  .highlight p, .highlight ul, .highlight li {
+    font-size: 0.88rem;
+    color: var(--c-text);
+  }
+
+  /* == DECISION TREE == */
+  .decision-tree {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    line-height: 1.8;
+    margin: 12px 0;
+    white-space: pre-wrap;
+  }
+
+  .decision-tree .arrow { color: var(--c-accent); font-weight: 700; }
+  .decision-tree .model { color: var(--c-green); font-weight: 600; }
+
+  /* == FOOTER == */
+  .footer {
+    margin: 48px 0 24px;
+    padding: 20px 0;
+    border-top: 2px solid var(--c-accent);
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--c-text2);
+  }
+
+  /* == UTIL == */
+  ul, ol { padding-left: 22px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--c-border); margin: 32px 0; }
+  mark { background: #FFEAA7; padding: 1px 4px; border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .cover h1 { font-size: 1.8rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== COVER ============================== -->
+<div class="cover">
+  <div class="cover-badge">CCAR-F Official Syllabus Aligned</div>
+  <h1><span>Claude</span> Certified Architect<br>Foundations Exam Prep</h1>
+  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 50 exam-style MCQs.</p>
+  <div class="cover-meta">
+    <span><strong>Exam:</strong> CCAR-F (Architect Foundations)</span>
+    <span><strong>Topics:</strong> 18 official sections</span>
+    <span><strong>MCQs:</strong> 50 questions</span>
+    <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
+    <span><strong>Updated:</strong> September 2026</span>
+  </div>
+</div>
+
+<div class="notice notice-info">
+  <b>Official Syllabus Alignment</b>
+  This guide is structured around the 18 official topic areas of the CCAR-F (Claude Certified Architect &mdash; Foundations) exam. The architect exam goes deeper than the developer certification: it covers agentic architecture, orchestration patterns, tool design, MCP, CLAUDE.md hierarchy, CI/CD integration, context management, error handling patterns, and production optimization. Content sourced from official Anthropic documentation.
+</div>
+
+<!-- ============================== TOC ============================== -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#part1"><span class="num">01</span> The Agentic Loop</a>
+    <a href="#part2"><span class="num">02</span> Hub-and-Spoke Model</a>
+    <a href="#part3"><span class="num">03</span> Task Tool and Parallel Execution</a>
+    <a href="#part4"><span class="num">04</span> Programmatic Control and Hooks</a>
+    <a href="#part5"><span class="num">05</span> Tool Descriptions</a>
+    <a href="#part6"><span class="num">06</span> Error Handling Patterns</a>
+    <a href="#part7"><span class="num">07</span> MCP Configuration</a>
+    <a href="#part8"><span class="num">08</span> Tool Scoping and Agent Roles</a>
+    <a href="#part9"><span class="num">09</span> CLAUDE.md Hierarchy</a>
+    <a href="#part10"><span class="num">10</span> Agent Skills</a>
+    <a href="#part11"><span class="num">11</span> Path-Specific Rules and Context Fork</a>
+    <a href="#part12"><span class="num">12</span> CLI Flags and CI/CD</a>
+    <a href="#part13"><span class="num">13</span> Match Criteria and Few-Shot Examples</a>
+    <a href="#part14"><span class="num">14</span> JSON Schema and Structured Output</a>
+    <a href="#part15"><span class="num">15</span> API Selection and Cost vs. Latency</a>
+    <a href="#part16"><span class="num">16</span> Context Window Management</a>
+    <a href="#part17"><span class="num">17</span> Escalation Triggers</a>
+    <a href="#part18"><span class="num">18</span> Error Context and Common Mistakes</a>
+    <a href="#part19"><span class="num">19</span> Practice Test &mdash; 50 Architect MCQs</a>
+  </div>
+</div>
+
+<!-- ============================== PART 1 ============================== -->
+<section id="part1" class="page-break">
+<h2><span class="part-num">Part 01</span>The Agentic Loop</h2>
+
+<h3>What Is the Agentic Loop?</h3>
+<p>The agentic loop is the fundamental execution pattern behind all Claude-based agents. It is an iterative cycle in which the model reasons about a task, decides whether to call a tool, executes that tool, feeds the result back into the conversation, and then reasons again &mdash; repeating until the task is complete.</p>
+
+<div class="highlight">
+  <div class="hl-title">Agentic Loop Flow</div>
+  <p>User request &rarr; LLM reasoning &rarr; tool call &rarr; execute tool &rarr; tool result &rarr; LLM reasoning &rarr; response (or more tool calls)</p>
+</div>
+
+<h3>Key Components</h3>
+<ul>
+  <li><strong>System prompt</strong> &mdash; Defines the agent's role, capabilities, and behavioral constraints</li>
+  <li><strong>Conversation history</strong> &mdash; The full message array (user + assistant + tool_result turns)</li>
+  <li><strong>Tool definitions</strong> &mdash; JSON schemas describing available functions the model may call</li>
+  <li><strong>Thinking</strong> &mdash; Extended thinking blocks where the model reasons through complex decisions</li>
+</ul>
+
+<h3>The <code>stop_reason</code> Field</h3>
+<p>Every API response includes a <code>stop_reason</code> that tells the orchestrator what to do next:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>stop_reason</th><th>Meaning</th><th>Orchestrator Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>end_turn</code></td><td>Model finished naturally</td><td>Exit the loop &mdash; task is complete</td></tr>
+    <tr><td><code>tool_use</code></td><td>Model wants to call a tool</td><td>Execute the tool, feed result back, continue loop</td></tr>
+    <tr><td><code>max_tokens</code></td><td>Hit the output token limit</td><td>Response was truncated &mdash; handle or extend</td></tr>
+    <tr><td><code>refusal</code></td><td>Model declined on safety grounds</td><td>Escalate, rephrase, or use a fallback model</td></tr>
+    <tr><td><code>stop_sequence</code></td><td>Hit a custom stop string</td><td>Handle per application logic</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Loop Termination Conditions</h3>
+<p>A well-designed agentic loop must have explicit termination conditions beyond just <code>end_turn</code>:</p>
+<ul>
+  <li><strong>Task complete</strong> &mdash; <code>stop_reason == "end_turn"</code></li>
+  <li><strong>Max iterations reached</strong> &mdash; Prevent infinite loops (e.g., cap at 20 iterations)</li>
+  <li><strong>Error threshold</strong> &mdash; Stop after N consecutive tool errors</li>
+  <li><strong>Context window limit</strong> &mdash; Approaching the token ceiling, must summarize or stop</li>
+  <li><strong>Cost ceiling</strong> &mdash; Accumulated token spend exceeds a budget</li>
+</ul>
+
+<h3>Python Agentic Loop Example</h3>
+<div class="code-block"><span class="label">Python</span><span class="kw">import</span> anthropic
+
+client = anthropic.<span class="fn">Anthropic</span>()
+tools = [...]  <span class="cm"># tool definitions</span>
+
+messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: task}]
+
+<span class="kw">while True</span>:
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-opus-5-5"</span>,
+        max_tokens=<span class="num">4096</span>,
+        tools=tools,
+        messages=messages
+    )
+
+    <span class="cm"># Task complete &mdash; exit the loop</span>
+    <span class="kw">if</span> response.stop_reason == <span class="str">"end_turn"</span>:
+        final_text = <span class="fn">next</span>(
+            (b.text <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"text"</span>), <span class="str">""</span>
+        )
+        <span class="fn">print</span>(final_text)
+        <span class="kw">break</span>
+
+    <span class="cm"># Extract tool calls and execute them</span>
+    <span class="kw">for</span> block <span class="kw">in</span> response.content:
+        <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
+            result = <span class="fn">execute_tool</span>(block.name, block.input)
+            messages.<span class="fn">append</span>({
+                <span class="str">"role"</span>: <span class="str">"assistant"</span>,
+                <span class="str">"content"</span>: response.content
+            })
+            messages.<span class="fn">append</span>({
+                <span class="str">"role"</span>: <span class="str">"user"</span>,
+                <span class="str">"content"</span>: [{
+                    <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+                    <span class="str">"tool_use_id"</span>: block.id,
+                    <span class="str">"content"</span>: result
+                }]
+            })
+</div>
+
+<h3>Token Accumulation</h3>
+<p>Every iteration of the agentic loop adds tokens to the context window. The assistant's response, the tool result, and any reasoning all consume tokens. In a long-running agent:</p>
+<ul>
+  <li>Input tokens grow with every iteration (the full conversation is re-sent)</li>
+  <li>Tool results can be large (file contents, search results, API responses)</li>
+  <li>Without management, the context window fills and the agent fails</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  The agentic loop continues until <code>stop_reason == "end_turn"</code>. When <code>stop_reason == "tool_use"</code>, the orchestrator must execute the tool, append the result, and call the API again. Always set max iteration limits to prevent infinite loops.
+</div>
+</section>
+
+<!-- ============================== PART 2 ============================== -->
+<section id="part2" class="page-break">
+<h2><span class="part-num">Part 02</span>Hub-and-Spoke Model</h2>
+
+<h3>Architecture Pattern</h3>
+<p>The hub-and-spoke model is an orchestration pattern where one central <strong>orchestrator agent</strong> (the hub) decomposes complex tasks and delegates subtasks to specialized <strong>worker agents</strong> (the spokes). The hub collects results, synthesizes them, and maintains overall task coherence.</p>
+
+<div class="highlight">
+  <div class="hl-title">Hub Responsibilities</div>
+  <ul>
+    <li><strong>Task decomposition</strong> &mdash; Break a complex request into discrete subtasks</li>
+    <li><strong>Delegation</strong> &mdash; Route each subtask to the appropriate specialist agent</li>
+    <li><strong>Result aggregation</strong> &mdash; Collect and merge outputs from all spokes</li>
+    <li><strong>Quality control</strong> &mdash; Validate spoke outputs, request retries if needed</li>
+  </ul>
+</div>
+
+<h3>Spoke Agent Characteristics</h3>
+<ul>
+  <li><strong>Narrowly scoped</strong> &mdash; Each spoke handles one type of task (e.g., code review, testing, documentation)</li>
+  <li><strong>Single-purpose</strong> &mdash; Focused system prompt and limited tool set</li>
+  <li><strong>Isolated context</strong> &mdash; Each spoke has its own context window, independent of the hub and other spokes</li>
+  <li><strong>Stateless between invocations</strong> &mdash; Spokes receive only the data they need for their subtask</li>
+</ul>
+
+<h3>Comparison of Orchestration Patterns</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pattern</th><th>Flow</th><th>Best For</th><th>Complexity</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sequential (Chain)</strong></td><td>A &rarr; B &rarr; C (pipeline)</td><td>Deterministic multi-step workflows</td><td>Low</td></tr>
+    <tr><td><strong>Router</strong></td><td>Classify &rarr; Route to specialist</td><td>Input classification + specialized handling</td><td>Low-Medium</td></tr>
+    <tr><td><strong>Fan-Out / Fan-In</strong></td><td>Hub sends to N spokes simultaneously, collects all results</td><td>Parallelizable work (translations, multi-file edits)</td><td>Medium</td></tr>
+    <tr><td><strong>Hub-and-Spoke</strong></td><td>Hub decomposes, delegates dynamically, aggregates</td><td>Complex tasks requiring multiple skills</td><td>High</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Hub-and-Spoke vs. Monolithic Agent</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimension</th><th>Monolithic Agent</th><th>Hub-and-Spoke</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Scalability</strong></td><td>Limited by single context window</td><td>Each spoke has its own context</td></tr>
+    <tr><td><strong>Debugging</strong></td><td>Hard to isolate failures</td><td>Each spoke can be tested independently</td></tr>
+    <tr><td><strong>Specialization</strong></td><td>One prompt for everything</td><td>Tailored prompts per task type</td></tr>
+    <tr><td><strong>Model selection</strong></td><td>One model for all tasks</td><td>Different models per spoke (Haiku for triage, Opus for reasoning)</td></tr>
+    <tr><td><strong>Complexity</strong></td><td>Simple to implement</td><td>Requires orchestration logic</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Claude Code's Sub-Agent Pattern</h3>
+<p>Claude Code implements hub-and-spoke natively. The main agent (hub) can spawn background sub-agents (spokes) using the Agent tool. Each sub-agent runs with its own context and tool set, optionally in an isolated git worktree to avoid file conflicts.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Hub-and-spoke is ideal when a task requires multiple skills, can be decomposed, and benefits from different models or prompts for different subtasks. The hub never does the detailed work itself &mdash; it orchestrates.
+</div>
+</section>
+
+<!-- ============================== PART 3 ============================== -->
+<section id="part3" class="page-break">
+<h2><span class="part-num">Part 03</span>Task Tool and Parallel Execution</h2>
+
+<h3>Task Tool: Spawning Sub-Agents</h3>
+<p>The task tool (or Agent tool in Claude Code) is the mechanism for spawning sub-agents to handle discrete tasks. Each sub-agent operates independently with its own conversation history, system prompt, and tool set.</p>
+
+<h3>Parallel Tool Use</h3>
+<p>Claude can call <strong>multiple tools in a single response</strong>. When the model determines that several operations are independent, it emits multiple <code>tool_use</code> blocks in one turn. The orchestrator should execute them concurrently for maximum throughput.</p>
+
+<div class="code-block"><span class="label">Python</span><span class="cm"># A response may contain multiple tool calls</span>
+tool_calls = [b <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"tool_use"</span>]
+
+<span class="cm"># Execute all tool calls in parallel</span>
+<span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">run_parallel</span>(calls):
+    tasks = [<span class="fn">execute_tool_async</span>(c.name, c.input) <span class="kw">for</span> c <span class="kw">in</span> calls]
+    <span class="kw">return</span> <span class="kw">await</span> asyncio.<span class="fn">gather</span>(*tasks)
+
+results = asyncio.<span class="fn">run</span>(<span class="fn">run_parallel</span>(tool_calls))
+
+<span class="cm"># Send all results back as a single user message</span>
+tool_results = [
+    {<span class="str">"type"</span>: <span class="str">"tool_result"</span>, <span class="str">"tool_use_id"</span>: c.id, <span class="str">"content"</span>: r}
+    <span class="kw">for</span> c, r <span class="kw">in</span> <span class="fn">zip</span>(tool_calls, results)
+]
+messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+</div>
+
+<h3>Controlling Parallel Execution</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Parameter</th><th>Value</th><th>Effect</th></tr></thead>
+  <tbody>
+    <tr><td><code>disable_parallel_tool_use</code></td><td><code>true</code></td><td>Limit Claude to one tool call per turn &mdash; useful for sequential dependencies</td></tr>
+    <tr><td><code>disable_parallel_tool_use</code></td><td><code>false</code> (default)</td><td>Allow multiple tool calls per response</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Worktree Isolation</h3>
+<p>When multiple agents work on the same codebase simultaneously, file conflicts are a real risk. Claude Code solves this with <strong>worktree isolation</strong>: each sub-agent operates in its own git worktree (a separate checkout of the same repository), avoiding conflicts entirely.</p>
+<ul>
+  <li>Each worktree has its own working directory and branch</li>
+  <li>Agents can commit independently without stepping on each other</li>
+  <li>After completion, changes are merged back to the main branch</li>
+</ul>
+
+<h3>Task Decomposition Strategies</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">By File</div>
+    <p>Each agent handles a different file or set of files. Best for multi-file refactoring.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">By Function</div>
+    <p>Each agent implements a different function or feature. Best for greenfield development.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">By Concern</div>
+    <p>Separate agents for code, tests, docs, config. Best for full-stack changes.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">By Test</div>
+    <p>Each agent fixes one failing test. Best for large test suites with many failures.</p>
+  </div>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Use <code>disable_parallel_tool_use: true</code> when tool calls have sequential dependencies. Leave it as default (false) when tools are independent to maximize throughput. Worktree isolation prevents file conflicts between parallel agents.
+</div>
+</section>
+
+<!-- ============================== PART 4 ============================== -->
+<section id="part4" class="page-break">
+<h2><span class="part-num">Part 04</span>Programmatic Control and Hooks</h2>
+
+<h3>Hooks: Shell Commands on Claude Code Actions</h3>
+<p>Hooks are shell commands that execute automatically before or after Claude Code performs specific actions. They provide programmatic control over the agent's behavior without modifying the model itself.</p>
+
+<h3>Hook Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Hook Type</th><th>When It Fires</th><th>Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><code>PreToolUse</code></td><td>Before a tool runs</td><td>Validate inputs, block dangerous operations, log actions</td></tr>
+    <tr><td><code>PostToolUse</code></td><td>After a tool completes</td><td>Auto-format code, run linters, trigger tests</td></tr>
+    <tr><td><code>Notification</code></td><td>When a notification fires</td><td>Send alerts to Slack, log events</td></tr>
+    <tr><td><code>Stop</code></td><td>When the agent stops</td><td>Cleanup, final validation, summary generation</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Hook Configuration</h3>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"hooks"</span>: {
+    <span class="key">"PreToolUse"</span>: [{
+      <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
+      <span class="key">"command"</span>: <span class="str">"echo 'About to write file: $CLAUDE_FILE_PATH'"</span>
+    }],
+    <span class="key">"PostToolUse"</span>: [{
+      <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
+      <span class="key">"command"</span>: <span class="str">"npx prettier --write $CLAUDE_FILE_PATH"</span>
+    }, {
+      <span class="key">"matcher"</span>: <span class="str">"Bash"</span>,
+      <span class="key">"command"</span>: <span class="str">"npm test 2>&amp;1 | tail -5"</span>
+    }]
+  }
+}
+</div>
+
+<h3>Hook Environment Variables</h3>
+<ul>
+  <li><code>$CLAUDE_FILE_PATH</code> &mdash; The file being written or edited</li>
+  <li><code>$CLAUDE_TOOL_NAME</code> &mdash; The name of the tool being used</li>
+  <li>Hook commands have access to the full shell environment</li>
+</ul>
+
+<h3>Common Hook Use Cases</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Auto-Format</div>
+    <p>PostToolUse on Write: run Prettier, Black, or gofmt after every file edit.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Lint Gate</div>
+    <p>PostToolUse on Write: run ESLint or pylint and feed errors back to Claude.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Test Runner</div>
+    <p>PostToolUse on Bash: automatically run tests after code changes.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Schema Validation</div>
+    <p>PreToolUse: validate JSON schemas before allowing writes to config files.</p>
+  </div>
+</div>
+
+<h3>Programmatic Control via SDK</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Parameter</th><th>Options</th><th>Effect</th></tr></thead>
+  <tbody>
+    <tr><td><code>tool_choice</code></td><td><code>auto</code> / <code>any</code> / <code>tool</code> / <code>none</code></td><td>Controls whether and which tools Claude can use</td></tr>
+    <tr><td><code>max_tokens</code></td><td>integer</td><td>Caps the output length</td></tr>
+    <tr><td><code>stop_sequences</code></td><td>array of strings</td><td>Custom termination triggers</td></tr>
+    <tr><td><code>disable_parallel_tool_use</code></td><td>boolean</td><td>Force sequential tool execution</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Hooks provide <strong>programmatic control without modifying prompts</strong>. PreToolUse hooks can block actions; PostToolUse hooks can transform outputs. They are configured in <code>settings.json</code>, not in CLAUDE.md.
+</div>
+</section>
+
+<!-- ============================== PART 5 ============================== -->
+<section id="part5" class="page-break">
+<h2><span class="part-num">Part 05</span>Tool Descriptions</h2>
+
+<h3>Why Tool Descriptions Are Critical</h3>
+<p>Tool descriptions are the single most important factor determining whether Claude uses a tool correctly. The model reads tool descriptions as part of its system prompt to decide <strong>when</strong> to call a tool, <strong>how</strong> to format inputs, and <strong>what</strong> to expect from outputs. Poor descriptions lead to misuse, wasted tokens, and errors.</p>
+
+<h3>Anatomy of a Good Tool Description</h3>
+<div class="highlight">
+  <div class="hl-title">A Description Should Answer</div>
+  <ul>
+    <li><strong>What it does</strong> &mdash; Clear statement of the tool's purpose</li>
+    <li><strong>When to use it</strong> &mdash; Scenarios that warrant calling this tool</li>
+    <li><strong>What it returns</strong> &mdash; Format and structure of the output</li>
+    <li><strong>Edge cases</strong> &mdash; What happens when input is invalid or data is not found</li>
+    <li><strong>Limitations</strong> &mdash; Rate limits, data freshness, scope restrictions</li>
+  </ul>
+</div>
+
+<h3>Good vs. Bad Descriptions</h3>
+<div class="example-box">
+  <div class="ex-header">BAD: Vague and Incomplete</div>
+  <div class="ex-body">
+    <code>"Gets weather"</code>
+    <p style="font-size:0.85rem; color:var(--c-text2); margin-top:6px;">Claude does not know what input format to use, what the return looks like, or when to choose this tool over alternatives.</p>
+  </div>
+</div>
+
+<div class="example-box">
+  <div class="ex-header">GOOD: Specific and Complete</div>
+  <div class="ex-body">
+    <code>"Get current weather conditions for a city. Input: city name (string). Returns: JSON with temperature_celsius (number), humidity_percent (number), and conditions (string: 'sunny', 'cloudy', 'rainy', 'snowy'). Use when the user asks about current weather in a specific location. Returns an error if the city name is not recognized."</code>
+  </div>
+</div>
+
+<h3>Parameter Descriptions</h3>
+<p>Every parameter in the <code>input_schema</code> should have its own <code>"description"</code> field:</p>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"name"</span>: <span class="str">"search_documents"</span>,
+  <span class="key">"description"</span>: <span class="str">"Search the knowledge base for relevant documents..."</span>,
+  <span class="key">"input_schema"</span>: {
+    <span class="key">"type"</span>: <span class="str">"object"</span>,
+    <span class="key">"properties"</span>: {
+      <span class="key">"query"</span>: {
+        <span class="key">"type"</span>: <span class="str">"string"</span>,
+        <span class="key">"description"</span>: <span class="str">"Natural language search query. Be specific."</span>
+      },
+      <span class="key">"max_results"</span>: {
+        <span class="key">"type"</span>: <span class="str">"integer"</span>,
+        <span class="key">"description"</span>: <span class="str">"Maximum documents to return (1-20). Default: 5."</span>
+      }
+    },
+    <span class="key">"required"</span>: [<span class="str">"query"</span>]
+  }
+}
+</div>
+
+<h3>Tool Naming Conventions</h3>
+<p>Use clear <strong>verb_noun</strong> patterns: <code>get_weather</code>, <code>search_documents</code>, <code>create_user</code>, <code>delete_file</code>. Avoid ambiguous names like <code>process</code>, <code>handle</code>, or <code>do_thing</code>.</p>
+
+<h3>Token Cost of Tool Descriptions</h3>
+<p>Tool definitions are injected into the system prompt and <strong>count toward input tokens</strong> on every API call. Over-describing tools wastes tokens; under-describing causes misuse. Aim for the minimum description that prevents ambiguity.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Tool descriptions determine Claude's tool selection behavior. They should specify what, when, return format, and edge cases. Tool definitions count toward input tokens on every request &mdash; keep them concise but complete.
+</div>
+</section>
+
+<!-- ============================== PART 6 ============================== -->
+<section id="part6" class="page-break">
+<h2><span class="part-num">Part 06</span>Error Handling Patterns</h2>
+
+<h3>Tool Error Signaling</h3>
+<p>When a tool execution fails, the orchestrator should signal the error to Claude using the <code>is_error: true</code> flag in the <code>tool_result</code>. This tells Claude that the tool failed and it should try an alternative approach or report the failure.</p>
+
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"type"</span>: <span class="str">"tool_result"</span>,
+  <span class="key">"tool_use_id"</span>: <span class="str">"toolu_01ABC..."</span>,
+  <span class="key">"content"</span>: <span class="str">"Error: Database connection timeout after 5000ms. The database server at db.example.com:5432 is not responding."</span>,
+  <span class="key">"is_error"</span>: <span class="kw">true</span>
+}
+</div>
+
+<h3>Error Categories</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Category</th><th>Examples</th><th>Strategy</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Transient</strong></td><td>429 rate limit, 500 server error, 529 overloaded, network timeout</td><td>Retry with exponential backoff</td></tr>
+    <tr><td><strong>Permanent</strong></td><td>400 bad request, 404 not found, invalid schema</td><td>Fail immediately, do not retry</td></tr>
+    <tr><td><strong>User-fixable</strong></td><td>Missing credentials, invalid input, permission denied</td><td>Ask the user for correction</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Retry with Exponential Backoff</h3>
+<div class="code-block"><span class="label">Python</span><span class="kw">import</span> time, anthropic
+
+<span class="kw">def</span> <span class="fn">call_with_backoff</span>(client, max_retries=<span class="num">3</span>, **kwargs):
+    <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(max_retries):
+        <span class="kw">try</span>:
+            <span class="kw">return</span> client.messages.<span class="fn">create</span>(**kwargs)
+        <span class="kw">except</span> anthropic.RateLimitError:
+            wait = <span class="num">2</span> ** attempt  <span class="cm"># 1s, 2s, 4s</span>
+            time.<span class="fn">sleep</span>(wait)
+        <span class="kw">except</span> anthropic.APIStatusError <span class="kw">as</span> e:
+            <span class="kw">if</span> e.status_code >= <span class="num">500</span>:
+                time.<span class="fn">sleep</span>(<span class="num">2</span> ** attempt)
+            <span class="kw">else</span>:
+                <span class="kw">raise</span>  <span class="cm"># 4xx = permanent, do not retry</span>
+    <span class="kw">raise</span> <span class="fn">Exception</span>(<span class="str">"Max retries exceeded"</span>)
+</div>
+
+<h3>SDK Auto-Retry</h3>
+<p>The official Python and TypeScript SDKs <strong>automatically retry</strong> 429 (rate limit) and 529 (overloaded) errors with exponential backoff. You do not need to implement retry logic for these specific cases when using the SDK.</p>
+
+<h3>Circuit Breaker Pattern</h3>
+<p>If a tool fails repeatedly, stop calling it entirely to avoid wasting tokens and time:</p>
+<ul>
+  <li><strong>Closed</strong> (normal) &mdash; tool calls proceed as usual</li>
+  <li><strong>Open</strong> (tripped) &mdash; after N consecutive failures, skip the tool and use a fallback</li>
+  <li><strong>Half-open</strong> &mdash; after a timeout, try one call to see if the service recovered</li>
+</ul>
+
+<h3>Graceful Degradation</h3>
+<p>When a tool fails, Claude should fall back to a simpler approach rather than stopping entirely. For example, if a web search tool fails, Claude can reason from its training data. If a database tool fails, Claude can suggest the user run the query manually.</p>
+
+<h3>HTTP Error Codes Reference</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Code</th><th>Meaning</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>400</code></td><td>Bad Request</td><td>Fix the request payload</td></tr>
+    <tr><td><code>401</code></td><td>Unauthorized</td><td>Check API key</td></tr>
+    <tr><td><code>429</code></td><td>Rate Limited</td><td>Auto-retry (SDK handles this)</td></tr>
+    <tr><td><code>500</code></td><td>Server Error</td><td>Retry with backoff</td></tr>
+    <tr><td><code>529</code></td><td>Overloaded</td><td>Auto-retry (SDK handles this)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Always use <code>is_error: true</code> when returning a tool error to Claude &mdash; without it, Claude may interpret the error text as a successful result. The SDK auto-retries 429 and 529 errors; you must handle 500s yourself.
+</div>
+</section>
+
+<!-- ============================== PART 7 ============================== -->
+<section id="part7" class="page-break">
+<h2><span class="part-num">Part 07</span>MCP Configuration</h2>
+
+<h3>What Is MCP?</h3>
+<p>MCP (Model Context Protocol) is an <strong>open standard</strong> for connecting AI models to external tools and data sources. Instead of building custom tool integrations for each service, MCP provides a standardized protocol that any server can implement and any client can consume.</p>
+
+<h3>MCP Connector in Messages API</h3>
+<p>The Messages API supports connecting to remote MCP servers directly, without needing a separate MCP client:</p>
+
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"model"</span>: <span class="str">"claude-sonnet-5"</span>,
+  <span class="key">"max_tokens"</span>: <span class="num">1024</span>,
+  <span class="key">"mcp_servers"</span>: [{
+    <span class="key">"type"</span>: <span class="str">"url"</span>,
+    <span class="key">"url"</span>: <span class="str">"https://mcp.example.com/sse"</span>,
+    <span class="key">"name"</span>: <span class="str">"my-server"</span>,
+    <span class="key">"authorization"</span>: {
+      <span class="key">"type"</span>: <span class="str">"bearer"</span>,
+      <span class="key">"token"</span>: <span class="str">"sk-..."</span>
+    },
+    <span class="key">"tool_configuration"</span>: {
+      <span class="key">"allowed_tools"</span>: [<span class="str">"search"</span>, <span class="str">"create"</span>],
+      <span class="key">"denied_tools"</span>: [<span class="str">"delete"</span>]
+    }
+  }],
+  <span class="key">"messages"</span>: [...]
+}
+</div>
+
+<h3>MCP in Claude Code</h3>
+<p>Claude Code supports MCP server configuration in two locations:</p>
+<ul>
+  <li><code>.claude/settings.json</code> &mdash; project-level MCP servers (committed to repo)</li>
+  <li><code>.mcp.json</code> &mdash; alternative project-level configuration file</li>
+  <li><code>~/.claude/settings.json</code> &mdash; user-level MCP servers (personal tools)</li>
+</ul>
+
+<h3>Key MCP Features</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Tool Discovery</div>
+    <p>MCP servers expose available tools dynamically. The client discovers what tools are available at connection time.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Multiple Servers</div>
+    <p>Connect to multiple MCP servers in a single request. Each server contributes its own set of tools.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">OAuth Support</div>
+    <p>MCP supports OAuth authentication for servers that require user-specific authorization.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Per-Tool Configuration</div>
+    <p>Use <code>allowed_tools</code> and <code>denied_tools</code> to control which tools from a server Claude can access.</p>
+  </div>
+</div>
+
+<h3>MCP vs. Custom Tools</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimension</th><th>MCP</th><th>Custom Tools</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Protocol</strong></td><td>Standardized, open</td><td>Bespoke per application</td></tr>
+    <tr><td><strong>Discovery</strong></td><td>Dynamic (server advertises tools)</td><td>Static (defined at build time)</td></tr>
+    <tr><td><strong>Interoperability</strong></td><td>Any MCP client can use any MCP server</td><td>Tightly coupled to your app</td></tr>
+    <tr><td><strong>Hosting</strong></td><td>Server runs independently</td><td>You implement the tool execution</td></tr>
+    <tr><td><strong>Best for</strong></td><td>Shared services, third-party integrations</td><td>App-specific business logic</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  MCP is an <strong>open standard</strong>, not proprietary. It enables dynamic tool discovery and works across any compliant client/server. Use <code>tool_configuration</code> to allowlist or denylist specific tools from an MCP server.
+</div>
+</section>
+
+<!-- ============================== PART 8 ============================== -->
+<section id="part8" class="page-break">
+<h2><span class="part-num">Part 08</span>Tool Scoping and Agent Roles</h2>
+
+<h3>Principle of Least Privilege</h3>
+<p>Each agent should have access to <strong>only the tools it needs</strong> for its specific role. Broader tool access increases the risk of errors, security vulnerabilities, and wasted tokens (more tool definitions = more input tokens).</p>
+
+<h3>Role-Based Tool Access Patterns</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Agent Role</th><th>Tools Available</th><th>Rationale</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Researcher</strong></td><td><code>web_search</code>, <code>web_fetch</code>, <code>read_file</code></td><td>Read-only access to gather information</td></tr>
+    <tr><td><strong>Coder</strong></td><td><code>write_file</code>, <code>edit_file</code>, <code>bash</code>, <code>test_runner</code></td><td>Full write access to implement changes</td></tr>
+    <tr><td><strong>Reviewer</strong></td><td><code>read_file</code>, <code>grep</code>, <code>diff</code></td><td>Read-only &mdash; can analyze but not modify</td></tr>
+    <tr><td><strong>Deployer</strong></td><td><code>bash</code> (limited commands), <code>git</code></td><td>Restricted to deployment operations</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Tool Choice Modes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Mode</th><th>Behavior</th><th>Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><code>auto</code></td><td>Claude decides whether to use tools</td><td>Default for most agentic loops</td></tr>
+    <tr><td><code>any</code></td><td>Claude must use at least one tool</td><td>Force tool use when you know a tool is needed</td></tr>
+    <tr><td><code>tool</code></td><td>Claude must use a specific named tool</td><td>Force a specific tool call (e.g., structured output)</td></tr>
+    <tr><td><code>none</code></td><td>Claude cannot use any tools</td><td>Text-only response, no tool calling</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Benefits of Scoping</h3>
+<ul>
+  <li><strong>Fewer errors</strong> &mdash; agents cannot accidentally use the wrong tool</li>
+  <li><strong>Better security</strong> &mdash; read-only agents cannot modify files or run commands</li>
+  <li><strong>Lower token cost</strong> &mdash; fewer tool definitions means fewer input tokens per call</li>
+  <li><strong>Clearer reasoning</strong> &mdash; agents make better tool selections from a smaller set</li>
+</ul>
+
+<h3>Agent Isolation</h3>
+<p>Beyond tool scoping, each agent should have:</p>
+<ul>
+  <li><strong>Separate system prompts</strong> &mdash; tailored to its specific role</li>
+  <li><strong>Isolated context</strong> &mdash; its own conversation history, not shared with other agents</li>
+  <li><strong>Scoped permissions</strong> &mdash; limited file system and network access</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Tool scoping reduces errors, cost, and security risk. A reviewer agent should never have write tools. Use <code>tool_choice: "none"</code> to force text-only responses and <code>tool_choice: {type: "tool", name: "..."}</code> to force a specific tool call.
+</div>
+</section>
+
+<!-- ============================== PART 9 ============================== -->
+<section id="part9" class="page-break">
+<h2><span class="part-num">Part 09</span>CLAUDE.md Hierarchy</h2>
+
+<h3>What Is CLAUDE.md?</h3>
+<p><code>CLAUDE.md</code> is a project instruction file that Claude Code reads at session start. It provides the model with persistent context about your project: coding standards, architecture decisions, build commands, testing conventions, and more.</p>
+
+<h3>The Hierarchy (General to Specific)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Level</th><th>Location</th><th>Scope</th><th>Example Content</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1. User</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>All projects for this user</td><td>Personal preferences, editor settings, default model</td></tr>
+    <tr><td><strong>2. Project Root</strong></td><td><code>/project/CLAUDE.md</code></td><td>Entire project</td><td>Architecture, coding standards, build commands</td></tr>
+    <tr><td><strong>3. Directory</strong></td><td><code>/project/src/CLAUDE.md</code></td><td>Source directory and below</td><td>Module-specific patterns, import conventions</td></tr>
+    <tr><td><strong>4. Subdirectory</strong></td><td><code>/project/src/api/CLAUDE.md</code></td><td>API directory and below</td><td>API conventions, endpoint patterns, auth handling</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Override Behavior</h3>
+<p>More specific CLAUDE.md files <strong>override</strong> more general ones. If the root CLAUDE.md says "use tabs" but <code>src/api/CLAUDE.md</code> says "use 2-space indent", the API directory uses 2-space indent. The hierarchy merges additively for non-conflicting rules.</p>
+
+<h3>What to Put in CLAUDE.md</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">DO Include</div>
+    <ul>
+      <li>Non-obvious architecture decisions</li>
+      <li>Coding standards specific to this project</li>
+      <li>Build and deployment commands</li>
+      <li>Testing conventions and patterns</li>
+      <li>Preferred libraries and frameworks</li>
+      <li>Review checklists</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">DO NOT Include</div>
+    <ul>
+      <li>Things derivable from code itself</li>
+      <li>Standard language conventions</li>
+      <li>Information already in git history</li>
+      <li>API keys or secrets</li>
+      <li>Redundant information from package.json</li>
+    </ul>
+  </div>
+</div>
+
+<h3>AGENTS.md</h3>
+<p><code>AGENTS.md</code> is an alternative name that is also read by Claude Code. Both filenames work identically. Use whichever naming convention your team prefers.</p>
+
+<h3>Auto Memory</h3>
+<p>Claude Code automatically saves learnings across sessions in <code>~/.claude/memory</code>. This is separate from CLAUDE.md and stores things Claude discovers during work (e.g., "this project uses pnpm, not npm").</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  The CLAUDE.md hierarchy goes from user (~/.claude/CLAUDE.md) to project root to subdirectories. More specific files override more general ones. Keep it concise and focus on non-obvious decisions.
+</div>
+</section>
+
+<!-- ============================== PART 10 ============================== -->
+<section id="part10" class="page-break">
+<h2><span class="part-num">Part 10</span>Agent Skills</h2>
+
+<h3>What Are Skills?</h3>
+<p>Skills are packaged, repeatable workflows that can be invoked by name. They provide a way to create standardized procedures that any team member can trigger, ensuring consistent execution of common tasks.</p>
+
+<h3>Invoking Skills</h3>
+<ul>
+  <li><code>/skill-name</code> &mdash; Slash command in Claude Code CLI</li>
+  <li><code>Skill</code> tool &mdash; Programmatic invocation from within an agent</li>
+  <li>Skills load their instructions on demand (progressive disclosure)</li>
+</ul>
+
+<h3>Skill Types</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Type</th><th>Examples</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Built-in</strong></td><td><code>/code-review</code>, <code>/init</code>, <code>/security-review</code></td><td>Included with Claude Code, always available</td></tr>
+    <tr><td><strong>Custom</strong></td><td><code>/deploy-staging</code>, <code>/run-tests</code>, <code>/generate-docs</code></td><td>Created in <code>.claude/skills/</code> directory</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Skills vs. CLAUDE.md</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimension</th><th>CLAUDE.md</th><th>Skills</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Nature</strong></td><td>Passive context &mdash; always loaded</td><td>Active workflow &mdash; invoked on demand</td></tr>
+    <tr><td><strong>Token cost</strong></td><td>Always in context (uses tokens every turn)</td><td>Loaded only when invoked (progressive disclosure)</td></tr>
+    <tr><td><strong>Use case</strong></td><td>Standards, conventions, architecture</td><td>Repeatable procedures, workflows, checklists</td></tr>
+    <tr><td><strong>Sharing</strong></td><td>Committed to repo</td><td>Committed to repo (<code>.claude/skills/</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Custom Skill Anatomy</h3>
+<p>A custom skill is defined by a file in <code>.claude/skills/</code> with a name, description, and instructions. Skills can include scripts that execute as part of the workflow.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Skills use <strong>progressive disclosure</strong> &mdash; their instructions are loaded on demand, keeping the base context small. CLAUDE.md is always in context; skills are loaded only when invoked.
+</div>
+</section>
+
+<!-- ============================== PART 11 ============================== -->
+<section id="part11" class="page-break">
+<h2><span class="part-num">Part 11</span>Path-Specific Rules and Context Fork</h2>
+
+<h3>Path-Specific Rules</h3>
+<p>Different directories in a project can have different CLAUDE.md files, providing path-specific rules. When Claude Code works in a subdirectory, it picks up that directory's CLAUDE.md in addition to the project root's.</p>
+
+<div class="example-box">
+  <div class="ex-header">Example: Monorepo with Different Standards</div>
+  <div class="ex-body">
+    <ul style="font-size:0.88rem;">
+      <li><code>/CLAUDE.md</code> &mdash; Global: "Use conventional commits, run CI before merging"</li>
+      <li><code>/backend/CLAUDE.md</code> &mdash; "Java 17, Spring Boot, JUnit 5, 4-space indent"</li>
+      <li><code>/frontend/CLAUDE.md</code> &mdash; "React 18, TypeScript strict mode, 2-space indent, Vitest"</li>
+      <li><code>/infrastructure/CLAUDE.md</code> &mdash; "Terraform, HCL format, plan before apply"</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Context Forking</h3>
+<p>When an agent enters a subdirectory (or a sub-agent is spawned to work in one), it picks up the directory-specific CLAUDE.md rules. This creates a <strong>context fork</strong> &mdash; the sub-agent operates under different rules than the parent.</p>
+
+<h3>Worktree Isolation for Parallel Work</h3>
+<p>The <code>EnterWorktree</code> tool creates an isolated git worktree for an agent to work in. This provides:</p>
+<ul>
+  <li><strong>File isolation</strong> &mdash; no conflicts with other agents or the main checkout</li>
+  <li><strong>Independent commits</strong> &mdash; each worktree has its own branch</li>
+  <li><strong>Clean lifecycle</strong> &mdash; create &rarr; work &rarr; commit &rarr; merge &rarr; cleanup</li>
+</ul>
+
+<h3>Fork Pattern</h3>
+<p>The fork pattern combines context forking with worktree isolation:</p>
+<ol>
+  <li>Hub agent decomposes a task into subtasks</li>
+  <li>For each subtask, spawn a sub-agent in its own worktree</li>
+  <li>Each sub-agent picks up path-specific CLAUDE.md rules</li>
+  <li>Each sub-agent has its own context window</li>
+  <li>Results are merged back to the main branch</li>
+</ol>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Path-specific CLAUDE.md files let different parts of a monorepo have different coding standards. Worktree isolation prevents file conflicts between parallel agents. Context fork = different agent, different rules, different context window.
+</div>
+</section>
+
+<!-- ============================== PART 12 ============================== -->
+<section id="part12" class="page-break">
+<h2><span class="part-num">Part 12</span>CLI Flags and CI/CD</h2>
+
+<h3>Key CLI Flags</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Flag</th><th>Purpose</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>--print</code> / <code>-p</code></td><td>Non-interactive mode (pipe mode)</td><td><code>claude -p "fix lint errors"</code></td></tr>
+    <tr><td><code>--model</code></td><td>Override default model</td><td><code>claude --model claude-opus-5-5</code></td></tr>
+    <tr><td><code>--max-tokens</code></td><td>Set output token limit</td><td><code>claude --max-tokens 4096</code></td></tr>
+    <tr><td><code>--format</code></td><td>Output format</td><td><code>claude -p "..." --format json</code></td></tr>
+    <tr><td><code>--allowedTools</code></td><td>Whitelist specific tools</td><td><code>claude -p "..." --allowedTools bash,write</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>CI/CD Integration</h3>
+<p>Claude Code can run in CI/CD pipelines for automated code review, issue triage, and code generation. The key is using non-interactive mode (<code>-p</code>) with appropriate tool permissions.</p>
+
+<div class="code-block"><span class="label">GitHub Actions</span><span class="cm"># .github/workflows/claude-review.yml</span>
+name: Claude PR Review
+on: [pull_request]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Review PR
+        run: |
+          claude -p "Review the diff for bugs and security issues. \
+            Output as JSON with findings array." \
+            --format json \
+            --allowedTools bash,read,grep
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+</div>
+
+<h3>Permission Control in CI</h3>
+<ul>
+  <li><code>--allowedTools</code> &mdash; Whitelist only the tools needed for the CI task</li>
+  <li><code>dangerouslySkipPermissions</code> &mdash; Skip all permission prompts in trusted CI environments (use with caution)</li>
+  <li>Always scope permissions to the minimum required for the pipeline task</li>
+</ul>
+
+<h3>Environment Variables</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API authentication key</td></tr>
+    <tr><td><code>CLAUDE_MODEL</code></td><td>Default model override</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Claude Code in Pipelines</h3>
+<div class="decision-tree"><span class="arrow">&rarr;</span> Lint (ESLint/Prettier)
+  <span class="arrow">&rarr;</span> Test (Jest/pytest)
+    <span class="arrow">&rarr;</span> <span class="model">Claude Review</span> (automated PR review)
+      <span class="arrow">&rarr;</span> Build (webpack/maven)
+        <span class="arrow">&rarr;</span> Deploy (staging/production)</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Use <code>claude -p</code> for non-interactive CI/CD mode. Always use <code>--allowedTools</code> to restrict permissions. <code>--format json</code> enables machine-readable output for pipeline integration.
+</div>
+</section>
+
+<!-- ============================== PART 13 ============================== -->
+<section id="part13" class="page-break">
+<h2><span class="part-num">Part 13</span>Match Criteria and Few-Shot Examples</h2>
+
+<h3>Match Criteria for Hooks and Skills</h3>
+<p>Hooks and skills use <strong>match criteria</strong> to determine when they should trigger. The matcher defines which tool or action activates the hook.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Matcher Type</th><th>Syntax</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Exact</strong></td><td>Tool name string</td><td><code>"Write"</code> &mdash; matches the Write tool</td></tr>
+    <tr><td><strong>Glob</strong></td><td>Wildcard pattern</td><td><code>"Bash(*)"</code> &mdash; matches any Bash invocation</td></tr>
+    <tr><td><strong>Regex</strong></td><td>Regular expression</td><td><code>/^(Write|Edit)$/</code> &mdash; matches Write or Edit</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Few-Shot Examples in Prompts</h3>
+<p>Few-shot examples demonstrate the expected behavior to Claude. They are one of the most effective techniques for improving output quality and consistency.</p>
+
+<h3>Best Practices for Examples</h3>
+<ul>
+  <li><strong>3-5 examples</strong> for best results &mdash; fewer may be insufficient, more wastes tokens</li>
+  <li><strong>Diverse</strong> &mdash; cover different scenarios, edge cases, and input types</li>
+  <li><strong>Relevant</strong> &mdash; examples should match the distribution of real inputs</li>
+  <li><strong>Structured</strong> &mdash; use consistent formatting so the pattern is clear</li>
+</ul>
+
+<h3>Example Structure</h3>
+<div class="code-block"><span class="label">XML Tags</span><span class="kw">&lt;examples&gt;</span>
+  <span class="kw">&lt;example&gt;</span>
+    <span class="kw">&lt;input&gt;</span>What is the refund policy for digital products?<span class="kw">&lt;/input&gt;</span>
+    <span class="kw">&lt;output&gt;</span>
+    Category: billing
+    Confidence: 0.95
+    Response: Digital products are eligible for a full refund
+    within 14 days of purchase if unused...
+    <span class="kw">&lt;/output&gt;</span>
+  <span class="kw">&lt;/example&gt;</span>
+
+  <span class="kw">&lt;example&gt;</span>
+    <span class="kw">&lt;input&gt;</span>My account is locked after too many login attempts<span class="kw">&lt;/input&gt;</span>
+    <span class="kw">&lt;output&gt;</span>
+    Category: technical
+    Confidence: 0.98
+    Response: Account lockouts are automatically cleared after
+    30 minutes. If you need immediate access...
+    <span class="kw">&lt;/output&gt;</span>
+  <span class="kw">&lt;/example&gt;</span>
+<span class="kw">&lt;/examples&gt;</span>
+</div>
+
+<h3>Tool Use Examples</h3>
+<p>You can also provide examples showing Claude how to use tools correctly. Include them as sample conversations in the system prompt to demonstrate the expected tool selection and parameter formatting.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Use 3-5 diverse, structured examples wrapped in <code>&lt;example&gt;</code> tags. Match criteria for hooks support exact names, glob patterns, and regex. Examples demonstrate expected behavior; match criteria define trigger conditions.
+</div>
+</section>
+
+<!-- ============================== PART 14 ============================== -->
+<section id="part14" class="page-break">
+<h2><span class="part-num">Part 14</span>JSON Schema and Structured Output</h2>
+
+<h3>Guaranteed Schema Conformance</h3>
+<p>The Messages API supports <code>output_config.format</code> with a JSON Schema, guaranteeing that the model's output conforms to the specified schema. This eliminates parsing errors and post-processing validation.</p>
+
+<h3>Python: Pydantic Integration</h3>
+<div class="code-block"><span class="label">Python</span><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">import</span> anthropic
+
+<span class="kw">class</span> <span class="fn">SentimentResult</span>(BaseModel):
+    sentiment: <span class="fn">str</span>  <span class="cm"># "positive", "negative", "neutral"</span>
+    confidence: <span class="fn">float</span>
+    reasoning: <span class="fn">str</span>
+
+client = anthropic.<span class="fn">Anthropic</span>()
+result = client.messages.<span class="fn">parse</span>(
+    model=<span class="str">"claude-sonnet-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Analyze: 'This product is amazing!'"</span>}],
+    output_schema=SentimentResult
+)
+<span class="cm"># result is a SentimentResult instance with type safety</span>
+<span class="fn">print</span>(result.sentiment)  <span class="cm"># "positive"</span>
+</div>
+
+<h3>TypeScript: Zod Integration</h3>
+<div class="code-block"><span class="label">TypeScript</span><span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk"</span>;
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">"zod"</span>;
+<span class="kw">import</span> { zodOutputFormat } <span class="kw">from</span> <span class="str">"@anthropic-ai/sdk/helpers/zod"</span>;
+
+<span class="kw">const</span> SentimentSchema = z.<span class="fn">object</span>({
+  sentiment: z.<span class="fn">enum</span>([<span class="str">"positive"</span>, <span class="str">"negative"</span>, <span class="str">"neutral"</span>]),
+  confidence: z.<span class="fn">number</span>(),
+  reasoning: z.<span class="fn">string</span>()
+});
+
+<span class="kw">const</span> result = <span class="kw">await</span> client.messages.<span class="fn">create</span>({
+  model: <span class="str">"claude-sonnet-5"</span>,
+  max_tokens: <span class="num">1024</span>,
+  messages: [{ role: <span class="str">"user"</span>, content: <span class="str">"Analyze: 'Terrible experience'"</span> }],
+  output_config: <span class="fn">zodOutputFormat</span>(SentimentSchema)
+});
+</div>
+
+<h3>Strict Tool Definitions</h3>
+<p>Setting <code>strict: true</code> on a tool definition ensures that Claude's tool call parameters exactly match the JSON Schema, with no extra fields:</p>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"name"</span>: <span class="str">"create_ticket"</span>,
+  <span class="key">"description"</span>: <span class="str">"Create a support ticket"</span>,
+  <span class="key">"strict"</span>: <span class="kw">true</span>,
+  <span class="key">"input_schema"</span>: {
+    <span class="key">"type"</span>: <span class="str">"object"</span>,
+    <span class="key">"properties"</span>: { ... },
+    <span class="key">"required"</span>: [...],
+    <span class="key">"additionalProperties"</span>: <span class="kw">false</span>
+  }
+}
+</div>
+
+<h3>Supported JSON Schema Features</h3>
+<div class="highlight">
+  <div class="hl-title">Supported</div>
+  <p><code>object</code>, <code>array</code>, <code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>enum</code>, <code>const</code>, <code>anyOf</code>, <code>allOf</code>, <code>$ref</code>/<code>$defs</code></p>
+</div>
+
+<h3>Limitations</h3>
+<ul>
+  <li>No recursive schemas</li>
+  <li>No <code>min</code>/<code>max</code> constraints (minLength, maxLength, minimum, maximum)</li>
+  <li><code>additionalProperties: false</code> is <strong>required</strong> on all objects</li>
+  <li>First request with a new schema has higher latency (grammar compilation); compiled grammars are cached for 24 hours</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Use <code>client.messages.parse()</code> in Python (with Pydantic) or <code>zodOutputFormat()</code> in TypeScript (with Zod) for type-safe structured output. The first request with a new schema is slower due to grammar compilation. <code>additionalProperties: false</code> is required.
+</div>
+</section>
+
+<!-- ============================== PART 15 ============================== -->
+<section id="part15" class="page-break">
+<h2><span class="part-num">Part 15</span>API Selection and Cost vs. Latency</h2>
+
+<h3>Model Pricing and Capabilities</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Input / MTok</th><th>Output / MTok</th><th>Context</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Fable 5.1</strong></td><td>$10</td><td>$50</td><td>1M</td><td>Multi-day agentic tasks, demanding reasoning</td></tr>
+    <tr><td><strong>Opus 5.5</strong></td><td>$4</td><td>$20</td><td>1M</td><td>Complex reasoning, nuanced analysis</td></tr>
+    <tr><td><strong>Sonnet 5</strong></td><td>$2</td><td>$10</td><td>1M</td><td>General-purpose, balanced cost/quality</td></tr>
+    <tr><td><strong>Haiku 4.5</strong></td><td>$1</td><td>$5</td><td>200K</td><td>Classification, routing, simple tasks</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Model Routing Strategy</h3>
+<div class="decision-tree">User query arrives
+<span class="arrow">&rarr;</span> Is it a classification/routing task?
+  <span class="arrow">&rarr;</span> YES: Use <span class="model">Haiku 4.5</span> ($1/MTok input, fast)
+  <span class="arrow">&rarr;</span> NO: Does it require deep reasoning?
+    <span class="arrow">&rarr;</span> YES: Is it a multi-day agentic task?
+      <span class="arrow">&rarr;</span> YES: Use <span class="model">Fable 5.1</span> (worth the 5x premium)
+      <span class="arrow">&rarr;</span> NO: Use <span class="model">Opus 5.5</span> (complex reasoning)
+    <span class="arrow">&rarr;</span> NO: Use <span class="model">Sonnet 5</span> (best value)</div>
+
+<h3>Cost Optimization Strategies</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Prompt Caching</div>
+    <ul>
+      <li>5m write: 1.25x base input cost</li>
+      <li>1h write: 2x base input cost</li>
+      <li>Cache hit: 0.1x base input (90% saving)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Batch Processing</div>
+    <ul>
+      <li>50% discount on all models</li>
+      <li>Async via JSONL upload</li>
+      <li>Results within 24 hours</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Effort Parameter</div>
+    <ul>
+      <li><code>low</code>: fast but less thorough</li>
+      <li><code>medium</code>: balanced</li>
+      <li><code>high</code>: thorough but slower</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Shorter Prompts</div>
+    <ul>
+      <li>Remove redundant instructions</li>
+      <li>Use concise examples</li>
+      <li>Output tokens cost more than input</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Latency Optimization</h3>
+<ul>
+  <li><strong>Streaming</strong> &mdash; Show tokens as they arrive for perceived speed</li>
+  <li><strong>Faster models</strong> &mdash; Haiku is fastest, Fable is slowest</li>
+  <li><strong>Prompt caching</strong> &mdash; Cache hits reduce time-to-first-token</li>
+  <li><strong>Effort = low</strong> &mdash; Trades thoroughness for speed</li>
+  <li><strong>Shorter outputs</strong> &mdash; Less generation time</li>
+</ul>
+
+<h3>Token Economics</h3>
+<p>On all models, <strong>input tokens are cheaper than output tokens</strong> (typically 5x cheaper). This means investing more in the prompt to get shorter, better-targeted outputs is cost-effective.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Know the relative pricing: Fable ($10/$50) > Opus ($4/$20) > Sonnet ($2/$10) > Haiku ($1/$5). Use model routing to match capability to task. Batch processing gives 50% discount. Cache hits give 90% discount on input tokens.
+</div>
+</section>
+
+<!-- ============================== PART 16 ============================== -->
+<section id="part16" class="page-break">
+<h2><span class="part-num">Part 16</span>Context Window Management</h2>
+
+<h3>Context Window Sizes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Context Window</th><th>Max Output</th></tr></thead>
+  <tbody>
+    <tr><td>Fable 5.1, Opus 5.5, Sonnet 5</td><td>1,000,000 tokens</td><td>128,000 tokens</td></tr>
+    <tr><td>Haiku 4.5</td><td>200,000 tokens</td><td>8,192 tokens</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>What Counts Toward the Context Window</h3>
+<ul>
+  <li><strong>System prompt</strong> &mdash; including all tool definitions</li>
+  <li><strong>Messages</strong> &mdash; full conversation history (user + assistant turns)</li>
+  <li><strong>Tool definitions</strong> &mdash; JSON schemas for all available tools</li>
+  <li><strong>Tool results</strong> &mdash; returned data from executed tools (often the largest contributor)</li>
+  <li><strong>Images</strong> &mdash; base64-encoded images or references</li>
+  <li><strong>Thinking blocks</strong> &mdash; extended thinking content</li>
+  <li><strong>Output</strong> &mdash; the model's response counts against the window</li>
+</ul>
+
+<h3>Context Rot</h3>
+<p><strong>Context rot</strong> is the degradation of model accuracy as the context window fills. Even though the model can technically handle 1M tokens, performance on specific instructions and recall of early context degrades as more content is added. The model may:</p>
+<ul>
+  <li>Forget instructions from the system prompt</li>
+  <li>Miss relevant information buried in long conversations</li>
+  <li>Produce lower-quality outputs due to attention dilution</li>
+</ul>
+
+<h3>Compaction</h3>
+<p>Claude Code supports <strong>server-side auto-summarization</strong> (compaction) when the conversation approaches the context limit. The system automatically summarizes older parts of the conversation to free up space while preserving the most important information.</p>
+
+<h3>Management Strategies</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Summarize History</div>
+    <p>Periodically replace old conversation turns with a summary. Keep recent turns verbatim, summarize older ones.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Drop Old Tool Results</div>
+    <p>Replace large tool results from earlier turns with a brief summary of what was found.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Use Compaction</div>
+    <p>Rely on server-side compaction for long-running sessions. The system handles summarization automatically.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Memory Tool</div>
+    <p>For multi-session work, use the memory tool to persist important context across sessions rather than keeping it in the window.</p>
+  </div>
+</div>
+
+<h3>Overflow Behavior</h3>
+<ul>
+  <li><strong>Input too large</strong> &mdash; 400 error before processing even begins</li>
+  <li><strong>Output exceeds window</strong> &mdash; <code>stop_reason: "model_context_window_exceeded"</code></li>
+</ul>
+
+<h3>Token Counting API</h3>
+<p>Use the token counting API to estimate token usage before sending a request. This helps avoid context window errors and manage costs proactively.</p>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Context rot degrades quality as the window fills &mdash; curate what is in context. Prompt caching changes cost but not size (cached content still occupies the window). Compaction is automatic server-side summarization. Haiku has only 200K context vs. 1M for the other models.
+</div>
+</section>
+
+<!-- ============================== PART 17 ============================== -->
+<section id="part17" class="page-break">
+<h2><span class="part-num">Part 17</span>Escalation Triggers</h2>
+
+<h3>When to Escalate</h3>
+<p>Not every situation should be handled automatically by an agent. Escalation triggers define when the system should stop and involve a human or fall back to a different approach.</p>
+
+<h3>Escalation Patterns</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pattern</th><th>Trigger</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Confidence-Based</strong></td><td>Agent reports uncertainty or low confidence</td><td>Route to human for review/decision</td></tr>
+    <tr><td><strong>Error-Based</strong></td><td>N consecutive tool failures</td><td>Alert human, stop automated processing</td></tr>
+    <tr><td><strong>Policy-Based</strong></td><td>Certain operations (delete, deploy, financial)</td><td>Always require human approval</td></tr>
+    <tr><td><strong>Cost-Based</strong></td><td>Estimated cost exceeds budget threshold</td><td>Pause and confirm before continuing</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Refusal Handling</h3>
+<p>When Claude returns <code>stop_reason: "refusal"</code>, the model has declined to respond on safety grounds. Architect-level handling involves:</p>
+<ul>
+  <li><strong>Server-side fallback</strong> &mdash; Use the <code>fallbacks</code> parameter for automatic model fallback</li>
+  <li><strong>Fallback credit</strong> &mdash; Anthropic avoids double prompt-cache cost on retries</li>
+  <li><strong>Rephrase and retry</strong> &mdash; Modify the prompt to avoid triggering the safety filter</li>
+  <li><strong>Escalate to human</strong> &mdash; Flag for human review when automated resolution fails</li>
+</ul>
+
+<h3>Human-in-the-Loop</h3>
+<p>The human-in-the-loop pattern keeps a human in the approval chain for critical operations:</p>
+<ol>
+  <li>Agent drafts the action (code change, deployment, email)</li>
+  <li>System presents the draft to a human reviewer</li>
+  <li>Human approves, modifies, or rejects</li>
+  <li>If approved, the agent executes the action</li>
+</ol>
+
+<h3>Interruption in Managed Agents</h3>
+<p>In Managed Agents, you can send additional <code>user_event</code> messages to a running session to steer the agent mid-execution. This enables real-time course correction without stopping the entire task.</p>
+
+<h3>Monitoring for Escalation</h3>
+<ul>
+  <li><strong>Refusal rate</strong> &mdash; Track how often the model declines requests</li>
+  <li><strong>Error rate</strong> &mdash; Track tool failure frequency and patterns</li>
+  <li><strong>Cost anomalies</strong> &mdash; Alert on sudden spikes in token usage or API costs</li>
+  <li><strong>Latency outliers</strong> &mdash; Flag unusually slow responses</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Know the four escalation patterns: confidence-based, error-based, policy-based, and cost-based. The <code>fallbacks</code> parameter enables automatic model fallback when the primary model refuses. Managed Agents support mid-execution interruption via additional user events.
+</div>
+</section>
+
+<!-- ============================== PART 18 ============================== -->
+<section id="part18" class="page-break">
+<h2><span class="part-num">Part 18</span>Error Context and Common Mistakes</h2>
+
+<h3>Top 10 Common Mistakes in Agentic Systems</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Mistake</th><th>Consequence</th><th>Fix</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>No max iteration limit</td><td>Infinite loops, runaway costs</td><td>Always cap iterations (e.g., 20)</td></tr>
+    <tr><td>2</td><td>Not handling tool errors</td><td>Agent gets stuck or hallucinates</td><td>Use <code>is_error: true</code>, implement fallbacks</td></tr>
+    <tr><td>3</td><td>Poor tool descriptions</td><td>Claude misuses or ignores tools</td><td>Include what, when, returns, edge cases</td></tr>
+    <tr><td>4</td><td>Context window overflow</td><td>400 errors or degraded quality</td><td>Summarize history, use compaction</td></tr>
+    <tr><td>5</td><td>Not closing resources</td><td>Memory leaks, connection exhaustion</td><td>Use try-with-resources / context managers</td></tr>
+    <tr><td>6</td><td>Using admin sessions</td><td>Security vulnerabilities</td><td>Use scoped, least-privilege sessions</td></tr>
+    <tr><td>7</td><td>Not validating tool outputs</td><td>Trusting potentially invalid data</td><td>Validate all tool results before processing</td></tr>
+    <tr><td>8</td><td>Missing error context</td><td>Claude cannot diagnose or recover</td><td>Include what was attempted and what failed</td></tr>
+    <tr><td>9</td><td>Over-scoping permissions</td><td>Security risk, accidental destructive actions</td><td>Principle of least privilege per agent</td></tr>
+    <tr><td>10</td><td>Not monitoring token usage</td><td>Cost overruns, budget surprises</td><td>Track tokens per request, set cost alerts</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Error Context Best Practices</h3>
+<p>When returning errors to Claude (via <code>tool_result</code> with <code>is_error: true</code>), always include:</p>
+<ul>
+  <li><strong>What was attempted</strong> &mdash; "Tried to query database table 'users'"</li>
+  <li><strong>What failed</strong> &mdash; "Connection timeout after 5000ms"</li>
+  <li><strong>Relevant state</strong> &mdash; "Server: db.example.com:5432, current retry: 2/3"</li>
+</ul>
+
+<h3>Debugging Agents</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Examine Thinking Blocks</div>
+    <p>Enable extended thinking to see Claude's reasoning process. Look for where its logic diverges from expected behavior.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Log Tool Calls</div>
+    <p>Log every tool call (name, inputs, outputs, latency) to trace the agent's execution path.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Trace Stop Reasons</div>
+    <p>Track <code>stop_reason</code> for every API call. Unexpected <code>max_tokens</code> or <code>refusal</code> values indicate problems.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Unit Test Tools</div>
+    <p>Test each tool independently with known inputs to isolate issues from the agent loop.</p>
+  </div>
+</div>
+
+<h3>Testing Agentic Systems</h3>
+<ul>
+  <li><strong>Unit tests</strong> &mdash; Test individual tools in isolation with mocked inputs/outputs</li>
+  <li><strong>Integration tests</strong> &mdash; Test the agentic loop with a subset of tools</li>
+  <li><strong>End-to-end evals</strong> &mdash; Test the full system with realistic tasks and measure success rate</li>
+</ul>
+
+<h3>Production Monitoring</h3>
+<div class="highlight">
+  <div class="hl-title">Key Metrics to Track</div>
+  <ul>
+    <li><strong>Success rate</strong> &mdash; % of tasks completed without errors</li>
+    <li><strong>Latency</strong> &mdash; p50, p95, p99 response times</li>
+    <li><strong>Cost per task</strong> &mdash; Average token spend per completed task</li>
+    <li><strong>Error categories</strong> &mdash; Breakdown of failure types (timeout, refusal, tool error, context overflow)</li>
+    <li><strong>Iterations per task</strong> &mdash; Average number of agentic loop iterations</li>
+  </ul>
+</div>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  The most common mistakes are: no max iteration limit (infinite loops), poor tool descriptions (misuse), and not handling tool errors (agent gets stuck). Always include what was attempted and what failed in error context.
+</div>
+</section>
+
+<!-- ============================== PART 19: PRACTICE TEST ============================== -->
+<section id="part19" class="page-break">
+<h2><span class="part-num">Part 19</span>Practice Test &mdash; 50 Architect MCQs</h2>
+
+<div class="notice notice-info">
+  <b>Instructions</b>
+  50 questions covering all 18 architect-level topics. Each question has one correct answer (highlighted in green). Read the explanation for each question to understand the reasoning. Questions are distributed across all topics as they would appear on the CCAR-F exam.
+</div>
+
+<!-- Q1 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q1</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">In an agentic loop, what does <code>stop_reason: "tool_use"</code> indicate?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The model has completed its response and needs no further action</li>
+    <li class="correct-option"><span class="letter">B</span> The model wants to call a tool and the orchestrator should execute it, then continue the loop</li>
+    <li><span class="letter">C</span> The model has hit the max_tokens limit and its response was truncated</li>
+    <li><span class="letter">D</span> The model encountered a safety violation and refused to respond</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> <code>stop_reason: "tool_use"</code> means Claude wants to invoke a tool. The orchestrator must execute the tool, append the result as a <code>tool_result</code> message, and call the API again to continue the agentic loop.</div>
+</div>
+
+<!-- Q2 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q2</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">Which of the following is NOT a recommended termination condition for an agentic loop?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>stop_reason == "end_turn"</code></li>
+    <li><span class="letter">B</span> Maximum iteration limit reached</li>
+    <li class="correct-option"><span class="letter">C</span> The model has used at least one tool</li>
+    <li><span class="letter">D</span> Context window approaching capacity</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Using at least one tool is not a termination condition. The loop should continue as long as the model needs more tools. Proper termination conditions include: end_turn, max iterations, error threshold, and context window limit.</div>
+</div>
+
+<!-- Q3 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q3</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">What is the primary concern with token accumulation in a long-running agentic loop?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Output quality improves as tokens accumulate, leading to over-engineered solutions</li>
+    <li><span class="letter">B</span> The API automatically resets the conversation when tokens accumulate</li>
+    <li class="correct-option"><span class="letter">C</span> Each iteration adds tokens to context, which can cause context overflow and increased cost</li>
+    <li><span class="letter">D</span> Token accumulation is automatically managed by the SDK and requires no attention</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Every iteration appends the assistant response and tool results to the conversation, growing the input tokens. This increases cost (all tokens are re-sent each call) and can hit the context window limit. Architects must monitor and manage token accumulation.</div>
+</div>
+
+<!-- Q4 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q4</span>
+    <span class="q-tag">Agentic Loop</span>
+  </div>
+  <p class="q-text">In the Python agentic loop pattern, where should the assistant's response be appended before adding the tool result?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> As a <code>"user"</code> message with the full response content</li>
+    <li class="correct-option"><span class="letter">B</span> As an <code>"assistant"</code> message with <code>response.content</code></li>
+    <li><span class="letter">C</span> It should not be appended; only the tool result is needed</li>
+    <li><span class="letter">D</span> As a <code>"system"</code> message for context</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The assistant's full response (including the tool_use block) must be appended as an assistant message before adding the tool_result as a user message. This maintains the alternating user/assistant message structure required by the API.</div>
+</div>
+
+<!-- Q5 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q5</span>
+    <span class="q-tag">Hub-and-Spoke</span>
+  </div>
+  <p class="q-text">In the hub-and-spoke architecture, what is the primary role of the hub agent?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Execute all tool calls directly without delegation</li>
+    <li class="correct-option"><span class="letter">B</span> Decompose tasks, delegate to specialist agents, and aggregate results</li>
+    <li><span class="letter">C</span> Serve as a backup agent when spoke agents fail</li>
+    <li><span class="letter">D</span> Store conversation history for all spoke agents</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The hub is the orchestrator. It breaks complex tasks into subtasks, routes each to the appropriate specialist spoke agent, collects their results, and synthesizes a final output. The hub does not do the detailed work itself.</div>
+</div>
+
+<!-- Q6 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q6</span>
+    <span class="q-tag">Hub-and-Spoke</span>
+  </div>
+  <p class="q-text">What is a key advantage of hub-and-spoke over a monolithic agent?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Simpler implementation with fewer moving parts</li>
+    <li><span class="letter">B</span> Lower total token cost since only one agent runs</li>
+    <li class="correct-option"><span class="letter">C</span> Each spoke has its own context window and can use a different model suited to its task</li>
+    <li><span class="letter">D</span> The hub automatically caches all spoke results</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Hub-and-spoke allows different models per spoke (e.g., Haiku for triage, Opus for reasoning) and gives each spoke its own context window, avoiding the single-context bottleneck of a monolithic agent.</div>
+</div>
+
+<!-- Q7 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q7</span>
+    <span class="q-tag">Hub-and-Spoke</span>
+  </div>
+  <p class="q-text">Which orchestration pattern sends the same input to multiple agents simultaneously and then combines their outputs?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Sequential (chain)</li>
+    <li><span class="letter">B</span> Router</li>
+    <li class="correct-option"><span class="letter">C</span> Fan-out / Fan-in</li>
+    <li><span class="letter">D</span> Singleton</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Fan-out/fan-in sends the same input to multiple agents in parallel and then aggregates their results. Examples include translating into multiple languages simultaneously or getting multiple code reviews.</div>
+</div>
+
+<!-- Q8 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q8</span>
+    <span class="q-tag">Task Tool / Parallel Execution</span>
+  </div>
+  <p class="q-text">What does setting <code>disable_parallel_tool_use: true</code> accomplish?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Prevents Claude from calling any tools at all</li>
+    <li><span class="letter">B</span> Allows Claude to call up to two tools per response</li>
+    <li class="correct-option"><span class="letter">C</span> Limits Claude to one tool call per response turn</li>
+    <li><span class="letter">D</span> Disables tool definitions entirely from the request</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When <code>disable_parallel_tool_use</code> is true, Claude will emit at most one <code>tool_use</code> block per response. This is useful when tool calls have sequential dependencies and must be executed in order.</div>
+</div>
+
+<!-- Q9 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q9</span>
+    <span class="q-tag">Task Tool / Parallel Execution</span>
+  </div>
+  <p class="q-text">What is the primary purpose of worktree isolation in Claude Code?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Reduce API costs by caching tool results</li>
+    <li><span class="letter">B</span> Encrypt file contents during editing</li>
+    <li class="correct-option"><span class="letter">C</span> Prevent file conflicts when multiple agents work on the same codebase simultaneously</li>
+    <li><span class="letter">D</span> Automatically merge all agent outputs into a single commit</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Worktree isolation creates a separate git worktree (checkout) for each agent, so they can edit files independently without conflicting with each other or the main checkout.</div>
+</div>
+
+<!-- Q10 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q10</span>
+    <span class="q-tag">Task Tool / Parallel Execution</span>
+  </div>
+  <p class="q-text">When Claude returns multiple <code>tool_use</code> blocks in a single response, how should the orchestrator handle them?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Execute only the first tool call and ignore the rest</li>
+    <li><span class="letter">B</span> Execute them sequentially in the order they appear</li>
+    <li class="correct-option"><span class="letter">C</span> Execute them concurrently for maximum throughput, then send all results back in one user message</li>
+    <li><span class="letter">D</span> Return an error because only one tool call per response is valid</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> When Claude emits multiple tool_use blocks, they are independent operations that can be executed concurrently. All results should be returned as a single user message containing multiple tool_result blocks.</div>
+</div>
+
+<!-- Q11 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q11</span>
+    <span class="q-tag">Programmatic Control / Hooks</span>
+  </div>
+  <p class="q-text">Which hook type fires BEFORE a tool is executed?</p>
+  <ul class="q-options">
+    <li class="correct-option"><span class="letter">A</span> <code>PreToolUse</code></li>
+    <li><span class="letter">B</span> <code>PostToolUse</code></li>
+    <li><span class="letter">C</span> <code>Notification</code></li>
+    <li><span class="letter">D</span> <code>Stop</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: A.</b> <code>PreToolUse</code> hooks execute before the tool runs, allowing you to validate inputs, log actions, or block dangerous operations. <code>PostToolUse</code> fires after the tool completes.</div>
+</div>
+
+<!-- Q12 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q12</span>
+    <span class="q-tag">Programmatic Control / Hooks</span>
+  </div>
+  <p class="q-text">Where are hooks configured in a Claude Code project?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> In the CLAUDE.md file at the project root</li>
+    <li class="correct-option"><span class="letter">B</span> In the <code>settings.json</code> file</li>
+    <li><span class="letter">C</span> In the system prompt of the API request</li>
+    <li><span class="letter">D</span> In a <code>.hooks/</code> directory with shell scripts</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Hooks are configured in <code>settings.json</code> (in the <code>.claude/</code> directory), not in CLAUDE.md. The settings file defines the hook type, matcher pattern, and shell command to execute.</div>
+</div>
+
+<!-- Q13 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q13</span>
+    <span class="q-tag">Programmatic Control / Hooks</span>
+  </div>
+  <p class="q-text">A team wants to automatically run Prettier on every file Claude writes. Which hook configuration achieves this?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>PreToolUse</code> with matcher <code>"Write"</code> and command <code>"npx prettier --write $CLAUDE_FILE_PATH"</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>PostToolUse</code> with matcher <code>"Write"</code> and command <code>"npx prettier --write $CLAUDE_FILE_PATH"</code></li>
+    <li><span class="letter">C</span> <code>Notification</code> with matcher <code>"Write"</code> and command <code>"npx prettier --check $CLAUDE_FILE_PATH"</code></li>
+    <li><span class="letter">D</span> <code>Stop</code> with command <code>"npx prettier --write ."</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Formatting should happen <em>after</em> the file is written (PostToolUse), not before (PreToolUse). The matcher <code>"Write"</code> targets the Write tool, and <code>$CLAUDE_FILE_PATH</code> provides the file path.</div>
+</div>
+
+<!-- Q14 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q14</span>
+    <span class="q-tag">Tool Descriptions</span>
+  </div>
+  <p class="q-text">What is the primary risk of an overly vague tool description like <code>"Gets weather"</code>?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The API will reject the tool definition as invalid</li>
+    <li class="correct-option"><span class="letter">B</span> Claude may misuse the tool, call it in the wrong situations, or format inputs incorrectly</li>
+    <li><span class="letter">C</span> The tool will be automatically removed from the tool list</li>
+    <li><span class="letter">D</span> It increases the token cost by requiring Claude to ask clarifying questions</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Vague descriptions leave Claude guessing about when to use the tool, what inputs to provide, and what outputs to expect. This leads to misuse, wasted iterations, and poor results.</div>
+</div>
+
+<!-- Q15 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q15</span>
+    <span class="q-tag">Tool Descriptions</span>
+  </div>
+  <p class="q-text">Why do tool definitions count toward input tokens on every API call?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> They are stored in a separate token pool with its own billing</li>
+    <li class="correct-option"><span class="letter">B</span> Tool definitions are injected into the system prompt and sent as part of the input on every request</li>
+    <li><span class="letter">C</span> They are only counted on the first request and cached automatically after that</li>
+    <li><span class="letter">D</span> They are counted as output tokens, not input tokens</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Tool definitions are part of the system prompt payload. They are included in every API request and thus consume input tokens on every call. More tools = more input tokens per request.</div>
+</div>
+
+<!-- Q16 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q16</span>
+    <span class="q-tag">Tool Descriptions</span>
+  </div>
+  <p class="q-text">Which naming convention is recommended for tool names?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Single-word names like <code>weather</code>, <code>search</code>, <code>email</code></li>
+    <li class="correct-option"><span class="letter">B</span> Verb-noun pattern like <code>get_weather</code>, <code>search_documents</code>, <code>send_email</code></li>
+    <li><span class="letter">C</span> CamelCase pattern like <code>GetWeather</code>, <code>SearchDocuments</code></li>
+    <li><span class="letter">D</span> Prefixed with the service name like <code>api_weather_get</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The verb_noun pattern (e.g., <code>get_weather</code>) is recommended because it clearly communicates the action and target, making it easy for Claude to understand when to call each tool.</div>
+</div>
+
+<!-- Q17 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q17</span>
+    <span class="q-tag">Error Handling</span>
+  </div>
+  <p class="q-text">When returning a tool error to Claude, what is the correct way to signal that the tool execution failed?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Return the error message as a regular <code>tool_result</code> without any special flag</li>
+    <li><span class="letter">B</span> Throw an exception and let the SDK handle it</li>
+    <li class="correct-option"><span class="letter">C</span> Set <code>is_error: true</code> in the <code>tool_result</code> content block</li>
+    <li><span class="letter">D</span> Omit the <code>tool_result</code> entirely and send a user message explaining the error</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The <code>is_error: true</code> flag in the tool_result tells Claude that the tool failed. Without it, Claude may interpret the error text as a successful result, leading to incorrect reasoning.</div>
+</div>
+
+<!-- Q18 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q18</span>
+    <span class="q-tag">Error Handling</span>
+  </div>
+  <p class="q-text">Which HTTP error codes are automatically retried by the Anthropic Python and TypeScript SDKs?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 400 and 401</li>
+    <li><span class="letter">B</span> 500 and 502</li>
+    <li class="correct-option"><span class="letter">C</span> 429 and 529</li>
+    <li><span class="letter">D</span> All 4xx and 5xx errors</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The SDKs auto-retry 429 (rate limit) and 529 (overloaded) with exponential backoff. 400/401 are permanent client errors (no retry). 500 errors require custom retry logic.</div>
+</div>
+
+<!-- Q19 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q19</span>
+    <span class="q-tag">Error Handling</span>
+  </div>
+  <p class="q-text">In the circuit breaker pattern, what happens when the circuit is in the "open" state?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> All tool calls proceed normally</li>
+    <li class="correct-option"><span class="letter">B</span> The tool is skipped entirely and a fallback approach is used</li>
+    <li><span class="letter">C</span> Tool calls are queued for later execution</li>
+    <li><span class="letter">D</span> The agent restarts from the beginning</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> When the circuit breaker is "open" (tripped after N consecutive failures), tool calls are skipped entirely and the system uses a fallback. After a timeout, it moves to "half-open" to test if the service recovered.</div>
+</div>
+
+<!-- Q20 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q20</span>
+    <span class="q-tag">MCP Configuration</span>
+  </div>
+  <p class="q-text">What does MCP (Model Context Protocol) provide?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> A proprietary Anthropic protocol for caching model responses</li>
+    <li class="correct-option"><span class="letter">B</span> An open standard for connecting AI models to external tools and data sources</li>
+    <li><span class="letter">C</span> A protocol for encrypting conversation data in transit</li>
+    <li><span class="letter">D</span> A management dashboard for monitoring API usage</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> MCP is an <em>open standard</em> (not proprietary) that provides a standardized protocol for connecting AI models to external tools and data. Any MCP-compliant client can use any MCP-compliant server.</div>
+</div>
+
+<!-- Q21 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q21</span>
+    <span class="q-tag">MCP Configuration</span>
+  </div>
+  <p class="q-text">How do you restrict which tools from an MCP server Claude can access?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> By setting <code>tool_choice: "none"</code> in the API request</li>
+    <li><span class="letter">B</span> By removing unwanted tools from the server's source code</li>
+    <li class="correct-option"><span class="letter">C</span> By using <code>tool_configuration</code> with <code>allowed_tools</code> or <code>denied_tools</code></li>
+    <li><span class="letter">D</span> MCP does not support per-tool restrictions</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The <code>tool_configuration</code> block in the MCP server definition supports <code>allowed_tools</code> (allowlist) and <code>denied_tools</code> (denylist) to control which specific tools Claude can access from that server.</div>
+</div>
+
+<!-- Q22 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q22</span>
+    <span class="q-tag">MCP Configuration</span>
+  </div>
+  <p class="q-text">What is a key advantage of MCP over custom tool implementations?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> MCP tools are always faster than custom tools</li>
+    <li><span class="letter">B</span> MCP eliminates the need for authentication</li>
+    <li class="correct-option"><span class="letter">C</span> MCP enables dynamic tool discovery and interoperability across different clients and servers</li>
+    <li><span class="letter">D</span> MCP tools consume fewer tokens than custom tools</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> MCP's key advantage is standardization: servers advertise their tools dynamically, and any MCP-compliant client can discover and use them. Custom tools are tightly coupled to a specific application.</div>
+</div>
+
+<!-- Q23 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q23</span>
+    <span class="q-tag">Tool Scoping / Agent Roles</span>
+  </div>
+  <p class="q-text">A code reviewer agent should have which set of tools?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>write_file</code>, <code>edit_file</code>, <code>bash</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>read_file</code>, <code>grep</code>, <code>diff</code></li>
+    <li><span class="letter">C</span> <code>bash</code>, <code>git</code>, <code>deploy</code></li>
+    <li><span class="letter">D</span> All available tools for maximum flexibility</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> A reviewer agent should have read-only tools. It needs to read files, search code (grep), and view diffs, but should never be able to modify files. This follows the principle of least privilege.</div>
+</div>
+
+<!-- Q24 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q24</span>
+    <span class="q-tag">Tool Scoping / Agent Roles</span>
+  </div>
+  <p class="q-text">What does <code>tool_choice: {type: "tool", name: "extract_data"}</code> do?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Suggests that Claude should prefer the extract_data tool but allows alternatives</li>
+    <li class="correct-option"><span class="letter">B</span> Forces Claude to call the extract_data tool specifically</li>
+    <li><span class="letter">C</span> Removes all tools except extract_data from the available set</li>
+    <li><span class="letter">D</span> Creates a new tool definition called extract_data</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> <code>tool_choice</code> with type "tool" and a specific name forces Claude to call that exact tool. This is useful when you know a specific tool must be used, such as for structured output extraction.</div>
+</div>
+
+<!-- Q25 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q25</span>
+    <span class="q-tag">CLAUDE.md Hierarchy</span>
+  </div>
+  <p class="q-text">In the CLAUDE.md hierarchy, which file takes highest precedence?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>~/.claude/CLAUDE.md</code> (user-level)</li>
+    <li><span class="letter">B</span> <code>/project/CLAUDE.md</code> (project root)</li>
+    <li class="correct-option"><span class="letter">C</span> <code>/project/src/api/CLAUDE.md</code> (deepest subdirectory)</li>
+    <li><span class="letter">D</span> All CLAUDE.md files have equal precedence</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> More specific (deeper) CLAUDE.md files override more general ones. The hierarchy goes: user-level &rarr; project root &rarr; directory &rarr; subdirectory, with the deepest file taking highest precedence for conflicting rules.</div>
+</div>
+
+<!-- Q26 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q26</span>
+    <span class="q-tag">CLAUDE.md Hierarchy</span>
+  </div>
+  <p class="q-text">Which of the following should NOT be included in a CLAUDE.md file?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Non-obvious architecture decisions</li>
+    <li><span class="letter">B</span> Build and deployment commands</li>
+    <li class="correct-option"><span class="letter">C</span> API keys and secrets</li>
+    <li><span class="letter">D</span> Testing conventions and patterns</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> CLAUDE.md is committed to version control and should never contain secrets, API keys, or sensitive credentials. It should contain non-obvious project decisions, coding standards, build commands, and testing patterns.</div>
+</div>
+
+<!-- Q27 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q27</span>
+    <span class="q-tag">CLAUDE.md Hierarchy</span>
+  </div>
+  <p class="q-text">What is the relationship between CLAUDE.md and AGENTS.md?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> AGENTS.md overrides CLAUDE.md when both exist</li>
+    <li><span class="letter">B</span> AGENTS.md is only used by sub-agents, not the main agent</li>
+    <li class="correct-option"><span class="letter">C</span> They are alternative names that serve the same purpose and are both read by Claude Code</li>
+    <li><span class="letter">D</span> AGENTS.md is deprecated and should not be used</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> AGENTS.md is simply an alternative filename that Claude Code also reads. Both serve the same purpose and work identically. Use whichever naming convention your team prefers.</div>
+</div>
+
+<!-- Q28 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q28</span>
+    <span class="q-tag">Agent Skills</span>
+  </div>
+  <p class="q-text">How do skills differ from CLAUDE.md in terms of token usage?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Skills use more tokens because they include executable scripts</li>
+    <li class="correct-option"><span class="letter">B</span> Skills use progressive disclosure &mdash; they load instructions on demand, while CLAUDE.md is always in context</li>
+    <li><span class="letter">C</span> Skills and CLAUDE.md consume the same number of tokens</li>
+    <li><span class="letter">D</span> Skills are cached server-side and consume no tokens</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Skills use progressive disclosure: their instructions are loaded into context only when invoked (e.g., via <code>/code-review</code>). CLAUDE.md content is always in context from session start. This makes skills more token-efficient for infrequently-used workflows.</div>
+</div>
+
+<!-- Q29 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q29</span>
+    <span class="q-tag">Agent Skills</span>
+  </div>
+  <p class="q-text">Where should custom skills be stored in a project?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> In the <code>~/.claude/</code> user directory</li>
+    <li class="correct-option"><span class="letter">B</span> In the <code>.claude/skills/</code> directory within the project</li>
+    <li><span class="letter">C</span> In the project's <code>CLAUDE.md</code> file</li>
+    <li><span class="letter">D</span> In the <code>node_modules/</code> directory</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Custom skills are stored in the <code>.claude/skills/</code> directory within the project. This directory is committed to version control so the entire team can use the same skills.</div>
+</div>
+
+<!-- Q30 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q30</span>
+    <span class="q-tag">Path-Specific Rules / Fork</span>
+  </div>
+  <p class="q-text">In a monorepo where <code>/backend/CLAUDE.md</code> specifies "Java 17, 4-space indent" and <code>/frontend/CLAUDE.md</code> specifies "TypeScript, 2-space indent", what happens when an agent works on a frontend file?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Both CLAUDE.md files are ignored; only the root CLAUDE.md applies</li>
+    <li><span class="letter">B</span> The agent uses Java conventions because backend is listed first</li>
+    <li class="correct-option"><span class="letter">C</span> The agent picks up the frontend directory's CLAUDE.md and uses TypeScript with 2-space indent</li>
+    <li><span class="letter">D</span> The agent asks the user which convention to follow</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Path-specific CLAUDE.md files provide context for their directory. When working in <code>/frontend/</code>, the agent picks up <code>/frontend/CLAUDE.md</code> and follows its TypeScript and 2-space indent conventions.</div>
+</div>
+
+<!-- Q31 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q31</span>
+    <span class="q-tag">Path-Specific Rules / Fork</span>
+  </div>
+  <p class="q-text">What does "context forking" mean in the context of sub-agents?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Splitting the context window in half between two agents</li>
+    <li><span class="letter">B</span> Creating a copy of the git repository for each agent</li>
+    <li class="correct-option"><span class="letter">C</span> Each sub-agent operates with its own context window and CLAUDE.md rules based on its working directory</li>
+    <li><span class="letter">D</span> Sharing a single context window across multiple agents</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Context forking means each sub-agent gets its own independent context window and picks up CLAUDE.md rules specific to its working directory. This enables specialized behavior based on where the agent is working.</div>
+</div>
+
+<!-- Q32 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q32</span>
+    <span class="q-tag">CLI Flags / CI/CD</span>
+  </div>
+  <p class="q-text">Which CLI flag runs Claude Code in non-interactive mode suitable for CI/CD pipelines?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>--headless</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>--print</code> or <code>-p</code></li>
+    <li><span class="letter">C</span> <code>--ci</code></li>
+    <li><span class="letter">D</span> <code>--batch</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The <code>--print</code> (or <code>-p</code>) flag runs Claude Code in non-interactive "pipe" mode, suitable for CI/CD where there is no terminal for user interaction. Example: <code>claude -p "fix lint errors"</code>.</div>
+</div>
+
+<!-- Q33 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q33</span>
+    <span class="q-tag">CLI Flags / CI/CD</span>
+  </div>
+  <p class="q-text">How should tool permissions be managed in a CI/CD pipeline using Claude Code?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Grant all permissions by default since CI is a trusted environment</li>
+    <li class="correct-option"><span class="letter">B</span> Use <code>--allowedTools</code> to whitelist only the tools needed for the pipeline task</li>
+    <li><span class="letter">C</span> Disable all tools and rely on text-only responses</li>
+    <li><span class="letter">D</span> Use interactive mode to manually approve each tool call</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Use <code>--allowedTools</code> to scope permissions to only what the pipeline needs (e.g., <code>bash,read,grep</code> for a review pipeline). This follows the principle of least privilege while enabling automated execution.</div>
+</div>
+
+<!-- Q34 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q34</span>
+    <span class="q-tag">CLI Flags / CI/CD</span>
+  </div>
+  <p class="q-text">Which output format flag enables machine-readable output for pipeline integration?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>--format xml</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>--format json</code></li>
+    <li><span class="letter">C</span> <code>--format csv</code></li>
+    <li><span class="letter">D</span> <code>--format yaml</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> <code>--format json</code> outputs Claude's response as structured JSON, which is easily parsed by downstream pipeline steps. <code>--format text</code> outputs plain text. XML, CSV, and YAML are not supported output formats.</div>
+</div>
+
+<!-- Q35 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q35</span>
+    <span class="q-tag">Match Criteria / Few-Shot</span>
+  </div>
+  <p class="q-text">How many few-shot examples are recommended for best results?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Exactly 1 example for minimal token usage</li>
+    <li class="correct-option"><span class="letter">B</span> 3 to 5 examples covering diverse scenarios</li>
+    <li><span class="letter">C</span> At least 20 examples for comprehensive coverage</li>
+    <li><span class="letter">D</span> As many as possible to maximize quality</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> 3-5 diverse examples provide the best balance between quality and token cost. Fewer may not establish a clear pattern; more wastes tokens without proportional quality improvement.</div>
+</div>
+
+<!-- Q36 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q36</span>
+    <span class="q-tag">Match Criteria / Few-Shot</span>
+  </div>
+  <p class="q-text">Which hook matcher pattern would match both the Write and Edit tools?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>"Write"</code></li>
+    <li><span class="letter">B</span> <code>"Write|Edit"</code></li>
+    <li class="correct-option"><span class="letter">C</span> A regex pattern like <code>/^(Write|Edit)$/</code></li>
+    <li><span class="letter">D</span> <code>"*"</code> (wildcard matching everything)</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Exact match only targets one tool. A regex pattern like <code>/^(Write|Edit)$/</code> matches both. While <code>"*"</code> would match both, it would also match every other tool, which is too broad.</div>
+</div>
+
+<!-- Q37 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q37</span>
+    <span class="q-tag">JSON Schema / Structured Output</span>
+  </div>
+  <p class="q-text">Which Python method provides type-safe structured output with Pydantic models?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>client.messages.create()</code> with <code>output_format="json"</code></li>
+    <li class="correct-option"><span class="letter">B</span> <code>client.messages.parse()</code> with <code>output_schema=MyModel</code></li>
+    <li><span class="letter">C</span> <code>client.messages.structured()</code> with a JSON schema</li>
+    <li><span class="letter">D</span> <code>client.messages.validate()</code> with a Pydantic validator</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The <code>client.messages.parse()</code> method accepts a Pydantic <code>BaseModel</code> as <code>output_schema</code> and returns a type-safe instance. The TypeScript equivalent uses <code>zodOutputFormat()</code> with a Zod schema.</div>
+</div>
+
+<!-- Q38 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q38</span>
+    <span class="q-tag">JSON Schema / Structured Output</span>
+  </div>
+  <p class="q-text">Why does the first request with a new JSON schema have higher latency?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The schema must be validated by a human reviewer</li>
+    <li class="correct-option"><span class="letter">B</span> The schema must be compiled into a grammar for constrained generation; compiled grammars are cached for 24 hours</li>
+    <li><span class="letter">C</span> The API downloads additional model weights for structured output</li>
+    <li><span class="letter">D</span> The system runs the schema through a test suite first</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> JSON schemas are compiled into grammars that constrain the model's generation to valid outputs. This compilation happens on the first request and the result is cached for 24 hours. Subsequent requests with the same schema are faster.</div>
+</div>
+
+<!-- Q39 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q39</span>
+    <span class="q-tag">JSON Schema / Structured Output</span>
+  </div>
+  <p class="q-text">Which JSON Schema property is REQUIRED on all object types when using structured output?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>minProperties</code></li>
+    <li><span class="letter">B</span> <code>patternProperties</code></li>
+    <li class="correct-option"><span class="letter">C</span> <code>additionalProperties: false</code></li>
+    <li><span class="letter">D</span> <code>uniqueItems</code></li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> <code>additionalProperties: false</code> is required on all object types when using structured output. This ensures the model generates only the specified fields and no extras, enabling strict schema conformance.</div>
+</div>
+
+<!-- Q40 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q40</span>
+    <span class="q-tag">API Selection / Cost vs Latency</span>
+  </div>
+  <p class="q-text">Which model should be used for a classification/routing task where speed and cost matter most?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fable 5.1</li>
+    <li><span class="letter">B</span> Opus 5.5</li>
+    <li><span class="letter">C</span> Sonnet 5</li>
+    <li class="correct-option"><span class="letter">D</span> Haiku 4.5</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> Haiku 4.5 is the cheapest ($1/$5 per MTok) and fastest model, making it ideal for classification, routing, and other simple tasks where speed and cost matter more than deep reasoning capability.</div>
+</div>
+
+<!-- Q41 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q41</span>
+    <span class="q-tag">API Selection / Cost vs Latency</span>
+  </div>
+  <p class="q-text">What discount does batch processing provide on all Claude models?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> 25% discount</li>
+    <li class="correct-option"><span class="letter">B</span> 50% discount</li>
+    <li><span class="letter">C</span> 75% discount</li>
+    <li><span class="letter">D</span> 90% discount</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Batch processing provides a 50% discount on all models. Work is submitted as async JSONL uploads and results are returned within 24 hours. This is ideal for bulk processing tasks that are not time-sensitive.</div>
+</div>
+
+<!-- Q42 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q42</span>
+    <span class="q-tag">API Selection / Cost vs Latency</span>
+  </div>
+  <p class="q-text">On all Claude models, how do input token costs compare to output token costs?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Input and output tokens cost the same</li>
+    <li class="correct-option"><span class="letter">B</span> Input tokens are cheaper than output tokens (typically 5x cheaper)</li>
+    <li><span class="letter">C</span> Output tokens are cheaper than input tokens</li>
+    <li><span class="letter">D</span> Only output tokens are billed; input tokens are free</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> On all models, input tokens cost significantly less than output tokens (roughly 5x cheaper). This means investing in longer, more specific prompts to get shorter, better-targeted outputs is cost-effective.</div>
+</div>
+
+<!-- Q43 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q43</span>
+    <span class="q-tag">Context Window</span>
+  </div>
+  <p class="q-text">What is "context rot"?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The physical degradation of server hardware over time</li>
+    <li><span class="letter">B</span> The expiration of cached prompt data after the TTL</li>
+    <li class="correct-option"><span class="letter">C</span> The degradation of model accuracy as the context window fills with more content</li>
+    <li><span class="letter">D</span> The automatic deletion of old conversation history by the API</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Context rot refers to the decline in model performance as the context window fills. Even though a model can handle 1M tokens, accuracy on specific instructions and recall of early context degrades with more content.</div>
+</div>
+
+<!-- Q44 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q44</span>
+    <span class="q-tag">Context Window</span>
+  </div>
+  <p class="q-text">What happens when input tokens exceed the model's context window?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The earliest messages are automatically truncated</li>
+    <li class="correct-option"><span class="letter">B</span> A 400 error is returned before processing begins</li>
+    <li><span class="letter">C</span> The model processes what fits and ignores the rest</li>
+    <li><span class="letter">D</span> The request is automatically split into multiple smaller requests</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> If the input exceeds the context window, the API returns a 400 error. It does not automatically truncate, split, or process partial input. The architect must manage context size proactively.</div>
+</div>
+
+<!-- Q45 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q45</span>
+    <span class="q-tag">Context Window</span>
+  </div>
+  <p class="q-text">Which model has a context window of 200K tokens, compared to 1M for the others?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Fable 5.1</li>
+    <li><span class="letter">B</span> Opus 5.5</li>
+    <li><span class="letter">C</span> Sonnet 5</li>
+    <li class="correct-option"><span class="letter">D</span> Haiku 4.5</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> Haiku 4.5 has a 200K token context window, while Fable 5.1, Opus 5.5, and Sonnet 5 all have 1M token context windows. This is an important consideration when choosing models for tasks requiring large context.</div>
+</div>
+
+<!-- Q46 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q46</span>
+    <span class="q-tag">Escalation Triggers</span>
+  </div>
+  <p class="q-text">Which escalation pattern pauses the agent when estimated cost exceeds a budget threshold?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Confidence-based escalation</li>
+    <li><span class="letter">B</span> Error-based escalation</li>
+    <li><span class="letter">C</span> Policy-based escalation</li>
+    <li class="correct-option"><span class="letter">D</span> Cost-based escalation</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> Cost-based escalation pauses the agent and requests human confirmation when the estimated or accumulated cost exceeds a defined budget threshold. This prevents runaway spending in agentic loops.</div>
+</div>
+
+<!-- Q47 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q47</span>
+    <span class="q-tag">Escalation Triggers</span>
+  </div>
+  <p class="q-text">What does the <code>fallbacks</code> parameter enable in the Messages API?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Automatic retry of the same model with different parameters</li>
+    <li class="correct-option"><span class="letter">B</span> Automatic fallback to alternative models when the primary model refuses or errors</li>
+    <li><span class="letter">C</span> A backup system prompt used when the primary one is too long</li>
+    <li><span class="letter">D</span> Automatic model upgrade when the requested model is unavailable</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> The <code>fallbacks</code> parameter specifies alternative models to try when the primary model refuses (stop_reason: "refusal") or encounters an error. It includes fallback credit to avoid double prompt-cache costs.</div>
+</div>
+
+<!-- Q48 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q48</span>
+    <span class="q-tag">Escalation Triggers</span>
+  </div>
+  <p class="q-text">In Managed Agents, how can you steer an agent mid-execution?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> By modifying the system prompt in a separate API call</li>
+    <li><span class="letter">B</span> By killing and restarting the session with new instructions</li>
+    <li class="correct-option"><span class="letter">C</span> By sending additional user events to the running session</li>
+    <li><span class="letter">D</span> Mid-execution steering is not supported; you must wait for completion</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Managed Agents support interruption by sending additional <code>user_event</code> messages to a running session. This allows real-time course correction without stopping the agent entirely.</div>
+</div>
+
+<!-- Q49 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q49</span>
+    <span class="q-tag">Error Context / Common Mistakes</span>
+  </div>
+  <p class="q-text">What is the MOST common mistake that causes infinite loops in agentic systems?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Using too many tools in the tool definitions</li>
+    <li class="correct-option"><span class="letter">B</span> Not setting a maximum iteration limit on the agentic loop</li>
+    <li><span class="letter">C</span> Using Haiku instead of Opus for the agentic loop</li>
+    <li><span class="letter">D</span> Setting temperature too high</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Without a max iteration limit, the agentic loop can run indefinitely if the model keeps requesting tool calls without reaching end_turn. This causes runaway costs and resource consumption. Always set a cap (e.g., 20 iterations).</div>
+</div>
+
+<!-- Q50 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q50</span>
+    <span class="q-tag">Error Context / Common Mistakes</span>
+  </div>
+  <p class="q-text">When returning tool errors to Claude, what information should be included for optimal error recovery?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Only the error code with no additional context</li>
+    <li><span class="letter">B</span> The full stack trace for debugging purposes</li>
+    <li class="correct-option"><span class="letter">C</span> What was attempted, what failed, and relevant state (e.g., server address, retry count)</li>
+    <li><span class="letter">D</span> A generic "An error occurred" message to keep responses simple</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Error context should include three things: what was attempted ("Tried to query table 'users'"), what failed ("Connection timeout after 5000ms"), and relevant state ("Server: db.example.com:5432, retry 2/3"). This enables Claude to diagnose issues and try alternative approaches.</div>
+</div>
+
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<div class="footer">
+  <p>Aligned to official CCAR-F syllabus (18 topics). Content sourced from official Anthropic documentation. Updated September 2026.</p>
+</div>
+
+</body>
+</html>
