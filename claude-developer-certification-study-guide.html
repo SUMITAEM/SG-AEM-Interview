@@ -479,6 +479,160 @@
     .toc-grid { grid-template-columns: 1fr; }
     h2 { font-size: 1.3rem; }
   }
+
+/* ===== INTERACTIVE QUIZ ===== */
+.quiz-scoreboard {
+  background: var(--c-surface, #f8f9fa);
+  border: 2px solid var(--c-accent, #6C3CE1);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.quiz-scoreboard .score-main {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.quiz-scoreboard .score-main .score-val {
+  color: var(--c-accent, #6C3CE1);
+}
+.quiz-scoreboard .score-detail {
+  font-size: 0.85rem;
+  color: var(--c-text2, #555770);
+}
+.quiz-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--c-surface2, #f0f1f3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #dc2626, #d97706, #059669);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.quiz-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.quiz-btn {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--c-border, #E0E0E6);
+  background: var(--c-surface, #f8f9fa);
+  color: var(--c-text, #1a1a2e);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quiz-btn:hover {
+  border-color: var(--c-accent, #6C3CE1);
+  color: var(--c-accent, #6C3CE1);
+}
+.quiz-btn.primary {
+  background: var(--c-accent, #6C3CE1);
+  color: #fff;
+  border-color: var(--c-accent, #6C3CE1);
+}
+.quiz-btn.primary:hover {
+  opacity: 0.9;
+}
+
+/* Hide correct-option highlight and explanation until answered */
+.q-interactive .correct-option {
+  background: transparent !important;
+  border-color: var(--c-border, #E0E0E6) !important;
+}
+.q-interactive .correct-option .letter {
+  background: var(--c-surface2, #f0f1f3) !important;
+  color: var(--c-text2, #555770) !important;
+}
+.q-interactive .q-explain {
+  display: none !important;
+}
+
+/* Make options clickable */
+.q-interactive .q-options li {
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1.5px solid var(--c-border, #E0E0E6);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 4px 0;
+}
+.q-interactive .q-options li:hover:not(.q-answered) {
+  border-color: var(--c-accent, #6C3CE1);
+  background: var(--c-accent-soft, #EDE7F9);
+  transform: translateX(3px);
+}
+
+/* After answering */
+.q-interactive .q-options li.q-answered {
+  cursor: default;
+  pointer-events: none;
+}
+.q-interactive .q-options li.q-answered:not(.q-selected) {
+  opacity: 0.5;
+}
+.q-interactive .q-options li.q-correct-reveal {
+  background: var(--c-green-bg, #E8F5F0) !important;
+  border-color: var(--c-green, #0D7C5F) !important;
+  opacity: 1 !important;
+}
+.q-interactive .q-options li.q-correct-reveal .letter {
+  background: var(--c-green, #0D7C5F) !important;
+  color: #fff !important;
+}
+.q-interactive .q-options li.q-wrong-reveal {
+  background: var(--c-red-bg, #FDECEA) !important;
+  border-color: var(--c-red, #C62828) !important;
+}
+.q-interactive .q-options li.q-wrong-reveal .letter {
+  background: var(--c-red, #C62828) !important;
+  color: #fff !important;
+}
+.q-interactive .q-explain.q-show {
+  display: block !important;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Print: show everything static */
+@media print {
+  .quiz-scoreboard, .quiz-controls { display: none !important; }
+  .q-interactive .correct-option {
+    background: var(--c-green-bg, #E8F5F0) !important;
+    border: 1px solid var(--c-green, #0D7C5F) !important;
+  }
+  .q-interactive .correct-option .letter {
+    background: var(--c-green, #0D7C5F) !important;
+    color: #fff !important;
+  }
+  .q-interactive .q-explain {
+    display: block !important;
+  }
+  .q-interactive .q-options li {
+    cursor: default !important;
+    border: 1px solid var(--c-border, #E0E0E6);
+    padding: 6px 10px;
+    margin: 2px 0;
+  }
+}
 </style>
 </head>
 <body>
@@ -3303,6 +3457,159 @@ result = client.messages.<span class="fn">parse</span>(
   <p>Aligned to official CCDV-F syllabus (18 topics, all subtopics). Content sourced from official Anthropic documentation.</p>
   <p style="margin-top:6px;">Updated September 2026.</p>
 </div>
+
+<script>
+(function() {
+  // Find the quiz section (last <section> or the section containing question-cards)
+  var cards = document.querySelectorAll('.question-card');
+  if (!cards.length) return;
+
+  var totalQ = cards.length;
+  var answered = 0;
+  var correct = 0;
+  var storageKey = 'quiz-' + document.title.replace(/[^a-z0-9]/gi, '-').substring(0, 40);
+
+  // Try restore state
+  var savedState = {};
+  try {
+    var s = localStorage.getItem(storageKey);
+    if (s) savedState = JSON.parse(s);
+    if (savedState.answered) answered = savedState.answered;
+    if (savedState.correct) correct = savedState.correct;
+  } catch(e) {}
+
+  // Create scoreboard — insert before the first question-card
+  var firstCard = cards[0];
+  var scoreboard = document.createElement('div');
+  scoreboard.className = 'quiz-scoreboard';
+  scoreboard.innerHTML = '<div>' +
+    '<div class="score-main">Score: <span class="score-val" id="quizScore">' + correct + '</span> / <span id="quizTotal">' + totalQ + '</span></div>' +
+    '<div class="score-detail"><span id="quizAttempted">' + answered + '</span> of ' + totalQ + ' attempted &bull; <span id="quizPct">0</span>% correct</div>' +
+    '<div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgress"></div></div>' +
+    '</div>' +
+    '<div class="quiz-controls">' +
+    '<button class="quiz-btn primary" onclick="quizShowAll()">Show All Answers</button>' +
+    '<button class="quiz-btn" onclick="quizReset()">Reset Quiz</button>' +
+    '</div>';
+  firstCard.parentNode.insertBefore(scoreboard, firstCard);
+
+  // Mark all cards as interactive
+  cards.forEach(function(card, idx) {
+    card.classList.add('q-interactive');
+    var options = card.querySelectorAll('.q-options li');
+    var explain = card.querySelector('.q-explain');
+    var correctLi = card.querySelector('.correct-option');
+
+    // If this card was previously answered (from localStorage)
+    if (savedState['q' + idx] !== undefined) {
+      revealAnswer(card, options, correctLi, explain, savedState['q' + idx], false);
+    }
+
+    options.forEach(function(li, optIdx) {
+      li.addEventListener('click', function() {
+        if (card.classList.contains('q-done')) return;
+        card.classList.add('q-done');
+        answered++;
+        var isCorrect = li === correctLi || li.classList.contains('correct-option');
+        if (isCorrect) correct++;
+
+        revealAnswer(card, options, correctLi, explain, optIdx, true);
+
+        // Save state
+        try {
+          savedState['q' + idx] = optIdx;
+          savedState.answered = answered;
+          savedState.correct = correct;
+          localStorage.setItem(storageKey, JSON.stringify(savedState));
+        } catch(e) {}
+
+        updateScore();
+      });
+    });
+  });
+
+  function revealAnswer(card, options, correctLi, explain, selectedIdx, animate) {
+    card.classList.add('q-done');
+    options.forEach(function(li, i) {
+      li.classList.add('q-answered');
+      if (i === selectedIdx) {
+        li.classList.add('q-selected');
+        if (li === correctLi || li.classList.contains('correct-option')) {
+          li.classList.add('q-correct-reveal');
+        } else {
+          li.classList.add('q-wrong-reveal');
+          // Also highlight the correct one
+          if (correctLi) correctLi.classList.add('q-correct-reveal');
+        }
+      } else if (li === correctLi || li.classList.contains('correct-option')) {
+        li.classList.add('q-correct-reveal');
+      }
+    });
+    if (explain) {
+      explain.classList.add('q-show');
+    }
+  }
+
+  function updateScore() {
+    var scoreEl = document.getElementById('quizScore');
+    var attemptedEl = document.getElementById('quizAttempted');
+    var pctEl = document.getElementById('quizPct');
+    var progressEl = document.getElementById('quizProgress');
+    if (scoreEl) scoreEl.textContent = correct;
+    if (attemptedEl) attemptedEl.textContent = answered;
+    if (pctEl) pctEl.textContent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+    if (progressEl) progressEl.style.width = (answered / totalQ * 100) + '%';
+  }
+
+  // Show all answers
+  window.quizShowAll = function() {
+    cards.forEach(function(card, idx) {
+      if (card.classList.contains('q-done')) return;
+      card.classList.add('q-done');
+      answered++;
+      var options = card.querySelectorAll('.q-options li');
+      var correctLi = card.querySelector('.correct-option');
+      var explain = card.querySelector('.q-explain');
+      options.forEach(function(li) {
+        li.classList.add('q-answered');
+        if (li === correctLi || li.classList.contains('correct-option')) {
+          li.classList.add('q-correct-reveal');
+          correct++;
+        }
+      });
+      if (explain) explain.classList.add('q-show');
+      try {
+        savedState['q' + idx] = -1;
+        savedState.answered = answered;
+        savedState.correct = correct;
+        localStorage.setItem(storageKey, JSON.stringify(savedState));
+      } catch(e) {}
+    });
+    updateScore();
+  };
+
+  // Reset quiz
+  window.quizReset = function() {
+    if (!confirm('Reset all quiz progress?')) return;
+    answered = 0;
+    correct = 0;
+    savedState = {};
+    try { localStorage.removeItem(storageKey); } catch(e) {}
+    cards.forEach(function(card) {
+      card.classList.remove('q-done');
+      var options = card.querySelectorAll('.q-options li');
+      options.forEach(function(li) {
+        li.classList.remove('q-answered', 'q-selected', 'q-correct-reveal', 'q-wrong-reveal');
+      });
+      var explain = card.querySelector('.q-explain');
+      if (explain) explain.classList.remove('q-show');
+    });
+    updateScore();
+  };
+
+  updateScore();
+})();
+</script>
 
 </body>
 </html>
