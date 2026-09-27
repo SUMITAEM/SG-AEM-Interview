@@ -487,11 +487,11 @@
 <div class="cover">
   <div class="cover-badge">CCAR-F Official Syllabus Aligned</div>
   <h1><span>Claude</span> Certified Architect<br>Foundations Exam Prep</h1>
-  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 50 exam-style MCQs.</p>
+  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 60 exam-style MCQs.</p>
   <div class="cover-meta">
     <span><strong>Exam:</strong> CCAR-F (Architect Foundations)</span>
     <span><strong>Topics:</strong> 18 official sections</span>
-    <span><strong>MCQs:</strong> 50 questions</span>
+    <span><strong>MCQs:</strong> 60 questions</span>
     <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
     <span><strong>Updated:</strong> September 2026</span>
   </div>
@@ -524,67 +524,115 @@
     <a href="#part16"><span class="num">16</span> Context Window Management</a>
     <a href="#part17"><span class="num">17</span> Escalation Triggers</a>
     <a href="#part18"><span class="num">18</span> Error Context and Common Mistakes</a>
-    <a href="#part19"><span class="num">19</span> Practice Test &mdash; 50 Architect MCQs</a>
+    <a href="#part19"><span class="num">19</span> Practice Test &mdash; 60 Architect MCQs</a>
   </div>
 </div>
 
 <!-- ============================== PART 1 ============================== -->
 <section id="part1" class="page-break">
-<h2><span class="part-num">Part 01</span>The Agentic Loop</h2>
+<h2><span class="part-num">Part 01 &mdash; Domain 1: Agentic Architecture and Orchestration</span>The Agentic Loop</h2>
+
+<h3>Introduction to Domain 1: Agentic Architecture and Orchestration</h3>
+<p>Domain 1 of the CCAR-F exam covers the foundational patterns that power AI agents: the agentic loop, orchestration models (hub-and-spoke), parallel execution, and programmatic control hooks. Understanding these patterns is essential for designing production-grade AI systems that are reliable, cost-effective, and safe.</p>
+
+<h3>What Is Claude?</h3>
+<p>Claude is a family of large language models (LLMs) built by Anthropic. The model family includes multiple tiers optimized for different use cases:</p>
+<ul>
+  <li><strong>Fable 5.1</strong> &mdash; Highest capability, designed for multi-day agentic tasks and demanding reasoning</li>
+  <li><strong>Opus 5.5</strong> &mdash; Complex reasoning and nuanced analysis</li>
+  <li><strong>Sonnet 5</strong> &mdash; General-purpose balanced model (best cost/quality ratio)</li>
+  <li><strong>Haiku 4.5</strong> &mdash; Fastest and cheapest, ideal for classification and routing</li>
+</ul>
+<p>Claude's core capabilities include natural language understanding, code generation, tool use (function calling), vision (image analysis), extended thinking (chain-of-thought reasoning), and structured output generation. Claude is accessed via the Messages API and can be orchestrated into agentic workflows through tool calling.</p>
 
 <h3>What Is the Agentic Loop?</h3>
 <p>The agentic loop is the fundamental execution pattern behind all Claude-based agents. It is an iterative cycle in which the model reasons about a task, decides whether to call a tool, executes that tool, feeds the result back into the conversation, and then reasons again &mdash; repeating until the task is complete.</p>
 
 <div class="highlight">
-  <div class="hl-title">Agentic Loop Flow</div>
-  <p>User request &rarr; LLM reasoning &rarr; tool call &rarr; execute tool &rarr; tool result &rarr; LLM reasoning &rarr; response (or more tool calls)</p>
+  <div class="hl-title">Agentic Loop Flow Diagram</div>
+  <p><strong>User Request</strong> &rarr; <strong>LLM Reasoning</strong> &rarr; <strong>tool_use</strong> (stop_reason) &rarr; <strong>Execute Tool</strong> &rarr; <strong>tool_result</strong> (append to history) &rarr; <strong>LLM Reasoning</strong> &rarr; <strong>Response</strong> (or more tool calls)</p>
 </div>
 
-<h3>Key Components</h3>
-<ul>
-  <li><strong>System prompt</strong> &mdash; Defines the agent's role, capabilities, and behavioral constraints</li>
-  <li><strong>Conversation history</strong> &mdash; The full message array (user + assistant + tool_result turns)</li>
-  <li><strong>Tool definitions</strong> &mdash; JSON schemas describing available functions the model may call</li>
-  <li><strong>Thinking</strong> &mdash; Extended thinking blocks where the model reasons through complex decisions</li>
-</ul>
+<p>The loop is driven by the <code>stop_reason</code> field in each API response. When the model returns <code>stop_reason: "tool_use"</code>, the orchestrator must execute the requested tool, append the result, and call the API again. When it returns <code>stop_reason: "end_turn"</code>, the task is finished.</p>
 
-<h3>The <code>stop_reason</code> Field</h3>
-<p>Every API response includes a <code>stop_reason</code> that tells the orchestrator what to do next:</p>
+<h3>Understanding the <code>stop_reason</code> Field</h3>
+<p>Every API response includes a <code>stop_reason</code> that tells the orchestrator what to do next. This is the single most important field for controlling the agentic loop:</p>
 
 <div class="table-wrap">
 <table>
   <thead><tr><th>stop_reason</th><th>Meaning</th><th>Orchestrator Action</th></tr></thead>
   <tbody>
     <tr><td><code>end_turn</code></td><td>Model finished naturally</td><td>Exit the loop &mdash; task is complete</td></tr>
-    <tr><td><code>tool_use</code></td><td>Model wants to call a tool</td><td>Execute the tool, feed result back, continue loop</td></tr>
-    <tr><td><code>max_tokens</code></td><td>Hit the output token limit</td><td>Response was truncated &mdash; handle or extend</td></tr>
-    <tr><td><code>refusal</code></td><td>Model declined on safety grounds</td><td>Escalate, rephrase, or use a fallback model</td></tr>
+    <tr><td><code>tool_use</code></td><td>Model wants to call one or more tools</td><td>Execute the tool(s), feed result(s) back, continue loop</td></tr>
+    <tr><td><code>max_tokens</code></td><td>Hit the output token limit</td><td>Response was truncated &mdash; continue or increase max_tokens</td></tr>
+    <tr><td><code>refusal</code></td><td>Model declined on safety grounds</td><td>Escalate, rephrase, or use fallback model</td></tr>
     <tr><td><code>stop_sequence</code></td><td>Hit a custom stop string</td><td>Handle per application logic</td></tr>
+    <tr><td><code>model_context_window_exceeded</code></td><td>Output grew beyond available context</td><td>Summarize history and retry, or break task into smaller pieces</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Loop Termination Conditions</h3>
-<p>A well-designed agentic loop must have explicit termination conditions beyond just <code>end_turn</code>:</p>
-<ul>
-  <li><strong>Task complete</strong> &mdash; <code>stop_reason == "end_turn"</code></li>
-  <li><strong>Max iterations reached</strong> &mdash; Prevent infinite loops (e.g., cap at 20 iterations)</li>
-  <li><strong>Error threshold</strong> &mdash; Stop after N consecutive tool errors</li>
-  <li><strong>Context window limit</strong> &mdash; Approaching the token ceiling, must summarize or stop</li>
-  <li><strong>Cost ceiling</strong> &mdash; Accumulated token spend exceeds a budget</li>
-</ul>
+<h3>How to Branch on <code>tool_use</code></h3>
+<p>When the API response comes back, your orchestrator code must check whether <code>stop_reason == "tool_use"</code>, then extract each tool call block and dispatch it to the correct handler:</p>
 
-<h3>Python Agentic Loop Example</h3>
+<div class="code-block"><span class="label">Python</span><span class="cm"># Check stop_reason and branch on tool_use</span>
+<span class="kw">if</span> response.stop_reason == <span class="str">"tool_use"</span>:
+    <span class="cm"># Extract all tool_use blocks from the response</span>
+    tool_blocks = [b <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"tool_use"</span>]
+
+    <span class="kw">for</span> block <span class="kw">in</span> tool_blocks:
+        <span class="cm"># Switch on tool name to route to the correct handler</span>
+        <span class="kw">if</span> block.name == <span class="str">"search_documents"</span>:
+            result = <span class="fn">search_documents</span>(block.input)
+        <span class="kw">elif</span> block.name == <span class="str">"read_file"</span>:
+            result = <span class="fn">read_file</span>(block.input[<span class="str">"path"</span>])
+        <span class="kw">elif</span> block.name == <span class="str">"write_file"</span>:
+            result = <span class="fn">write_file</span>(block.input[<span class="str">"path"</span>], block.input[<span class="str">"content"</span>])
+        <span class="kw">else</span>:
+            result = <span class="fn">f</span><span class="str">"Unknown tool: {block.name}"</span>
+</div>
+
+<h3>How to Append Tool Results to History</h3>
+<p>After executing a tool, you must append <strong>two messages</strong> to the conversation history in the correct order. This is one of the most error-prone parts of building an agentic loop:</p>
+
+<div class="code-block"><span class="label">Python</span><span class="cm"># Step 1: Append the ASSISTANT message with the full response.content</span>
+<span class="cm"># (this includes the tool_use block that Claude generated)</span>
+messages.<span class="fn">append</span>({
+    <span class="str">"role"</span>: <span class="str">"assistant"</span>,
+    <span class="str">"content"</span>: response.content   <span class="cm"># MUST include the tool_use block</span>
+})
+
+<span class="cm"># Step 2: Append a USER message with the tool_result</span>
+<span class="cm"># CRITICAL: tool_use_id must match the id from the tool_use block</span>
+messages.<span class="fn">append</span>({
+    <span class="str">"role"</span>: <span class="str">"user"</span>,
+    <span class="str">"content"</span>: [{
+        <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+        <span class="str">"tool_use_id"</span>: block.id,   <span class="cm"># MUST match the tool_use block id</span>
+        <span class="str">"content"</span>: result
+    }]
+})
+</div>
+
+<div class="notice notice-warn">
+  <b>Critical: The tool_use_id Must Match</b>
+  Every <code>tool_result</code> block must include the <code>tool_use_id</code> field set to the exact <code>id</code> from the corresponding <code>tool_use</code> block in the assistant's response. If these do not match, the API will reject the request. When multiple tools are called in one turn, each result must be paired with its correct ID.
+</div>
+
+<h3>How to Continue the Loop Correctly</h3>
+<p>The full agentic loop uses a <code>while</code> loop with a break on <code>end_turn</code> and a max-iterations safety cap:</p>
+
 <div class="code-block"><span class="label">Python</span><span class="kw">import</span> anthropic
 
 client = anthropic.<span class="fn">Anthropic</span>()
 tools = [...]  <span class="cm"># tool definitions</span>
-
 messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: task}]
 
-<span class="kw">while True</span>:
+MAX_ITERATIONS = <span class="num">20</span>  <span class="cm"># Safety cap to prevent infinite loops</span>
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(MAX_ITERATIONS):
     response = client.messages.<span class="fn">create</span>(
-        model=<span class="str">"claude-opus-5-5"</span>,
+        model=<span class="str">"claude-sonnet-5"</span>,
         max_tokens=<span class="num">4096</span>,
         tools=tools,
         messages=messages
@@ -598,35 +646,55 @@ messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <
         <span class="fn">print</span>(final_text)
         <span class="kw">break</span>
 
-    <span class="cm"># Extract tool calls and execute them</span>
+    <span class="cm"># Append assistant turn, then execute tools and append results</span>
+    messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content})
+
+    tool_results = []
     <span class="kw">for</span> block <span class="kw">in</span> response.content:
         <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
             result = <span class="fn">execute_tool</span>(block.name, block.input)
-            messages.<span class="fn">append</span>({
-                <span class="str">"role"</span>: <span class="str">"assistant"</span>,
-                <span class="str">"content"</span>: response.content
+            tool_results.<span class="fn">append</span>({
+                <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+                <span class="str">"tool_use_id"</span>: block.id,
+                <span class="str">"content"</span>: result
             })
-            messages.<span class="fn">append</span>({
-                <span class="str">"role"</span>: <span class="str">"user"</span>,
-                <span class="str">"content"</span>: [{
-                    <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
-                    <span class="str">"tool_use_id"</span>: block.id,
-                    <span class="str">"content"</span>: result
-                }]
-            })
+
+    messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"WARNING: Max iterations reached!"</span>)
 </div>
 
-<h3>Token Accumulation</h3>
-<p>Every iteration of the agentic loop adds tokens to the context window. The assistant's response, the tool result, and any reasoning all consume tokens. In a long-running agent:</p>
+<h3>Common Mistake: Skipping History on Tool Results</h3>
+<p>If you do not append the assistant turn (the message containing the <code>tool_use</code> block) before appending the <code>tool_result</code>, Claude loses the context of what it asked for. This leads to:</p>
 <ul>
-  <li>Input tokens grow with every iteration (the full conversation is re-sent)</li>
-  <li>Tool results can be large (file contents, search results, API responses)</li>
-  <li>Without management, the context window fills and the agent fails</li>
+  <li><strong>Repeated calls</strong> &mdash; Claude re-requests the same tool because it does not know the result was already obtained</li>
+  <li><strong>Hallucinated results</strong> &mdash; Claude invents tool output instead of using the real result</li>
+  <li><strong>API errors</strong> &mdash; The API may reject the request because the <code>tool_result</code> references a <code>tool_use_id</code> that does not appear in the preceding assistant message</li>
+</ul>
+
+<div class="example-box">
+  <div class="ex-header">WRONG: Missing Assistant Turn</div>
+  <div class="ex-body">
+<div class="code-block"><span class="cm"># BUG: appending tool_result WITHOUT the assistant turn first</span>
+messages.<span class="fn">append</span>({
+    <span class="str">"role"</span>: <span class="str">"user"</span>,
+    <span class="str">"content"</span>: [{<span class="str">"type"</span>: <span class="str">"tool_result"</span>, <span class="str">"tool_use_id"</span>: block.id, <span class="str">"content"</span>: result}]
+})
+<span class="cm"># Claude won't know what tool_use_id refers to!</span>
+</div>
+  </div>
+</div>
+
+<h3>Common Mistake: Ending the Loop Too Early</h3>
+<p>Another common bug is breaking the loop on the first text block, even when more tool calls follow. A single response can contain <strong>both text blocks and tool_use blocks</strong>. You must check <strong>all content blocks</strong> for tool_use, not just stop at the first text block:</p>
+<ul>
+  <li><strong>Wrong</strong>: <code>if any(b.type == "text" for b in response.content): break</code></li>
+  <li><strong>Right</strong>: Check <code>stop_reason</code>, not individual block types. Only break when <code>stop_reason == "end_turn"</code></li>
 </ul>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  The agentic loop continues until <code>stop_reason == "end_turn"</code>. When <code>stop_reason == "tool_use"</code>, the orchestrator must execute the tool, append the result, and call the API again. Always set max iteration limits to prevent infinite loops.
+  The agentic loop continues until <code>stop_reason == "end_turn"</code>. When <code>stop_reason == "tool_use"</code>, the orchestrator must: (1) append the full assistant response to history, (2) execute the tool, (3) append a user message with tool_result and matching tool_use_id, (4) call the API again. Always set max iteration limits.
 </div>
 </section>
 
@@ -634,60 +702,120 @@ messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <
 <section id="part2" class="page-break">
 <h2><span class="part-num">Part 02</span>Hub-and-Spoke Model</h2>
 
-<h3>Architecture Pattern</h3>
-<p>The hub-and-spoke model is an orchestration pattern where one central <strong>orchestrator agent</strong> (the hub) decomposes complex tasks and delegates subtasks to specialized <strong>worker agents</strong> (the spokes). The hub collects results, synthesizes them, and maintains overall task coherence.</p>
+<h3>Introduction to the Hub-and-Spoke Model</h3>
+<p>The hub-and-spoke model is an orchestration pattern where one central <strong>coordinator agent</strong> (the hub) decomposes complex tasks and delegates subtasks to specialized <strong>worker agents</strong> (the spokes). Communication is <strong>one-way delegation</strong>: the hub sends tasks to spokes and collects results. Spokes never communicate directly with each other.</p>
 
+<h3>How Communication Flows in Hub-and-Spoke</h3>
 <div class="highlight">
-  <div class="hl-title">Hub Responsibilities</div>
-  <ul>
-    <li><strong>Task decomposition</strong> &mdash; Break a complex request into discrete subtasks</li>
-    <li><strong>Delegation</strong> &mdash; Route each subtask to the appropriate specialist agent</li>
-    <li><strong>Result aggregation</strong> &mdash; Collect and merge outputs from all spokes</li>
-    <li><strong>Quality control</strong> &mdash; Validate spoke outputs, request retries if needed</li>
-  </ul>
+  <div class="hl-title">Communication Flow</div>
+  <ol>
+    <li><strong>Hub sends task</strong> &rarr; A spoke receives a focused subtask with necessary context</li>
+    <li><strong>Spoke executes</strong> &rarr; The spoke works independently within its own context window</li>
+    <li><strong>Spoke returns result</strong> &rarr; The spoke sends its output back to the hub</li>
+    <li><strong>Hub aggregates</strong> &rarr; The hub collects all spoke results and synthesizes a final response</li>
+  </ol>
+  <p><strong>Key rule:</strong> Spokes never talk to each other. All coordination flows through the hub.</p>
 </div>
 
-<h3>Spoke Agent Characteristics</h3>
+<h3>How a Coordinator Decomposes Tasks</h3>
+<p>The hub breaks complex tasks into discrete subtasks that can be handled independently. Effective decomposition requires:</p>
 <ul>
-  <li><strong>Narrowly scoped</strong> &mdash; Each spoke handles one type of task (e.g., code review, testing, documentation)</li>
-  <li><strong>Single-purpose</strong> &mdash; Focused system prompt and limited tool set</li>
-  <li><strong>Isolated context</strong> &mdash; Each spoke has its own context window, independent of the hub and other spokes</li>
-  <li><strong>Stateless between invocations</strong> &mdash; Spokes receive only the data they need for their subtask</li>
+  <li><strong>Identify independent units</strong> &mdash; Split by file, function, concern, or domain</li>
+  <li><strong>Minimize dependencies</strong> &mdash; Each subtask should be completable without the output of other subtasks</li>
+  <li><strong>Right-size the work</strong> &mdash; Each subtask should fit within a single agent's context window</li>
+  <li><strong>Include acceptance criteria</strong> &mdash; Each spoke should know what "done" looks like</li>
 </ul>
 
-<h3>Comparison of Orchestration Patterns</h3>
+<h3>How a Coordinator Invokes Subagents</h3>
+<p>The invocation mechanism differs by platform:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Mechanism</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Claude Code</strong></td><td><code>Agent</code> tool</td><td>Spawn a background sub-agent with a prompt and optional worktree isolation</td></tr>
+    <tr><td><strong>Messages API</strong></td><td>Separate <code>messages.create</code> calls</td><td>Each spoke is a fresh API call with its own system prompt and tools</td></tr>
+    <tr><td><strong>Managed Agents</strong></td><td>Sessions</td><td>Server-hosted agents with managed sandboxes and persistent sessions</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>How to Pass Context to a Subagent</h3>
+<p>Each spoke should receive only the context it needs &mdash; not the hub's full conversation. Keep spoke context <strong>small and focused</strong>:</p>
+<ul>
+  <li><strong>Include</strong>: The specific subtask, relevant code/data, constraints, expected output format</li>
+  <li><strong>Exclude</strong>: The hub's full conversation history, other spokes' tasks, irrelevant context</li>
+  <li><strong>Why</strong>: Smaller context means fewer tokens, faster processing, and better focus</li>
+</ul>
+
+<h3>How a Coordinator Aggregates Results</h3>
+<p>After all spokes return, the hub must synthesize their outputs into a coherent final response:</p>
+<ul>
+  <li><strong>Collect all outputs</strong> &mdash; Wait for all spokes to complete (or timeout)</li>
+  <li><strong>Resolve conflicts</strong> &mdash; If two spokes produce conflicting results, the hub decides which to use</li>
+  <li><strong>Merge appropriately</strong> &mdash; Concatenate independent outputs, integrate overlapping ones</li>
+  <li><strong>Validate completeness</strong> &mdash; Verify that all subtasks were addressed</li>
+</ul>
+
+<h3>How a Coordinator Handles Subagent Errors</h3>
+<ul>
+  <li><strong>Retry failed spokes</strong> &mdash; For transient failures, re-invoke the spoke with the same task</li>
+  <li><strong>Skip non-critical failures</strong> &mdash; If a spoke's output is optional, proceed without it</li>
+  <li><strong>Report errors in output</strong> &mdash; Include failure information in the aggregated result so the user knows what did not complete</li>
+  <li><strong>Escalate critical failures</strong> &mdash; If a required spoke fails repeatedly, escalate to a human</li>
+</ul>
+
+<h3>Why Subagents Have No Memory of the Coordinator</h3>
+<p>Each spoke is a <strong>fresh API call or agent</strong>. There is no shared state, no knowledge of the hub's full conversation, and no memory across invocations. This is by design:</p>
+<ul>
+  <li>Spokes are stateless &mdash; they receive input and produce output without side effects</li>
+  <li>The hub must include all necessary context in the sub-prompt</li>
+  <li>This isolation makes spokes independently testable and replaceable</li>
+</ul>
+
+<h3>How to Diagnose Incomplete Coordinator Output</h3>
+<p>When the hub's final output is missing information, check these common causes:</p>
+<ul>
+  <li><strong>Did all spokes return?</strong> &mdash; A spoke may have timed out or errored silently</li>
+  <li><strong>Did the hub wait for all spokes?</strong> &mdash; The hub may have proceeded before all results arrived</li>
+  <li><strong>Is the context window full?</strong> &mdash; The hub's context may be too full to include all spoke results</li>
+  <li><strong>Did the hub summarize instead of including all results?</strong> &mdash; The hub may have condensed outputs, losing detail</li>
+</ul>
+
+<h3>Multi-Agent Workflows with Claude</h3>
 <div class="table-wrap">
 <table>
   <thead><tr><th>Pattern</th><th>Flow</th><th>Best For</th><th>Complexity</th></tr></thead>
   <tbody>
     <tr><td><strong>Sequential (Chain)</strong></td><td>A &rarr; B &rarr; C (pipeline)</td><td>Deterministic multi-step workflows</td><td>Low</td></tr>
+    <tr><td><strong>Parallel (Fan-Out / Fan-In)</strong></td><td>Hub sends to N spokes simultaneously, collects all results</td><td>Parallelizable work (translations, multi-file edits)</td><td>Medium</td></tr>
     <tr><td><strong>Router</strong></td><td>Classify &rarr; Route to specialist</td><td>Input classification + specialized handling</td><td>Low-Medium</td></tr>
-    <tr><td><strong>Fan-Out / Fan-In</strong></td><td>Hub sends to N spokes simultaneously, collects all results</td><td>Parallelizable work (translations, multi-file edits)</td><td>Medium</td></tr>
-    <tr><td><strong>Hub-and-Spoke</strong></td><td>Hub decomposes, delegates dynamically, aggregates</td><td>Complex tasks requiring multiple skills</td><td>High</td></tr>
+    <tr><td><strong>Orchestrator-Worker</strong></td><td>Hub decomposes, delegates dynamically, aggregates</td><td>Complex tasks requiring multiple skills</td><td>High</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Hub-and-Spoke vs. Monolithic Agent</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Dimension</th><th>Monolithic Agent</th><th>Hub-and-Spoke</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Scalability</strong></td><td>Limited by single context window</td><td>Each spoke has its own context</td></tr>
-    <tr><td><strong>Debugging</strong></td><td>Hard to isolate failures</td><td>Each spoke can be tested independently</td></tr>
-    <tr><td><strong>Specialization</strong></td><td>One prompt for everything</td><td>Tailored prompts per task type</td></tr>
-    <tr><td><strong>Model selection</strong></td><td>One model for all tasks</td><td>Different models per spoke (Haiku for triage, Opus for reasoning)</td></tr>
-    <tr><td><strong>Complexity</strong></td><td>Simple to implement</td><td>Requires orchestration logic</td></tr>
-  </tbody>
-</table>
+<h3>Retrieval-Augmented Generation (RAG) with Claude</h3>
+<p>RAG is a pattern that enhances Claude's responses by injecting relevant documents as context before generation. It is <strong>not training</strong> &mdash; it is context injection at query time:</p>
+<div class="highlight">
+  <div class="hl-title">RAG Pipeline Flow</div>
+  <ol>
+    <li><strong>Embed documents</strong> &mdash; Convert knowledge-base documents into vector embeddings</li>
+    <li><strong>Vector search</strong> &mdash; When a user asks a question, find the most relevant document chunks by cosine similarity</li>
+    <li><strong>Inject context</strong> &mdash; Include the retrieved chunks in the system prompt or user message</li>
+    <li><strong>Claude answers</strong> &mdash; Claude generates a response grounded in the retrieved context, with citations</li>
+  </ol>
 </div>
-
-<h3>Claude Code's Sub-Agent Pattern</h3>
-<p>Claude Code implements hub-and-spoke natively. The main agent (hub) can spawn background sub-agents (spokes) using the Agent tool. Each sub-agent runs with its own context and tool set, optionally in an isolated git worktree to avoid file conflicts.</p>
+<p>Key RAG considerations:</p>
+<ul>
+  <li><strong>Chunking strategy</strong> &mdash; Split documents into meaningful chunks (by section, paragraph, or fixed token count)</li>
+  <li><strong>Similarity threshold</strong> &mdash; Set a minimum cosine similarity to avoid injecting irrelevant content</li>
+  <li><strong>Token budget</strong> &mdash; Retrieved context consumes input tokens &mdash; balance relevance vs. cost</li>
+  <li><strong>Citation</strong> &mdash; Ask Claude to cite which retrieved chunks informed its answer</li>
+</ul>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Hub-and-spoke is ideal when a task requires multiple skills, can be decomposed, and benefits from different models or prompts for different subtasks. The hub never does the detailed work itself &mdash; it orchestrates.
+  In hub-and-spoke, spokes never communicate with each other &mdash; all coordination flows through the hub. Each spoke is a fresh call with no memory of the hub's conversation. RAG is context injection (not training): embed &rarr; search &rarr; inject &rarr; generate.
 </div>
 </section>
 
@@ -695,74 +823,79 @@ messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <
 <section id="part3" class="page-break">
 <h2><span class="part-num">Part 03</span>Task Tool and Parallel Execution</h2>
 
-<h3>Task Tool: Spawning Sub-Agents</h3>
-<p>The task tool (or Agent tool in Claude Code) is the mechanism for spawning sub-agents to handle discrete tasks. Each sub-agent operates independently with its own conversation history, system prompt, and tool set.</p>
+<h3>Introduction to the Task Tool</h3>
+<p>The task tool (called the <code>Agent</code> tool in Claude Code) is the mechanism for spawning discrete sub-tasks. Each sub-task runs independently with its own conversation history, system prompt, and tool set. The task tool enables the hub-and-spoke pattern by providing a concrete way for coordinators to delegate work.</p>
 
-<h3>Parallel Tool Use</h3>
-<p>Claude can call <strong>multiple tools in a single response</strong>. When the model determines that several operations are independent, it emits multiple <code>tool_use</code> blocks in one turn. The orchestrator should execute them concurrently for maximum throughput.</p>
+<h3>Why Coordinators Need <code>task</code> in allowedTools</h3>
+<p>If the coordinator agent does not have the task/Agent tool in its <code>allowedTools</code> list, it <strong>cannot delegate</strong>. Instead, it will try to do everything itself within a single context window. This leads to:</p>
+<ul>
+  <li>Context window overflow on large tasks</li>
+  <li>Lower quality output (one prompt trying to do everything)</li>
+  <li>No parallelism &mdash; all work is sequential within one agent</li>
+  <li>No specialization &mdash; one set of tools for all subtask types</li>
+</ul>
 
-<div class="code-block"><span class="label">Python</span><span class="cm"># A response may contain multiple tool calls</span>
-tool_calls = [b <span class="kw">for</span> b <span class="kw">in</span> response.content <span class="kw">if</span> b.type == <span class="str">"tool_use"</span>]
-
-<span class="cm"># Execute all tool calls in parallel</span>
-<span class="kw">import</span> asyncio
-
-<span class="kw">async def</span> <span class="fn">run_parallel</span>(calls):
-    tasks = [<span class="fn">execute_tool_async</span>(c.name, c.input) <span class="kw">for</span> c <span class="kw">in</span> calls]
-    <span class="kw">return</span> <span class="kw">await</span> asyncio.<span class="fn">gather</span>(*tasks)
-
-results = asyncio.<span class="fn">run</span>(<span class="fn">run_parallel</span>(tool_calls))
-
-<span class="cm"># Send all results back as a single user message</span>
-tool_results = [
-    {<span class="str">"type"</span>: <span class="str">"tool_result"</span>, <span class="str">"tool_use_id"</span>: c.id, <span class="str">"content"</span>: r}
-    <span class="kw">for</span> c, r <span class="kw">in</span> <span class="fn">zip</span>(tool_calls, results)
-]
-messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+<div class="notice notice-warn">
+  <b>Common Gotcha</b>
+  If your coordinator is trying to do all the work itself instead of delegating, check that <code>Agent</code> (or <code>task</code>) is in its allowedTools list. Without it, the coordinator has no mechanism to spawn sub-agents.
 </div>
 
-<h3>Controlling Parallel Execution</h3>
+<h3>How to Run Subagents in Parallel</h3>
+<p>In Claude Code, you run subagents in parallel by including <strong>multiple Agent tool calls in a single response</strong>. Each agent runs in its own context with optional worktree isolation (fan-out pattern):</p>
+
+<div class="code-block"><span class="label">Python</span><span class="cm"># Claude Code: multiple Agent tool calls in one response = parallel execution</span>
+<span class="cm"># Each agent gets its own worktree to avoid file conflicts</span>
+
+<span class="cm"># API-level parallel execution:</span>
+<span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">run_parallel_agents</span>(subtasks):
+    <span class="cm"># Create separate API calls for each subtask</span>
+    tasks = []
+    <span class="kw">for</span> subtask <span class="kw">in</span> subtasks:
+        task = client.messages.<span class="fn">create</span>(
+            model=<span class="str">"claude-sonnet-5"</span>,
+            system=subtask[<span class="str">"system_prompt"</span>],
+            tools=subtask[<span class="str">"tools"</span>],
+            messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: subtask[<span class="str">"task"</span>]}]
+        )
+        tasks.<span class="fn">append</span>(task)
+    <span class="kw">return</span> <span class="kw">await</span> asyncio.<span class="fn">gather</span>(*tasks)
+</div>
+
+<h3>When to Use Sequential vs. Parallel Invocation</h3>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Parameter</th><th>Value</th><th>Effect</th></tr></thead>
+  <thead><tr><th>Use Sequential When</th><th>Use Parallel When</th></tr></thead>
   <tbody>
-    <tr><td><code>disable_parallel_tool_use</code></td><td><code>true</code></td><td>Limit Claude to one tool call per turn &mdash; useful for sequential dependencies</td></tr>
-    <tr><td><code>disable_parallel_tool_use</code></td><td><code>false</code> (default)</td><td>Allow multiple tool calls per response</td></tr>
+    <tr><td>Task B depends on Task A's output</td><td>Tasks are fully independent of each other</td></tr>
+    <tr><td>Order of execution matters</td><td>No shared state between tasks</td></tr>
+    <tr><td>Each step validates the previous one</td><td>Tasks can be independently verified</td></tr>
+    <tr><td>Example: parse input &rarr; validate &rarr; transform</td><td>Example: translate to 5 languages simultaneously</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Dependency analysis first:</strong> Before deciding on parallel vs. sequential, map out dependencies between subtasks. If Task B needs Task A's output, they must be sequential. If they share no data, parallelize them.</p>
+
+<h3>What Is the Stakes-Proportionate Rule?</h3>
+<p>The stakes-proportionate rule is a design principle for agentic systems: <strong>match the level of verification and review depth to the risk level of the operation</strong>.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Stakes Level</th><th>Parallelism</th><th>Verification</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Low stakes</strong></td><td>Aggressive parallelism OK</td><td>Minimal review, auto-merge</td><td>Formatting, docs, adding comments</td></tr>
+    <tr><td><strong>Medium stakes</strong></td><td>Moderate parallelism</td><td>Automated tests, diff review</td><td>Code changes, config updates</td></tr>
+    <tr><td><strong>High stakes</strong></td><td>Sequential, slower</td><td>Human review, multi-step validation</td><td>Database migrations, deployments, financial</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Worktree Isolation</h3>
-<p>When multiple agents work on the same codebase simultaneously, file conflicts are a real risk. Claude Code solves this with <strong>worktree isolation</strong>: each sub-agent operates in its own git worktree (a separate checkout of the same repository), avoiding conflicts entirely.</p>
-<ul>
-  <li>Each worktree has its own working directory and branch</li>
-  <li>Agents can commit independently without stepping on each other</li>
-  <li>After completion, changes are merged back to the main branch</li>
-</ul>
-
-<h3>Task Decomposition Strategies</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">By File</div>
-    <p>Each agent handles a different file or set of files. Best for multi-file refactoring.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">By Function</div>
-    <p>Each agent implements a different function or feature. Best for greenfield development.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">By Concern</div>
-    <p>Separate agents for code, tests, docs, config. Best for full-stack changes.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">By Test</div>
-    <p>Each agent fixes one failing test. Best for large test suites with many failures.</p>
-  </div>
-</div>
+<p>For high-stakes changes, use more verification steps and lower parallelism. For low-stakes changes, parallelize aggressively and reduce review overhead.</p>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Use <code>disable_parallel_tool_use: true</code> when tool calls have sequential dependencies. Leave it as default (false) when tools are independent to maximize throughput. Worktree isolation prevents file conflicts between parallel agents.
+  The coordinator must have <code>Agent</code>/<code>task</code> in its allowedTools to delegate. Use parallel execution for independent tasks and sequential for dependent ones. The stakes-proportionate rule: high-risk = more verification, less parallelism; low-risk = aggressive parallelism, less review.
 </div>
 </section>
 
@@ -770,152 +903,183 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part4" class="page-break">
 <h2><span class="part-num">Part 04</span>Programmatic Control and Hooks</h2>
 
-<h3>Hooks: Shell Commands on Claude Code Actions</h3>
-<p>Hooks are shell commands that execute automatically before or after Claude Code performs specific actions. They provide programmatic control over the agent's behavior without modifying the model itself.</p>
+<h3>What Is a Programmatic Gate?</h3>
+<p>A programmatic gate is a <strong>code-level check</strong> that blocks or modifies a tool call before execution. Unlike a prompt instruction (which is probabilistic), a gate is <strong>deterministic</strong> &mdash; it always runs and always enforces its rules. Programmatic gates are implemented as hooks or middleware in the agent's orchestration layer.</p>
 
-<h3>Hook Types</h3>
+<div class="example-box">
+  <div class="ex-header">Prompt vs. Gate</div>
+  <div class="ex-body">
+    <p style="font-size:0.85rem;"><strong>Prompt (probabilistic):</strong> "Never write to files outside the /src directory" &mdash; Claude might still do it occasionally.</p>
+    <p style="font-size:0.85rem;"><strong>Gate (deterministic):</strong> A PreToolUse hook that checks the file path and blocks writes outside /src &mdash; always enforced, no exceptions.</p>
+  </div>
+</div>
+
+<h3>Introduction to Tool Call Interception Hooks (PreToolUse)</h3>
+<p><code>PreToolUse</code> hooks run <strong>before</strong> a tool executes. They can inspect the tool call, validate inputs, block dangerous operations, or modify parameters:</p>
+<ul>
+  <li><strong>Validation</strong> &mdash; Check that file paths are within allowed directories</li>
+  <li><strong>Policy enforcement</strong> &mdash; Block writes to production config files</li>
+  <li><strong>Logging</strong> &mdash; Record every tool call for audit trails</li>
+  <li><strong>Transformation</strong> &mdash; Modify tool inputs before execution (e.g., sanitize paths)</li>
+</ul>
+
+<h3>Introduction to PostToolUse Hooks</h3>
+<p><code>PostToolUse</code> hooks run <strong>after</strong> a tool completes. They operate on the output or trigger follow-up actions:</p>
+<ul>
+  <li><strong>Formatting</strong> &mdash; Run Prettier, Black, or gofmt after every file write</li>
+  <li><strong>Testing</strong> &mdash; Automatically run tests after code changes</li>
+  <li><strong>Logging</strong> &mdash; Record tool outputs for debugging</li>
+  <li><strong>Cleanup</strong> &mdash; Remove temporary files created during execution</li>
+</ul>
+
+<h3>Why Prompts Alone Cannot Guarantee Correctness</h3>
+<p>Prompts are <strong>probabilistic</strong> &mdash; Claude might ignore or misinterpret instructions. Hooks are <strong>deterministic</strong> &mdash; code always runs. For production systems, use both:</p>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Hook Type</th><th>When It Fires</th><th>Use Case</th></tr></thead>
+  <thead><tr><th>Aspect</th><th>Prompts</th><th>Hooks (Programmatic Gates)</th></tr></thead>
   <tbody>
-    <tr><td><code>PreToolUse</code></td><td>Before a tool runs</td><td>Validate inputs, block dangerous operations, log actions</td></tr>
-    <tr><td><code>PostToolUse</code></td><td>After a tool completes</td><td>Auto-format code, run linters, trigger tests</td></tr>
-    <tr><td><code>Notification</code></td><td>When a notification fires</td><td>Send alerts to Slack, log events</td></tr>
-    <tr><td><code>Stop</code></td><td>When the agent stops</td><td>Cleanup, final validation, summary generation</td></tr>
+    <tr><td><strong>Enforcement</strong></td><td>Probabilistic &mdash; Claude may not follow</td><td>Deterministic &mdash; code always executes</td></tr>
+    <tr><td><strong>Reliability</strong></td><td>Works most of the time, not all</td><td>100% reliable when correctly coded</td></tr>
+    <tr><td><strong>Best for</strong></td><td>Guidance, preferences, style</td><td>Security, compliance, critical rules</td></tr>
+    <tr><td><strong>Implementation</strong></td><td>System prompt text</td><td>Shell commands or scripts</td></tr>
   </tbody>
 </table>
 </div>
+<p><strong>Use both:</strong> Prompts for guidance (so Claude tries to follow the rules), hooks for enforcement (so violations are blocked even when Claude does not comply).</p>
 
-<h3>Hook Configuration</h3>
+<h3>Hook Configuration JSON Example with Matchers</h3>
 <div class="code-block"><span class="label">JSON</span>{
   <span class="key">"hooks"</span>: {
-    <span class="key">"PreToolUse"</span>: [{
-      <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
-      <span class="key">"command"</span>: <span class="str">"echo 'About to write file: $CLAUDE_FILE_PATH'"</span>
-    }],
-    <span class="key">"PostToolUse"</span>: [{
-      <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
-      <span class="key">"command"</span>: <span class="str">"npx prettier --write $CLAUDE_FILE_PATH"</span>
-    }, {
-      <span class="key">"matcher"</span>: <span class="str">"Bash"</span>,
-      <span class="key">"command"</span>: <span class="str">"npm test 2>&amp;1 | tail -5"</span>
-    }]
+    <span class="key">"PreToolUse"</span>: [
+      {
+        <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
+        <span class="key">"command"</span>: <span class="str">"python validate_path.py $CLAUDE_FILE_PATH"</span>
+      },
+      {
+        <span class="key">"matcher"</span>: <span class="str">"Bash"</span>,
+        <span class="key">"command"</span>: <span class="str">"python check_command_safety.py"</span>
+      }
+    ],
+    <span class="key">"PostToolUse"</span>: [
+      {
+        <span class="key">"matcher"</span>: <span class="str">"Write"</span>,
+        <span class="key">"command"</span>: <span class="str">"npx prettier --write $CLAUDE_FILE_PATH"</span>
+      },
+      {
+        <span class="key">"matcher"</span>: <span class="str">"Bash"</span>,
+        <span class="key">"command"</span>: <span class="str">"npm test 2>&amp;1 | tail -5"</span>
+      }
+    ],
+    <span class="key">"Stop"</span>: [
+      {
+        <span class="key">"command"</span>: <span class="str">"echo 'Session ended' >> /tmp/claude-audit.log"</span>
+      }
+    ]
   }
 }
 </div>
 
-<h3>Hook Environment Variables</h3>
-<ul>
-  <li><code>$CLAUDE_FILE_PATH</code> &mdash; The file being written or edited</li>
-  <li><code>$CLAUDE_TOOL_NAME</code> &mdash; The name of the tool being used</li>
-  <li>Hook commands have access to the full shell environment</li>
-</ul>
-
-<h3>Common Hook Use Cases</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">Auto-Format</div>
-    <p>PostToolUse on Write: run Prettier, Black, or gofmt after every file edit.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Lint Gate</div>
-    <p>PostToolUse on Write: run ESLint or pylint and feed errors back to Claude.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Test Runner</div>
-    <p>PostToolUse on Bash: automatically run tests after code changes.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Schema Validation</div>
-    <p>PreToolUse: validate JSON schemas before allowing writes to config files.</p>
-  </div>
-</div>
-
-<h3>Programmatic Control via SDK</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Parameter</th><th>Options</th><th>Effect</th></tr></thead>
-  <tbody>
-    <tr><td><code>tool_choice</code></td><td><code>auto</code> / <code>any</code> / <code>tool</code> / <code>none</code></td><td>Controls whether and which tools Claude can use</td></tr>
-    <tr><td><code>max_tokens</code></td><td>integer</td><td>Caps the output length</td></tr>
-    <tr><td><code>stop_sequences</code></td><td>array of strings</td><td>Custom termination triggers</td></tr>
-    <tr><td><code>disable_parallel_tool_use</code></td><td>boolean</td><td>Force sequential tool execution</td></tr>
-  </tbody>
-</table>
-</div>
+<p>Hooks are configured in <code>settings.json</code> (in the <code>.claude/</code> directory), <strong>not</strong> in CLAUDE.md. The <code>matcher</code> field specifies which tool triggers the hook (exact name, glob, or regex). Hook commands have access to environment variables like <code>$CLAUDE_FILE_PATH</code> and <code>$CLAUDE_TOOL_NAME</code>.</p>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Hooks provide <strong>programmatic control without modifying prompts</strong>. PreToolUse hooks can block actions; PostToolUse hooks can transform outputs. They are configured in <code>settings.json</code>, not in CLAUDE.md.
+  Prompts are probabilistic; hooks are deterministic. Use prompts for guidance, hooks for enforcement. PreToolUse hooks block/validate before execution; PostToolUse hooks format/test after execution. Hooks are configured in <code>settings.json</code>, not CLAUDE.md.
 </div>
 </section>
 
 <!-- ============================== PART 5 ============================== -->
 <section id="part5" class="page-break">
-<h2><span class="part-num">Part 05</span>Tool Descriptions</h2>
+<h2><span class="part-num">Part 05 &mdash; Domain 2: Tool Design and MCP Integration</span>Tool Descriptions</h2>
 
-<h3>Why Tool Descriptions Are Critical</h3>
-<p>Tool descriptions are the single most important factor determining whether Claude uses a tool correctly. The model reads tool descriptions as part of its system prompt to decide <strong>when</strong> to call a tool, <strong>how</strong> to format inputs, and <strong>what</strong> to expect from outputs. Poor descriptions lead to misuse, wasted tokens, and errors.</p>
+<h3>Introduction to Domain 2: Tool Design and MCP Integration</h3>
+<p>Domain 2 covers how to design tools that Claude can use effectively, including descriptions, naming, parameter schemas, MCP integration, error handling, and scoping tools to agent roles. Well-designed tools are the foundation of reliable agentic systems.</p>
 
-<h3>Anatomy of a Good Tool Description</h3>
-<div class="highlight">
-  <div class="hl-title">A Description Should Answer</div>
-  <ul>
-    <li><strong>What it does</strong> &mdash; Clear statement of the tool's purpose</li>
-    <li><strong>When to use it</strong> &mdash; Scenarios that warrant calling this tool</li>
-    <li><strong>What it returns</strong> &mdash; Format and structure of the output</li>
-    <li><strong>Edge cases</strong> &mdash; What happens when input is invalid or data is not found</li>
-    <li><strong>Limitations</strong> &mdash; Rate limits, data freshness, scope restrictions</li>
-  </ul>
-</div>
+<h3>Why Tool Descriptions Drive Selection</h3>
+<p>Tool descriptions are the <strong>single most important factor</strong> determining whether Claude uses a tool correctly. The model reads descriptions as part of its system prompt to decide <strong>when</strong> to call a tool, <strong>how</strong> to format inputs, and <strong>what</strong> to expect from outputs. Poor descriptions lead to misuse, wasted tokens, and errors.</p>
 
-<h3>Good vs. Bad Descriptions</h3>
+<h3>What Vague Descriptions Look Like</h3>
 <div class="example-box">
   <div class="ex-header">BAD: Vague and Incomplete</div>
   <div class="ex-body">
-    <code>"Gets weather"</code>
-    <p style="font-size:0.85rem; color:var(--c-text2); margin-top:6px;">Claude does not know what input format to use, what the return looks like, or when to choose this tool over alternatives.</p>
+    <code>"Gets data"</code>
+    <p style="font-size:0.85rem; color:var(--c-text2); margin-top:6px;">Claude does not know what data, what format, when to use it vs. alternatives, or what inputs to provide.</p>
   </div>
 </div>
-
 <div class="example-box">
   <div class="ex-header">GOOD: Specific and Complete</div>
   <div class="ex-body">
-    <code>"Get current weather conditions for a city. Input: city name (string). Returns: JSON with temperature_celsius (number), humidity_percent (number), and conditions (string: 'sunny', 'cloudy', 'rainy', 'snowy'). Use when the user asks about current weather in a specific location. Returns an error if the city name is not recognized."</code>
+    <code>"Retrieves user profile by user_id from the PostgreSQL users table. Returns JSON with name (string), email (string), and created_at (ISO 8601 date). Use when you need user details for personalization. Returns 404 error if user_id does not exist. Use find_users instead when searching by name or email with partial matches."</code>
   </div>
 </div>
 
-<h3>Parameter Descriptions</h3>
-<p>Every parameter in the <code>input_schema</code> should have its own <code>"description"</code> field:</p>
-<div class="code-block"><span class="label">JSON</span>{
-  <span class="key">"name"</span>: <span class="str">"search_documents"</span>,
-  <span class="key">"description"</span>: <span class="str">"Search the knowledge base for relevant documents..."</span>,
-  <span class="key">"input_schema"</span>: {
-    <span class="key">"type"</span>: <span class="str">"object"</span>,
-    <span class="key">"properties"</span>: {
-      <span class="key">"query"</span>: {
-        <span class="key">"type"</span>: <span class="str">"string"</span>,
-        <span class="key">"description"</span>: <span class="str">"Natural language search query. Be specific."</span>
-      },
-      <span class="key">"max_results"</span>: {
-        <span class="key">"type"</span>: <span class="str">"integer"</span>,
-        <span class="key">"description"</span>: <span class="str">"Maximum documents to return (1-20). Default: 5."</span>
-      }
-    },
-    <span class="key">"required"</span>: [<span class="str">"query"</span>]
-  }
-}
+<h3>How to Diagnose Tool Misselection</h3>
+<p>If Claude is choosing the wrong tool, check these factors:</p>
+<ul>
+  <li><strong>Is the description ambiguous?</strong> &mdash; Could it be confused with another tool?</li>
+  <li><strong>Does it overlap with another tool?</strong> &mdash; Two tools with similar descriptions compete</li>
+  <li><strong>Is the parameter schema clear?</strong> &mdash; Unclear parameters lead to wrong inputs</li>
+  <li><strong>Does the tool name clearly indicate its purpose?</strong> &mdash; <code>process_data</code> is ambiguous; <code>get_user_profile</code> is clear</li>
+</ul>
+
+<h3>How to Write a Complete Tool Description</h3>
+<div class="highlight">
+  <div class="hl-title">A Complete Tool Description Includes</div>
+  <ul>
+    <li><strong>What it does</strong> &mdash; Clear statement of the tool's purpose and action</li>
+    <li><strong>When to use it</strong> &mdash; Scenarios that warrant calling this tool</li>
+    <li><strong>What it returns</strong> &mdash; Format and structure of the output</li>
+    <li><strong>Edge cases</strong> &mdash; What happens when input is invalid or data is not found</li>
+    <li><strong>vs. similar tools</strong> &mdash; How to choose between this and related tools</li>
+  </ul>
 </div>
 
-<h3>Tool Naming Conventions</h3>
-<p>Use clear <strong>verb_noun</strong> patterns: <code>get_weather</code>, <code>search_documents</code>, <code>create_user</code>, <code>delete_file</code>. Avoid ambiguous names like <code>process</code>, <code>handle</code>, or <code>do_thing</code>.</p>
+<h3>Why the "vs. Similar Tools" Clause Matters Most</h3>
+<p>When you have multiple tools that could apply to similar situations, Claude needs explicit guidance on which to choose. The "vs. similar tools" clause is the <strong>most critical</strong> part of a description for disambiguation:</p>
+<div class="example-box">
+  <div class="ex-header">Example: Disambiguating Similar Tools</div>
+  <div class="ex-body">
+    <p style="font-size:0.85rem;"><code>get_user</code>: "...Use get_user for a single known user_id. Use find_users when searching by name/email with partial matches."</p>
+    <p style="font-size:0.85rem;"><code>find_users</code>: "...Use find_users when searching by name or email with partial matches. Use get_user when you already have the exact user_id."</p>
+    <p style="font-size:0.85rem; color:var(--c-text2); margin-top:6px;">Without these cross-references, Claude may call <code>find_users</code> when it already has the user_id, wasting a search operation.</p>
+  </div>
+</div>
 
-<h3>Token Cost of Tool Descriptions</h3>
-<p>Tool definitions are injected into the system prompt and <strong>count toward input tokens</strong> on every API call. Over-describing tools wastes tokens; under-describing causes misuse. Aim for the minimum description that prevents ambiguity.</p>
+<h3>Tool Use in Claude</h3>
+<p>Claude supports two categories of tools:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Type</th><th>Execution</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Client-side tools</strong></td><td>Your code executes the tool and returns results</td><td>Custom functions, database queries, API calls</td></tr>
+    <tr><td><strong>Server-side tools</strong></td><td>Anthropic executes the tool (built-in)</td><td>Web search, code execution (in certain contexts)</td></tr>
+  </tbody>
+</table>
+</div>
+<p><code>tool_choice</code> modes control how Claude uses tools:</p>
+<ul>
+  <li><code>auto</code> &mdash; Claude decides whether to use tools (default)</li>
+  <li><code>any</code> &mdash; Claude must use at least one tool</li>
+  <li><code>tool</code> &mdash; Claude must use a specific named tool</li>
+  <li><code>none</code> &mdash; Claude cannot use any tools</li>
+</ul>
+
+<h3>Claude Vision and Multimodal Inputs</h3>
+<p>Claude can process images as input alongside text. Key details for the exam:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Aspect</th><th>Details</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Input types</strong></td><td><code>base64</code> (inline), <code>url</code> (direct URL), <code>file_id</code> (uploaded file reference)</td></tr>
+    <tr><td><strong>Supported formats</strong></td><td>JPEG, PNG, GIF, WebP</td></tr>
+    <tr><td><strong>Token calculation</strong></td><td><code>ceil(width/28) * ceil(height/28)</code> visual tokens</td></tr>
+    <tr><td><strong>Best practice</strong></td><td>Place images <strong>before</strong> text in the message content for best results</td></tr>
+  </tbody>
+</table>
+</div>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Tool descriptions determine Claude's tool selection behavior. They should specify what, when, return format, and edge cases. Tool definitions count toward input tokens on every request &mdash; keep them concise but complete.
+  Tool descriptions must include what, when, returns, edge cases, and vs. similar tools. The "vs. similar tools" clause is the most important for disambiguation. Image tokens are calculated as <code>ceil(w/28) * ceil(h/28)</code>. Place images before text in messages.
 </div>
 </section>
 
@@ -923,30 +1087,8 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part6" class="page-break">
 <h2><span class="part-num">Part 06</span>Error Handling Patterns</h2>
 
-<h3>Tool Error Signaling</h3>
-<p>When a tool execution fails, the orchestrator should signal the error to Claude using the <code>is_error: true</code> flag in the <code>tool_result</code>. This tells Claude that the tool failed and it should try an alternative approach or report the failure.</p>
-
-<div class="code-block"><span class="label">JSON</span>{
-  <span class="key">"type"</span>: <span class="str">"tool_result"</span>,
-  <span class="key">"tool_use_id"</span>: <span class="str">"toolu_01ABC..."</span>,
-  <span class="key">"content"</span>: <span class="str">"Error: Database connection timeout after 5000ms. The database server at db.example.com:5432 is not responding."</span>,
-  <span class="key">"is_error"</span>: <span class="kw">true</span>
-}
-</div>
-
-<h3>Error Categories</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Category</th><th>Examples</th><th>Strategy</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Transient</strong></td><td>429 rate limit, 500 server error, 529 overloaded, network timeout</td><td>Retry with exponential backoff</td></tr>
-    <tr><td><strong>Permanent</strong></td><td>400 bad request, 404 not found, invalid schema</td><td>Fail immediately, do not retry</td></tr>
-    <tr><td><strong>User-fixable</strong></td><td>Missing credentials, invalid input, permission denied</td><td>Ask the user for correction</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Retry with Exponential Backoff</h3>
+<h3>How to Handle Transient Failures</h3>
+<p>Transient failures are temporary and resolve on their own. They include network timeouts, 429 rate limits, 500 server errors, and 529 overloaded responses. The correct strategy is <strong>retry with exponential backoff</strong>:</p>
 <div class="code-block"><span class="label">Python</span><span class="kw">import</span> time, anthropic
 
 <span class="kw">def</span> <span class="fn">call_with_backoff</span>(client, max_retries=<span class="num">3</span>, **kwargs):
@@ -963,38 +1105,91 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
                 <span class="kw">raise</span>  <span class="cm"># 4xx = permanent, do not retry</span>
     <span class="kw">raise</span> <span class="fn">Exception</span>(<span class="str">"Max retries exceeded"</span>)
 </div>
+<p>The official Python and TypeScript SDKs <strong>automatically retry</strong> 429 and 529 errors with exponential backoff. You only need custom retry logic for 500 errors.</p>
 
-<h3>SDK Auto-Retry</h3>
-<p>The official Python and TypeScript SDKs <strong>automatically retry</strong> 429 (rate limit) and 529 (overloaded) errors with exponential backoff. You do not need to implement retry logic for these specific cases when using the SDK.</p>
+<h3>How to Handle Validation Failures</h3>
+<p>When Claude sends invalid input to a tool (wrong data type, missing required field, out-of-range value), return <code>is_error: true</code> with a <strong>specific message</strong> about what is wrong and what is expected:</p>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"type"</span>: <span class="str">"tool_result"</span>,
+  <span class="key">"tool_use_id"</span>: <span class="str">"toolu_01ABC..."</span>,
+  <span class="key">"is_error"</span>: <span class="kw">true</span>,
+  <span class="key">"content"</span>: <span class="str">"Validation error: 'max_results' must be an integer between 1 and 20. Received: 'fifty'. Please provide a numeric value within the valid range."</span>
+}
+</div>
+<p>The error message should tell Claude <strong>exactly</strong> how to fix the input so it can retry correctly.</p>
 
-<h3>Circuit Breaker Pattern</h3>
-<p>If a tool fails repeatedly, stop calling it entirely to avoid wasting tokens and time:</p>
-<ul>
-  <li><strong>Closed</strong> (normal) &mdash; tool calls proceed as usual</li>
-  <li><strong>Open</strong> (tripped) &mdash; after N consecutive failures, skip the tool and use a fallback</li>
-  <li><strong>Half-open</strong> &mdash; after a timeout, try one call to see if the service recovered</li>
-</ul>
+<h3>How to Handle Business Logic Failures</h3>
+<p>When the operation is valid technically but not allowed by business rules (e.g., transferring more money than the account balance), return a clear explanation of why the operation was rejected:</p>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"type"</span>: <span class="str">"tool_result"</span>,
+  <span class="key">"tool_use_id"</span>: <span class="str">"toolu_01DEF..."</span>,
+  <span class="key">"is_error"</span>: <span class="kw">true</span>,
+  <span class="key">"content"</span>: <span class="str">"Business rule violation: Cannot schedule appointment on Sunday. Business hours are Monday-Friday 9am-5pm. Please choose a weekday within business hours."</span>
+}
+</div>
 
-<h3>Graceful Degradation</h3>
-<p>When a tool fails, Claude should fall back to a simpler approach rather than stopping entirely. For example, if a web search tool fails, Claude can reason from its training data. If a database tool fails, Claude can suggest the user run the query manually.</p>
+<h3>How to Handle Permission Failures</h3>
+<p>When the agent lacks access to a resource, tell it <strong>what permission is needed</strong>, not just "access denied":</p>
+<div class="code-block"><span class="label">JSON</span>{
+  <span class="key">"type"</span>: <span class="str">"tool_result"</span>,
+  <span class="key">"tool_use_id"</span>: <span class="str">"toolu_01GHI..."</span>,
+  <span class="key">"is_error"</span>: <span class="kw">true</span>,
+  <span class="key">"content"</span>: <span class="str">"Permission denied: Current API token has 'read' scope. The 'delete_record' operation requires 'write' scope. Ask the user to provide a token with write permissions."</span>
+}
+</div>
 
-<h3>HTTP Error Codes Reference</h3>
+<h3>Access Failure vs. Valid Empty Result</h3>
+<p>This is a <strong>critical distinction</strong> that Claude must be able to make. These two outcomes require completely different next steps:</p>
+
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Code</th><th>Meaning</th><th>Action</th></tr></thead>
+  <thead><tr><th>Scenario</th><th>What Happened</th><th>Claude's Next Step</th></tr></thead>
   <tbody>
-    <tr><td><code>400</code></td><td>Bad Request</td><td>Fix the request payload</td></tr>
-    <tr><td><code>401</code></td><td>Unauthorized</td><td>Check API key</td></tr>
-    <tr><td><code>429</code></td><td>Rate Limited</td><td>Auto-retry (SDK handles this)</td></tr>
-    <tr><td><code>500</code></td><td>Server Error</td><td>Retry with backoff</td></tr>
-    <tr><td><code>529</code></td><td>Overloaded</td><td>Auto-retry (SDK handles this)</td></tr>
+    <tr><td><strong>Access failure</strong></td><td>"You don't have access to this database"</td><td>Report the access issue, ask user for credentials, try alternate data source</td></tr>
+    <tr><td><strong>Valid empty result</strong></td><td>"The query returned no results" (0 rows)</td><td>Report that no matching data exists, proceed with the task</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-warn">
+  <b>Critical Distinction</b>
+  An access failure is NOT the same as an empty result. If Claude cannot tell the difference, it may tell the user "no data exists" when the real problem is that it does not have permission to see the data. Always use <code>is_error: true</code> for access failures and return a normal (non-error) result for valid empty queries.
+</div>
+
+<h3>How to Design Distinguishable Error Responses</h3>
+<p>Use structured error objects with typed fields so Claude can programmatically distinguish between error types:</p>
+<div class="code-block"><span class="label">JSON</span><span class="cm">// Structured error response pattern</span>
+{
+  <span class="key">"error_type"</span>: <span class="str">"PERMISSION_DENIED"</span>,
+  <span class="key">"message"</span>: <span class="str">"Cannot access table 'financials' with current credentials"</span>,
+  <span class="key">"suggestion"</span>: <span class="str">"Request elevated access from the user or try the 'public_financials' table instead"</span>
+}
+
+<span class="cm">// vs. a valid empty result (NOT an error)</span>
+{
+  <span class="key">"results"</span>: [],
+  <span class="key">"count"</span>: <span class="num">0</span>,
+  <span class="key">"message"</span>: <span class="str">"No records match the query criteria"</span>
+}
+</div>
+
+<p>Error types to distinguish:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>error_type</th><th>Meaning</th><th>Claude's Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>TRANSIENT</code></td><td>Temporary failure (network, rate limit)</td><td>Retry the same operation</td></tr>
+    <tr><td><code>VALIDATION</code></td><td>Invalid input from Claude</td><td>Fix the input and retry</td></tr>
+    <tr><td><code>BUSINESS_RULE</code></td><td>Operation not allowed by rules</td><td>Explain the constraint to the user</td></tr>
+    <tr><td><code>PERMISSION_DENIED</code></td><td>Insufficient access</td><td>Ask user for elevated access</td></tr>
+    <tr><td><code>NOT_FOUND</code></td><td>Resource does not exist</td><td>Try an alternative or report</td></tr>
   </tbody>
 </table>
 </div>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Always use <code>is_error: true</code> when returning a tool error to Claude &mdash; without it, Claude may interpret the error text as a successful result. The SDK auto-retries 429 and 529 errors; you must handle 500s yourself.
+  Always use <code>is_error: true</code> for tool errors. The SDK auto-retries 429 and 529. The most critical distinction: access failure (is_error: true, need different credentials) vs. valid empty result (not an error, just no data). Use structured error objects with <code>error_type</code>, <code>message</code>, and <code>suggestion</code>.
 </div>
 </section>
 
@@ -1002,12 +1197,55 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part7" class="page-break">
 <h2><span class="part-num">Part 07</span>MCP Configuration</h2>
 
-<h3>What Is MCP?</h3>
-<p>MCP (Model Context Protocol) is an <strong>open standard</strong> for connecting AI models to external tools and data sources. Instead of building custom tool integrations for each service, MCP provides a standardized protocol that any server can implement and any client can consume.</p>
+<h3>What Goes in Project-Level MCP Config?</h3>
+<p>The project-level MCP configuration is stored in <code>.mcp.json</code> at the project root. It defines MCP servers that the <strong>whole team</strong> uses and is <strong>committed to git</strong>:</p>
+<div class="code-block"><span class="label">JSON &mdash; .mcp.json</span>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"jira"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@anthropic/mcp-server-jira"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"JIRA_URL"</span>: <span class="str">"https://team.atlassian.net"</span>
+      }
+    },
+    <span class="key">"postgres"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@anthropic/mcp-server-postgres"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"DATABASE_URL"</span>: <span class="str">"postgresql://localhost:5432/mydb"</span>
+      }
+    }
+  }
+}
+</div>
+<p>This file should contain shared team tools like project databases, issue trackers, and documentation servers. <strong>Do not put personal API keys here</strong> &mdash; use environment variables or user-level config.</p>
 
-<h3>MCP Connector in Messages API</h3>
-<p>The Messages API supports connecting to remote MCP servers directly, without needing a separate MCP client:</p>
+<h3>What Goes in User-Level MCP Config?</h3>
+<p>User-level MCP configuration goes in <code>~/.claude/settings.json</code>. It defines personal MCP servers like local dev tools and private API keys. This file is <strong>NOT committed</strong> to version control:</p>
+<div class="code-block"><span class="label">JSON &mdash; ~/.claude/settings.json</span>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"personal-notes"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@anthropic/mcp-server-filesystem"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"ROOT_DIR"</span>: <span class="str">"/home/user/notes"</span>
+      }
+    }
+  }
+}
+</div>
 
+<h3>How to Diagnose Missing MCP Server Access</h3>
+<p>When an MCP server's tools are not available, check this diagnostic checklist:</p>
+<ol>
+  <li><strong>Is the server URL/command correct?</strong> &mdash; Typos in the URL or command path</li>
+  <li><strong>Is the auth token valid?</strong> &mdash; Expired or incorrect credentials</li>
+  <li><strong>Is the tool in allowed_tools?</strong> &mdash; The <code>tool_configuration</code> may be blocking the tool</li>
+  <li><strong>Is the server running?</strong> &mdash; The MCP server process may have crashed or not started</li>
+  <li><strong>Check Claude Code logs</strong> &mdash; Run <code>/mcp</code> to see the status of connected MCP servers</li>
+</ol>
+
+<h3>MCP in the Messages API</h3>
 <div class="code-block"><span class="label">JSON</span>{
   <span class="key">"model"</span>: <span class="str">"claude-sonnet-5"</span>,
   <span class="key">"max_tokens"</span>: <span class="num">1024</span>,
@@ -1028,34 +1266,6 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 }
 </div>
 
-<h3>MCP in Claude Code</h3>
-<p>Claude Code supports MCP server configuration in two locations:</p>
-<ul>
-  <li><code>.claude/settings.json</code> &mdash; project-level MCP servers (committed to repo)</li>
-  <li><code>.mcp.json</code> &mdash; alternative project-level configuration file</li>
-  <li><code>~/.claude/settings.json</code> &mdash; user-level MCP servers (personal tools)</li>
-</ul>
-
-<h3>Key MCP Features</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">Tool Discovery</div>
-    <p>MCP servers expose available tools dynamically. The client discovers what tools are available at connection time.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Multiple Servers</div>
-    <p>Connect to multiple MCP servers in a single request. Each server contributes its own set of tools.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">OAuth Support</div>
-    <p>MCP supports OAuth authentication for servers that require user-specific authorization.</p>
-  </div>
-  <div class="card">
-    <div class="card-title">Per-Tool Configuration</div>
-    <p>Use <code>allowed_tools</code> and <code>denied_tools</code> to control which tools from a server Claude can access.</p>
-  </div>
-</div>
-
 <h3>MCP vs. Custom Tools</h3>
 <div class="table-wrap">
 <table>
@@ -1072,7 +1282,7 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  MCP is an <strong>open standard</strong>, not proprietary. It enables dynamic tool discovery and works across any compliant client/server. Use <code>tool_configuration</code> to allowlist or denylist specific tools from an MCP server.
+  Project-level MCP config (<code>.mcp.json</code>) is committed to git &mdash; shared team tools. User-level config (<code>~/.claude/settings.json</code>) is personal &mdash; NOT committed. When MCP tools are missing, check: URL, auth, allowed_tools, server status, and Claude Code logs.
 </div>
 </section>
 
@@ -1080,114 +1290,106 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part8" class="page-break">
 <h2><span class="part-num">Part 08</span>Tool Scoping and Agent Roles</h2>
 
-<h3>Principle of Least Privilege</h3>
-<p>Each agent should have access to <strong>only the tools it needs</strong> for its specific role. Broader tool access increases the risk of errors, security vulnerabilities, and wasted tokens (more tool definitions = more input tokens).</p>
+<h3>Why Too Many Tools Hurt Selection</h3>
+<p>Giving an agent too many tools causes multiple problems:</p>
+<ul>
+  <li><strong>Higher token cost</strong> &mdash; Every tool definition is injected into the system prompt and consumes input tokens on every API call</li>
+  <li><strong>More ambiguity</strong> &mdash; With many tools, Claude has more options to choose from, increasing the chance of misselection</li>
+  <li><strong>Slower responses</strong> &mdash; More tool definitions mean more tokens to process</li>
+  <li><strong>Higher misselection rate</strong> &mdash; Overlapping tool descriptions lead to the wrong tool being chosen</li>
+</ul>
 
-<h3>Role-Based Tool Access Patterns</h3>
+<h3>How Many Tools Each Agent Should Have</h3>
+<p><strong>Rule of thumb: 5-15 tools per agent.</strong> If an agent needs more than 20 tools, consider:</p>
+<ul>
+  <li><strong>Split into multiple specialized agents</strong> &mdash; A "code agent" and a "test agent" instead of one agent with all tools</li>
+  <li><strong>Use tool_search</strong> &mdash; A meta-tool that searches for the right tool from a larger catalog</li>
+  <li><strong>Use MCP with scoping</strong> &mdash; Connect to different MCP servers for different task types</li>
+</ul>
+
+<h3>How to Scope Tools to Agent Roles</h3>
 <div class="table-wrap">
 <table>
   <thead><tr><th>Agent Role</th><th>Tools Available</th><th>Rationale</th></tr></thead>
   <tbody>
     <tr><td><strong>Researcher</strong></td><td><code>web_search</code>, <code>web_fetch</code>, <code>read_file</code></td><td>Read-only access to gather information</td></tr>
     <tr><td><strong>Coder</strong></td><td><code>write_file</code>, <code>edit_file</code>, <code>bash</code>, <code>test_runner</code></td><td>Full write access to implement changes</td></tr>
-    <tr><td><strong>Reviewer</strong></td><td><code>read_file</code>, <code>grep</code>, <code>diff</code></td><td>Read-only &mdash; can analyze but not modify</td></tr>
-    <tr><td><strong>Deployer</strong></td><td><code>bash</code> (limited commands), <code>git</code></td><td>Restricted to deployment operations</td></tr>
+    <tr><td><strong>Reviewer</strong></td><td><code>read_file</code>, <code>grep</code>, <code>diff</code>, <code>comment</code></td><td>Read-only &mdash; can analyze and comment but not modify</td></tr>
+    <tr><td><strong>Deployer</strong></td><td><code>bash</code> (limited commands), <code>git</code></td><td>Restricted to deployment operations only</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Tool Choice Modes</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Mode</th><th>Behavior</th><th>Use Case</th></tr></thead>
-  <tbody>
-    <tr><td><code>auto</code></td><td>Claude decides whether to use tools</td><td>Default for most agentic loops</td></tr>
-    <tr><td><code>any</code></td><td>Claude must use at least one tool</td><td>Force tool use when you know a tool is needed</td></tr>
-    <tr><td><code>tool</code></td><td>Claude must use a specific named tool</td><td>Force a specific tool call (e.g., structured output)</td></tr>
-    <tr><td><code>none</code></td><td>Claude cannot use any tools</td><td>Text-only response, no tool calling</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Benefits of Scoping</h3>
-<ul>
-  <li><strong>Fewer errors</strong> &mdash; agents cannot accidentally use the wrong tool</li>
-  <li><strong>Better security</strong> &mdash; read-only agents cannot modify files or run commands</li>
-  <li><strong>Lower token cost</strong> &mdash; fewer tool definitions means fewer input tokens per call</li>
-  <li><strong>Clearer reasoning</strong> &mdash; agents make better tool selections from a smaller set</li>
-</ul>
-
-<h3>Agent Isolation</h3>
-<p>Beyond tool scoping, each agent should have:</p>
-<ul>
-  <li><strong>Separate system prompts</strong> &mdash; tailored to its specific role</li>
-  <li><strong>Isolated context</strong> &mdash; its own conversation history, not shared with other agents</li>
-  <li><strong>Scoped permissions</strong> &mdash; limited file system and network access</li>
-</ul>
+<p>Benefits of scoping: fewer errors (agents cannot use the wrong tool), better security (reviewers cannot modify files), lower token cost (fewer definitions), and clearer reasoning (agents select better from smaller sets).</p>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Tool scoping reduces errors, cost, and security risk. A reviewer agent should never have write tools. Use <code>tool_choice: "none"</code> to force text-only responses and <code>tool_choice: {type: "tool", name: "..."}</code> to force a specific tool call.
+  Aim for 5-15 tools per agent. More than 20 tools means you should split into specialized agents. A reviewer agent should NEVER have write tools. Scoping follows the principle of least privilege.
 </div>
 </section>
 
 <!-- ============================== PART 9 ============================== -->
 <section id="part9" class="page-break">
-<h2><span class="part-num">Part 09</span>CLAUDE.md Hierarchy</h2>
+<h2><span class="part-num">Part 09 &mdash; Domain 3: Claude Code Configuration and Workflows</span>CLAUDE.md Hierarchy</h2>
 
-<h3>What Is CLAUDE.md?</h3>
-<p><code>CLAUDE.md</code> is a project instruction file that Claude Code reads at session start. It provides the model with persistent context about your project: coding standards, architecture decisions, build commands, testing conventions, and more.</p>
+<h3>Introduction to Domain 3: Claude Code Configuration and Workflows</h3>
+<p>Domain 3 covers how to configure Claude Code for effective team use: the CLAUDE.md hierarchy, agent skills, path-specific rules, context forking, CLI flags, and CI/CD integration. These configuration mechanisms control Claude Code's behavior without changing code.</p>
 
-<h3>The Hierarchy (General to Specific)</h3>
+<h3>Introduction to the CLAUDE.md Hierarchy</h3>
+<p><code>CLAUDE.md</code> is a project instruction file that Claude Code reads at session start. The hierarchy goes from <strong>most general to most specific</strong>, with deeper files overriding shallower ones for conflicting rules.</p>
+
+<h3>What Goes in Project-Level CLAUDE.md</h3>
+<p>The project root <code>CLAUDE.md</code> contains standards that apply to the <strong>entire project</strong>:</p>
+<ul>
+  <li>Coding standards and style guide</li>
+  <li>Architecture decisions and patterns</li>
+  <li>Build and deployment commands (<code>npm run build</code>, <code>mvn clean install</code>)</li>
+  <li>Testing conventions (framework, file naming, coverage expectations)</li>
+  <li>Repository conventions (branching strategy, commit message format)</li>
+</ul>
+
+<h3>What Goes in Directory-Level CLAUDE.md</h3>
+<p>Directory-level files contain <strong>module-specific rules</strong> that differ from the project root:</p>
+<div class="example-box">
+  <div class="ex-header">Example: /frontend/CLAUDE.md</div>
+  <div class="ex-body">
+    <p style="font-size:0.85rem;">"This directory uses React 18 + TypeScript strict mode. Test with Vitest. Use 2-space indent. Import components with absolute paths from @/components/."</p>
+  </div>
+</div>
+
+<h3>What Goes in User-Level CLAUDE.md</h3>
+<p>The user-level file (<code>~/.claude/CLAUDE.md</code>) contains <strong>personal preferences</strong> that apply across all projects:</p>
+<ul>
+  <li>Editor style preferences (verbosity level, explanation depth)</li>
+  <li>Preferred language for responses</li>
+  <li>Default coding style when not specified by project</li>
+</ul>
+
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Level</th><th>Location</th><th>Scope</th><th>Example Content</th></tr></thead>
+  <thead><tr><th>Level</th><th>Location</th><th>Scope</th><th>Committed?</th></tr></thead>
   <tbody>
-    <tr><td><strong>1. User</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>All projects for this user</td><td>Personal preferences, editor settings, default model</td></tr>
-    <tr><td><strong>2. Project Root</strong></td><td><code>/project/CLAUDE.md</code></td><td>Entire project</td><td>Architecture, coding standards, build commands</td></tr>
-    <tr><td><strong>3. Directory</strong></td><td><code>/project/src/CLAUDE.md</code></td><td>Source directory and below</td><td>Module-specific patterns, import conventions</td></tr>
-    <tr><td><strong>4. Subdirectory</strong></td><td><code>/project/src/api/CLAUDE.md</code></td><td>API directory and below</td><td>API conventions, endpoint patterns, auth handling</td></tr>
+    <tr><td><strong>User</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>All projects for this user</td><td>No</td></tr>
+    <tr><td><strong>Project Root</strong></td><td><code>/project/CLAUDE.md</code></td><td>Entire project</td><td>Yes</td></tr>
+    <tr><td><strong>Directory</strong></td><td><code>/project/src/CLAUDE.md</code></td><td>Source directory and below</td><td>Yes</td></tr>
+    <tr><td><strong>Subdirectory</strong></td><td><code>/project/src/api/CLAUDE.md</code></td><td>API directory and below</td><td>Yes</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Override Behavior</h3>
-<p>More specific CLAUDE.md files <strong>override</strong> more general ones. If the root CLAUDE.md says "use tabs" but <code>src/api/CLAUDE.md</code> says "use 2-space indent", the API directory uses 2-space indent. The hierarchy merges additively for non-conflicting rules.</p>
-
-<h3>What to Put in CLAUDE.md</h3>
-<div class="card-grid">
-  <div class="card">
-    <div class="card-title">DO Include</div>
-    <ul>
-      <li>Non-obvious architecture decisions</li>
-      <li>Coding standards specific to this project</li>
-      <li>Build and deployment commands</li>
-      <li>Testing conventions and patterns</li>
-      <li>Preferred libraries and frameworks</li>
-      <li>Review checklists</li>
-    </ul>
-  </div>
-  <div class="card">
-    <div class="card-title">DO NOT Include</div>
-    <ul>
-      <li>Things derivable from code itself</li>
-      <li>Standard language conventions</li>
-      <li>Information already in git history</li>
-      <li>API keys or secrets</li>
-      <li>Redundant information from package.json</li>
-    </ul>
-  </div>
-</div>
-
-<h3>AGENTS.md</h3>
-<p><code>AGENTS.md</code> is an alternative name that is also read by Claude Code. Both filenames work identically. Use whichever naming convention your team prefers.</p>
-
-<h3>Auto Memory</h3>
-<p>Claude Code automatically saves learnings across sessions in <code>~/.claude/memory</code>. This is separate from CLAUDE.md and stores things Claude discovers during work (e.g., "this project uses pnpm, not npm").</p>
+<h3>How to Diagnose Ignored Team Conventions</h3>
+<p>When Claude Code is not following team conventions, check this diagnostic checklist:</p>
+<ol>
+  <li><strong>Is the CLAUDE.md in the right directory?</strong> &mdash; It must be at the level where the rules apply</li>
+  <li><strong>Is it readable?</strong> &mdash; Check file permissions and encoding</li>
+  <li><strong>Is a more specific CLAUDE.md overriding it?</strong> &mdash; A subdirectory file may contradict the root</li>
+  <li><strong>Is the convention actually in the file?</strong> &mdash; Open and verify the content</li>
+  <li><strong>Is the file named correctly?</strong> &mdash; Must be <code>CLAUDE.md</code> or <code>AGENTS.md</code> (case-sensitive on Linux)</li>
+</ol>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  The CLAUDE.md hierarchy goes from user (~/.claude/CLAUDE.md) to project root to subdirectories. More specific files override more general ones. Keep it concise and focus on non-obvious decisions.
+  CLAUDE.md hierarchy: user &rarr; project root &rarr; directory &rarr; subdirectory. Deeper overrides shallower for conflicting rules. Project-level is committed to git; user-level is not. If conventions are ignored, check: correct directory, readability, overrides, and actual file content.
 </div>
 </section>
 
@@ -1195,46 +1397,76 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part10" class="page-break">
 <h2><span class="part-num">Part 10</span>Agent Skills</h2>
 
-<h3>What Are Skills?</h3>
-<p>Skills are packaged, repeatable workflows that can be invoked by name. They provide a way to create standardized procedures that any team member can trigger, ensuring consistent execution of common tasks.</p>
+<h3>CLAUDE.md vs. Agent Skills: How Loading Differs</h3>
+<p>This is a key distinction for the exam:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Aspect</th><th>CLAUDE.md</th><th>Skills</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Loading</strong></td><td>Loads <strong>automatically at session start</strong></td><td>Loads <strong>on demand</strong> when invoked</td></tr>
+    <tr><td><strong>Token cost</strong></td><td>Always in context (uses tokens every turn)</td><td>Loaded only when invoked (progressive disclosure)</td></tr>
+    <tr><td><strong>Persistence</strong></td><td>Active throughout the entire session</td><td>Active only during the invocation</td></tr>
+  </tbody>
+</table>
+</div>
 
-<h3>Invoking Skills</h3>
+<h3>Where Universal Standards Belong</h3>
+<p>Universal standards belong in <strong>CLAUDE.md</strong> because they should always be present regardless of what task is being performed. Examples:</p>
+<ul>
+  <li>Coding style guides ("use 2-space indent", "prefer const over let")</li>
+  <li>Architecture decisions ("use the repository pattern for data access")</li>
+  <li>Build commands ("run <code>npm test</code> before committing")</li>
+  <li>Security rules ("never log API keys")</li>
+</ul>
+
+<h3>Where Task-Specific Workflows Belong</h3>
+<p>Task-specific workflows belong in <strong>Skills</strong> because they are only needed sometimes and would waste tokens if always in context. Examples:</p>
+<ul>
+  <li>PR review checklist (only needed during code review)</li>
+  <li>Deployment procedure (only needed when deploying)</li>
+  <li>Database migration workflow (only needed for schema changes)</li>
+  <li>Performance audit steps (only needed for optimization tasks)</li>
+</ul>
+
+<h3>Introduction to Skills</h3>
+<p>Skills are packaged, repeatable workflows that can be invoked by name. They provide standardized procedures that any team member can trigger:</p>
 <ul>
   <li><code>/skill-name</code> &mdash; Slash command in Claude Code CLI</li>
   <li><code>Skill</code> tool &mdash; Programmatic invocation from within an agent</li>
-  <li>Skills load their instructions on demand (progressive disclosure)</li>
+  <li>Skills use <strong>progressive disclosure</strong> &mdash; instructions load only when invoked</li>
 </ul>
 
-<h3>Skill Types</h3>
+<h3>Understanding How Skills Are Created and Work</h3>
+<p>Skills are defined as files in <code>.claude/skills/</code> (or <code>.claude/commands/</code>). Each skill file contains:</p>
+<ul>
+  <li><strong>Name</strong> &mdash; The slash command name (derived from filename)</li>
+  <li><strong>Description</strong> &mdash; One-line description (shown in skill listings)</li>
+  <li><strong>Instructions</strong> &mdash; The full set of instructions loaded when invoked</li>
+</ul>
+
+<h3>Picking the Right Tool: Skills Compared to Everything Else</h3>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Type</th><th>Examples</th><th>Description</th></tr></thead>
+  <thead><tr><th>Mechanism</th><th>When to Use</th><th>Loaded</th><th>Location</th></tr></thead>
   <tbody>
-    <tr><td><strong>Built-in</strong></td><td><code>/code-review</code>, <code>/init</code>, <code>/security-review</code></td><td>Included with Claude Code, always available</td></tr>
-    <tr><td><strong>Custom</strong></td><td><code>/deploy-staging</code>, <code>/run-tests</code>, <code>/generate-docs</code></td><td>Created in <code>.claude/skills/</code> directory</td></tr>
+    <tr><td><strong>CLAUDE.md</strong></td><td>Universal standards, always needed</td><td>Automatically at session start</td><td>Project root, directories</td></tr>
+    <tr><td><strong>Skills</strong></td><td>Repeatable workflows, on-demand tasks</td><td>On demand when invoked</td><td><code>.claude/skills/</code></td></tr>
+    <tr><td><strong>Hooks</strong></td><td>Programmatic enforcement, auto-formatting</td><td>Triggered by tool use</td><td><code>settings.json</code></td></tr>
+    <tr><td><strong>MCP Servers</strong></td><td>External tool integrations, data sources</td><td>Connected at session start</td><td><code>.mcp.json</code>, <code>settings.json</code></td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Skills vs. CLAUDE.md</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Dimension</th><th>CLAUDE.md</th><th>Skills</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Nature</strong></td><td>Passive context &mdash; always loaded</td><td>Active workflow &mdash; invoked on demand</td></tr>
-    <tr><td><strong>Token cost</strong></td><td>Always in context (uses tokens every turn)</td><td>Loaded only when invoked (progressive disclosure)</td></tr>
-    <tr><td><strong>Use case</strong></td><td>Standards, conventions, architecture</td><td>Repeatable procedures, workflows, checklists</td></tr>
-    <tr><td><strong>Sharing</strong></td><td>Committed to repo</td><td>Committed to repo (<code>.claude/skills/</code>)</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Custom Skill Anatomy</h3>
-<p>A custom skill is defined by a file in <code>.claude/skills/</code> with a name, description, and instructions. Skills can include scripts that execute as part of the workflow.</p>
+<h3>Advanced Skills: Configuration and Scaling</h3>
+<ul>
+  <li><strong>Parameterized skills</strong> &mdash; Skills can accept arguments (<code>/deploy staging</code>, <code>/deploy production</code>)</li>
+  <li><strong>Team-shared skills via git</strong> &mdash; Store skills in <code>.claude/skills/</code> and commit to the repo so the whole team uses the same workflows</li>
+  <li><strong>Skill composition</strong> &mdash; Skills can invoke other skills or tools as part of their workflow</li>
+</ul>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Skills use <strong>progressive disclosure</strong> &mdash; their instructions are loaded on demand, keeping the base context small. CLAUDE.md is always in context; skills are loaded only when invoked.
+  CLAUDE.md loads automatically (always in context). Skills load on demand (progressive disclosure). Put universal standards in CLAUDE.md, task-specific workflows in Skills. Know the comparison table: CLAUDE.md vs. Skills vs. Hooks vs. MCP.
 </div>
 </section>
 
@@ -1242,45 +1474,50 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part11" class="page-break">
 <h2><span class="part-num">Part 11</span>Path-Specific Rules and Context Fork</h2>
 
-<h3>Path-Specific Rules</h3>
-<p>Different directories in a project can have different CLAUDE.md files, providing path-specific rules. When Claude Code works in a subdirectory, it picks up that directory's CLAUDE.md in addition to the project root's.</p>
+<h3>What Is Context: Fork?</h3>
+<p>Context: Fork is a mechanism to <strong>branch the context</strong> when entering a subdirectory. When a sub-agent is spawned to work in a specific directory, it picks up the local CLAUDE.md for that directory, creating a fork in the context &mdash; different agent, different rules, different context window.</p>
 
+<h3>When to Use Context: Fork</h3>
+<p>Context forking is most useful in <strong>monorepos with different tech stacks per directory</strong>:</p>
 <div class="example-box">
   <div class="ex-header">Example: Monorepo with Different Standards</div>
   <div class="ex-body">
     <ul style="font-size:0.88rem;">
       <li><code>/CLAUDE.md</code> &mdash; Global: "Use conventional commits, run CI before merging"</li>
-      <li><code>/backend/CLAUDE.md</code> &mdash; "Java 17, Spring Boot, JUnit 5, 4-space indent"</li>
+      <li><code>/backend/CLAUDE.md</code> &mdash; "Python 3.12, FastAPI, pytest, Black formatter"</li>
       <li><code>/frontend/CLAUDE.md</code> &mdash; "React 18, TypeScript strict mode, 2-space indent, Vitest"</li>
       <li><code>/infrastructure/CLAUDE.md</code> &mdash; "Terraform, HCL format, plan before apply"</li>
     </ul>
   </div>
 </div>
+<p>When a sub-agent works in <code>/backend/</code>, it picks up the Python/FastAPI rules. When another sub-agent works in <code>/frontend/</code>, it picks up React/TypeScript rules. Each operates under its own context fork.</p>
 
-<h3>Context Forking</h3>
-<p>When an agent enters a subdirectory (or a sub-agent is spawned to work in one), it picks up the directory-specific CLAUDE.md rules. This creates a <strong>context fork</strong> &mdash; the sub-agent operates under different rules than the parent.</p>
+<h3>Introduction to Path-Specific Rules</h3>
+<p>Path-specific rules are configuration rules that <strong>only apply when working in a specific path</strong>. They enable granular control over agent behavior based on file location.</p>
 
-<h3>Worktree Isolation for Parallel Work</h3>
-<p>The <code>EnterWorktree</code> tool creates an isolated git worktree for an agent to work in. This provides:</p>
+<h3>Path-Specific Rules vs. Directory CLAUDE.md</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Aspect</th><th>Directory CLAUDE.md</th><th>Path-Specific Rules</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Granularity</strong></td><td>Applies to entire directory and subdirectories</td><td>Can apply to specific file patterns (e.g., <code>*.test.ts</code>)</td></tr>
+    <tr><td><strong>Mechanism</strong></td><td>Separate file in the directory</td><td>Configured in settings or CLAUDE.md with path matchers</td></tr>
+    <tr><td><strong>Flexibility</strong></td><td>One set of rules per directory</td><td>Multiple rules per path pattern</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>How Path-Specific Rules Affect the Token Budget</h3>
+<p>Each path rule adds tokens to the context window. Too many path-specific rules can eat into the working context, leaving less room for conversation history and tool results:</p>
 <ul>
-  <li><strong>File isolation</strong> &mdash; no conflicts with other agents or the main checkout</li>
-  <li><strong>Independent commits</strong> &mdash; each worktree has its own branch</li>
-  <li><strong>Clean lifecycle</strong> &mdash; create &rarr; work &rarr; commit &rarr; merge &rarr; cleanup</li>
+  <li><strong>Keep rules concise</strong> &mdash; Each rule should be a few lines, not paragraphs</li>
+  <li><strong>Avoid redundancy</strong> &mdash; Do not repeat rules that are already in the parent CLAUDE.md</li>
+  <li><strong>Monitor context usage</strong> &mdash; If the agent hits context limits frequently, check whether path rules are consuming too much space</li>
 </ul>
-
-<h3>Fork Pattern</h3>
-<p>The fork pattern combines context forking with worktree isolation:</p>
-<ol>
-  <li>Hub agent decomposes a task into subtasks</li>
-  <li>For each subtask, spawn a sub-agent in its own worktree</li>
-  <li>Each sub-agent picks up path-specific CLAUDE.md rules</li>
-  <li>Each sub-agent has its own context window</li>
-  <li>Results are merged back to the main branch</li>
-</ol>
 
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Path-specific CLAUDE.md files let different parts of a monorepo have different coding standards. Worktree isolation prevents file conflicts between parallel agents. Context fork = different agent, different rules, different context window.
+  Context: Fork branches context when entering a subdirectory. Use it for monorepos with different tech stacks. Path-specific rules are more granular than directory CLAUDE.md (can target file patterns). Every rule consumes tokens &mdash; keep them concise.
 </div>
 </section>
 
@@ -1288,23 +1525,26 @@ messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span 
 <section id="part12" class="page-break">
 <h2><span class="part-num">Part 12</span>CLI Flags and CI/CD</h2>
 
-<h3>Key CLI Flags</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Flag</th><th>Purpose</th><th>Example</th></tr></thead>
-  <tbody>
-    <tr><td><code>--print</code> / <code>-p</code></td><td>Non-interactive mode (pipe mode)</td><td><code>claude -p "fix lint errors"</code></td></tr>
-    <tr><td><code>--model</code></td><td>Override default model</td><td><code>claude --model claude-opus-5-5</code></td></tr>
-    <tr><td><code>--max-tokens</code></td><td>Set output token limit</td><td><code>claude --max-tokens 4096</code></td></tr>
-    <tr><td><code>--format</code></td><td>Output format</td><td><code>claude -p "..." --format json</code></td></tr>
-    <tr><td><code>--allowedTools</code></td><td>Whitelist specific tools</td><td><code>claude -p "..." --allowedTools bash,write</code></td></tr>
-  </tbody>
-</table>
+<h3>What the <code>-p</code> Flag Does</h3>
+<p>The <code>--print</code> (or <code>-p</code>) flag runs Claude Code in <strong>pipe mode</strong>: non-interactive, reads stdin, outputs the result, and exits. This is the key flag for CI/CD and scripting:</p>
+<ul>
+  <li>No terminal UI &mdash; no interactive prompts or permission dialogs</li>
+  <li>Reads from stdin or takes a prompt as argument</li>
+  <li>Outputs result to stdout</li>
+  <li>Exits when complete (does not keep a session open)</li>
+</ul>
+
+<div class="code-block"><span class="label">Bash</span><span class="cm"># Basic pipe mode usage</span>
+claude -p <span class="str">"fix lint errors in src/"</span>
+
+<span class="cm"># Pipe input from another command</span>
+git diff | claude -p <span class="str">"review this diff for bugs"</span>
+
+<span class="cm"># JSON output for machine parsing</span>
+claude -p <span class="str">"analyze this code"</span> --format json
 </div>
 
-<h3>CI/CD Integration</h3>
-<p>Claude Code can run in CI/CD pipelines for automated code review, issue triage, and code generation. The key is using non-interactive mode (<code>-p</code>) with appropriate tool permissions.</p>
-
+<h3>How to Run Claude Code in CI/CD</h3>
 <div class="code-block"><span class="label">GitHub Actions</span><span class="cm"># .github/workflows/claude-review.yml</span>
 name: Claude PR Review
 on: [pull_request]
@@ -1326,96 +1566,104 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 </div>
 
-<h3>Permission Control in CI</h3>
-<ul>
-  <li><code>--allowedTools</code> &mdash; Whitelist only the tools needed for the CI task</li>
-  <li><code>dangerouslySkipPermissions</code> &mdash; Skip all permission prompts in trusted CI environments (use with caution)</li>
-  <li>Always scope permissions to the minimum required for the pipeline task</li>
-</ul>
-
-<h3>Environment Variables</h3>
+<p>Key CI/CD configuration options:</p>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+  <thead><tr><th>Flag / Variable</th><th>Purpose</th></tr></thead>
   <tbody>
-    <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API authentication key</td></tr>
-    <tr><td><code>CLAUDE_MODEL</code></td><td>Default model override</td></tr>
+    <tr><td><code>-p</code> / <code>--print</code></td><td>Non-interactive pipe mode</td></tr>
+    <tr><td><code>--format json</code></td><td>Machine-readable output</td></tr>
+    <tr><td><code>--allowedTools</code></td><td>Whitelist only needed tools (principle of least privilege)</td></tr>
+    <tr><td><code>--model</code></td><td>Override default model</td></tr>
+    <tr><td><code>ANTHROPIC_API_KEY</code></td><td>API authentication (stored as CI secret)</td></tr>
   </tbody>
 </table>
 </div>
 
-<h3>Claude Code in Pipelines</h3>
-<div class="decision-tree"><span class="arrow">&rarr;</span> Lint (ESLint/Prettier)
-  <span class="arrow">&rarr;</span> Test (Jest/pytest)
-    <span class="arrow">&rarr;</span> <span class="model">Claude Review</span> (automated PR review)
-      <span class="arrow">&rarr;</span> Build (webpack/maven)
-        <span class="arrow">&rarr;</span> Deploy (staging/production)</div>
-
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Use <code>claude -p</code> for non-interactive CI/CD mode. Always use <code>--allowedTools</code> to restrict permissions. <code>--format json</code> enables machine-readable output for pipeline integration.
+  Use <code>claude -p</code> for non-interactive CI/CD mode. Always use <code>--allowedTools</code> to restrict permissions in CI. <code>--format json</code> enables machine-readable output. Store <code>ANTHROPIC_API_KEY</code> as a CI secret, never in code.
 </div>
 </section>
 
 <!-- ============================== PART 13 ============================== -->
 <section id="part13" class="page-break">
-<h2><span class="part-num">Part 13</span>Match Criteria and Few-Shot Examples</h2>
+<h2><span class="part-num">Part 13 &mdash; Domain 4: Prompt Engineering and Structured Output</span>Match Criteria and Few-Shot Examples</h2>
 
-<h3>Match Criteria for Hooks and Skills</h3>
-<p>Hooks and skills use <strong>match criteria</strong> to determine when they should trigger. The matcher defines which tool or action activates the hook.</p>
+<h3>Introduction to Domain 4: Prompt Engineering and Structured Output</h3>
+<p>Domain 4 covers prompt engineering techniques for Claude: match criteria, few-shot examples, structured output, and common anti-patterns. Effective prompting is the difference between an agent that works reliably and one that produces inconsistent results.</p>
 
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Matcher Type</th><th>Syntax</th><th>Example</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Exact</strong></td><td>Tool name string</td><td><code>"Write"</code> &mdash; matches the Write tool</td></tr>
-    <tr><td><strong>Glob</strong></td><td>Wildcard pattern</td><td><code>"Bash(*)"</code> &mdash; matches any Bash invocation</td></tr>
-    <tr><td><strong>Regex</strong></td><td>Regular expression</td><td><code>/^(Write|Edit)$/</code> &mdash; matches Write or Edit</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>Few-Shot Examples in Prompts</h3>
-<p>Few-shot examples demonstrate the expected behavior to Claude. They are one of the most effective techniques for improving output quality and consistency.</p>
-
-<h3>Best Practices for Examples</h3>
+<h3>Why "Only If You're Confident" Doesn't Work</h3>
+<p>A common anti-pattern is telling Claude "only do X if you're confident." This instruction is <strong>effectively meaningless</strong> because:</p>
 <ul>
-  <li><strong>3-5 examples</strong> for best results &mdash; fewer may be insufficient, more wastes tokens</li>
-  <li><strong>Diverse</strong> &mdash; cover different scenarios, edge cases, and input types</li>
-  <li><strong>Relevant</strong> &mdash; examples should match the distribution of real inputs</li>
-  <li><strong>Structured</strong> &mdash; use consistent formatting so the pattern is clear</li>
+  <li>Claude does not have calibrated uncertainty &mdash; it does not "know" how confident it is</li>
+  <li>Claude is trained to be helpful, so it tends to be "confident" about most things</li>
+  <li>The instruction gives Claude no objective criteria for what qualifies as "confident"</li>
+  <li>Result: Claude will almost always proceed, making the guard effectively useless</li>
 </ul>
 
-<h3>Example Structure</h3>
+<div class="example-box">
+  <div class="ex-header">Anti-Pattern vs. Correct Approach</div>
+  <div class="ex-body">
+    <p style="font-size:0.85rem;"><strong>WRONG:</strong> "Only flag this as a security issue if you're confident."</p>
+    <p style="font-size:0.85rem;"><strong>RIGHT:</strong> "Flag this as a security issue if the input contains SQL syntax (SELECT, INSERT, UPDATE, DELETE, DROP, UNION) AND the input is being passed directly to a database query without parameterization."</p>
+  </div>
+</div>
+
+<h3>How to Write Explicit Match Criteria</h3>
+<p>Define <strong>exactly</strong> what qualifies as a match using objective, verifiable conditions:</p>
+<ul>
+  <li><strong>Be specific:</strong> "Match if the input contains a date in YYYY-MM-DD format AND mentions a city name"</li>
+  <li><strong>Use observable criteria:</strong> Properties that can be checked, not feelings</li>
+  <li><strong>Combine conditions explicitly:</strong> Use AND/OR logic, not vague qualifiers</li>
+</ul>
+
+<h3>How to Define Non-Matches and Edge Cases</h3>
+<p>Equally important as defining matches is defining what does <strong>NOT</strong> qualify:</p>
+<ul>
+  <li><strong>Explicit exclusions:</strong> "Do NOT match if the date is in the future"</li>
+  <li><strong>Edge case handling:</strong> "Dates like '2024' alone without month/day are NOT matches"</li>
+  <li><strong>Boundary conditions:</strong> "Empty strings, null values, and whitespace-only input should return 'no match'"</li>
+</ul>
+
+<h3>When to Reach for Few-Shot Examples</h3>
+<p>Use few-shot examples when:</p>
+<ul>
+  <li><strong>Rules alone are ambiguous</strong> &mdash; The criteria are hard to express precisely in words</li>
+  <li><strong>Output format matters</strong> &mdash; Showing the exact expected format is clearer than describing it</li>
+  <li><strong>Edge cases are hard to describe</strong> &mdash; Examples demonstrate the correct handling better than rules</li>
+  <li><strong>Consistency is critical</strong> &mdash; Examples establish a concrete pattern to follow</li>
+</ul>
+
+<h3>How Many Few-Shot Examples to Use</h3>
+<p><strong>3-5 examples for most tasks.</strong> At minimum, include:</p>
+<ul>
+  <li><strong>1 positive match</strong> &mdash; A clear example of input that should match</li>
+  <li><strong>1 negative match</strong> &mdash; A clear example of input that should NOT match</li>
+  <li><strong>1 edge case</strong> &mdash; A tricky input that tests the boundary conditions</li>
+</ul>
+
 <div class="code-block"><span class="label">XML Tags</span><span class="kw">&lt;examples&gt;</span>
-  <span class="kw">&lt;example&gt;</span>
-    <span class="kw">&lt;input&gt;</span>What is the refund policy for digital products?<span class="kw">&lt;/input&gt;</span>
-    <span class="kw">&lt;output&gt;</span>
-    Category: billing
-    Confidence: 0.95
-    Response: Digital products are eligible for a full refund
-    within 14 days of purchase if unused...
-    <span class="kw">&lt;/output&gt;</span>
+  <span class="kw">&lt;example type="positive"&gt;</span>
+    <span class="kw">&lt;input&gt;</span>2024-03-15 event in Paris<span class="kw">&lt;/input&gt;</span>
+    <span class="kw">&lt;output&gt;</span>match: true (date: 2024-03-15, city: Paris)<span class="kw">&lt;/output&gt;</span>
   <span class="kw">&lt;/example&gt;</span>
 
-  <span class="kw">&lt;example&gt;</span>
-    <span class="kw">&lt;input&gt;</span>My account is locked after too many login attempts<span class="kw">&lt;/input&gt;</span>
-    <span class="kw">&lt;output&gt;</span>
-    Category: technical
-    Confidence: 0.98
-    Response: Account lockouts are automatically cleared after
-    30 minutes. If you need immediate access...
-    <span class="kw">&lt;/output&gt;</span>
+  <span class="kw">&lt;example type="negative"&gt;</span>
+    <span class="kw">&lt;input&gt;</span>meeting next Tuesday<span class="kw">&lt;/input&gt;</span>
+    <span class="kw">&lt;output&gt;</span>match: false (no YYYY-MM-DD date found)<span class="kw">&lt;/output&gt;</span>
+  <span class="kw">&lt;/example&gt;</span>
+
+  <span class="kw">&lt;example type="edge-case"&gt;</span>
+    <span class="kw">&lt;input&gt;</span>2024 conference<span class="kw">&lt;/input&gt;</span>
+    <span class="kw">&lt;output&gt;</span>match: false (year-only is not a valid YYYY-MM-DD date)<span class="kw">&lt;/output&gt;</span>
   <span class="kw">&lt;/example&gt;</span>
 <span class="kw">&lt;/examples&gt;</span>
 </div>
 
-<h3>Tool Use Examples</h3>
-<p>You can also provide examples showing Claude how to use tools correctly. Include them as sample conversations in the system prompt to demonstrate the expected tool selection and parameter formatting.</p>
-
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Use 3-5 diverse, structured examples wrapped in <code>&lt;example&gt;</code> tags. Match criteria for hooks support exact names, glob patterns, and regex. Examples demonstrate expected behavior; match criteria define trigger conditions.
+  "Only if you're confident" is an anti-pattern &mdash; it does nothing because Claude lacks calibrated uncertainty. Replace with explicit, observable match criteria. Use 3-5 few-shot examples with at least one positive, one negative, and one edge case.
 </div>
 </section>
 
@@ -1786,11 +2034,11 @@ result = client.messages.<span class="fn">parse</span>(
 
 <!-- ============================== PART 19: PRACTICE TEST ============================== -->
 <section id="part19" class="page-break">
-<h2><span class="part-num">Part 19</span>Practice Test &mdash; 50 Architect MCQs</h2>
+<h2><span class="part-num">Part 19</span>Practice Test &mdash; 60 Architect MCQs</h2>
 
 <div class="notice notice-info">
   <b>Instructions</b>
-  50 questions covering all 18 architect-level topics. Each question has one correct answer (highlighted in green). Read the explanation for each question to understand the reasoning. Questions are distributed across all topics as they would appear on the CCAR-F exam.
+  60 questions covering all 18 architect-level topics. Each question has one correct answer (highlighted in green). Read the explanation for each question to understand the reasoning. Questions are distributed across all topics as they would appear on the CCAR-F exam.
 </div>
 
 <!-- Q1 -->
@@ -2593,11 +2841,173 @@ result = client.messages.<span class="fn">parse</span>(
   <div class="q-explain"><b>Correct: C.</b> Error context should include three things: what was attempted ("Tried to query table 'users'"), what failed ("Connection timeout after 5000ms"), and relevant state ("Server: db.example.com:5432, retry 2/3"). This enables Claude to diagnose issues and try alternative approaches.</div>
 </div>
 
+<!-- ========== NEW QUESTIONS Q51-Q60 ========== -->
+
+<!-- Q51 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q51</span>
+    <span class="q-tag">RAG with Claude</span>
+  </div>
+  <p class="q-text">In a Retrieval-Augmented Generation (RAG) pipeline with Claude, what is the purpose of the vector search step?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> To fine-tune Claude on the document corpus for better answers</li>
+    <li class="correct-option"><span class="letter">B</span> To find the most relevant document chunks by cosine similarity and inject them as context for Claude's response</li>
+    <li><span class="letter">C</span> To compress the documents into a smaller token representation</li>
+    <li><span class="letter">D</span> To validate that the user's question is answerable before sending it to Claude</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> In RAG, the vector search step retrieves the most relevant document chunks based on cosine similarity between the query embedding and document embeddings. These chunks are then injected into the prompt as context. RAG is context injection, not training or fine-tuning.</div>
+</div>
+
+<!-- Q52 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q52</span>
+    <span class="q-tag">RAG with Claude</span>
+  </div>
+  <p class="q-text">What is the correct order of steps in a RAG pipeline?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Claude answers &rarr; vector search &rarr; embed documents &rarr; inject context</li>
+    <li><span class="letter">B</span> Inject context &rarr; embed documents &rarr; Claude answers &rarr; vector search</li>
+    <li class="correct-option"><span class="letter">C</span> Embed documents &rarr; vector search &rarr; inject context &rarr; Claude answers with citations</li>
+    <li><span class="letter">D</span> Vector search &rarr; Claude answers &rarr; embed documents &rarr; inject context</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The RAG pipeline follows this order: (1) embed documents into vectors (offline, one-time), (2) vector search to find relevant chunks (at query time), (3) inject retrieved chunks into the prompt, (4) Claude generates an answer grounded in the retrieved context, ideally with citations.</div>
+</div>
+
+<!-- Q53 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q53</span>
+    <span class="q-tag">Stakes-Proportionate Rule</span>
+  </div>
+  <p class="q-text">According to the stakes-proportionate rule, how should a database migration be handled compared to a documentation change?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Both should be parallelized aggressively for maximum speed</li>
+    <li><span class="letter">B</span> Both should require the same level of human review</li>
+    <li class="correct-option"><span class="letter">C</span> The migration should have more verification steps and less parallelism; the docs change can be parallelized with less review</li>
+    <li><span class="letter">D</span> The documentation change requires more review because it is user-facing</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The stakes-proportionate rule matches verification depth to risk. Database migrations are high-stakes (data loss is irreversible), requiring sequential execution, human review, and multi-step validation. Documentation changes are low-stakes, allowing aggressive parallelism and minimal review.</div>
+</div>
+
+<!-- Q54 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q54</span>
+    <span class="q-tag">Stakes-Proportionate Rule</span>
+  </div>
+  <p class="q-text">What does the stakes-proportionate rule primarily balance?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Token cost vs. model quality</li>
+    <li><span class="letter">B</span> Prompt length vs. response length</li>
+    <li class="correct-option"><span class="letter">C</span> Speed/parallelism vs. verification depth, matched to the risk level of the operation</li>
+    <li><span class="letter">D</span> Number of agents vs. number of tools per agent</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The stakes-proportionate rule balances speed (parallelism, automation) against verification depth (human review, testing), scaling both according to the risk level. High-risk operations get more checks and less parallelism; low-risk operations get more speed and less oversight.</div>
+</div>
+
+<!-- Q55 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q55</span>
+    <span class="q-tag">Programmatic Gates</span>
+  </div>
+  <p class="q-text">What is the key difference between a prompt instruction and a programmatic gate (hook)?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Prompts are faster to execute than hooks</li>
+    <li class="correct-option"><span class="letter">B</span> Prompts are probabilistic (Claude may not follow them); hooks are deterministic (code always executes)</li>
+    <li><span class="letter">C</span> Hooks can only run after tool execution, never before</li>
+    <li><span class="letter">D</span> Prompts are more reliable because they are processed by the model directly</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> This is a fundamental distinction. Prompt instructions are probabilistic &mdash; Claude might ignore or misinterpret them. Hooks are actual code that always runs deterministically. For critical safety and compliance rules, use hooks (enforcement) alongside prompts (guidance).</div>
+</div>
+
+<!-- Q56 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q56</span>
+    <span class="q-tag">Programmatic Gates</span>
+  </div>
+  <p class="q-text">A team wants to ensure Claude NEVER writes to files outside the <code>/src</code> directory. What is the most reliable approach?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Add "Never write to files outside /src" to the system prompt</li>
+    <li><span class="letter">B</span> Add the instruction to CLAUDE.md and rely on Claude's compliance</li>
+    <li class="correct-option"><span class="letter">C</span> Configure a PreToolUse hook on the Write tool that validates the file path and blocks writes outside /src</li>
+    <li><span class="letter">D</span> Set <code>tool_choice: "none"</code> to disable all tool use</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> A PreToolUse hook is the most reliable approach because it is deterministic code that always runs before the tool executes. Prompt instructions (A, B) are probabilistic and may be ignored. Disabling all tools (D) prevents all functionality, not just writes outside /src.</div>
+</div>
+
+<!-- Q57 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q57</span>
+    <span class="q-tag">Error Handling / Access vs Empty</span>
+  </div>
+  <p class="q-text">A tool returns "You do not have permission to access the 'financials' table." How should this be returned to Claude?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> As a normal <code>tool_result</code> with content <code>"No results found"</code></li>
+    <li class="correct-option"><span class="letter">B</span> As a <code>tool_result</code> with <code>is_error: true</code> explaining the permission issue and what access is needed</li>
+    <li><span class="letter">C</span> As a normal <code>tool_result</code> with an empty results array</li>
+    <li><span class="letter">D</span> By omitting the tool_result entirely and moving to the next tool</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> An access failure is NOT the same as an empty result. If returned as a normal result, Claude would tell the user "no financial data exists" when the real problem is lack of access. Use <code>is_error: true</code> with a clear explanation of what permission is needed so Claude can inform the user correctly.</div>
+</div>
+
+<!-- Q58 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q58</span>
+    <span class="q-tag">Error Handling / Distinguishable Errors</span>
+  </div>
+  <p class="q-text">Which error response design pattern best helps Claude choose the correct next action?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Returning a simple string like <code>"Error occurred"</code></li>
+    <li><span class="letter">B</span> Returning the full stack trace so Claude can debug the issue</li>
+    <li class="correct-option"><span class="letter">C</span> Returning a structured object with <code>error_type</code>, <code>message</code>, and <code>suggestion</code> fields</li>
+    <li><span class="letter">D</span> Returning an HTTP status code only</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Structured error objects with typed fields (<code>error_type</code>: "VALIDATION" / "PERMISSION_DENIED" / "TRANSIENT", <code>message</code>: what went wrong, <code>suggestion</code>: what to try next) allow Claude to programmatically distinguish between error types and take the appropriate action (retry, fix input, ask user for access, etc.).</div>
+</div>
+
+<!-- Q59 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q59</span>
+    <span class="q-tag">Skills vs CLAUDE.md Loading</span>
+  </div>
+  <p class="q-text">A team has a detailed PR review checklist. Where should it be stored to minimize token usage when the team is NOT doing PR reviews?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> In the project root CLAUDE.md so it is always available</li>
+    <li class="correct-option"><span class="letter">B</span> As a skill in <code>.claude/skills/</code> so it loads on demand only when invoked</li>
+    <li><span class="letter">C</span> In <code>~/.claude/CLAUDE.md</code> as a user-level preference</li>
+    <li><span class="letter">D</span> In a PostToolUse hook that triggers after every file write</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Skills use progressive disclosure &mdash; they load only when invoked (e.g., <code>/review-pr</code>). CLAUDE.md is always in context, consuming tokens on every turn even when the checklist is not needed. Task-specific workflows like PR review belong in skills.</div>
+</div>
+
+<!-- Q60 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">Q60</span>
+    <span class="q-tag">"Only If Confident" Anti-Pattern</span>
+  </div>
+  <p class="q-text">A prompt says "Only flag potential security issues if you are confident they are real vulnerabilities." What is wrong with this instruction?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> It is too specific and will cause Claude to miss edge cases</li>
+    <li><span class="letter">B</span> Claude cannot process conditional instructions</li>
+    <li class="correct-option"><span class="letter">C</span> Claude lacks calibrated uncertainty, so it tends to be "confident" about most things, making this guard effectively useless</li>
+    <li><span class="letter">D</span> The instruction should use "certain" instead of "confident"</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Claude does not have calibrated uncertainty &mdash; it does not reliably know how confident it is. Saying "only if confident" effectively does nothing because Claude tends to present itself as confident about most outputs. Replace with explicit, observable match criteria: "Flag if the code concatenates user input into SQL strings without parameterized queries."</div>
+</div>
+
 </section>
 
 <!-- ============================== FOOTER ============================== -->
 <div class="footer">
-  <p>Aligned to official CCAR-F syllabus (18 topics). Content sourced from official Anthropic documentation. Updated September 2026.</p>
+  <p>Aligned to official CCAR-F syllabus (18 topics, 60 MCQs). Content sourced from official Anthropic documentation. Updated September 2026.</p>
 </div>
 
 </body>
