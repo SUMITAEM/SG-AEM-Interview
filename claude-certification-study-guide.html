@@ -3289,9 +3289,31 @@ All checks pass?                                  <span class="arrow">--></span>
     '</div>';
   firstCard.parentNode.insertBefore(scoreboard, firstCard);
 
+  // Shuffle options so correct answer isn't always in same position
+  function shuffleOptions(ul) {
+    var lis = Array.prototype.slice.call(ul.children);
+    for (var i = lis.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      ul.appendChild(lis[j]);
+      lis.splice(j, 1, lis[i]);
+      lis.splice(i, 1, lis[j === i ? j : j]);
+    }
+    // Re-label A, B, C, D after shuffle
+    var letters = ['A','B','C','D'];
+    Array.prototype.slice.call(ul.children).forEach(function(li, i) {
+      var span = li.querySelector('.letter');
+      if (span && letters[i]) span.textContent = letters[i];
+    });
+  }
+
   // Mark all cards as interactive
   cards.forEach(function(card, idx) {
     card.classList.add('q-interactive');
+    var ul = card.querySelector('.q-options');
+    // Only shuffle if not already answered (from localStorage)
+    if (savedState['q' + idx] === undefined && ul) {
+      shuffleOptions(ul);
+    }
     var options = card.querySelectorAll('.q-options li');
     var explain = card.querySelector('.q-explain');
     var correctLi = card.querySelector('.correct-option');
