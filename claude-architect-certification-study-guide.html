@@ -636,9 +636,113 @@
     margin: 2px 0;
   }
 }
+
+/* ===== SITE LOGO ===== */
+.site-logo {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 998;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(8,145,178,0.08);
+  padding: 2px;
+  animation: logoGlow 3s ease-in-out infinite, logoFloat 4s ease-in-out infinite, logoPulse 6s ease-in-out infinite;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.site-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  animation-play-state: paused;
+}
+@keyframes logoGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(8,145,178,0.4), 0 0 20px rgba(8,145,178,0.1); }
+  50% { box-shadow: 0 0 16px rgba(8,145,178,0.8), 0 0 40px rgba(8,145,178,0.3); }
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ===== BRANDED FOOTER ===== */
+.branded-footer {
+  text-align: center;
+  padding: 36px 0 24px;
+  margin-top: 48px;
+  border-top: 2px solid var(--c-accent, #0891b2);
+}
+.branded-footer .bf-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  margin: 0 auto 12px;
+  display: block;
+  background: rgba(8,145,178,0.08);
+  padding: 2px;
+  animation: logoGlow 3s ease-in-out infinite;
+}
+.branded-footer .bf-brand {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.branded-footer .bf-sub {
+  font-size: 12px;
+  color: var(--c-text2, #555770);
+  margin-bottom: 14px;
+}
+.branded-footer .bf-links {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.branded-footer .bf-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--c-text2, #555770);
+  text-decoration: none;
+  padding: 5px 14px;
+  border: 1px solid var(--c-border, #E0E0E6);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+.branded-footer .bf-link:hover {
+  color: var(--c-accent, #0891b2);
+  border-color: var(--c-accent, #0891b2);
+  background: rgba(8,145,178,0.06);
+}
+.branded-footer .bf-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--c-text2, #555770);
+  letter-spacing: 0.5px;
+}
+.branded-footer .bf-copy .heart { color: #dc2626; }
+
+@media print {
+  .site-logo { display: none !important; }
+  .branded-footer { border-top: 1px solid #ccc; padding-top: 12px; }
+  .branded-footer .bf-logo { display: none; }
+  .branded-footer .bf-links { display: none; }
+}
 </style>
 </head>
 <body>
+
+<a href="https://sumitaem.github.io/SG-AEM-Interview/" class="site-logo no-print" title="SG AEM Interview Prep">
+  <img src="sg-logo.png" alt="SG" style="width:100%;height:100%;border-radius:8px;">
+</a>
 
 <!-- ============================== COVER ============================== -->
 <div class="cover">
@@ -3787,9 +3891,16 @@ result = client.messages.<span class="fn">parse</span>(
 </section>
 
 <!-- ============================== FOOTER ============================== -->
-<div class="footer">
-  <p>Aligned to official CCAR-F syllabus (18 topics, 87 MCQs). Content sourced from official Anthropic documentation. Updated September 2026.</p>
-</div>
+<footer class="branded-footer">
+  <img src="sg-logo.png" alt="SG" class="bf-logo">
+  <div class="bf-brand">SG Interview Prep</div>
+  <div class="bf-sub">CCAR-F Architect Certification Prep — 87 MCQs</div>
+  <div class="bf-links">
+    <a href="https://sumitaem.github.io/SG-AEM-Interview/" class="bf-link">&#128218; AEM Interview Guide</a>
+    <a href="https://sumitaem.github.io/SG-AEM-Interview/AEM-cheat-sheet.html" class="bf-link">&#128203; AEM Cheat Sheet</a>
+  </div>
+  <div class="bf-copy">Created with <span class="heart">&#9829;</span> by <strong>Sumit Gaidhani</strong> &bull; September 2026</div>
+</footer>
 
 <script>
 (function() {
