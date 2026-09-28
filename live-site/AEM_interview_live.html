@@ -458,7 +458,7 @@ t10:[
 {q:"What happens when a replication queue is blocked?",a:"When the target Publish instance is unreachable, the queue blocks — items accumulate, no new content goes through. Authors see 'blocked' status. Resolution: fix the Publish instance and retry, or clear the queue (loses those items). Monitor via /etc/replication/agents.author/publish.queue.json."},
 {q:"How does Dispatcher cache invalidation work after publishing?",a:"A Dispatcher Flush agent on Author sends an HTTP request with CQ-Action/CQ-Handle headers to Dispatcher. Dispatcher touches the .stat file. On next request, Dispatcher compares cached file timestamp vs .stat — if file is older, it re-fetches from Publish. The statfileslevel controls invalidation granularity."},
 {q:"What replaced replication in AEM as a Cloud Service?",a:"Sling Content Distribution replaces traditional agents. It's queue-based, eventually consistent, managed by Adobe infrastructure. No manual agent configuration needed. Same Replicator API works in code, but under the hood it uses distribution queues. Scales automatically to all Publish pods. Called the 'Golden Master' pattern."},
-{q:"What are the Replication Transport Agent types?",a:"Three transport types: 1) Default (TCP) — uses AEM's built-in replication protocol, most common. 2) HTTP — uses HTTP/HTTPS for replication, useful in restricted network environments. 3) File System (Offload) — writes binary replication data to the filesystem for large content transfers. Transport agents run on the Author instance, listen for replication requests, pack content, and send it to Publish."},
+{q:"What are the Replication Transport Agent types?",a:"Three transport types: 1) Default (HTTP) — sends content packages via HTTP POST to /bin/receive on Publish, most common. 2) Reverse — Publish sends to Author (for user-generated content). 3) File System (Offload) — writes binary replication data to the filesystem for large content transfers. Transport agents run on the Author instance, listen for replication requests, pack content, and send it to Publish over HTTP/HTTPS."},
 {q:"What is the difference between Synchronous and Asynchronous replication?",a:"Synchronous: Author waits for Publish to acknowledge receipt before completing — guarantees content is on Publish before author continues, but slower. Asynchronous: Author fires the replication and continues immediately — faster for authors, but brief delay before content appears on Publish. Default is asynchronous. Use synchronous only when immediate consistency is required."},
 {q:"What JCR paths are commonly replicated?",a:"Only activated content gets replicated. Common paths: /content/mysite (site pages), /content/dam (digital assets), /etc/workflow/models (workflow definitions), /conf/myproject/settings (configurations). Paths like /apps, /libs, /oak:index are code artifacts deployed via packages, NOT replicated. The /home path is typically excluded."},
 {q:"How do you trigger replication programmatically?",a:"Use the Replicator service: replicator.replicate(session, ReplicationActionType.ACTIVATE, path). Four ways to trigger: 1) 'Activate' in Sidekick/page/asset UI. 2) Using AEM workflows with replication steps. 3) Replication API (programmatic). 4) Replication Queue for bulk content. Always monitor replication status via /etc/replication dashboard and check replication logs for failures."}
@@ -577,7 +577,7 @@ t25:[
 {q:"What is JCR-SQL2 and when should you use it over QueryBuilder?",a:"JCR-SQL2 is the standard SQL-like query language for JCR repositories. Use over QueryBuilder when: you need JOINs between node types, complex nested conditions, specific SQL functions (CONTAINS, CAST, LOWER), or when QueryBuilder predicates don't cover your use case. Syntax: SELECT * FROM [nodeType] WHERE ISDESCENDANTNODE('/path') AND conditions."},
 {q:"What happens without an Oak index and how do you fix it?",a:"Without a matching index, the query does TRAVERSAL — scans the entire tree node by node. Production AEM limits traversal to ~100K nodes then throws an exception. Fix: create a custom Oak Lucene index in /oak:index/ with includedPaths, indexRules, and property definitions matching your query patterns. Deploy via ui.apps."},
 {q:"What are the key JCR-SQL2 functions?",a:"ISDESCENDANTNODE(path) — filter by subtree. ISCHILDNODE(path) — direct children only. CONTAINS(*, 'term') — full-text search. CAST('value' AS DATE) — type conversion. LOWER/UPPER — case conversion. LENGTH — string length. ORDER BY — sorting. These combine with standard AND/OR/LIKE operators for complex queries."},
-{q:"What are the different Oak index types?",a:"Property Index: simple equality checks on specific properties (fast, lightweight). Lucene Index: full-text search, sorting, facets, complex queries (recommended for custom queries). Counter Index: counting operations. For most custom queries, create a Lucene index with: type='lucene', async='async', includedPaths, indexRules with property definitions."}
+{q:"What are the different Oak index types?",a:"Property Index: simple equality checks on specific properties (fast, lightweight). Lucene Index: full-text search, sorting, facets, complex queries (recommended for custom queries). These are the two main index types developers work with. For most custom queries, create a Lucene index with: type='lucene', async='async', includedPaths, indexRules with property definitions."}
 ],
 t26:[
 {q:"What are Sling Models and why are they the recommended Use-API?",a:"Sling Models are annotation-driven Java classes that map JCR content to Java objects. Recommended because: type-safe, easily unit tested with AEM Mocks, supports dependency injection (@OSGiService), works with Sling Exporter for JSON delivery, clean separation of logic from HTL templates. Replaces WCMUsePojo and JS Use-API (both legacy)."},
@@ -593,7 +593,7 @@ t26:[
 t27:[
 {q:"What is HTL and why did it replace JSP?",a:"HTL (HTML Template Language) is AEM's secure-by-default templating language. Replaced JSP because: automatic XSS protection via context-aware escaping, separation of logic from markup (Use-API), produces valid HTML (uses data attributes), no scriptlets or embedded Java. Every expression is escaped based on its display context (text, html, uri, attribute)."},
 {q:"Explain the difference between data-sly-list and data-sly-repeat.",a:"data-sly-list: iterates over a collection, REMOVES the host element from output (only children repeat). data-sly-repeat: iterates and KEEPS the host element (the element itself repeats). Both provide item (current object) and itemList (index, count, first, last) variables. Use repeat when you need the wrapper tag repeated (e.g., <li> elements)."},
-{q:"What are the HTL display contexts and why do they matter?",a:"Contexts control auto-escaping: text (default, HTML entity encoding), html (allows safe tags, strips scripts), attribute (attribute encoding), uri (validates URLs, blocks javascript:), number (ensures numeric), scriptString (JS string escaping), unsafe (NO protection — avoid!). They prevent XSS by applying correct encoding per output location."},
+{q:"What are the HTL display contexts and why do they matter?",a:"Contexts control auto-escaping: html (default, safe HTML filtering — allows safe tags, strips scripts), text (HTML entity encoding — encodes all HTML tags), attribute (attribute encoding), uri (validates URLs, blocks javascript:), number (ensures numeric), scriptString (JS string escaping), unsafe (NO protection — avoid!). They prevent XSS by applying correct encoding per output location."},
 {q:"How do you pass parameters to a Sling Model from HTL?",a:"Use data-sly-use with @ parameters: data-sly-use.model=\"${'/path/Model' @ param1='value'}\". In the model, receive via @RequestAttribute: @RequestAttribute private String param1. The model must adapt from SlingHttpServletRequest (not Resource) to access request attributes. Alternative: use data-sly-resource with requestAttributes."},
 {q:"What is the HTL block statement execution order?",a:"Fixed precedence regardless of attribute order: 1) data-sly-use (resolve Use-object). 2) data-sly-test (gate rendering). 3) data-sly-list/repeat (iteration). 4) data-sly-resource/include/call/template (content injection). 5) data-sly-element (change tag). 6) data-sly-attribute (set attributes). 7) data-sly-text (set text). 8) data-sly-unwrap (strip tag)."},
 {q:"How do HTL comments work vs HTML comments?",a:"<!-- regular --> appears in rendered output (visible to users in page source). <!--/* HTL comment */--> is completely stripped — never reaches the browser. Use HTL comments for developer notes that shouldn't be public. Common mistake: using regular HTML comments for sensitive info (component paths, TODOs) that then appears on Publish."},
@@ -938,7 +938,7 @@ t2:[
 ],
 t3:[
 {q:"What is the default filename for the AEM quickstart JAR?",options:["aem-server.jar","aem-quickstart-6.5.0.jar","cq-quickstart.jar","aem-author.jar"],correct:2,exp:"The quickstart JAR is typically named cq-quickstart-*.jar or aem-quickstart-*.jar depending on the version."},
-{q:"How do you set AEM to run as a Publish instance via the filename?",options:["Rename JAR to cq-publish-4503.jar","Add the -publish flag to the java -jar startup command","Rename the JAR file to cq-author-4503.jar with author mode prefix","Set publish=true in the sling.properties configuration file"],correct:0,exp:"Renaming the JAR to include 'publish' and the port number (e.g., cq-publish-p4503.jar) sets both the run mode and port."},
+{q:"How do you set AEM to run as a Publish instance via the filename?",options:["Rename JAR to cq-publish-p4503.jar","Add the -publish flag to the java -jar startup command","Rename the JAR file to cq-author-4503.jar with author mode prefix","Set publish=true in the sling.properties configuration file"],correct:0,exp:"Renaming the JAR to include 'publish' and the port number with 'p' prefix (e.g., cq-publish-p4503.jar) sets both the run mode and port. The format is cq-<runmode>-p<port>.jar."},
 {q:"What is the default admin password for a fresh AEM install?",options:["password","aem123","admin","changeit"],correct:2,exp:"Default credentials are admin/admin. You must change this in production environments."},
 {q:"Where does AEM store its repository data locally?",options:["/opt/aem/repo","crx-quickstart/repository","aem-data/jcr","crx-quickstart/launchpad"],correct:1,exp:"The JCR repository data is stored under crx-quickstart/repository/ (segment store for TarMK)."},
 {q:"Which file controls the initial run modes for AEM?",options:["web.xml","run.conf","sling.properties","osgi.config"],correct:2,exp:"sling.properties in crx-quickstart/conf/ contains sling.run.modes setting."},
@@ -1195,7 +1195,7 @@ t25:[
 {q:"Which adaptable should you use when you need access to request parameters in a Sling Model?",options:["Resource.class — it provides access to all request data","SlingHttpServletRequest.class — it gives access to request parameters, headers, and attributes","ResourceResolver.class — it handles all request context information","Session.class — it provides the JCR session with request context"],correct:1,exp:"Use SlingHttpServletRequest as adaptable when you need request parameters, selectors, headers, or session data. Resource is sufficient for just reading JCR content."}
 ],
 t27:[
-{q:"What is the default display context in HTL?",options:["html","unsafe","text","attribute"],correct:2,exp:"Default context is 'text' which HTML-entity encodes output to prevent XSS automatically."},
+{q:"What is the default display context in HTL?",options:["html","unsafe","text","attribute"],correct:0,exp:"Default context is 'html' which safely filters HTML — allows safe tags, strips dangerous ones like script. The 'text' context is stricter and entity-encodes ALL HTML tags."},
 {q:"Which HTL statement conditionally renders an element?",options:["data-sly-if","data-sly-test","data-sly-show","data-sly-when"],correct:1,exp:"data-sly-test evaluates a condition — if false, the element and all children are not rendered."},
 {q:"What is the difference between data-sly-list and data-sly-repeat?",options:["No difference in behavior; they are aliases for the same iteration logic","list removes the host element; repeat keeps the host element and repeats it","list is faster because it skips host element rendering overhead","repeat only works with arrays while list works with any iterable type"],correct:1,exp:"data-sly-list removes the tag it's on and only keeps children. data-sly-repeat keeps and repeats the host element."},
 {q:"How do you load a Sling Model in HTL?",options:["<script> tag with the model class as the src attribute","data-sly-use.model='com.mysite.core.models.MyModel'","data-sly-import.model='com.mysite.core.models.MyModel'","<sly data-sly-resource='model'> with model reference"],correct:1,exp:"data-sly-use loads and initializes a Use-object (Sling Model, WCMUsePojo, or JS file) for use in the template."},
@@ -2006,7 +2006,7 @@ java -jar cq-author-p4502.jar
 java -jar cq-publish-p4503.jar
 
 # Start with custom JVM settings
-java -Xmx4g -XX:MaxPermSize=512m -jar cq-author-p4502.jar
+java -Xmx4g -jar cq-author-p4502.jar
 
 # Start with specific run modes
 java -jar cq-quickstart.jar -r author,dev -p 4502
@@ -2892,7 +2892,7 @@ replicator.replicate(session, ReplicationActionType.DELETE, "/content/mysite/en/
 
 <h3 class="block-title">Replication Transport Agents</h3>
 <table><tr><th>Transport</th><th>Description</th></tr>
-<tr><td><strong>Default (TCP)</strong></td><td>Uses AEM's default replication protocol over TCP</td></tr>
+<tr><td><strong>Default (HTTP)</strong></td><td>Sends content packages via HTTP POST to /bin/receive on Publish</td></tr>
 <tr><td><strong>HTTP</strong></td><td>Uses HTTP/HTTPS for replication — preferred for network firewalls</td></tr>
 <tr><td><strong>File System (Offload)</strong></td><td>Uses file system for large binary replication — avoids network overhead</td></tr>
 </table>
@@ -4686,7 +4686,7 @@ while (nodes.hasNext()) {
 <table><tr><th>Index Type</th><th>Use Case</th></tr>
 <tr><td>Property Index</td><td>Simple equality checks on specific properties</td></tr>
 <tr><td>Lucene Index</td><td>Full-text, sorting, complex queries (recommended)</td></tr>
-<tr><td>Counter Index</td><td>Counting operations</td></tr>
+<tr><td>Ordered Index</td><td>Range queries and sorting (legacy — use Lucene instead)</td></tr>
 </table>
 <pre>&lt;!-- Custom Oak Lucene Index Definition --&gt;
 &lt;oak:index jcr:primaryType="oak:QueryIndexDefinition"
@@ -5296,12 +5296,13 @@ public class MyServiceImpl implements MyService {
 </table>
 
 <h3 class="block-title">Life Cycle of a Bundle</h3>
-<div class="diagram">Installed ──▶ Resolved ──▶ Started ──▶ Stopped ──▶ Uninstalled
-    │              │            │          │
-    │  (dependencies   (Active &    (Can be     (Removed
-    │   satisfied)      running)    restarted)   from system)
-    ▼
- If unresolved, stays in Installed state until dependencies are met</div>
+<div class="diagram">Installed ──▶ Resolved ──▶ Starting ──▶ Active ──▶ Stopping ──▶ Uninstalled
+    │              │            │          │          │
+    │  (dependencies   (@Activate    (Running &   (@Deactivate  (Removed
+    │   satisfied)      runs)        serving)      runs)        from system)
+    ▼                                   ▲
+ If unresolved, stays in               │── Stopping returns to Resolved
+ Installed until deps met</div>
 
 <h4 class="sub-title">Where to See OSGi in AEM?</h4>
 <ul>
