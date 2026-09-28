@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Certification — Complete Registration & Exam Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff; --surface: #f8f9fa; --surface2: #f0f1f3;
+    --text: #1a1a2e; --text2: #555770;
+    --accent: #0891b2; --accent2: #0e7490; --accent-soft: #ecfeff;
+    --green: #059669; --green-bg: #ecfdf5;
+    --orange: #d97706; --orange-bg: #fffbeb;
+    --red: #dc2626; --red-bg: #fef2f2;
+    --purple: #7c3aed; --purple-bg: #f5f3ff;
+    --border: #e2e8f0; --code-bg: #1e293b; --code-ink: #e2e8f0;
+    --radius: 10px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1220; --surface: #151f30; --surface2: #1e2d42;
+      --text: #e2e8f0; --text2: #94a3b8;
+      --accent: #22d3ee; --accent2: #67e8f9; --accent-soft: #0c2a30;
+      --green: #34d399; --green-bg: #052e16;
+      --orange: #fbbf24; --orange-bg: #422006;
+      --red: #f87171; --red-bg: #450a0a;
+      --purple: #a78bfa; --purple-bg: #1e1b4b;
+      --border: #1e2d42; --code-bg: #0a101c; --code-ink: #cbd5e1;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1220; --surface: #151f30; --surface2: #1e2d42;
+    --text: #e2e8f0; --text2: #94a3b8;
+    --accent: #22d3ee; --accent2: #67e8f9; --accent-soft: #0c2a30;
+    --green: #34d399; --green-bg: #052e16;
+    --orange: #fbbf24; --orange-bg: #422006;
+    --red: #f87171; --red-bg: #450a0a;
+    --purple: #a78bfa; --purple-bg: #1e1b4b;
+    --border: #1e2d42; --code-bg: #0a101c; --code-ink: #cbd5e1;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 15px;
+    max-width: 820px; margin: 0 auto; padding: 0 20px 60px;
+  }
+
+  .theme-toggle {
+    position: fixed; top: 14px; right: 14px; z-index: 999;
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text); cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
+  @media print {
+    .theme-toggle, .no-print { display: none !important; }
+    body { max-width: 100%; padding: 0; font-size: 11pt; }
+    .step-card { page-break-inside: avoid; }
+    .cover { min-height: auto; padding: 30pt 0 20pt; }
+  }
+
+  .site-logo {
+    position: fixed; top: 14px; left: 14px; z-index: 998;
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(8,145,178,0.08); padding: 2px;
+    animation: logoGlow 3s ease-in-out infinite, logoFloat 4s ease-in-out infinite;
+  }
+  @keyframes logoGlow {
+    0%, 100% { box-shadow: 0 0 8px rgba(8,145,178,0.4), 0 0 20px rgba(8,145,178,0.1); }
+    50% { box-shadow: 0 0 16px rgba(8,145,178,0.8), 0 0 40px rgba(8,145,178,0.3); }
+  }
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  .cover {
+    padding: 56px 0 32px; text-align: center;
+    border-bottom: 2px solid var(--accent); margin-bottom: 36px;
+  }
+  .cover .badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 4px 14px; border-radius: 4px; margin-bottom: 14px;
+  }
+  .cover h1 {
+    font-size: 2.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .cover p { font-size: 1rem; color: var(--text2); max-width: 580px; margin: 0 auto; }
+
+  h2 {
+    font-size: 1.4rem; font-weight: 800; margin: 40px 0 6px;
+    padding-bottom: 6px; border-bottom: 2px solid var(--accent);
+  }
+  h2 .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 2px;
+  }
+  h3 { font-size: 1.05rem; font-weight: 700; margin: 20px 0 8px; color: var(--accent2); }
+  p { margin: 6px 0; }
+  ul, ol { padding-left: 22px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+
+  .table-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 0.78rem;
+    background: var(--surface); border-bottom: 2px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 8px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: var(--surface); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82em;
+    background: var(--accent-soft); padding: 2px 6px; border-radius: 4px; color: var(--accent2);
+  }
+
+  .step-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px; margin: 16px 0;
+    border-left: 4px solid var(--accent);
+  }
+  .step-card.green { border-left-color: var(--green); }
+  .step-card.orange { border-left-color: var(--orange); }
+  .step-card.purple { border-left-color: var(--purple); }
+  .step-card.red { border-left-color: var(--red); }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .step-card.green .step-num { color: var(--green); }
+  .step-card.orange .step-num { color: var(--orange); }
+  .step-card.purple .step-num { color: var(--purple); }
+  .step-card.red .step-num { color: var(--red); }
+
+  .step-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+
+  .highlight {
+    background: var(--accent-soft); border-radius: var(--radius);
+    padding: 14px 18px; margin: 14px 0; border: 1px solid var(--border);
+  }
+  .highlight .hl-title { font-weight: 700; font-size: 0.9rem; color: var(--accent2); margin-bottom: 4px; }
+  .highlight p { font-size: 0.88rem; }
+
+  .notice {
+    border-left: 4px solid; padding: 10px 14px; border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.85rem; margin: 14px 0; line-height: 1.5;
+  }
+  .notice b { display: block; margin-bottom: 2px; }
+  .notice-tip { border-color: var(--green); background: var(--green-bg); }
+  .notice-warn { border-color: var(--orange); background: var(--orange-bg); }
+  .notice-danger { border-color: var(--red); background: var(--red-bg); }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 12px 0; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px;
+  }
+  .card-title { font-weight: 700; font-size: 0.92rem; color: var(--accent); margin-bottom: 6px; }
+  .card p, .card ul { font-size: 0.85rem; color: var(--text2); }
+  .card li { margin: 2px 0; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding: 6px 0; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 8px; }
+  .checklist li::before { content: '☐'; font-size: 1.1rem; color: var(--accent); flex-shrink: 0; }
+
+  .timeline { position: relative; padding-left: 30px; margin: 16px 0; }
+  .timeline::before {
+    content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -24px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+  .timeline-item .t-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--accent); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .timeline-item .t-text { font-size: 0.9rem; margin-top: 2px; }
+
+  .footer {
+    text-align: center; padding: 24px 0; margin-top: 40px;
+    border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text2);
+  }
+
+  @media (max-width: 600px) {
+    .cover h1 { font-size: 1.6rem; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-logo no-print" title="SG Interview Prep">
+  <img src="sg-logo.png" alt="SG" style="width:100%;height:100%;border-radius:8px;">
+</div>
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">&#9790;</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="badge">Complete Registration &amp; Exam Guide</div>
+  <h1>How to Get Claude Certified</h1>
+  <p>Everything you need to know about registering, preparing, and passing the Anthropic Claude certification exams — from a personal account.</p>
+</div>
+
+<!-- ====== SECTION 1 ====== -->
+<h2><span class="num">Section 01</span>Available Claude Certifications</h2>
+
+<p>Anthropic offers three certification levels, each targeting a different role:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Certification</th><th>Code</th><th>Level</th><th>Target Audience</th><th>Focus</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude Certified Associate Foundations</strong></td>
+      <td>CCAO-F</td>
+      <td>Associate</td>
+      <td>Business users, analysts, professionals who USE Claude</td>
+      <td>Prompting, evaluation, model selection, governance</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Certified Developer Foundations</strong></td>
+      <td>CCDV-F</td>
+      <td>Developer</td>
+      <td>Developers who BUILD with Claude API/SDK</td>
+      <td>API, tools, agents, testing, deployment, security</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Certified Architect Foundations</strong></td>
+      <td>CCAR-F</td>
+      <td>Architect</td>
+      <td>Architects who DESIGN Claude-based systems</td>
+      <td>Agentic loops, orchestration, MCP, CI/CD, scaling</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Which One to Start With?</b>
+  If you're new to Claude, start with <strong>CCAO-F (Associate)</strong>. It covers practical Claude usage and doesn't require coding skills. Developers should take CCDV-F, and experienced architects should take CCAR-F.
+</div>
+
+<!-- ====== SECTION 2 ====== -->
+<h2><span class="num">Section 02</span>Personal Account vs Business Account</h2>
+
+<h3>Can I Take the Exam with a Personal Account?</h3>
+
+<div class="highlight">
+  <div class="hl-title">Yes! Certifications are individual credentials, not company credentials.</div>
+  <p>The certification belongs to YOU personally — it goes on YOUR LinkedIn profile and resume. You do NOT need a business/enterprise account. A personal email (Gmail, Outlook, etc.) works perfectly.</p>
+</div>
+
+<h3>What Accounts Do You Need?</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Account</th><th>What For</th><th>Personal OK?</th><th>Cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Exam Platform Account</strong></td><td>Register for and take the exam</td><td>Yes — personal email</td><td>Exam fee</td></tr>
+    <tr><td><strong>Claude.ai Account</strong></td><td>Practice with Claude (optional but recommended)</td><td>Yes — free tier available</td><td>Free or $20/mo Pro</td></tr>
+    <tr><td><strong>LinkedIn Learning</strong></td><td>Tutorials Dojo prep course (optional)</td><td>Yes — personal or trial</td><td>$29.99/mo or free trial</td></tr>
+    <tr><td><strong>Claude API Account</strong></td><td>Hands-on API practice (Developer/Architect only)</td><td>Yes — personal key</td><td>Pay per token</td></tr>
+    <tr><td><strong>LinkedIn Profile</strong></td><td>Display your credential after passing</td><td>Yes — personal profile</td><td>Free</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-warn">
+  <b>No Company Needed</b>
+  You do NOT need employer sponsorship, a corporate email, or a business account for any of the steps. Everything can be done with personal accounts and personal payment.
+</div>
+
+<!-- ====== SECTION 3 ====== -->
+<h2><span class="num">Section 03</span>Step-by-Step Registration Process</h2>
+
+<div class="step-card">
+  <div class="step-num">Step 1 — Create Your Accounts</div>
+  <div class="step-title">Set Up Required Accounts</div>
+  <ul>
+    <li><strong>Claude.ai:</strong> Go to <code>claude.ai</code> → Sign up with personal email (Google, email, or Apple)</li>
+    <li><strong>Claude Academy:</strong> Go to <code>academy.claude.com</code> → Sign up for free courses</li>
+    <li><strong>LinkedIn Learning (optional):</strong> Subscribe or start free trial → Search for "Anthropic Claude Certified" → Tutorials Dojo courses</li>
+  </ul>
+</div>
+
+<div class="step-card green">
+  <div class="step-num">Step 2 — Prepare for the Exam</div>
+  <div class="step-title">Study and Practice</div>
+  <ul>
+    <li><strong>Complete the LinkedIn Learning course</strong> for your target certification (CCAO-F, CCDV-F, or CCAR-F)</li>
+    <li><strong>Study the official docs</strong> at <code>platform.claude.com/docs</code></li>
+    <li><strong>Complete Claude Academy courses</strong> (free): "AI Fluency," "Claude Code 101"</li>
+    <li><strong>Hands-on practice:</strong> Use Claude daily — prompting, projects, research mode</li>
+    <li><strong>Practice with MCQs:</strong> Use the study guides we built (255 total questions)</li>
+    <li><strong>For Developer/Architect:</strong> Build something with the API — even a simple chatbot</li>
+  </ul>
+</div>
+
+<div class="step-card orange">
+  <div class="step-num">Step 3 — Register for the Exam</div>
+  <div class="step-title">Find and Book Your Exam</div>
+  <p>The certification exams are offered through exam delivery platforms. Here's how to find and register:</p>
+  <ol>
+    <li><strong>Check the LinkedIn Learning course description</strong> — Tutorials Dojo usually includes a direct link to the exam registration page in the course overview or final section</li>
+    <li><strong>Visit Tutorials Dojo website:</strong> <code>tutorialsdojo.com</code> → Look for Anthropic Claude certifications → They may offer practice exams and link to the official exam</li>
+    <li><strong>Check Anthropic's official channels:</strong>
+      <ul>
+        <li><code>anthropic.com</code> — certification page (if available)</li>
+        <li><code>academy.claude.com</code> — may have exam registration links</li>
+        <li>Anthropic's social media (Twitter/X: @AnthropicAI)</li>
+      </ul>
+    </li>
+    <li><strong>Register with your personal email</strong> — provide name (must match ID), email, and create password</li>
+    <li><strong>Pay the exam fee</strong> with personal credit/debit card</li>
+    <li><strong>Schedule your exam date and time</strong></li>
+  </ol>
+</div>
+
+<div class="step-card purple">
+  <div class="step-num">Step 4 — Take the Exam</div>
+  <div class="step-title">Exam Day</div>
+  <ul>
+    <li><strong>Online proctored:</strong> Take from home via webcam (most common)</li>
+    <li><strong>Requirements:</strong> Stable internet, webcam, microphone, quiet room, valid photo ID</li>
+    <li><strong>Format:</strong> Multiple-choice questions</li>
+    <li><strong>Duration:</strong> Typically 60-90 minutes</li>
+    <li><strong>Environment:</strong> Clear desk, no second monitors, no notes (unless open-book)</li>
+    <li><strong>No phone, no other browser tabs, no external help</strong></li>
+  </ul>
+</div>
+
+<div class="step-card red">
+  <div class="step-num">Step 5 — Get Your Results &amp; Credential</div>
+  <div class="step-title">After the Exam</div>
+  <ul>
+    <li><strong>Results:</strong> Usually immediate or within 24-48 hours</li>
+    <li><strong>If you pass:</strong> Receive digital certificate and badge</li>
+    <li><strong>Add to LinkedIn:</strong> Update your profile with the certification credential</li>
+    <li><strong>If you don't pass:</strong> Review weak areas, study more, retake after waiting period</li>
+  </ul>
+</div>
+
+<!-- ====== SECTION 4 ====== -->
+<h2><span class="num">Section 04</span>Expected Exam Details</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Detail</th><th>CCAO-F (Associate)</th><th>CCDV-F (Developer)</th><th>CCAR-F (Architect)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Topics</strong></td><td>7 domains</td><td>18 domains</td><td>18 domains</td></tr>
+    <tr><td><strong>Questions</strong></td><td>~50-65 MCQs</td><td>~60-75 MCQs</td><td>~60-75 MCQs</td></tr>
+    <tr><td><strong>Duration</strong></td><td>60-90 minutes</td><td>90-120 minutes</td><td>90-120 minutes</td></tr>
+    <tr><td><strong>Passing Score</strong></td><td>~70-80%</td><td>~70-80%</td><td>~70-80%</td></tr>
+    <tr><td><strong>Delivery</strong></td><td>Online proctored</td><td>Online proctored</td><td>Online proctored</td></tr>
+    <tr><td><strong>Prerequisites</strong></td><td>None</td><td>None (Associate recommended)</td><td>None (Developer recommended)</td></tr>
+    <tr><td><strong>Estimated Cost</strong></td><td>$100-200 USD</td><td>$150-300 USD</td><td>$200-350 USD</td></tr>
+    <tr><td><strong>Validity</strong></td><td>~2 years</td><td>~2 years</td><td>~2 years</td></tr>
+    <tr><td><strong>Retake Policy</strong></td><td>After waiting period</td><td>After waiting period</td><td>After waiting period</td></tr>
+    <tr><td><strong>Language</strong></td><td>English</td><td>English</td><td>English</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-warn">
+  <b>Note</b>
+  The exact exam details (number of questions, duration, cost, passing score) may vary as the certification program is relatively new. Check the official registration page for confirmed details before booking.
+</div>
+
+<!-- ====== SECTION 5 ====== -->
+<h2><span class="num">Section 05</span>Preparation Timeline</h2>
+
+<h3>Recommended Study Plan — Associate (CCAO-F)</h3>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="t-label">Week 1-2: Foundations</div>
+    <div class="t-text">Complete Claude Academy free courses. Start using Claude daily at claude.ai. Learn basic prompting (context, role, task, format).</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 3-4: LinkedIn Learning Course</div>
+    <div class="t-text">Complete the CCAO-F prep course by Tutorials Dojo. Take notes on all 7 domains. Complete section quizzes.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 5: Practice &amp; Review</div>
+    <div class="t-text">Study the CCAO-F study guide (79 interactive MCQs). Focus on weak areas. Practice with Claude Projects, Research mode, Artifacts.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 6: Exam Week</div>
+    <div class="t-text">Quick review of all topics. Take the practice quiz one more time. Register and schedule the exam. Take the exam.</div>
+  </div>
+</div>
+
+<h3>Recommended Study Plan — Developer (CCDV-F)</h3>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="t-label">Week 1-2: API Basics</div>
+    <div class="t-text">Set up API key at platform.claude.com. Make your first API call in Python/TypeScript. Understand Messages API request/response structure.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 3-4: LinkedIn Learning + Hands-On</div>
+    <div class="t-text">Complete the CCDV-F prep course. Build a tool-using agent. Implement streaming. Try structured outputs with Pydantic/Zod.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 5-6: Advanced Topics</div>
+    <div class="t-text">Study prompt caching, batch processing, MCP, Claude Code. Build a multi-turn chatbot. Implement error handling and retries.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 7: Practice &amp; Review</div>
+    <div class="t-text">Complete the CCDV-F study guide (89 interactive MCQs). Review all 18 domains. Focus on weak areas.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 8: Exam Week</div>
+    <div class="t-text">Final review. Take practice quiz again. Schedule and take the exam.</div>
+  </div>
+</div>
+
+<!-- ====== SECTION 6 ====== -->
+<h2><span class="num">Section 06</span>Exam Day Checklist</h2>
+
+<h3>Before the Exam</h3>
+<ul class="checklist">
+  <li>Confirm exam date, time, and timezone</li>
+  <li>Test your internet connection (wired preferred over WiFi)</li>
+  <li>Test webcam and microphone</li>
+  <li>Have a valid government-issued photo ID ready (passport, driver's license)</li>
+  <li>Prepare a clean, quiet room with good lighting</li>
+  <li>Close all other browser tabs and applications</li>
+  <li>Clear your desk — no notes, no phone, no second monitor</li>
+  <li>Install any required proctoring software in advance</li>
+  <li>Disable browser notifications</li>
+  <li>Have a glass of water nearby (usually allowed)</li>
+</ul>
+
+<h3>During the Exam</h3>
+<ul class="checklist">
+  <li>Read each question carefully — look for keywords like "NOT," "BEST," "FIRST"</li>
+  <li>Eliminate obviously wrong answers first, then choose from remaining</li>
+  <li>Don't spend too long on one question — flag it and come back</li>
+  <li>Watch the timer — pace yourself (1-2 minutes per question)</li>
+  <li>Don't second-guess too much — your first instinct is usually right</li>
+  <li>Answer every question — no penalty for guessing (usually)</li>
+  <li>Review flagged questions if time allows</li>
+</ul>
+
+<h3>After the Exam</h3>
+<ul class="checklist">
+  <li>Note your score and any weak areas mentioned</li>
+  <li>If passed: download your certificate and digital badge</li>
+  <li>Add the credential to your LinkedIn profile</li>
+  <li>If not passed: review the score report, study weak areas, schedule retake</li>
+</ul>
+
+<!-- ====== SECTION 7 ====== -->
+<h2><span class="num">Section 07</span>Study Resources Checklist</h2>
+
+<h3>Free Resources</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Claude Academy</div>
+    <p>academy.claude.com — Free courses including "AI Fluency," "Claude Code 101," "Claude Code in Action"</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Official Documentation</div>
+    <p>platform.claude.com/docs — The primary source. Everything on the exam comes from these docs.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude.ai (Free Tier)</div>
+    <p>claude.ai — Practice prompting, use Artifacts, try different approaches hands-on.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Prompt Engineering Tutorial</div>
+    <p>github.com/anthropics/prompt-eng-interactive-tutorial — Interactive, example-filled tutorial.</p>
+  </div>
+</div>
+
+<h3>Paid Resources</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">LinkedIn Learning Courses</div>
+    <p>CCAO-F, CCDV-F, CCAR-F prep courses by Tutorials Dojo. $29.99/mo or employer-provided access.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude Pro ($20/mo)</div>
+    <p>claude.ai Pro plan for more usage, Projects, Research mode, and priority access to new features.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Tutorials Dojo Practice Tests</div>
+    <p>tutorialsdojo.com — May offer dedicated practice exam sets for each certification level.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Claude API Credits</div>
+    <p>platform.claude.com — For Developer/Architect: get API access to practice building with Claude.</p>
+  </div>
+</div>
+
+<!-- ====== SECTION 8 ====== -->
+<h2><span class="num">Section 08</span>Tips for Passing on First Attempt</h2>
+
+<div class="step-card">
+  <div class="step-num">Tip 1</div>
+  <div class="step-title">Know the Official Docs, Not Just the Course</div>
+  <p>The LinkedIn Learning course is a great overview, but exam questions are based on the <strong>official Anthropic documentation</strong>. Read platform.claude.com/docs — especially the sections on Messages API, tool use, prompt engineering, models, and pricing.</p>
+</div>
+
+<div class="step-card green">
+  <div class="step-num">Tip 2</div>
+  <div class="step-title">Practice Hands-On, Don't Just Memorize</div>
+  <p>Use Claude daily. Write prompts, create Projects, try Research mode, experiment with different models. For Developer/Architect exams, write actual code using the API. Hands-on experience beats memorization every time.</p>
+</div>
+
+<div class="step-card orange">
+  <div class="step-num">Tip 3</div>
+  <div class="step-title">Focus on "Why," Not Just "What"</div>
+  <p>Don't just memorize that Opus 5.5 costs $4/$20 per MTok — understand <em>why</em> you'd choose it over Sonnet or Haiku. The exam tests practical decision-making, not fact recall.</p>
+</div>
+
+<div class="step-card purple">
+  <div class="step-num">Tip 4</div>
+  <div class="step-title">Pay Attention to Anti-Patterns</div>
+  <p>Know what NOT to do: "only if you're confident" (anti-pattern), using admin sessions (security risk), not closing ResourceResolvers (memory leak), skipping history in agentic loops (causes failures). Exams love testing what's wrong.</p>
+</div>
+
+<div class="step-card red">
+  <div class="step-num">Tip 5</div>
+  <div class="step-title">Time Management on Exam Day</div>
+  <p>~1.5 minutes per question. Don't overthink. If stuck, flag and move on. Answer every question — usually no penalty for guessing. Come back to flagged questions at the end.</p>
+</div>
+
+<!-- ====== SECTION 9 ====== -->
+<h2><span class="num">Section 09</span>After You Pass — What's Next?</h2>
+
+<h3>Claim Your Credential</h3>
+<ol>
+  <li><strong>Download your certificate</strong> — PDF from the exam platform</li>
+  <li><strong>Get your digital badge</strong> — Credly or similar platform badge</li>
+  <li><strong>Add to LinkedIn:</strong> Profile → Licenses &amp; Certifications → Add
+    <ul>
+      <li>Name: "Claude Certified Associate Foundations (CCAO-F)"</li>
+      <li>Issuing organization: "Anthropic"</li>
+      <li>Issue date: your exam date</li>
+      <li>Credential ID: from your certificate</li>
+    </ul>
+  </li>
+  <li><strong>Add to resume</strong> under "Certifications" section</li>
+  <li><strong>Share on social media</strong> — LinkedIn post announcing your certification</li>
+</ol>
+
+<h3>Career Path</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>After</th><th>Consider Next</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>CCAO-F (Associate)</td><td>CCDV-F (Developer)</td><td>If you want to build with Claude API</td></tr>
+    <tr><td>CCDV-F (Developer)</td><td>CCAR-F (Architect)</td><td>If you design multi-agent systems</td></tr>
+    <tr><td>CCAR-F (Architect)</td><td>Specialized certifications</td><td>As Anthropic releases advanced exams</td></tr>
+    <tr><td>Any level</td><td>AWS AI/ML certs</td><td>Complement with cloud AI certifications</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ====== SECTION 10 ====== -->
+<h2><span class="num">Section 10</span>Frequently Asked Questions</h2>
+
+<h3>Registration &amp; Account</h3>
+
+<div class="step-card">
+  <div class="step-title">Q: Do I need a company email to register?</div>
+  <p><strong>No.</strong> Personal email (Gmail, Outlook, Yahoo, etc.) works perfectly. The certification is tied to you as an individual.</p>
+</div>
+
+<div class="step-card">
+  <div class="step-title">Q: Do I need employer sponsorship or approval?</div>
+  <p><strong>No.</strong> You can register, pay, and take the exam entirely on your own. Many people pursue certifications independently for career growth.</p>
+</div>
+
+<div class="step-card">
+  <div class="step-title">Q: Can I use my Claude.ai free account to prepare?</div>
+  <p><strong>Yes.</strong> The free tier gives you access to Claude for practice. Pro ($20/mo) gives more usage and features like Projects and Research mode, but the free tier is sufficient for basic preparation.</p>
+</div>
+
+<h3>Exam Details</h3>
+
+<div class="step-card green">
+  <div class="step-title">Q: Is the exam open-book or closed-book?</div>
+  <p>Check the specific exam policies when you register. Online proctored exams are typically <strong>closed-book</strong> — no notes, no external resources, no second monitor.</p>
+</div>
+
+<div class="step-card green">
+  <div class="step-title">Q: What if I fail? Can I retake?</div>
+  <p><strong>Yes.</strong> Most certification programs allow retakes after a waiting period (typically 14-30 days). There may be an additional fee for the retake. Use the time to study your weak areas.</p>
+</div>
+
+<div class="step-card green">
+  <div class="step-title">Q: Do I need to take them in order (Associate → Developer → Architect)?</div>
+  <p><strong>No.</strong> There are no formal prerequisites. However, the knowledge builds on each level, so taking them in order is recommended.</p>
+</div>
+
+<h3>Certification Value</h3>
+
+<div class="step-card orange">
+  <div class="step-title">Q: Is this certification recognized by employers?</div>
+  <p><strong>Yes, and growing.</strong> As AI adoption accelerates, Claude-specific skills are increasingly valued. The certification demonstrates validated expertise with one of the leading AI platforms.</p>
+</div>
+
+<div class="step-card orange">
+  <div class="step-title">Q: How long is the certification valid?</div>
+  <p>Typically <strong>2 years</strong>. You'll need to recertify as Claude's features and best practices evolve. This ensures your knowledge stays current.</p>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Claude Certification — Complete Registration &amp; Exam Guide</p>
+  <p>Information compiled from official Anthropic resources. Updated September 2026.</p>
+  <p>Open in browser → Ctrl+P → Save as PDF</p>
+  <p style="margin-top:8px;">Created with &#9829; by <strong>Sumit Gaidhani</strong></p>
+</footer>
+
+<script>
+function toggleTheme() {
+  var h = document.documentElement;
+  if (h.getAttribute('data-theme') === 'dark') {
+    h.removeAttribute('data-theme');
+    try { localStorage.setItem('cert_reg_theme', 'light'); } catch(e) {}
+    document.querySelector('.theme-toggle').innerHTML = '&#9790;';
+  } else {
+    h.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('cert_reg_theme', 'dark'); } catch(e) {}
+    document.querySelector('.theme-toggle').innerHTML = '&#9788;';
+  }
+}
+(function() {
+  try {
+    if (localStorage.getItem('cert_reg_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.querySelector('.theme-toggle').innerHTML = '&#9788;';
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
