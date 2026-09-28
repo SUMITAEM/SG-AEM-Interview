@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Basics — Everything You Need to Know</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff; --surface: #f8f9fa; --surface2: #f0f1f3;
+    --text: #1a1a2e; --text2: #555770;
+    --accent: #0891b2; --accent2: #0e7490; --accent-soft: #ecfeff;
+    --green: #059669; --green-bg: #ecfdf5;
+    --orange: #d97706; --orange-bg: #fffbeb;
+    --red: #dc2626; --purple: #7c3aed;
+    --border: #e2e8f0; --code-bg: #1e293b; --code-ink: #e2e8f0;
+    --radius: 10px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1220; --surface: #151f30; --surface2: #1e2d42;
+      --text: #e2e8f0; --text2: #94a3b8;
+      --accent: #22d3ee; --accent2: #67e8f9; --accent-soft: #0c2a30;
+      --green: #34d399; --green-bg: #052e16;
+      --orange: #fbbf24; --orange-bg: #422006;
+      --red: #f87171; --purple: #a78bfa;
+      --border: #1e2d42; --code-bg: #0a101c; --code-ink: #cbd5e1;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1220; --surface: #151f30; --surface2: #1e2d42;
+    --text: #e2e8f0; --text2: #94a3b8;
+    --accent: #22d3ee; --accent2: #67e8f9; --accent-soft: #0c2a30;
+    --green: #34d399; --green-bg: #052e16;
+    --orange: #fbbf24; --orange-bg: #422006;
+    --red: #f87171; --purple: #a78bfa;
+    --border: #1e2d42; --code-bg: #0a101c; --code-ink: #cbd5e1;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 15px;
+    max-width: 860px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* Theme toggle */
+  .theme-toggle {
+    position: fixed; top: 14px; right: 14px; z-index: 999;
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text); cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
+  /* Print */
+  @media print {
+    .theme-toggle, .no-print { display: none !important; }
+    body { max-width: 100%; padding: 0; font-size: 11pt; }
+    .section { page-break-inside: avoid; }
+    .cover { min-height: auto; padding: 30pt 0 20pt; }
+  }
+
+  /* Cover */
+  .cover {
+    padding: 56px 0 32px; text-align: center;
+    border-bottom: 2px solid var(--accent); margin-bottom: 36px;
+  }
+  .cover .badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 4px 14px; border-radius: 4px; margin-bottom: 14px;
+  }
+  .cover h1 {
+    font-size: 2.4rem; font-weight: 800; line-height: 1.15; margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .cover p { font-size: 1.05rem; color: var(--text2); max-width: 600px; margin: 0 auto; }
+
+  /* TOC */
+  .toc {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px; margin-bottom: 32px;
+  }
+  .toc h2 { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px 20px; }
+  .toc a { font-size: 0.88rem; color: var(--text); text-decoration: none; padding: 4px 0;
+    display: block; border-bottom: 1px dotted var(--border); }
+  .toc a:hover { color: var(--accent); }
+  .toc .num { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--accent); margin-right: 6px; }
+
+  /* Sections */
+  h2.sec-title {
+    font-size: 1.5rem; font-weight: 800; margin: 40px 0 6px;
+    padding-bottom: 6px; border-bottom: 2px solid var(--accent);
+  }
+  h2.sec-title .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 2px;
+  }
+  h3 { font-size: 1.1rem; font-weight: 700; margin: 24px 0 8px; color: var(--accent2); }
+  h4 { font-size: 0.95rem; font-weight: 600; margin: 16px 0 6px; }
+
+  p { margin: 6px 0; }
+  ul, ol { padding-left: 22px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 0.78rem;
+    background: var(--surface); border-bottom: 2px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 8px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: var(--surface); }
+
+  /* Code */
+  code {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82em;
+    background: var(--accent-soft); padding: 2px 6px; border-radius: 4px; color: var(--accent2);
+  }
+  .code-block {
+    background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius);
+    padding: 16px 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; line-height: 1.65; margin: 12px 0; position: relative;
+  }
+  .code-block .label {
+    position: absolute; top: 8px; right: 12px; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #7F849C;
+    background: #313244; padding: 2px 8px; border-radius: 3px;
+  }
+  .code-block .kw { color: #CBA6F7; }
+  .code-block .str { color: #A6E3A1; }
+  .code-block .num { color: #FAB387; }
+  .code-block .cm { color: #6C7086; font-style: italic; }
+  .code-block .fn { color: #89B4FA; }
+  .code-block .key { color: #89DCEB; }
+
+  /* Cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin: 12px 0; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px;
+  }
+  .card-title { font-weight: 700; font-size: 0.92rem; color: var(--accent); margin-bottom: 6px; }
+  .card p, .card ul { font-size: 0.85rem; color: var(--text2); }
+  .card li { margin: 2px 0; }
+
+  /* Highlight */
+  .highlight {
+    background: var(--accent-soft); border-radius: var(--radius);
+    padding: 14px 18px; margin: 14px 0; border: 1px solid var(--border);
+  }
+  .highlight .hl-title { font-weight: 700; font-size: 0.9rem; color: var(--accent2); margin-bottom: 4px; }
+  .highlight p { font-size: 0.88rem; }
+
+  /* Notice */
+  .notice {
+    border-left: 4px solid; padding: 10px 14px; border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.85rem; margin: 14px 0; line-height: 1.5;
+  }
+  .notice b { display: block; margin-bottom: 2px; }
+  .notice-tip { border-color: var(--green); background: var(--green-bg); }
+  .notice-warn { border-color: var(--orange); background: var(--orange-bg); }
+
+  /* Decision tree */
+  .decision-tree {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px; line-height: 1.8; margin: 12px 0;
+    white-space: pre-wrap;
+  }
+  .decision-tree .arrow { color: var(--accent); font-weight: 700; }
+  .decision-tree .model { color: var(--green); font-weight: 600; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 24px 0; margin-top: 40px;
+    border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text2);
+  }
+
+  @media (max-width: 600px) {
+    .cover h1 { font-size: 1.7rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">&#9790;</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="badge">Complete Beginner's Guide</div>
+  <h1>Claude Basics</h1>
+  <p>Everything you need to know about Claude — from what it is to how to use it effectively. A single document covering the essentials.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Contents</h2>
+  <div class="toc-grid">
+    <a href="#s1"><span class="num">01</span>What is Claude?</a>
+    <a href="#s2"><span class="num">02</span>Claude Model Family</a>
+    <a href="#s3"><span class="num">03</span>How to Access Claude</a>
+    <a href="#s4"><span class="num">04</span>How Claude Works</a>
+    <a href="#s5"><span class="num">05</span>Writing Effective Prompts</a>
+    <a href="#s6"><span class="num">06</span>Key Features</a>
+    <a href="#s7"><span class="num">07</span>Vision &amp; Multimodal</a>
+    <a href="#s8"><span class="num">08</span>Tool Use &amp; Agents</a>
+    <a href="#s9"><span class="num">09</span>Messages API Basics</a>
+    <a href="#s10"><span class="num">10</span>Pricing &amp; Tokens</a>
+    <a href="#s11"><span class="num">11</span>Safety &amp; Data Privacy</a>
+    <a href="#s12"><span class="num">12</span>Tips &amp; Common Mistakes</a>
+  </div>
+</div>
+
+<!-- ====== SECTION 1 ====== -->
+<section class="section" id="s1">
+<h2 class="sec-title"><span class="num">Section 01</span>What is Claude?</h2>
+
+<p>Claude is a family of large language models (LLMs) built by <strong>Anthropic</strong>, an AI safety company founded in 2021. Claude can understand and generate text, analyze images, write code, reason through complex problems, and use tools — all through natural conversation.</p>
+
+<h3>What Can Claude Do?</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Write &amp; Create</div>
+    <ul>
+      <li>Draft emails, reports, articles</li>
+      <li>Write and debug code</li>
+      <li>Create presentations</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Analyze &amp; Reason</div>
+    <ul>
+      <li>Summarize long documents</li>
+      <li>Analyze data and trends</li>
+      <li>Solve math problems</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Research &amp; Learn</div>
+    <ul>
+      <li>Answer complex questions</li>
+      <li>Explain technical concepts</li>
+      <li>Search the web (Research mode)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Understand Images</div>
+    <ul>
+      <li>Describe photos and diagrams</li>
+      <li>Extract text from images</li>
+      <li>Analyze charts and graphs</li>
+    </ul>
+  </div>
+</div>
+
+<h3>What Claude Cannot Do</h3>
+<ul>
+  <li>Generate, edit, or create images (understanding only)</li>
+  <li>Access the internet in real-time (unless using web search tool)</li>
+  <li>Remember previous conversations (unless using Projects/memory)</li>
+  <li>Identify or name people in images</li>
+  <li>Provide medical diagnosis or legal advice as a professional</li>
+</ul>
+
+<h3>Who Made Claude?</h3>
+<p><strong>Anthropic</strong> was founded with a mission to build AI that is safe, beneficial, and understandable. Their core belief: AI's impact could rival the industrial revolution, and they want to make sure it goes well. Anthropic's safety research includes mechanistic interpretability (understanding how AI thinks internally), scalable oversight (using AI to supervise AI), and Constitutional AI (training with principles rather than just human feedback).</p>
+</section>
+
+<!-- ====== SECTION 2 ====== -->
+<section class="section" id="s2">
+<h2 class="sec-title"><span class="num">Section 02</span>Claude Model Family</h2>
+
+<p>Claude comes in four model tiers, each optimized for different needs:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Model</th><th>Best For</th><th>Speed</th><th>Price (per MTok)</th><th>Context</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Fable 5.1</strong></td><td>Most demanding reasoning, multi-day agentic tasks</td><td>Slower</td><td>$10 in / $50 out</td><td>1M tokens</td></tr>
+    <tr><td><strong>Opus 5.5</strong></td><td>Complex coding &amp; knowledge work</td><td>Moderate</td><td>$4 in / $20 out</td><td>1M tokens</td></tr>
+    <tr><td><strong>Sonnet 5</strong></td><td>Everyday tasks, best speed + intelligence</td><td>Fast</td><td>$2 in / $10 out</td><td>1M tokens</td></tr>
+    <tr><td><strong>Haiku 4.5</strong></td><td>Fastest, cheapest, high volume</td><td>Fastest</td><td>$1 in / $5 out</td><td>200K tokens</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Which Model Should I Use?</h3>
+<div class="decision-tree">Quick question or simple task?
+  <span class="arrow">→</span> <span class="model">Haiku 4.5</span> (fastest, cheapest)
+
+Everyday work — writing, analysis, coding?
+  <span class="arrow">→</span> <span class="model">Sonnet 5</span> (best balance)
+
+Complex reasoning, long coding sessions?
+  <span class="arrow">→</span> <span class="model">Opus 5.5</span> (recommended default)
+
+Multi-day research, hardest reasoning tasks?
+  <span class="arrow">→</span> <span class="model">Fable 5.1</span> (most capable)
+
+Not sure?
+  <span class="arrow">→</span> <span class="model">Start with Opus 5.5</span></div>
+
+<div class="notice notice-tip">
+  <b>Remember</b>
+  1M tokens ≈ 555,000 words ≈ 4-5 novels. 1 token ≈ 4 characters ≈ 3/4 of a word. MTok = million tokens.
+</div>
+</section>
+
+<!-- ====== SECTION 3 ====== -->
+<section class="section" id="s3">
+<h2 class="sec-title"><span class="num">Section 03</span>How to Access Claude</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Product</th><th>What It Is</th><th>Best For</th><th>Cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>claude.ai</strong></td><td>Chat interface in browser</td><td>Conversations, quick tasks</td><td>Free tier + Pro ($20/mo)</td></tr>
+    <tr><td><strong>Claude Projects</strong></td><td>Persistent workspace with shared knowledge</td><td>Ongoing work with context</td><td>Pro plan</td></tr>
+    <tr><td><strong>Research Mode</strong></td><td>Claude searches web, reads sources, writes report</td><td>Deep research with citations</td><td>Pro plan</td></tr>
+    <tr><td><strong>Artifacts</strong></td><td>Standalone documents, code, visualizations</td><td>Creating deliverables</td><td>Free + Pro</td></tr>
+    <tr><td><strong>Claude Code</strong></td><td>CLI tool for coding in terminal/IDE</td><td>Developers, coding tasks</td><td>Pro or API key</td></tr>
+    <tr><td><strong>Claude API</strong></td><td>HTTP API for building apps</td><td>Developers, integrations</td><td>Pay per token</td></tr>
+    <tr><td><strong>Managed Agents</strong></td><td>Anthropic-hosted agent harness</td><td>Long-running autonomous tasks</td><td>Tokens + $0.08/hr</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Claude.ai Features at a Glance</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Projects</div>
+    <p>Create a workspace with persistent instructions and uploaded files. Every conversation in the project shares the same context. Great for ongoing work.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Research Mode</div>
+    <p>Claude autonomously searches the web, reads multiple sources, and synthesizes a comprehensive cited report. Like having a research assistant.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Artifacts</div>
+    <p>Claude creates standalone documents, code, diagrams, and interactive visualizations in a dedicated panel. You can iterate and share them.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Code Execution</div>
+    <p>Claude can run Python code in a sandbox to analyze data, create charts, process files, and do math — showing you the results directly.</p>
+  </div>
+</div>
+</section>
+
+<!-- ====== SECTION 4 ====== -->
+<section class="section" id="s4">
+<h2 class="sec-title"><span class="num">Section 04</span>How Claude Works (Under the Hood)</h2>
+
+<h3>What is an LLM?</h3>
+<p>A Large Language Model is a neural network trained on vast amounts of text data. It learns patterns in language and generates text by predicting the most likely next token, one at a time. Claude uses the <strong>Transformer</strong> architecture with self-attention mechanisms.</p>
+
+<h3>Key Concepts</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Concept</th><th>What It Means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Token</strong></td><td>The smallest unit Claude processes. ~4 characters or ~0.75 words. "Hello world" = ~2 tokens.</td></tr>
+    <tr><td><strong>Context Window</strong></td><td>Claude's "working memory" — everything it can reference in one conversation. 1M tokens for most models. NOT the same as training data.</td></tr>
+    <tr><td><strong>Temperature</strong></td><td>Controls randomness. 0 = deterministic (same answer every time). 1 = creative/varied. Default varies by model.</td></tr>
+    <tr><td><strong>System Prompt</strong></td><td>Hidden instructions that set Claude's behavior, role, and constraints. Users don't see it. Highest priority.</td></tr>
+    <tr><td><strong>Thinking</strong></td><td>Claude can reason step-by-step before answering. Called "adaptive thinking" on newer models. Improves quality for complex tasks.</td></tr>
+    <tr><td><strong>Hallucination</strong></td><td>When Claude generates confident but factually incorrect information. Always verify important facts.</td></tr>
+    <tr><td><strong>Knowledge Cutoff</strong></td><td>Claude's training data has a cutoff date. It doesn't know about events after that date (unless using web search).</td></tr>
+    <tr><td><strong>Nondeterminism</strong></td><td>Same prompt can produce different outputs each time — by design. Set temperature=0 for most consistent results.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>How a Conversation Works</h3>
+<div class="code-block"><span class="label">Flow</span><span class="cm">1. You send a message (user turn)</span>
+<span class="cm">2. Claude receives: system prompt + all previous messages + your new message</span>
+<span class="cm">3. Claude generates a response token by token (autoregressive)</span>
+<span class="cm">4. The response is added to conversation history</span>
+<span class="cm">5. On next turn, Claude sees everything above + your new message</span>
+<span class="cm">6. Context window fills up over time → quality may degrade (context rot)</span></div>
+
+<div class="notice notice-warn">
+  <b>Important</b>
+  Claude does NOT remember previous conversations. Each new conversation starts fresh. Use <strong>Projects</strong> to persist context, or paste key information at the start of a new conversation.
+</div>
+</section>
+
+<!-- ====== SECTION 5 ====== -->
+<section class="section" id="s5">
+<h2 class="sec-title"><span class="num">Section 05</span>Writing Effective Prompts</h2>
+
+<h3>The Golden Rule</h3>
+<div class="highlight">
+  <div class="hl-title">Show your prompt to a colleague with minimal context. If they'd be confused, Claude will be too.</div>
+</div>
+
+<h3>Four Elements of an Effective Prompt</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Element</th><th>What It Does</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Context</strong></td><td>Background info Claude needs</td><td>"You are helping a marketing team at a SaaS startup..."</td></tr>
+    <tr><td><strong>Role</strong></td><td>Who Claude should act as</td><td>"You are a senior data analyst with 10 years of experience"</td></tr>
+    <tr><td><strong>Task</strong></td><td>What you want Claude to do</td><td>"Analyze these survey results and identify the top 3 trends"</td></tr>
+    <tr><td><strong>Format</strong></td><td>How the output should look</td><td>"Present as a table with columns: Trend, Evidence, Impact"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Before &amp; After Examples</h3>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;">
+  <div style="background:var(--surface);border:2px solid var(--red);border-radius:var(--radius);padding:14px;">
+    <div style="font-size:0.75rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Vague Prompt</div>
+    <p style="font-size:0.88rem;">Write something about our product.</p>
+  </div>
+  <div style="background:var(--surface);border:2px solid var(--green);border-radius:var(--radius);padding:14px;">
+    <div style="font-size:0.75rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Effective Prompt</div>
+    <p style="font-size:0.88rem;">You are a B2B copywriter. Write a 200-word product description for our project management tool targeting engineering teams. Highlight: real-time collaboration, GitHub integration, and sprint planning. Tone: professional but approachable.</p>
+  </div>
+</div>
+
+<h3>Five Core Techniques</h3>
+<ol>
+  <li><strong>Be clear and direct</strong> — Specific instructions, desired format, constraints</li>
+  <li><strong>Add context and motivation</strong> — Explain WHY, not just WHAT. Claude generalizes from the reasoning.</li>
+  <li><strong>Use examples (few-shot)</strong> — 3-5 examples of expected input/output. Wrap in <code>&lt;example&gt;</code> XML tags.</li>
+  <li><strong>Structure with XML tags</strong> — Use <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code> to separate sections clearly.</li>
+  <li><strong>Give Claude a role</strong> — Set it in the system prompt. Even one sentence makes a big difference.</li>
+</ol>
+
+<h3>Prompt Template</h3>
+<div class="code-block"><span class="label">Template</span><span class="kw">&lt;role&gt;</span>You are a financial analyst specializing in tech startups.<span class="kw">&lt;/role&gt;</span>
+
+<span class="kw">&lt;context&gt;</span>
+The user will provide quarterly revenue data for a SaaS company.
+<span class="kw">&lt;/context&gt;</span>
+
+<span class="kw">&lt;instructions&gt;</span>
+1. Calculate quarter-over-quarter growth rate
+2. Identify the strongest and weakest quarters
+3. Provide a one-paragraph forecast for the next quarter
+<span class="kw">&lt;/instructions&gt;</span>
+
+<span class="kw">&lt;format&gt;</span>
+Return results as a table, followed by the forecast paragraph.
+<span class="kw">&lt;/format&gt;</span>
+
+<span class="kw">&lt;input&gt;</span>
+Q1: $1.2M, Q2: $1.5M, Q3: $1.4M, Q4: $1.9M
+<span class="kw">&lt;/input&gt;</span></div>
+
+<h3>CERRS Mnemonic</h3>
+<div class="highlight">
+  <div class="hl-title">Remember the 5 Principles</div>
+  <p>
+    <strong>C</strong>lear and direct instructions &bull;
+    <strong>E</strong>xamples (3-5, diverse) &bull;
+    <strong>R</strong>ole in system prompt &bull;
+    <strong>R</strong>easoning context (explain WHY) &bull;
+    <strong>S</strong>tructure with XML tags
+  </p>
+</div>
+</section>
+
+<!-- ====== SECTION 6 ====== -->
+<section class="section" id="s6">
+<h2 class="sec-title"><span class="num">Section 06</span>Key Features</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>What It Does</th><th>When to Use</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Thinking</strong></td><td>Claude reasons step-by-step before answering</td><td>Math, coding, analysis, complex reasoning</td></tr>
+    <tr><td><strong>Web Search</strong></td><td>Claude searches the internet for current info</td><td>Questions about recent events, research</td></tr>
+    <tr><td><strong>Code Execution</strong></td><td>Runs Python in a sandbox</td><td>Data analysis, charts, calculations</td></tr>
+    <tr><td><strong>Vision</strong></td><td>Understands images (JPEG, PNG, GIF, WebP)</td><td>Analyzing photos, charts, diagrams, PDFs</td></tr>
+    <tr><td><strong>PDF Support</strong></td><td>Reads and analyzes PDF documents</td><td>Document review, extraction, summarization</td></tr>
+    <tr><td><strong>Artifacts</strong></td><td>Creates standalone documents/code/visualizations</td><td>Deliverables, interactive demos</td></tr>
+    <tr><td><strong>Projects</strong></td><td>Persistent workspace with shared instructions</td><td>Ongoing work, team collaboration</td></tr>
+    <tr><td><strong>Research Mode</strong></td><td>Autonomous web research with citations</td><td>Deep research, competitive analysis</td></tr>
+    <tr><td><strong>Structured Output</strong></td><td>Guaranteed JSON schema conformance</td><td>API integrations, data processing</td></tr>
+    <tr><td><strong>Prompt Caching</strong></td><td>Reuse repeated prompt prefixes (90% cheaper)</td><td>Repeated system prompts, large docs</td></tr>
+    <tr><td><strong>Batch Processing</strong></td><td>Async processing at 50% discount</td><td>Large-volume, non-time-sensitive tasks</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Thinking / Reasoning</h3>
+<p>When thinking is active, Claude works through the problem in its own words before answering — like showing its work on a math test. This is called <strong>adaptive thinking</strong> on Claude 4.7+ models. You can steer it with the <strong>effort</strong> parameter:</p>
+<ul>
+  <li><code>low</code> — Quick, minimal thinking (fastest)</li>
+  <li><code>medium</code> — Balanced (default for Opus 5.5)</li>
+  <li><code>high</code> — Deep reasoning (default for Fable 5.1 and Sonnet 5)</li>
+</ul>
+</section>
+
+<!-- ====== SECTION 7 ====== -->
+<section class="section" id="s7">
+<h2 class="sec-title"><span class="num">Section 07</span>Vision &amp; Multimodal</h2>
+
+<p>Claude can understand images — but it <strong>cannot generate, edit, or create</strong> them.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Capability</th><th>Details</th></tr></thead>
+  <tbody>
+    <tr><td>Formats</td><td>JPEG, PNG, GIF, WebP (animations not supported — first frame only)</td></tr>
+    <tr><td>Max size</td><td>10 MB per image (API), 8000 x 8000 px max dimensions</td></tr>
+    <tr><td>Max per request</td><td>Up to 600 images (1M context models)</td></tr>
+    <tr><td>Token cost</td><td>ceil(width/28) × ceil(height/28) visual tokens. Each 28×28 pixel patch = 1 token.</td></tr>
+    <tr><td>Image sources</td><td>Base64, URL, or file_id (Files API)</td></tr>
+    <tr><td>PDFs</td><td>Text + visual content extraction supported</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Best Practice</b>
+  Place images <strong>before</strong> text in your message for best results. Use the Files API for images you'll reuse across turns.
+</div>
+
+<h3>What Claude CAN'T Do with Images</h3>
+<ul>
+  <li>Cannot identify or name real people</li>
+  <li>Cannot determine if an image is AI-generated</li>
+  <li>May struggle with very small (<200px), blurry, or rotated images</li>
+  <li>Approximate spatial reasoning and counting</li>
+</ul>
+</section>
+
+<!-- ====== SECTION 8 ====== -->
+<section class="section" id="s8">
+<h2 class="sec-title"><span class="num">Section 08</span>Tool Use &amp; Agents</h2>
+
+<h3>What is Tool Use?</h3>
+<p>Tool use (function calling) lets Claude call functions that you define. Claude decides when to call a tool based on the user's request, then returns a structured call for you to execute.</p>
+
+<h3>How It Works</h3>
+<div class="code-block"><span class="label">The Loop</span><span class="num">1.</span> You define tools (name, description, input schema)
+<span class="num">2.</span> User asks a question
+<span class="num">3.</span> Claude decides to call a tool → returns <span class="fn">tool_use</span> block
+<span class="num">4.</span> Your code executes the tool
+<span class="num">5.</span> You send the result back as <span class="fn">tool_result</span>
+<span class="num">6.</span> Claude uses the result to answer (or calls more tools)
+<span class="num">7.</span> Loop continues until Claude returns <span class="fn">stop_reason: "end_turn"</span></div>
+
+<h3>Types of Tools</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Client-Side (You Execute)</div>
+    <ul>
+      <li>Your custom functions</li>
+      <li>Bash — shell commands</li>
+      <li>Text Editor — file manipulation</li>
+      <li>Computer Use — desktop control</li>
+      <li>Browser Use — web interaction</li>
+      <li>Memory — cross-conversation storage</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Server-Side (Anthropic Executes)</div>
+    <ul>
+      <li>Web Search — $10/1K searches</li>
+      <li>Web Fetch — no extra cost</li>
+      <li>Code Execution — sandboxed Python</li>
+      <li>Advisor — consult smarter model</li>
+      <li>Tool Search — discover from thousands</li>
+    </ul>
+  </div>
+</div>
+
+<h3>What is an Agent?</h3>
+<p>An <strong>agent</strong> is Claude + tools + a loop. Instead of answering in one shot, it autonomously plans, calls tools, checks results, and iterates until the task is complete. Claude Code is an example of an agent — it reads your codebase, edits files, runs tests, and commits code.</p>
+
+<h3>MCP (Model Context Protocol)</h3>
+<p>MCP is an open standard for connecting Claude to external tools and data sources — like a universal plugin system. You can connect Jira, Slack, Google Drive, databases, and any custom API via MCP servers.</p>
+</section>
+
+<!-- ====== SECTION 9 ====== -->
+<section class="section" id="s9">
+<h2 class="sec-title"><span class="num">Section 09</span>Messages API Basics</h2>
+
+<h3>Simplest API Call</h3>
+<div class="code-block"><span class="label">Python</span><span class="kw">import</span> anthropic
+
+client = anthropic.<span class="fn">Anthropic</span>()  <span class="cm"># reads ANTHROPIC_API_KEY from env</span>
+
+message = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-opus-5-5"</span>,         <span class="cm"># which model</span>
+    max_tokens=<span class="num">1024</span>,                <span class="cm"># max output length</span>
+    system=<span class="str">"You are a helpful assistant."</span>,  <span class="cm"># system prompt</span>
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What is Python?"</span>}
+    ],
+)
+
+<span class="fn">print</span>(message.content[<span class="num">0</span>].text)</div>
+
+<h3>Key Parameters</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Parameter</th><th>Required?</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>model</code></td><td>Yes</td><td>Which model to use (e.g., "claude-opus-5-5")</td></tr>
+    <tr><td><code>max_tokens</code></td><td>Yes</td><td>Maximum output tokens</td></tr>
+    <tr><td><code>messages</code></td><td>Yes</td><td>Array of user/assistant messages</td></tr>
+    <tr><td><code>system</code></td><td>No</td><td>System prompt for behavior/role</td></tr>
+    <tr><td><code>temperature</code></td><td>No</td><td>Randomness (0-1). Default varies.</td></tr>
+    <tr><td><code>tools</code></td><td>No</td><td>Tool definitions for function calling</td></tr>
+    <tr><td><code>stream</code></td><td>No</td><td>Enable streaming (SSE)</td></tr>
+    <tr><td><code>thinking</code></td><td>No</td><td>Configure thinking mode</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Stop Reasons</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>stop_reason</th><th>Meaning</th><th>What to Do</th></tr></thead>
+  <tbody>
+    <tr><td><code>end_turn</code></td><td>Claude finished naturally</td><td>Show response to user</td></tr>
+    <tr><td><code>tool_use</code></td><td>Wants to call a tool</td><td>Execute tool, send result back</td></tr>
+    <tr><td><code>max_tokens</code></td><td>Hit the output limit</td><td>Increase max_tokens</td></tr>
+    <tr><td><code>refusal</code></td><td>Safety decline</td><td>Rephrase or try different model</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Available SDKs</h3>
+<p>Official SDKs: <strong>Python</strong>, <strong>TypeScript</strong>, Go, Java, C#, PHP, Ruby. All support streaming, tool use, and thinking.</p>
+</section>
+
+<!-- ====== SECTION 10 ====== -->
+<section class="section" id="s10">
+<h2 class="sec-title"><span class="num">Section 10</span>Pricing &amp; Tokens</h2>
+
+<h3>How Pricing Works</h3>
+<p>You pay per <strong>token</strong> — separately for input (what you send) and output (what Claude generates). Output tokens are more expensive than input (typically 5x).</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>Input / MTok</th><th>Output / MTok</th><th>Batch (50% off)</th></tr></thead>
+  <tbody>
+    <tr><td>Fable 5.1</td><td>$10</td><td>$50</td><td>$5 / $25</td></tr>
+    <tr><td>Opus 5.5</td><td>$4</td><td>$20</td><td>$2 / $10</td></tr>
+    <tr><td>Sonnet 5</td><td>$2</td><td>$10</td><td>$1 / $5</td></tr>
+    <tr><td>Haiku 4.5</td><td>$1</td><td>$5</td><td>$0.50 / $2.50</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cost-Saving Strategies</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Prompt Caching</div>
+    <p>Cache repeated prompt prefixes. Cache hit = 10% of input cost (90% saving). Pays off after just 1 reuse.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Batch API</div>
+    <p>Process requests asynchronously for 50% discount. Perfect for evals, data processing, bulk tasks.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Model Routing</div>
+    <p>Use Haiku ($1) for simple classification, Sonnet ($2) for general tasks, Opus ($4) only for complex work.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Shorter Prompts</div>
+    <p>Remove redundant instructions. Output tokens cost 5x input, so invest in prompts that produce shorter, targeted outputs.</p>
+  </div>
+</div>
+
+<h3>Token Math</h3>
+<ul>
+  <li><strong>1 token</strong> ≈ 4 characters ≈ 0.75 words (English)</li>
+  <li><strong>1,000 tokens</strong> ≈ 750 words ≈ 1.5 pages of text</li>
+  <li><strong>1M tokens</strong> ≈ 555,000 words ≈ 4-5 novels</li>
+  <li><strong>A typical email</strong> ≈ 200-400 tokens</li>
+  <li><strong>A 10-page report</strong> ≈ 5,000-7,000 tokens</li>
+</ul>
+</section>
+
+<!-- ====== SECTION 11 ====== -->
+<section class="section" id="s11">
+<h2 class="sec-title"><span class="num">Section 11</span>Safety &amp; Data Privacy</h2>
+
+<h3>Anthropic's Approach</h3>
+<ul>
+  <li>Data is <strong>never used for model training</strong> without your express permission</li>
+  <li><strong>Zero Data Retention (ZDR)</strong> available — Anthropic doesn't store your prompts or responses for eligible features</li>
+  <li><strong>HIPAA readiness</strong> available for healthcare use cases</li>
+  <li>Claude has built-in <strong>safety classifiers</strong> that can decline harmful requests</li>
+</ul>
+
+<h3>Data Processor by Platform</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Data Processor</th></tr></thead>
+  <tbody>
+    <tr><td>Claude API (first-party)</td><td>Anthropic</td></tr>
+    <tr><td>Claude Platform on AWS</td><td>Anthropic</td></tr>
+    <tr><td>Microsoft Foundry</td><td>Anthropic</td></tr>
+    <tr><td>Amazon Bedrock</td><td>AWS</td></tr>
+    <tr><td>Google Cloud / Vertex AI</td><td>Google</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Best Practices</h3>
+<ul>
+  <li><strong>Don't share sensitive data unnecessarily</strong> — redact PII before pasting</li>
+  <li><strong>Always verify critical outputs</strong> — Claude can hallucinate</li>
+  <li><strong>Don't rely on Claude for</strong> medical diagnosis, legal advice, or safety-critical decisions without expert review</li>
+  <li><strong>Be transparent</strong> about AI use with end users</li>
+  <li><strong>API keys:</strong> Set expiration, keep out of source code, use environment variables</li>
+</ul>
+</section>
+
+<!-- ====== SECTION 12 ====== -->
+<section class="section" id="s12">
+<h2 class="sec-title"><span class="num">Section 12</span>Tips &amp; Common Mistakes</h2>
+
+<h3>Common Mistakes &amp; Fixes</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Problem</th><th>Cause</th><th>Fix</th></tr></thead>
+  <tbody>
+    <tr><td>Response too vague</td><td>Prompt lacks specificity</td><td>Add details, examples, constraints</td></tr>
+    <tr><td>Response too long</td><td>No length constraint</td><td>Add "Be concise" or "Max 3 bullet points"</td></tr>
+    <tr><td>Wrong format</td><td>No format instruction</td><td>Show exact expected format with example</td></tr>
+    <tr><td>Hallucinating facts</td><td>Claude doesn't know or is guessing</td><td>Ask to cite sources, add "Only use provided info"</td></tr>
+    <tr><td>Inconsistent results</td><td>High temperature, vague prompt</td><td>Lower temperature, add more examples</td></tr>
+    <tr><td>Claude refuses</td><td>Safety classifier triggered</td><td>Rephrase, check AUP, try different model</td></tr>
+    <tr><td>Context limit hit</td><td>Conversation too long</td><td>Start fresh, summarize key points</td></tr>
+    <tr><td>Forgetting instructions</td><td>Instructions buried in long context</td><td>Put key rules in system prompt (highest priority)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Pro Tips</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Iterate, Don't Restart</div>
+    <p>If the first response isn't perfect, tell Claude what to fix: "Make it shorter" or "Add more detail to point 2." Don't rewrite the whole prompt.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Use Projects for Context</div>
+    <p>Upload company docs, style guides, and product info to a Project. Every conversation in that project will have access to this knowledge.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Ask for Multiple Options</div>
+    <p>"Give me 3 different approaches to..." then pick the best one and refine it. Better than hoping for perfection on the first try.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Verify Important Facts</div>
+    <p>Claude can be confidently wrong. Always cross-check critical facts, dates, URLs, and citations against authoritative sources.</p>
+  </div>
+</div>
+
+<div class="highlight">
+  <div class="hl-title">Quick Reference</div>
+  <p>
+    <strong>Model:</strong> Start with Opus 5.5 &bull;
+    <strong>Prompts:</strong> CERRS (Clear, Examples, Role, Reasoning, Structure) &bull;
+    <strong>Token:</strong> ~4 chars / ~0.75 words &bull;
+    <strong>Context:</strong> 1M tokens (most models) &bull;
+    <strong>Safety:</strong> Always verify, never share PII &bull;
+    <strong>Pricing:</strong> Output costs 5x input
+  </p>
+</div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>Claude Basics — Everything You Need to Know</strong></p>
+  <p>Content sourced from official Anthropic documentation (platform.claude.com/docs). Updated September 2026.</p>
+  <p>Open in browser → Ctrl+P → Save as PDF</p>
+</div>
+
+<script>
+function toggleTheme() {
+  var h = document.documentElement;
+  if (h.getAttribute('data-theme') === 'dark') {
+    h.removeAttribute('data-theme');
+    try { localStorage.setItem('claude_basics_theme', 'light'); } catch(e) {}
+    document.querySelector('.theme-toggle').innerHTML = '&#9790;';
+  } else {
+    h.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('claude_basics_theme', 'dark'); } catch(e) {}
+    document.querySelector('.theme-toggle').innerHTML = '&#9788;';
+  }
+}
+(function() {
+  try {
+    if (localStorage.getItem('claude_basics_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.querySelector('.theme-toggle').innerHTML = '&#9788;';
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
