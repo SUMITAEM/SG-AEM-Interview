@@ -1840,7 +1840,7 @@ Return a JSON array of findings, each with: file, line, severity, description, r
 <h3>What Is a Token?</h3>
 <p>A token is the fundamental unit of text processing in LLMs. Approximately 4 characters or 0.75 words in English. Tokens are also the billing unit:</p>
 <ul>
-  <li>1M tokens is approximately 555K words or 750K English words</li>
+  <li>1M tokens is approximately 555,000 words (new tokenizer from Claude 4.7+)</li>
   <li>Claude 4.7+ uses an updated tokenizer that produces ~30% more tokens for the same text</li>
   <li>Everything is counted in tokens: system prompts, messages, tool definitions, images, thinking, and output</li>
 </ul>
@@ -1970,8 +1970,8 @@ Return a JSON array of findings, each with: file, line, severity, description, r
 <table>
   <thead><tr><th>Model</th><th>Input/MTok</th><th>Output/MTok</th><th>Context</th><th>Speed</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td><strong>Fable 5.1</strong></td><td>$10</td><td>$50</td><td>1M</td><td>Slowest</td><td>Most demanding reasoning, research, multi-day agentic tasks</td></tr>
-    <tr><td><strong>Opus 5.5</strong></td><td>$4</td><td>$20</td><td>1M</td><td>Slow</td><td>Complex coding, deep analysis, nuanced reasoning</td></tr>
+    <tr><td><strong>Fable 5.1</strong></td><td>$10</td><td>$50</td><td>1M</td><td>Slower</td><td>Most demanding reasoning, research, multi-day agentic tasks</td></tr>
+    <tr><td><strong>Opus 5.5</strong></td><td>$4</td><td>$20</td><td>1M</td><td>Moderate</td><td>Complex coding, deep analysis, nuanced reasoning</td></tr>
     <tr><td><strong>Sonnet 5</strong></td><td>$2</td><td>$10</td><td>1M</td><td>Fast</td><td>General tasks, coding, chat, content creation</td></tr>
     <tr><td><strong>Haiku 4.5</strong></td><td>$1</td><td>$5</td><td>200K</td><td>Fastest</td><td>Simple classification, routing, high-volume tasks</td></tr>
   </tbody>
@@ -2026,7 +2026,7 @@ Return a JSON array of findings, each with: file, line, severity, description, r
   <li><strong>Automatic caching</strong> &mdash; Set <code>cache_control</code> on top-level blocks (system, tools, messages)</li>
   <li><strong>Explicit caching</strong> &mdash; Per-block <code>cache_control: {"type": "ephemeral"}</code></li>
   <li><strong>TTL</strong>: 5-minute (1.25x write) or 1-hour (2x write); hits cost 0.1x</li>
-  <li><strong>Cache-aware ITPM</strong> &mdash; Cache reads count at reduced rate toward input token limits</li>
+  <li><strong>Cache-aware ITPM</strong> &mdash; Cache reads do NOT count toward ITPM rate limits (except Haiku 3.5)</li>
   <li><strong>Minimum tokens</strong>: 1024 (Haiku), 2048 (Sonnet/Opus) to create a cache entry</li>
   <li><strong>Pre-warming</strong>: <code>max_tokens: 0</code> primes the cache without generating output</li>
   <li><strong>Invalidation hierarchy</strong>: Changing tools invalidates system cache; changing system invalidates message cache. Order: tools &rarr; system &rarr; messages</li>
@@ -3575,10 +3575,10 @@ result = client.messages.<span class="fn">parse</span>(
   <ul class="q-options">
     <li><span class="letter">A</span> Images are free and do not consume any tokens</li>
     <li><span class="letter">B</span> Each image costs a fixed 1,000 tokens regardless of size</li>
-    <li class="correct-option"><span class="letter">C</span> Token cost scales with image dimensions &mdash; roughly (width * height) / 750 tokens, so larger images cost more</li>
+    <li class="correct-option"><span class="letter">C</span> Token cost = ceil(width/28) &times; ceil(height/28) visual tokens &mdash; each 28&times;28 pixel patch costs 1 token</li>
     <li><span class="letter">D</span> Images are converted to text descriptions first and only the text counts</li>
   </ul>
-  <div class="q-explain"><b>Correct: C.</b> Claude's vision calculates token cost based on image dimensions. The approximate formula is (width * height) / 750 tokens. A 1568x1568 image costs roughly 3,280 tokens. Developers should resize images to reasonable dimensions before sending to control costs, especially in high-volume applications.</div>
+  <div class="q-explain"><b>Correct: C.</b> Claude's vision calculates token cost as ceil(width/28) &times; ceil(height/28) visual tokens. Each 28&times;28 pixel patch = 1 token. A 1000&times;1000 image costs ~1,296 tokens. Developers should resize images before sending to control costs, especially in high-volume applications.</div>
 </div>
 
 <!-- Q69 -->
