@@ -2501,10 +2501,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In the hub-spoke model for multi-agent systems, how does communication flow?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Workers communicate directly with each other in a peer-to-peer fashion</li>
+    <li><span class="letter">A</span> Workers communicate directly with each other in a peer-to-peer mesh without any central coordinator</li>
     <li class="correct-option"><span class="letter">B</span> The orchestrator delegates to workers and receives results back; workers never communicate directly</li>
-    <li><span class="letter">C</span> All agents share a single context window and collaborate simultaneously</li>
-    <li><span class="letter">D</span> Workers send tasks to the orchestrator for execution</li>
+    <li><span class="letter">C</span> All agents share a single context window and collaborate simultaneously on the same task</li>
+    <li><span class="letter">D</span> Workers send tasks upward to the orchestrator which executes them on the workers' behalf</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> In the hub-spoke model, communication is one-way: the central orchestrator (hub) sends tasks to specialized workers (spokes) and receives results back. Workers do not communicate with each other directly.</div>
 </div>
@@ -2549,10 +2549,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the key difference between Agentic AI and Generative AI?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Agentic AI uses larger models than Generative AI</li>
-    <li><span class="letter">B</span> Generative AI can use tools but Agentic AI cannot</li>
+    <li><span class="letter">A</span> Agentic AI uses larger models with more parameters, while Generative AI uses smaller, faster models</li>
+    <li><span class="letter">B</span> Generative AI can use tools and take actions, but Agentic AI is limited to text generation</li>
     <li class="correct-option"><span class="letter">C</span> Agentic AI adds tool use, iterative loops, and goal tracking on top of generative capabilities</li>
-    <li><span class="letter">D</span> Agentic AI only works with Claude, while Generative AI works with any model</li>
+    <li><span class="letter">D</span> Agentic AI only works with Claude models, while Generative AI works with any LLM provider</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Agentic AI = Generative AI + Tools + Loops + Goals. While generative AI creates content from prompts (single-turn), agentic AI autonomously plans, uses tools, takes actions, and iterates toward goals.</div>
 </div>
@@ -2581,10 +2581,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In the AI application SDLC, which step should come BEFORE implementation?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Monitor production quality</li>
+    <li><span class="letter">A</span> Monitor production quality and collect user feedback</li>
     <li class="correct-option"><span class="letter">B</span> Design prompts, choose models, and define tool schemas</li>
-    <li><span class="letter">C</span> Deploy with canary rollouts</li>
-    <li><span class="letter">D</span> Run eval suites</li>
+    <li><span class="letter">C</span> Deploy with canary rollouts and staged releases</li>
+    <li><span class="letter">D</span> Run eval suites against production traffic patterns</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> The SDLC order is Plan &rarr; Design &rarr; Implement &rarr; Test &rarr; Deploy &rarr; Monitor &rarr; Iterate. Design (choosing models, architecting prompts, defining schemas) comes before implementation.</div>
 </div>
@@ -2741,10 +2741,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">The Claude Messages API follows which architectural style?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> GraphQL</li>
-    <li><span class="letter">B</span> SOAP</li>
+    <li><span class="letter">A</span> GraphQL (query-based schema with resolvers)</li>
+    <li><span class="letter">B</span> SOAP (XML envelope with WSDL contract)</li>
     <li class="correct-option"><span class="letter">C</span> REST (POST /v1/messages)</li>
-    <li><span class="letter">D</span> gRPC</li>
+    <li><span class="letter">D</span> gRPC (binary protocol with protobuf schemas)</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> The Claude Messages API is a REST API. All requests go through POST /v1/messages. It is stateless (you pass full history each call) and uses JSON payloads for request and response bodies.</div>
 </div>
@@ -2757,10 +2757,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why is asynchronous programming important for Claude applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> The Claude API only supports asynchronous requests</li>
-    <li><span class="letter">B</span> It is required for authentication with API keys</li>
+    <li><span class="letter">A</span> The Claude API only supports asynchronous requests and rejects synchronous calls</li>
+    <li><span class="letter">B</span> It is required for authentication because API key exchange uses async handshakes</li>
     <li class="correct-option"><span class="letter">C</span> It enables non-blocking streaming responses, parallel tool calls, and batch processing</li>
-    <li><span class="letter">D</span> It reduces the cost of API calls by 50%</li>
+    <li><span class="letter">D</span> It reduces the cost of API calls by 50% through request multiplexing and batching</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Asynchronous programming enables non-blocking execution essential for streaming responses (process tokens as they arrive), parallel tool calls (execute multiple tools concurrently), and batch processing (submit and poll for results).</div>
 </div>
@@ -2789,10 +2789,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the purpose of content boundaries in Claude applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> To limit the number of tokens in each message</li>
-    <li><span class="letter">B</span> To define the maximum context window size</li>
+    <li><span class="letter">A</span> To limit the number of tokens in each message to control API costs</li>
+    <li><span class="letter">B</span> To define the maximum context window size allocated per conversation</li>
     <li class="correct-option"><span class="letter">C</span> To separate user content from instructions to prevent prompt injection</li>
-    <li><span class="letter">D</span> To set rate limits for different users</li>
+    <li><span class="letter">D</span> To set rate limits and usage quotas for different user tiers</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Content boundaries separate user content from instructions using XML tags or clear delimiters. This prevents prompt injection by ensuring the model distinguishes between instructions it should follow and user data it should process.</div>
 </div>
@@ -2805,10 +2805,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does "session hygiene" refer to in Claude application design?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Sanitizing API keys after each session</li>
+    <li><span class="letter">A</span> Sanitizing API keys after each session by revoking and regenerating them to prevent credential reuse</li>
     <li class="correct-option"><span class="letter">B</span> Managing conversation state: knowing when to start fresh, summarize, and prune old tool results</li>
-    <li><span class="letter">C</span> Cleaning up temporary files created during tool execution</li>
-    <li><span class="letter">D</span> Rotating API keys between sessions</li>
+    <li><span class="letter">C</span> Cleaning up temporary files and cached artifacts created during tool execution to free disk space</li>
+    <li><span class="letter">D</span> Rotating API keys between sessions using a secrets manager to limit the blast radius of a leak</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Session hygiene is about managing conversation state effectively: knowing when to start a new conversation, when to summarize old context, pruning large tool results, and avoiding context pollution from irrelevant earlier turns.</div>
 </div>
@@ -2821,10 +2821,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the purpose of model version pinning?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> To always use the latest model version automatically</li>
-    <li><span class="letter">B</span> To lock the temperature and max_tokens settings</li>
+    <li><span class="letter">A</span> To always use the latest model version automatically so the application benefits from improvements</li>
+    <li><span class="letter">B</span> To lock the temperature and max_tokens settings so they cannot be overridden at runtime</li>
     <li class="correct-option"><span class="letter">C</span> To lock to a specific model ID to prevent breaking changes when Anthropic updates models</li>
-    <li><span class="letter">D</span> To reduce API costs by using an older model</li>
+    <li><span class="letter">D</span> To reduce API costs by using an older model that is offered at a lower per-token price</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Model version pinning uses a specific model ID (like "claude-sonnet-5-20250514") instead of an alias ("claude-sonnet-5"). This prevents breaking changes when Anthropic updates models. Test new versions with evals before updating the pin.</div>
 </div>
@@ -2837,10 +2837,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does the <code>settings.json</code> file configure in Claude Code?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Only the model and temperature for API calls</li>
-    <li><span class="letter">B</span> Only the system prompt and user prompt templates</li>
+    <li><span class="letter">A</span> Only the model selection and temperature settings for API calls</li>
+    <li><span class="letter">B</span> Only the system prompt and user prompt templates for conversations</li>
     <li class="correct-option"><span class="letter">C</span> Hooks, permissions, allowed tools, MCP servers, and model preferences</li>
-    <li><span class="letter">D</span> Only API key storage and authentication</li>
+    <li><span class="letter">D</span> Only API key storage, authentication, and credential management</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> settings.json in .claude/ configures hooks (PreToolUse/PostToolUse), permissions (allowlists/denylists), allowed tools, MCP server connections, and model preferences. CLAUDE.md is for project instructions, not tool configuration.</div>
 </div>
@@ -2869,10 +2869,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does the <code>-p</code> flag do in Claude Code?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Enables parallel tool execution</li>
-    <li><span class="letter">B</span> Sets the prompt template path</li>
+    <li><span class="letter">A</span> Enables parallel tool execution across multiple concurrent agent threads</li>
+    <li><span class="letter">B</span> Sets the prompt template path for loading reusable system prompt files</li>
     <li class="correct-option"><span class="letter">C</span> Enables pipe/print mode: non-interactive, reads stdin, outputs result, and exits</li>
-    <li><span class="letter">D</span> Enables production mode with higher rate limits</li>
+    <li><span class="letter">D</span> Enables production mode with higher rate limits and priority request routing</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> The -p flag enables pipe/print (headless) mode. It runs non-interactively, can read piped input from stdin, outputs the result, and exits. Perfect for CI/CD pipelines and scripting.</div>
 </div>
@@ -2965,10 +2965,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is model drift in the context of LLM applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> The model physically moving to different data centers</li>
-    <li><span class="letter">B</span> The model becoming more accurate over time automatically</li>
+    <li><span class="letter">A</span> The model physically moving to different data centers as the provider rebalances infrastructure load across regions</li>
+    <li><span class="letter">B</span> The model becoming more accurate over time automatically as it learns from the queries it processes in production</li>
     <li class="correct-option"><span class="letter">C</span> Model behavior changes over time due to provider updates, data distribution shifts, or prompt effectiveness decay</li>
-    <li><span class="letter">D</span> The model losing its training data after extended use</li>
+    <li><span class="letter">D</span> The model losing its training data after extended use because inference gradually degrades the stored weight parameters</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Model drift means behavior changes over time even without retraining. In LLMs, it manifests as model updates by the provider, data distribution shifts (user inputs change), and prompt effectiveness decay. Mitigate with continuous evals and version pinning.</div>
 </div>
@@ -3030,9 +3030,9 @@ result = client.messages.<span class="fn">parse</span>(
   <p class="q-text">What technique does Claude's API use for streaming responses?</p>
   <ul class="q-options">
     <li class="correct-option"><span class="letter">A</span> Server-Sent Events (SSE)</li>
-    <li><span class="letter">B</span> WebSocket</li>
-    <li><span class="letter">C</span> Long polling</li>
-    <li><span class="letter">D</span> gRPC streaming</li>
+    <li><span class="letter">B</span> WebSocket (bidirectional frames)</li>
+    <li><span class="letter">C</span> Long polling (repeated HTTP requests)</li>
+    <li><span class="letter">D</span> gRPC streaming (protobuf-based)</li>
   </ul>
   <div class="q-explain"><b>Correct: A.</b> Claude's API uses Server-Sent Events (SSE) for streaming, not WebSocket. SSE is a one-directional protocol (server to client). Your application may use WebSocket to relay Claude's streaming response to your end users.</div>
 </div>
@@ -3061,10 +3061,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What distinguishes foundational models from task-specific models?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Foundational models are always smaller in parameter count</li>
-    <li><span class="letter">B</span> Foundational models can only perform one task</li>
+    <li><span class="letter">A</span> Foundational models are always smaller in parameter count and designed to run efficiently on edge devices</li>
+    <li><span class="letter">B</span> Foundational models can only perform one task and must be retrained from scratch for each new application</li>
     <li class="correct-option"><span class="letter">C</span> Foundational models are large, pre-trained, and can be used for many tasks without task-specific training</span></li>
-    <li><span class="letter">D</span> Foundational models require fine-tuning for every use case</li>
+    <li><span class="letter">D</span> Foundational models require fine-tuning with labeled data for every use case before they can produce useful outputs</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Foundational models (Claude, GPT, Gemini, Llama) are distinguished by their scale (billions of parameters) and generality (broad capabilities). They can perform many tasks without task-specific training, unlike specialized models built for one purpose.</div>
 </div>
@@ -3093,10 +3093,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why might a model update break an existing Claude application?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Model updates always change the API endpoint</li>
+    <li><span class="letter">A</span> Model updates always change the API endpoint URL, requiring all clients to update their base URL configuration</li>
     <li class="correct-option"><span class="letter">B</span> Updates can change output format, refusal behavior, tool calling patterns, and response length</li>
-    <li><span class="letter">C</span> Model updates require new API keys</li>
-    <li><span class="letter">D</span> Model updates only affect pricing, not behavior</li>
+    <li><span class="letter">C</span> Model updates require new API keys because previous keys are invalidated when a new model version is released</li>
+    <li><span class="letter">D</span> Model updates only affect pricing and rate limits, not the actual behavior or output quality of the model</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Breaking behavior changes across model releases can include changes to output format, refusal behavior, tool calling patterns, and response length. Pin model versions for stability and test with evals before migrating.</div>
 </div>
@@ -3189,10 +3189,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is context isolation in multi-agent systems?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Encrypting the context window for security</li>
-    <li><span class="letter">B</span> Using separate API keys for each agent</li>
+    <li><span class="letter">A</span> Encrypting the context window contents so other agents in the system cannot read them</li>
+    <li><span class="letter">B</span> Using separate API keys for each agent to track per-agent costs and rate limits</li>
     <li class="correct-option"><span class="letter">C</span> Keeping separate agents in their own context windows to prevent cross-contamination</li>
-    <li><span class="letter">D</span> Isolating the model from external tool access</li>
+    <li><span class="letter">D</span> Isolating the model from external tool access by sandboxing all tool execution environments</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Context isolation keeps separate agents in their own context windows. This prevents cross-contamination (irrelevant information from one task affecting another), enables parallelism, and ensures each agent sees only relevant information.</div>
 </div>
@@ -3205,10 +3205,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does the /compact command do in Claude Code?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Compresses the model's weights for faster inference</li>
-    <li><span class="letter">B</span> Removes all tool definitions from the context</li>
+    <li><span class="letter">A</span> Compresses the model's weights for faster inference and lower memory consumption</li>
+    <li><span class="letter">B</span> Removes all tool definitions from the context to free up available token space</li>
     <li class="correct-option"><span class="letter">C</span> Summarizes the conversation history to reduce token count while preserving key information</li>
-    <li><span class="letter">D</span> Switches to a smaller model to reduce costs</li>
+    <li><span class="letter">D</span> Switches to a smaller model like Haiku to reduce costs while preserving conversation state</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Compaction (triggered by /compact or automatically when context grows large) summarizes the conversation history to reduce token count while preserving key information. This frees up context window space for continued work.</div>
 </div>
@@ -3253,10 +3253,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the Golden Rule of prompt engineering?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Always use the most expensive model for best results</li>
-    <li><span class="letter">B</span> Keep prompts as short as possible</li>
+    <li><span class="letter">A</span> Always use the most expensive model available because higher cost correlates directly with better output quality</li>
+    <li><span class="letter">B</span> Keep prompts as short as possible because concise instructions reduce token costs and improve response speed</li>
     <li class="correct-option"><span class="letter">C</span> If a human expert would need more context to complete the task, so does the model</li>
-    <li><span class="letter">D</span> Never use examples in prompts</li>
+    <li><span class="letter">D</span> Never use examples in prompts because they constrain the model's creativity and limit response diversity</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> The Golden Rule: if a human expert would need more context to complete the task, so does the model. Provide all necessary context explicitly. Don't assume the model knows things that aren't in the prompt.</div>
 </div>
@@ -3365,10 +3365,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why can't prompt injection override a Claude hook?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Hooks use encryption to prevent tampering</li>
+    <li><span class="letter">A</span> Hooks use end-to-end encryption to prevent tampering with their configuration or execution results</li>
     <li class="correct-option"><span class="letter">B</span> Hooks are deterministic shell commands in settings.json, not prompt-based instructions</li>
-    <li><span class="letter">C</span> Hooks are processed before the model receives any input</li>
-    <li><span class="letter">D</span> Hooks use a separate API key with higher permissions</li>
+    <li><span class="letter">C</span> Hooks are processed before the model receives any input, so the model never sees them in context</li>
+    <li><span class="letter">D</span> Hooks use a separate API key with higher permissions that overrides the model's access controls</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Hooks are shell commands configured in settings.json that execute deterministically. They are code, not prompts &mdash; the model cannot override them through clever prompting. This makes hooks the strongest layer of enforcement.</div>
 </div>
@@ -3381,10 +3381,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is "Secure by Design" (SbD) in Claude application development?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> A security audit performed after deployment</li>
-    <li><span class="letter">B</span> Using the most expensive model for better safety</li>
+    <li><span class="letter">A</span> A comprehensive security audit performed after deployment to production, identifying and patching vulnerabilities found during real-world usage</li>
+    <li><span class="letter">B</span> Using the most expensive model tier for better safety, since larger models have stronger built-in guardrails and refusal training</li>
     <li class="correct-option"><span class="letter">C</span> Building security into the application from the start: threat modeling during design, restrictive defaults, validating all inputs/outputs</li>
-    <li><span class="letter">D</span> Disabling all tool access for maximum security</li>
+    <li><span class="letter">D</span> Disabling all tool access and external integrations for maximum security, limiting the application to text generation only</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Secure by Design means building security in from the start, not bolting it on later. This includes threat modeling during design, defaulting to restrictive permissions, validating all inputs/outputs, and applying the principle of least privilege.</div>
 </div>
@@ -3429,10 +3429,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the Agent-to-Agent (A2A) protocol?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> An Anthropic-proprietary protocol for Claude-to-Claude communication</li>
-    <li><span class="letter">B</span> A protocol for users to communicate with agents via chat</li>
+    <li><span class="letter">A</span> An Anthropic-proprietary protocol for Claude-to-Claude communication within the Anthropic API ecosystem</li>
+    <li><span class="letter">B</span> A protocol for end users to communicate with agents via structured chat messages and commands</li>
     <li class="correct-option"><span class="letter">C</span> Google's protocol enabling direct peer-to-peer communication between agents without a central coordinator</li>
-    <li><span class="letter">D</span> A protocol for connecting MCP servers to each other</li>
+    <li><span class="letter">D</span> A protocol for connecting MCP servers to each other and sharing tool registries across deployments</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Agent-to-Agent (A2A) is Google's protocol for direct communication between agents without going through a central coordinator. It enables peer-to-peer collaboration, shared state, and distributed problem solving. ACP (Agent Communication Protocol) is a related but distinct emerging standard.</div>
 </div>
@@ -3445,10 +3445,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is a programmatic gate?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> A prompt instruction that tells the model not to call certain tools</li>
+    <li><span class="letter">A</span> A prompt instruction in the system message that tells the model not to call certain restricted tools</li>
     <li class="correct-option"><span class="letter">B</span> A code-level check that blocks or modifies tool calls, more reliable than prompt-based restrictions</li>
-    <li><span class="letter">C</span> A rate-limiting mechanism built into the Claude API</li>
-    <li><span class="letter">D</span> A feature flag system for enabling/disabling tools</li>
+    <li><span class="letter">C</span> A rate-limiting mechanism built into the Claude API that throttles tool calls per minute</li>
+    <li><span class="letter">D</span> A feature flag system for dynamically enabling or disabling tools based on deployment environment</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> A programmatic gate is actual code logic (not a prompt) that blocks or modifies tool calls. Because it is code, it cannot be overridden by clever prompting. More reliable than prompt-based restrictions for enforcing business rules.</div>
 </div>
@@ -3461,10 +3461,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is a key architectural difference between AWS Strands Agents SDK and LangGraph?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Strands uses a visual graph builder while LangGraph uses YAML configs</li>
-    <li><span class="letter">B</span> LangGraph is model-agnostic while Strands only works with Amazon Bedrock</li>
+    <li><span class="letter">A</span> Strands uses a visual drag-and-drop graph builder while LangGraph relies on YAML configuration files to define workflow topology</li>
+    <li><span class="letter">B</span> LangGraph is fully model-agnostic and works with any provider, while Strands only works with models hosted on Amazon Bedrock</li>
     <li class="correct-option"><span class="letter">C</span> Strands uses a simple model-driven loop (tool-use cycle) while LangGraph requires defining explicit graph nodes and edges for control flow</li>
-    <li><span class="letter">D</span> They are functionally identical but maintained by different companies</li>
+    <li><span class="letter">D</span> They are functionally identical in architecture and capabilities but are maintained by different companies (AWS vs LangChain)</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Strands Agents follows a model-driven architecture where the LLM decides which tools to call in a simple loop. LangGraph requires developers to define explicit graph structures with nodes (processing steps) and edges (transitions), giving more control but requiring more upfront design. This is the fundamental design philosophy difference.</div>
 </div>
@@ -3477,10 +3477,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What distinguishes <em>agentic AI</em> from <em>generative AI</em>?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Generative AI can use tools while agentic AI cannot</li>
-    <li><span class="letter">B</span> Agentic AI produces creative content while generative AI follows fixed rules</li>
+    <li><span class="letter">A</span> Generative AI can use tools and take actions in external systems, while agentic AI is limited to generating text and images</li>
+    <li><span class="letter">B</span> Agentic AI produces creative content like stories and artwork, while generative AI follows fixed deterministic rules and templates</li>
     <li class="correct-option"><span class="letter">C</span> Agentic AI autonomously plans, decides, and takes actions toward goals, while generative AI produces content in response to a single prompt</li>
-    <li><span class="letter">D</span> They are different names for the same concept</li>
+    <li><span class="letter">D</span> They are different names for the same concept, with "agentic" being the newer marketing term used by cloud providers</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Generative AI produces content (text, images, code) from a prompt in a single pass. Agentic AI adds autonomy: the system can plan multi-step strategies, make decisions, invoke tools, observe results, and iterate toward a goal without continuous human input. The agentic loop is the core differentiator.</div>
 </div>
@@ -3493,10 +3493,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In a multi-agent system, what is the primary benefit of giving each agent a separate context window?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> It reduces overall token costs because agents share cached tokens</li>
+    <li><span class="letter">A</span> It reduces overall token costs because agents share cached tokens from the orchestrator's prompt cache entries</li>
     <li class="correct-option"><span class="letter">B</span> Each agent can focus on its specialized task without being distracted or confused by unrelated context from other agents</li>
-    <li><span class="letter">C</span> It allows agents to run on different LLM providers simultaneously</li>
-    <li><span class="letter">D</span> It enables agents to share memory across conversation sessions</li>
+    <li><span class="letter">C</span> It allows agents to run on different LLM providers simultaneously, mixing models from different vendors in one workflow</li>
+    <li><span class="letter">D</span> It enables agents to share persistent memory across conversation sessions through a common context store</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Separate context windows prevent cross-contamination of information between agents. A coding agent does not need customer service conversation history, and mixing contexts degrades performance. Each agent stays focused on its domain, improving quality and reducing hallucinations.</div>
 </div>
@@ -3509,10 +3509,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In the AWS Strands Agents SDK, what is the role of the <code>tools</code> parameter when creating an agent?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> It defines the graph edges for workflow routing</li>
-    <li><span class="letter">B</span> It sets the system prompt for the agent</li>
+    <li><span class="letter">A</span> It defines the graph edges and transition rules for routing between workflow nodes in the agent's execution graph</li>
+    <li><span class="letter">B</span> It sets the system prompt and persona instructions that shape the agent's personality and response style</li>
     <li class="correct-option"><span class="letter">C</span> It provides a list of callable tools that the model can autonomously select and invoke during its reasoning loop</li>
-    <li><span class="letter">D</span> It configures which MCP servers the agent connects to</li>
+    <li><span class="letter">D</span> It configures which MCP servers the agent connects to and how it authenticates with each remote tool provider</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> In Strands, the <code>tools</code> parameter gives the agent a set of Python-callable tools. During the model-driven loop, the LLM decides which tools to call, calls them, observes results, and continues reasoning. The developer defines the tools; the model drives the selection.</div>
 </div>
@@ -3525,10 +3525,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">When scoping an AI application, what is the key difference between <em>functional</em> requirements and <em>infrastructure</em> requirements?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Functional requirements describe hardware needs; infrastructure requirements describe software behavior</li>
-    <li><span class="letter">B</span> Infrastructure requirements are optional; functional requirements are mandatory</li>
+    <li><span class="letter">A</span> Functional requirements describe hardware and compute needs; infrastructure requirements describe the software's user-facing behavior and features</li>
+    <li><span class="letter">B</span> Infrastructure requirements are optional and only needed at scale; functional requirements are mandatory for every application regardless of size</li>
     <li class="correct-option"><span class="letter">C</span> Functional requirements define what the system does (features, behavior); infrastructure requirements define how it runs (latency, uptime, scaling, compliance)</li>
-    <li><span class="letter">D</span> Functional requirements are written by engineers; infrastructure requirements are written by product managers</li>
+    <li><span class="letter">D</span> Functional requirements are written by engineers during implementation; infrastructure requirements are written by product managers during the planning phase</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Functional requirements specify the system's capabilities and behavior (e.g., "summarize documents up to 50 pages"). Infrastructure requirements specify non-functional properties like latency targets, availability SLAs, throughput limits, data residency, and compliance constraints. Both are critical for production AI applications.</div>
 </div>
@@ -3541,10 +3541,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Which data access pattern is appropriate when a Claude-powered application needs to read from a customer's database at query time?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Embed the database credentials directly in the system prompt</li>
-    <li><span class="letter">B</span> Let Claude generate raw SQL and execute it directly against the database</li>
+    <li><span class="letter">A</span> Embed the database credentials directly in the system prompt so the model can construct authenticated connection strings on its own</li>
+    <li><span class="letter">B</span> Let Claude generate raw SQL queries based on the user's question and execute them directly against the production database</li>
     <li class="correct-option"><span class="letter">C</span> Define a tool that the model can call, which your server-side code uses to query the database with proper authorization and parameterized queries</li>
-    <li><span class="letter">D</span> Pre-load the entire database into the context window for each request</li>
+    <li><span class="letter">D</span> Pre-load the entire database contents into the context window for each request so the model can search the data directly</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> The tool-use pattern is the correct approach: define a tool schema describing the query operation, let the model invoke it, and have your backend execute the actual database query with proper authorization, parameterized queries (to prevent SQL injection), and result filtering. Never expose credentials to the model or execute model-generated SQL directly.</div>
 </div>
@@ -3557,10 +3557,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">When using the Messages API with streaming, which server-sent event (SSE) type indicates that the model wants to invoke a tool?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> <code>content_block_start</code> with type <code>"text"</code></li>
+    <li><span class="letter">A</span> <code>content_block_start</code> with type <code>"text"</code>, followed by <code>content_block_delta</code> events containing the tool name and arguments as plain text</li>
     <li class="correct-option"><span class="letter">B</span> <code>content_block_start</code> with type <code>"tool_use"</code>, followed by <code>content_block_delta</code> events containing the JSON input</li>
-    <li><span class="letter">C</span> <code>message_stop</code> with a tool payload</li>
-    <li><span class="letter">D</span> <code>tool_call</code> event with the complete tool input</li>
+    <li><span class="letter">C</span> <code>message_stop</code> with a tool payload containing the complete tool name, ID, and input arguments in a single final event</li>
+    <li><span class="letter">D</span> <code>tool_call</code> event with the complete tool input delivered as a single atomic event containing all arguments at once</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> In streaming mode, a tool call arrives as a <code>content_block_start</code> event with <code>type: "tool_use"</code> containing the tool name and ID, followed by <code>content_block_delta</code> events that stream the partial JSON input. The developer must accumulate these deltas and parse the complete JSON once <code>content_block_stop</code> arrives.</div>
 </div>
@@ -3573,10 +3573,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">When sending an image to Claude via the Messages API, how does the image affect token usage?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Images are free and do not consume any tokens</li>
-    <li><span class="letter">B</span> Each image costs a fixed 1,000 tokens regardless of size</li>
+    <li><span class="letter">A</span> Images are free and do not consume any tokens because vision processing uses a separate billing pipeline from text generation</li>
+    <li><span class="letter">B</span> Each image costs a fixed 1,000 tokens regardless of size or resolution, applied as a flat surcharge per image in the request</li>
     <li class="correct-option"><span class="letter">C</span> Token cost = ceil(width/28) &times; ceil(height/28) visual tokens &mdash; each 28&times;28 pixel patch costs 1 token</li>
-    <li><span class="letter">D</span> Images are converted to text descriptions first and only the text counts</li>
+    <li><span class="letter">D</span> Images are converted to text descriptions by a vision encoder first, and only the generated text description counts toward token usage</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Claude's vision calculates token cost as ceil(width/28) &times; ceil(height/28) visual tokens. Each 28&times;28 pixel patch = 1 token. A 1000&times;1000 image costs ~1,296 tokens. Developers should resize images before sending to control costs, especially in high-volume applications.</div>
 </div>
@@ -3589,10 +3589,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">When using the Message Batches API, what are the possible <code>result.type</code> values for a completed batch item?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> <code>success</code> and <code>failure</code></li>
-    <li><span class="letter">B</span> <code>completed</code>, <code>failed</code>, and <code>pending</code></li>
+    <li><span class="letter">A</span> <code>success</code> and <code>failure</code> (binary outcome for each batch item)</li>
+    <li><span class="letter">B</span> <code>completed</code>, <code>failed</code>, and <code>pending</code> (three-state lifecycle)</li>
     <li class="correct-option"><span class="letter">C</span> <code>succeeded</code>, <code>errored</code>, <code>canceled</code>, and <code>expired</code></li>
-    <li><span class="letter">D</span> <code>done</code> and <code>error</code></li>
+    <li><span class="letter">D</span> <code>done</code> and <code>error</code> (simple two-value status field)</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> The Message Batches API returns four possible result types: <code>succeeded</code> (request completed normally), <code>errored</code> (the request encountered an error), <code>canceled</code> (the batch was canceled before processing), and <code>expired</code> (the request was not processed within the 24-hour window). Your code must handle all four cases.</div>
 </div>
@@ -3605,10 +3605,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why is asynchronous programming critical in production AI applications that call the Claude API?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> The Claude API only accepts async requests</li>
+    <li><span class="letter">A</span> The Claude API only accepts async requests and rejects synchronous HTTP connections, returning a 405 error if a blocking call is detected</li>
     <li class="correct-option"><span class="letter">B</span> LLM API calls have high latency (seconds); async/await prevents blocking the event loop or thread pool, allowing the server to handle other requests concurrently</li>
-    <li><span class="letter">C</span> Async code runs faster than synchronous code on the CPU</li>
-    <li><span class="letter">D</span> It is only needed for streaming responses, not regular API calls</li>
+    <li><span class="letter">C</span> Async code runs faster than synchronous code on the CPU because the JavaScript V8 engine and Python's asyncio optimize async functions at the bytecode level</li>
+    <li><span class="letter">D</span> It is only needed for streaming responses that use Server-Sent Events, not for regular synchronous API calls that return a complete JSON response</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> LLM API calls typically take 1-30+ seconds. In a synchronous server, each request blocks a thread during this wait. Async programming (async/await in Python, Promises in JS) releases the thread to handle other requests while waiting for the API response, dramatically improving throughput and server utilization.</div>
 </div>
@@ -3621,10 +3621,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the "content boundary" defense against prompt injection?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Encrypting user input before sending it to the model</li>
+    <li><span class="letter">A</span> Encrypting user input with AES-256 before sending it to the model so that injected instructions are unreadable during inference</li>
     <li class="correct-option"><span class="letter">B</span> Clearly separating trusted instructions (system prompt) from untrusted data (user input) using XML tags, delimiters, or structured message roles so the model can distinguish between them</li>
-    <li><span class="letter">C</span> Limiting the number of characters in user input</li>
-    <li><span class="letter">D</span> Running user input through a separate LLM to check for malicious content</li>
+    <li><span class="letter">C</span> Limiting the number of characters in user input to a fixed maximum so that prompt injection payloads are truncated before reaching the model</li>
+    <li><span class="letter">D</span> Running user input through a separate classifier LLM to detect and strip malicious instructions before passing it to the primary model</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Content boundaries use structural separation &mdash; XML tags like <code>&lt;user_input&gt;</code>, message role distinctions, or explicit delimiters &mdash; to help the model differentiate trusted instructions from untrusted external data. This makes it harder for injected instructions in user content to be interpreted as system-level commands.</div>
 </div>
@@ -3637,10 +3637,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is "session hygiene" in the context of multi-turn AI applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Clearing browser cookies after each API call</li>
-    <li><span class="letter">B</span> Using HTTPS instead of HTTP for API communication</li>
+    <li><span class="letter">A</span> Clearing browser cookies and local storage after each API call to ensure previous session data does not leak into subsequent model requests</li>
+    <li><span class="letter">B</span> Using HTTPS with TLS 1.3 instead of HTTP for all API communication to encrypt conversation data in transit between client and server</li>
     <li class="correct-option"><span class="letter">C</span> Practices like limiting conversation length, periodically summarizing context, and clearing stale sessions to prevent context pollution, token waste, and degraded model performance</li>
-    <li><span class="letter">D</span> Sanitizing HTML output before rendering in the browser</li>
+    <li><span class="letter">D</span> Sanitizing HTML output and escaping special characters before rendering model responses in the browser to prevent cross-site scripting vulnerabilities</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Session hygiene ensures that multi-turn conversations remain effective. Key practices include: capping conversation length (to avoid context window limits), summarizing older messages to preserve relevant context while reducing tokens, expiring idle sessions, and preventing one user's context from leaking into another's session.</div>
 </div>
@@ -3653,10 +3653,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why should production applications pin a specific model version (e.g., <code>claude-sonnet-4-20250514</code>) instead of using the alias (e.g., <code>claude-sonnet-4-latest</code>)?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Pinned versions are cheaper than aliases</li>
-    <li><span class="letter">B</span> Aliases are deprecated and will be removed</li>
+    <li><span class="letter">A</span> Pinned versions are billed at a lower per-token rate than aliases because Anthropic offers a discount for committing to a specific model release</li>
+    <li><span class="letter">B</span> Aliases are deprecated in the latest API version and will be removed in a future release, so all production applications must migrate to pinned versions</li>
     <li class="correct-option"><span class="letter">C</span> Aliases auto-update to newer versions which may change behavior, breaking evals and prompts; pinned versions ensure deterministic behavior until you explicitly upgrade and re-test</li>
-    <li><span class="letter">D</span> Pinned versions have lower latency than aliases</li>
+    <li><span class="letter">D</span> Pinned versions are routed to dedicated inference hardware with lower latency, while aliases share capacity across a general pool of servers</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Model aliases like <code>claude-sonnet-4-latest</code> automatically point to the newest release. When Anthropic updates the model behind the alias, your application's behavior may change without any code change. Pinning a dated version (e.g., <code>claude-sonnet-4-20250514</code>) ensures stable behavior. You upgrade deliberately, re-run evals, and verify before switching.</div>
 </div>
@@ -3669,10 +3669,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the difference between Claude Code's <code>--print</code> (headless) mode and its interactive (streaming) mode?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Headless mode only works with Claude Haiku; interactive mode works with all models</li>
+    <li><span class="letter">A</span> Headless mode only works with Claude Haiku for cost efficiency; interactive mode supports all model tiers including Opus and Sonnet for complex tasks</li>
     <li class="correct-option"><span class="letter">B</span> <code>--print</code> mode accepts a prompt via stdin/args and outputs the result to stdout (for scripts and CI), while interactive mode provides a REPL with live streaming, tool approvals, and multi-turn conversation</li>
-    <li><span class="letter">C</span> Interactive mode cannot use tools; headless mode can</li>
-    <li><span class="letter">D</span> They are identical except headless mode disables syntax highlighting</li>
+    <li><span class="letter">C</span> Interactive mode cannot use tools and only supports text generation; headless mode has full tool access including file editing and bash execution</li>
+    <li><span class="letter">D</span> They are functionally identical in capabilities and tool access, but headless mode disables syntax highlighting and color output for cleaner log capture</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> <code>claude --print "prompt"</code> runs non-interactively: it sends the prompt, executes with auto-accepted permissions, and writes the final output to stdout &mdash; ideal for CI/CD pipelines, shell scripts, and automation. Interactive mode opens a REPL where the user can approve/deny tool calls, continue the conversation, and see live streaming output.</div>
 </div>
@@ -3685,10 +3685,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the "LLM-as-Judge" evaluation pattern?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Using an LLM to generate test cases for another LLM</li>
-    <li><span class="letter">B</span> Having users rate LLM outputs on a 1-5 scale</li>
+    <li><span class="letter">A</span> Using an LLM to automatically generate diverse test cases and edge-case inputs for stress-testing another LLM's capabilities</li>
+    <li><span class="letter">B</span> Having end users rate LLM outputs on a 1-5 Likert scale through in-app feedback widgets and aggregating the scores</li>
     <li class="correct-option"><span class="letter">C</span> Using a separate LLM call to score or grade the output of your primary LLM, applying criteria defined in a rubric prompt</li>
-    <li><span class="letter">D</span> Training a fine-tuned model specifically for evaluation tasks</li>
+    <li><span class="letter">D</span> Training a fine-tuned model specifically for evaluation tasks using labeled examples of good and bad LLM outputs</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> LLM-as-Judge uses a second LLM call (often a stronger model) to evaluate the primary model's output against defined criteria. The judge receives the input, the output, and a rubric, then returns a score or pass/fail. This scales evaluation beyond what manual human review can handle, though it should be calibrated against human judgments.</div>
 </div>
@@ -3701,10 +3701,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is LangSmith primarily used for in AI application development?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Fine-tuning language models on custom datasets</li>
+    <li><span class="letter">A</span> Fine-tuning language models on custom datasets by providing a managed training pipeline with hyperparameter optimization and automatic checkpointing</li>
     <li class="correct-option"><span class="letter">B</span> Tracing, monitoring, and evaluating LLM application runs &mdash; capturing inputs, outputs, latencies, and token usage across each step of a chain or agent</li>
-    <li><span class="letter">C</span> Hosting and serving language models in production</li>
-    <li><span class="letter">D</span> Managing API keys across multiple LLM providers</li>
+    <li><span class="letter">C</span> Hosting and serving language models in production with auto-scaling infrastructure, load balancing, and built-in GPU cluster management</li>
+    <li><span class="letter">D</span> Managing API keys, rate limits, and billing across multiple LLM providers through a unified credential vault and rotation system</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> LangSmith is an observability and evaluation platform for LLM applications. It traces every step of an LLM chain or agent execution, recording inputs, outputs, latencies, token counts, and errors. This enables debugging, regression testing, and performance monitoring in both development and production environments.</div>
 </div>
@@ -3717,10 +3717,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is "model drift" and why does it matter for deployed AI applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> When a model's weights change during inference due to hardware errors</li>
-    <li><span class="letter">B</span> When users gradually lose interest in the AI application</li>
+    <li><span class="letter">A</span> When a model's weights gradually change during inference due to hardware errors, causing accumulating numerical instability that degrades output quality over time</li>
+    <li><span class="letter">B</span> When users gradually lose interest in the AI application and engagement metrics decline, leading to reduced traffic and eventual application decommissioning</li>
     <li class="correct-option"><span class="letter">C</span> When a model's behavior changes over time &mdash; due to provider updates, changed data distributions, or version upgrades &mdash; causing outputs to diverge from original expectations</li>
-    <li><span class="letter">D</span> When the model starts generating longer responses over time</li>
+    <li><span class="letter">D</span> When the model starts generating progressively longer responses over time as the conversation history grows, consuming more tokens and increasing latency per turn</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Model drift occurs when an LLM's behavior changes relative to what your application was tested against. Causes include: the provider updating the model behind an alias, input data distributions shifting, or upgrading to a new model version. Continuous evaluation and monitoring are essential to detect drift before it impacts users.</div>
 </div>
@@ -3733,10 +3733,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">Why are LLM outputs nondeterministic even when given the same input?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> The model's weights change between requests</li>
+    <li><span class="letter">A</span> The model's weights are updated with each request through online learning, so repeated inputs encounter a slightly different model each time</li>
     <li class="correct-option"><span class="letter">B</span> Token sampling uses probability distributions with randomness controlled by temperature; even at temperature 0, floating-point arithmetic across GPU batches can produce slight variations</li>
-    <li><span class="letter">C</span> The API intentionally randomizes outputs for safety reasons</li>
-    <li><span class="letter">D</span> Network latency causes different tokens to arrive in different orders</li>
+    <li><span class="letter">C</span> The API intentionally injects random noise into outputs as a safety measure to prevent adversarial extraction of training data through repeated queries</li>
+    <li><span class="letter">D</span> Network latency and packet reordering cause different tokens to arrive in different sequences, which the client reassembles nondeterministically</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> LLMs predict a probability distribution over tokens and sample from it. The <code>temperature</code> parameter controls randomness: higher values increase diversity. Even at temperature 0 (greedy decoding), GPU floating-point nondeterminism across parallel computations can cause minor variations. Developers must design applications that tolerate this inherent nondeterminism.</div>
 </div>
@@ -3765,10 +3765,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">How should a production application track and control Claude API token usage?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Estimate tokens manually by counting words and multiplying by 1.5</li>
+    <li><span class="letter">A</span> Estimate tokens manually by counting words in the prompt and multiplying by 1.5, then aggregate the estimates in a spreadsheet for monthly cost forecasting</li>
     <li class="correct-option"><span class="letter">B</span> Read the <code>usage.input_tokens</code> and <code>usage.output_tokens</code> fields from each API response, log them per request, and set up alerts for anomalous usage patterns</li>
-    <li><span class="letter">C</span> Check the Anthropic dashboard once per month for total usage</li>
-    <li><span class="letter">D</span> Token tracking is not possible with the Claude API</li>
+    <li><span class="letter">C</span> Check the Anthropic billing dashboard once per month for total usage across all API keys, and use that aggregate number for budgeting and capacity planning</li>
+    <li><span class="letter">D</span> Token tracking is not possible with the Claude API because the tokenizer is proprietary and token counts are not exposed in the response payload</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Every Messages API response includes a <code>usage</code> object with <code>input_tokens</code> and <code>output_tokens</code> counts. Production applications should log these per request, aggregate by user/feature, set budget alerts, and implement <code>max_tokens</code> limits on responses. This data is essential for cost forecasting, detecting runaway agentic loops, and per-customer billing.</div>
 </div>
@@ -3781,10 +3781,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is "tool output pruning" and when should you implement it?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Removing unused tools from the tool definitions to reduce prompt size</li>
-    <li><span class="letter">B</span> Deleting old tool call results from the database after 30 days</li>
+    <li><span class="letter">A</span> Removing unused tools from the tool definitions array to reduce prompt size and lower the number of input tokens consumed by tool schema descriptions</li>
+    <li><span class="letter">B</span> Deleting old tool call results from the persistent database after 30 days to comply with data retention policies and reduce storage costs in production</li>
     <li class="correct-option"><span class="letter">C</span> Truncating or summarizing large tool results before passing them back to the model to avoid filling the context window with verbose data like full API responses or large file contents</li>
-    <li><span class="letter">D</span> Automatically retrying failed tool calls with smaller inputs</li>
+    <li><span class="letter">D</span> Automatically retrying failed tool calls with progressively smaller input payloads until the tool succeeds or a maximum retry count is reached</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Tool calls can return massive payloads (e.g., a full database dump or API response). Passing all of it back into the context window wastes tokens and can push out important earlier context. Tool output pruning truncates, filters, or summarizes these results before sending them back, keeping only the data the model needs to continue its reasoning.</div>
 </div>
@@ -3797,10 +3797,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the purpose of input sanitization before passing user content to an LLM prompt?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> To compress the input and reduce token costs</li>
-    <li><span class="letter">B</span> To translate user input into English before processing</li>
+    <li><span class="letter">A</span> To compress the input using tokenizer-aware encoding so that fewer tokens are consumed, reducing per-request costs without losing semantic meaning</li>
+    <li><span class="letter">B</span> To translate user input into English before processing because Claude's reasoning quality is highest in English and degrades in other languages</li>
     <li class="correct-option"><span class="letter">C</span> To escape or neutralize special characters, control sequences, and potential injection patterns that could manipulate model behavior or break prompt structure</li>
-    <li><span class="letter">D</span> To correct spelling and grammar errors in user input</li>
+    <li><span class="letter">D</span> To correct spelling and grammar errors in user input so the model can parse the intent more accurately and produce higher-quality responses</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Input sanitization removes or escapes characters and patterns that could break prompt templates (e.g., closing XML tags, role delimiters) or inject malicious instructions. Common techniques include stripping control characters, escaping angle brackets in XML-based prompts, and validating input length and format before interpolation into the prompt.</div>
 </div>
@@ -3813,10 +3813,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does "defensive parsing" mean when processing LLM outputs in production code?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Using a firewall to filter model responses before they reach the user</li>
+    <li><span class="letter">A</span> Using a web application firewall with custom rules to filter and block model responses that contain disallowed content before they reach the end user</li>
     <li class="correct-option"><span class="letter">B</span> Writing parsers that handle malformed, unexpected, or partially valid model outputs gracefully &mdash; using try/catch, fallback values, and validation &mdash; because LLM output format is never guaranteed</li>
-    <li><span class="letter">C</span> Encrypting the model output before storing it in a database</li>
-    <li><span class="letter">D</span> Asking the model to double-check its own output format before returning</li>
+    <li><span class="letter">C</span> Encrypting the model output with application-level encryption before storing it in a database to protect sensitive generated content at rest</li>
+    <li><span class="letter">D</span> Asking the model to double-check its own output format in a second pass and regenerate any malformed sections before returning the final result</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> LLMs may produce output that deviates from the requested format: incomplete JSON, extra text around structured data, missing fields, or unexpected types. Defensive parsing uses try/catch blocks, JSON schema validation, regex extraction with fallbacks, and default values to handle these cases without crashing the application.</div>
 </div>
@@ -3829,10 +3829,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In AI application security, what is the distinction between authentication, authorization, and confidentiality?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> They are three different names for the same access control mechanism</li>
-    <li><span class="letter">B</span> Authentication encrypts data, authorization decrypts it, confidentiality verifies it</li>
+    <li><span class="letter">A</span> They are three different names for the same access control mechanism, applied at different layers of the network stack</li>
+    <li><span class="letter">B</span> Authentication encrypts data at rest, authorization decrypts it for authorized users, and confidentiality verifies data integrity during transit</li>
     <li class="correct-option"><span class="letter">C</span> Authentication verifies <em>who</em> the user is, authorization determines <em>what</em> they can do, and confidentiality ensures the model does not reveal data the user should not see</li>
-    <li><span class="letter">D</span> Authentication and authorization are server-side concerns; confidentiality is only a client-side concern</li>
+    <li><span class="letter">D</span> Authentication and authorization are server-side infrastructure concerns; confidentiality is only a client-side responsibility handled by browser encryption</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> These are three distinct layers: Authentication (identity verification via API keys, OAuth, etc.), Authorization (permission checks &mdash; can this user access this resource or invoke this tool?), and Confidentiality (ensuring the model does not leak data from other users, system prompts, or restricted sources in its responses). All three are required for secure AI applications.</div>
 </div>
@@ -3845,10 +3845,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What does "Secure by Design" mean in the context of building AI applications?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Adding security features only after the application is deployed</li>
-    <li><span class="letter">B</span> Using the most expensive model because it is more secure</li>
+    <li><span class="letter">A</span> Adding security features only after the application is deployed to production, because real-world attack patterns cannot be predicted during development and testing phases</li>
+    <li><span class="letter">B</span> Using the most expensive model tier because larger models have stronger built-in safety training, more robust refusal behavior, and better resistance to prompt injection</li>
     <li class="correct-option"><span class="letter">C</span> Building security controls into the application architecture from the start &mdash; including input validation, output filtering, least-privilege tool access, and audit logging &mdash; rather than bolting them on later</li>
-    <li><span class="letter">D</span> Relying entirely on the LLM provider's built-in safety features</li>
+    <li><span class="letter">D</span> Relying entirely on the LLM provider's built-in safety features and content filtering, since the provider has the most comprehensive training data for detecting harmful outputs</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> Secure by Design means security is a first-class architectural concern, not an afterthought. For AI applications, this includes: validating all inputs before they reach the model, filtering outputs before they reach users, granting tools minimal permissions, logging all actions for audit, and designing the system so that even a compromised model cannot access unauthorized resources.</div>
 </div>
@@ -3861,10 +3861,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is "content policy layering" in an AI application's guardrail strategy?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> Using multiple LLM providers so that if one fails content filtering, another catches it</li>
+    <li><span class="letter">A</span> Using multiple LLM providers in a failover chain so that if one provider's content filter misses a violation, the next provider's model catches and blocks it</li>
     <li class="correct-option"><span class="letter">B</span> Applying multiple independent layers of content filtering &mdash; such as input screening, system prompt instructions, output classifiers, and post-processing rules &mdash; so no single layer is a single point of failure</li>
-    <li><span class="letter">C</span> Stacking multiple system prompts on top of each other</li>
-    <li><span class="letter">D</span> Creating separate content policies for each user role</li>
+    <li><span class="letter">C</span> Stacking multiple system prompts on top of each other in the messages array, each reinforcing the same safety rules from a different angle to increase compliance</li>
+    <li><span class="letter">D</span> Creating separate content policies for each user role and dynamically loading the appropriate policy document based on the authenticated user's permissions</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> Content policy layering applies defense in depth to content safety. Layer 1: screen inputs for policy violations before they reach the model. Layer 2: system prompt instructions defining acceptable behavior. Layer 3: the model's own training-based refusals. Layer 4: output classifiers or regex filters that catch policy violations the model missed. Layer 5: human review for high-stakes actions. Each layer catches what others miss.</div>
 </div>
@@ -3877,10 +3877,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">What is the Agent Communication Protocol (ACP)?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> A protocol for connecting MCP servers to tool providers</li>
+    <li><span class="letter">A</span> A transport protocol for connecting MCP servers to tool providers, enabling tools to be registered and invoked across distributed infrastructure</li>
     <li class="correct-option"><span class="letter">B</span> An emerging open protocol for agent-to-agent communication that standardizes how agents discover each other, exchange messages, and coordinate tasks across different frameworks</li>
-    <li><span class="letter">C</span> An Anthropic-specific protocol for Claude-to-Claude communication</li>
-    <li><span class="letter">D</span> A network protocol for low-latency model inference</li>
+    <li><span class="letter">C</span> An Anthropic-specific protocol for Claude-to-Claude communication that enables multi-agent orchestration within the Anthropic ecosystem</li>
+    <li><span class="letter">D</span> A network protocol optimized for low-latency model inference that reduces round-trip time between client applications and LLM hosting endpoints</li>
   </ul>
   <div class="q-explain"><b>Correct: B.</b> ACP (Agent Communication Protocol) is an emerging open standard for inter-agent communication. It defines how agents advertise their capabilities, discover other agents, exchange structured messages, and coordinate multi-step tasks &mdash; regardless of the underlying framework or model provider. It aims to solve the interoperability problem in multi-agent systems.</div>
 </div>
@@ -3893,10 +3893,10 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">How does Google's Agent-to-Agent (A2A) protocol differ from the Model Context Protocol (MCP)?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> A2A replaces MCP entirely; they cannot be used together</li>
-    <li><span class="letter">B</span> MCP handles agent-to-agent communication while A2A handles tool access</li>
+    <li><span class="letter">A</span> A2A replaces MCP entirely as the next-generation standard; they cannot be used together because A2A subsumes all MCP functionality into a single protocol</li>
+    <li><span class="letter">B</span> MCP handles agent-to-agent communication and orchestration workflows, while A2A handles tool access, resource discovery, and external API integrations</li>
     <li class="correct-option"><span class="letter">C</span> MCP connects an agent to tools and data sources (agent-to-tool), while A2A enables direct peer-to-peer communication between agents (agent-to-agent); they are complementary</li>
-    <li><span class="letter">D</span> A2A is MCP version 2.0 with backward compatibility</li>
+    <li><span class="letter">D</span> A2A is the successor release to MCP (version 2.0) with full backward compatibility, maintaining the same server primitives while adding inter-agent messaging</li>
   </ul>
   <div class="q-explain"><b>Correct: C.</b> MCP and A2A solve different problems and are complementary. MCP standardizes how an agent connects to external tools, data sources, and APIs (the agent-to-resource interface). A2A standardizes how agents communicate with each other for collaboration, delegation, and coordination (the agent-to-agent interface). A production system may use both.</div>
 </div>
@@ -3909,9 +3909,9 @@ result = client.messages.<span class="fn">parse</span>(
   </div>
   <p class="q-text">In MCP, what is the difference between <em>resources</em>, <em>tools</em>, and <em>prompts</em>?</p>
   <ul class="q-options">
-    <li><span class="letter">A</span> They are three names for the same concept: callable functions</li>
-    <li><span class="letter">B</span> Resources are for reading files, tools are for writing files, and prompts are for chat</li>
-    <li><span class="letter">C</span> Resources are server-side only; tools and prompts are client-side only</li>
+    <li><span class="letter">A</span> They are three names for the same concept: callable functions that the model can invoke, differing only in how the server labels them for documentation purposes</li>
+    <li><span class="letter">B</span> Resources are for reading files from the filesystem, tools are for writing and modifying files, and prompts are for managing the chat conversation history</li>
+    <li><span class="letter">C</span> Resources are server-side only and never exposed to clients; tools and prompts are client-side constructs that the MCP client generates from local configuration</li>
     <li class="correct-option"><span class="letter">D</span> Resources expose readable data (like GET endpoints), tools expose executable actions with side effects (like POST endpoints), and prompts expose reusable prompt templates that the server offers to clients</li>
   </ul>
   <div class="q-explain"><b>Correct: D.</b> MCP defines three primitive types: <strong>Resources</strong> are data endpoints the client can read (similar to REST GET &mdash; e.g., file contents, database records). <strong>Tools</strong> are actions the model can invoke that may have side effects (similar to REST POST &mdash; e.g., sending an email, creating a record). <strong>Prompts</strong> are reusable prompt templates the server defines and the client can surface to users or inject into conversations.</div>
