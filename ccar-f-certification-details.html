@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCAR-F — Claude Certified Architect Foundations — Complete Certification Details</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#fff;--surface:#f8f9fa;--surface2:#f0f1f3;--text:#1a1a2e;--text2:#555770;
+    --accent:#0891b2;--accent2:#0e7490;--accent-soft:#ecfeff;
+    --green:#059669;--green-bg:#ecfdf5;--orange:#d97706;--orange-bg:#fffbeb;
+    --red:#dc2626;--red-bg:#fef2f2;--purple:#7c3aed;--purple-bg:#f5f3ff;
+    --border:#e2e8f0;--code-bg:#1e293b;--code-ink:#e2e8f0;--radius:10px;
+  }
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0c1220;--surface:#151f30;--surface2:#1e2d42;--text:#e2e8f0;--text2:#94a3b8;
+    --accent:#22d3ee;--accent2:#67e8f9;--accent-soft:#0c2a30;
+    --green:#34d399;--green-bg:#052e16;--orange:#fbbf24;--orange-bg:#422006;
+    --red:#f87171;--red-bg:#450a0a;--purple:#a78bfa;--purple-bg:#1e1b4b;
+    --border:#1e2d42;--code-bg:#0a101c;--code-ink:#cbd5e1;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0c1220;--surface:#151f30;--surface2:#1e2d42;--text:#e2e8f0;--text2:#94a3b8;
+    --accent:#22d3ee;--accent2:#67e8f9;--accent-soft:#0c2a30;
+    --green:#34d399;--green-bg:#052e16;--orange:#fbbf24;--orange-bg:#422006;
+    --red:#f87171;--red-bg:#450a0a;--purple:#a78bfa;--purple-bg:#1e1b4b;
+    --border:#1e2d42;--code-bg:#0a101c;--code-ink:#cbd5e1;
+  }
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;max-width:820px;margin:0 auto;padding:0 20px 60px;}
+  .theme-toggle{position:fixed;top:14px;right:14px;z-index:999;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;}
+  .theme-toggle:hover{border-color:var(--accent);}
+  .site-logo{position:fixed;top:14px;left:14px;z-index:998;width:44px;height:44px;border-radius:10px;background:rgba(8,145,178,0.08);padding:2px;animation:logoGlow 3s ease-in-out infinite,logoFloat 4s ease-in-out infinite;}
+  @keyframes logoGlow{0%,100%{box-shadow:0 0 8px rgba(8,145,178,0.4),0 0 20px rgba(8,145,178,0.1);}50%{box-shadow:0 0 16px rgba(8,145,178,0.8),0 0 40px rgba(8,145,178,0.3);}}
+  @keyframes logoFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+  @media print{.theme-toggle,.site-logo,.no-print{display:none!important;}body{max-width:100%;padding:0;font-size:11pt;}.section{page-break-inside:avoid;}.cover{min-height:auto;padding:30pt 0 20pt;}}
+
+  /* Cover */
+  .cover{padding:56px 0 32px;text-align:center;border-bottom:2px solid var(--accent);margin-bottom:36px;}
+  .cert-badge{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#d97706,#f59e0b);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(217,119,6,0.3);}
+  .cert-badge-inner{width:100px;height:100px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #d97706;}
+  .cert-badge-inner .top{font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#d97706;}
+  .cert-badge-inner .mid{font-size:14px;font-weight:800;color:#d97706;line-height:1.1;}
+  .cert-badge-inner .bot{font-size:7px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2);}
+  .cover h1{font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:8px;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .cover .subtitle{font-size:1.1rem;color:var(--text2);margin-bottom:6px;}
+  .cover .meta{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text2);letter-spacing:0.5px;}
+
+  /* Common */
+  h2{font-size:1.4rem;font-weight:800;margin:40px 0 6px;padding-bottom:6px;border-bottom:2px solid var(--accent);}
+  h2 .num{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px;}
+  h3{font-size:1.05rem;font-weight:700;margin:20px 0 8px;color:var(--accent2);}
+  p{margin:6px 0;}ul,ol{padding-left:22px;margin:6px 0;}li{margin:4px 0;}strong{font-weight:600;}
+  .table-wrap{overflow-x:auto;margin:12px 0;border:1px solid var(--border);border-radius:var(--radius);}
+  table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+  thead th{text-align:left;padding:10px 14px;font-weight:600;font-size:0.78rem;background:var(--surface);border-bottom:2px solid var(--border);white-space:nowrap;}
+  tbody td{padding:8px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+  tbody tr:hover{background:var(--surface);}
+  code{font-family:'JetBrains Mono',monospace;font-size:0.82em;background:var(--accent-soft);padding:2px 6px;border-radius:4px;color:var(--accent2);}
+  .highlight{background:var(--accent-soft);border-radius:var(--radius);padding:14px 18px;margin:14px 0;border:1px solid var(--border);}
+  .highlight .hl-title{font-weight:700;font-size:0.9rem;color:var(--accent2);margin-bottom:4px;}
+  .highlight p{font-size:0.88rem;}
+  .notice{border-left:4px solid;padding:10px 14px;border-radius:0 var(--radius) var(--radius) 0;font-size:0.85rem;margin:14px 0;line-height:1.5;}
+  .notice b{display:block;margin-bottom:2px;}
+  .notice-tip{border-color:var(--green);background:var(--green-bg);}
+  .notice-warn{border-color:var(--orange);background:var(--orange-bg);}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;}
+  .card-title{font-weight:700;font-size:0.92rem;color:var(--accent);margin-bottom:6px;}
+  .card p,.card ul{font-size:0.85rem;color:var(--text2);}
+  .card li{margin:2px 0;}
+
+  .domain-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:10px 0;border-left:4px solid var(--accent);}
+  .domain-card.d1{border-left-color:#0891b2;}.domain-card.d2{border-left-color:#7c3aed;}.domain-card.d3{border-left-color:#059669;}.domain-card.d4{border-left-color:#d97706;}
+  .domain-num{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;}
+  .domain-title{font-size:1rem;font-weight:700;margin:2px 0 6px;}
+  .domain-topics{font-size:0.85rem;color:var(--text2);padding-left:18px;margin:4px 0;}
+  .domain-topics li{margin:2px 0;}
+
+  .timeline{position:relative;padding-left:30px;margin:16px 0;}
+  .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border);}
+  .timeline-item{position:relative;margin-bottom:20px;}
+  .timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);}
+  .timeline-item .t-label{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;}
+  .timeline-item .t-text{font-size:0.9rem;margin-top:2px;}
+
+  .checklist{list-style:none;padding-left:0;}
+  .checklist li{padding:6px 0;font-size:0.9rem;display:flex;align-items:flex-start;gap:8px;}
+  .checklist li::before{content:'☐';font-size:1.1rem;color:var(--accent);flex-shrink:0;}
+
+  .footer{text-align:center;padding:24px 0;margin-top:40px;border-top:1px solid var(--border);font-size:0.8rem;color:var(--text2);}
+  @media(max-width:600px){.cover h1{font-size:1.5rem;}.card-grid{grid-template-columns:1fr;}.cert-badge{width:100px;height:100px;}.cert-badge-inner{width:82px;height:82px;}}
+</style>
+</head>
+<body>
+
+<div class="site-logo no-print" title="SG Interview Prep"><img src="sg-logo.png" alt="SG" style="width:100%;height:100%;border-radius:8px;"></div>
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">&#9790;</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cert-badge">
+    <div class="cert-badge-inner">
+      <span class="top">Foundations</span>
+      <span class="mid">Claude<br>Certified<br>Architect</span>
+      <span class="bot">CCAR-F</span>
+    </div>
+  </div>
+  <h1>Claude Certified Architect Foundations</h1>
+  <div class="subtitle">CCAR-F — Complete Certification Details</div>
+  <p style="font-size:0.92rem;color:var(--text2);max-width:560px;margin:10px auto 0;">Everything about the certification: what it is, who it's for, the complete 18-topic syllabus, exam format, how to register, preparation roadmap, and career value.</p>
+  <div class="meta" style="margin-top:14px;">Credential by Anthropic &bull; Prep Course by Tutorials Dojo &bull; September 2026</div>
+</div>
+
+<!-- ====== SECTION 1 ====== -->
+<h2><span class="num">Section 01</span>What is CCAR-F?</h2>
+
+<p>The <strong>Claude Certified Architect Foundations (CCAR-F)</strong> is the highest-level foundational certification in Anthropic's Claude certification program. It validates your ability to <strong>design, build, and orchestrate</strong> production-grade AI systems using Claude.</p>
+
+<div class="highlight">
+  <div class="hl-title">CCAR-F in One Sentence</div>
+  <p>Proves you can architect multi-agent systems, design tool ecosystems, manage context windows, implement guardrails, and make cost/latency trade-offs for Claude-based production applications.</p>
+</div>
+
+<h3>The Three Certification Levels</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Level</th><th>Code</th><th>Who</th><th>Question</th><th>Difficulty</th></tr></thead>
+  <tbody>
+    <tr><td>Associate</td><td>CCAO-F</td><td>Business users</td><td>"How do I USE Claude effectively?"</td><td>Beginner</td></tr>
+    <tr><td>Developer</td><td>CCDV-F</td><td>Developers</td><td>"How do I BUILD with Claude?"</td><td>Intermediate</td></tr>
+    <tr><td><strong>Architect</strong></td><td><strong>CCAR-F</strong></td><td><strong>Architects</strong></td><td><strong>"How do I DESIGN Claude systems?"</strong></td><td><strong>Advanced</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Who Should Take CCAR-F?</h3>
+<ul>
+  <li><strong>AI/ML Architects</strong> designing enterprise Claude integrations</li>
+  <li><strong>Senior Developers</strong> building multi-agent systems</li>
+  <li><strong>Technical Leads</strong> making model selection and architecture decisions</li>
+  <li><strong>Platform Engineers</strong> setting up Claude infrastructure</li>
+  <li><strong>Solutions Architects</strong> advising clients on Claude adoption</li>
+</ul>
+
+<h3>Prerequisites</h3>
+<div class="notice notice-tip">
+  <b>No formal prerequisites</b>
+  You can take CCAR-F without first passing CCAO-F or CCDV-F. However, Anthropic recommends having developer-level Claude experience. You should be comfortable with the Messages API, tool use, prompt engineering, and have built at least one agent with Claude.
+</div>
+
+<!-- ====== SECTION 2 ====== -->
+<h2><span class="num">Section 02</span>Complete Exam Syllabus — 18 Topics</h2>
+
+<p>The CCAR-F exam covers <strong>4 domains</strong> with <strong>18 topics</strong> total. Each domain tests a different architectural competency.</p>
+
+<h3>Domain 1: Agentic Architecture &amp; Orchestration</h3>
+<p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">How to design, implement, and manage autonomous agent systems.</p>
+
+<div class="domain-card d1">
+  <div class="domain-num">Topic 1 — The Agentic Loop</div>
+  <div class="domain-title">Understanding and implementing the core agent execution cycle</div>
+  <ul class="domain-topics">
+    <li>What is the agentic loop (request → reason → tool_use → execute → result → reason → response)</li>
+    <li>Understanding the stop_reason field (end_turn, tool_use, max_tokens, refusal)</li>
+    <li>How to branch on tool_use and append tool results to history</li>
+    <li>How to continue the loop correctly with termination conditions</li>
+    <li>Common mistake: Skipping history on tool results</li>
+    <li>Common mistake: Ending the loop too early</li>
+  </ul>
+</div>
+
+<div class="domain-card d1">
+  <div class="domain-num">Topic 2 — Hub-and-Spoke Model</div>
+  <div class="domain-title">Multi-agent orchestration with coordinator and worker agents</div>
+  <ul class="domain-topics">
+    <li>How communication flows in hub-and-spoke (one-way delegation)</li>
+    <li>How a coordinator decomposes tasks, invokes subagents, and passes context</li>
+    <li>How to aggregate results and handle subagent errors</li>
+    <li>Why subagents have no memory of the coordinator</li>
+    <li>How to diagnose incomplete coordinator output</li>
+    <li>Multi-agent workflow patterns (sequential, parallel, router)</li>
+    <li>Retrieval-Augmented Generation (RAG) with Claude</li>
+  </ul>
+</div>
+
+<div class="domain-card d1">
+  <div class="domain-num">Topic 3 — Task Tool and Parallel Execution</div>
+  <div class="domain-title">Spawning and managing concurrent agent tasks</div>
+  <ul class="domain-topics">
+    <li>Why coordinators need task in allowedTools</li>
+    <li>How to run subagents in parallel vs sequential</li>
+    <li>What is the stakes-proportionate rule (match review depth to risk)</li>
+  </ul>
+</div>
+
+<div class="domain-card d1">
+  <div class="domain-num">Topic 4 — Programmatic Control and Hooks</div>
+  <div class="domain-title">Code-level enforcement beyond prompts</div>
+  <ul class="domain-topics">
+    <li>What is a programmatic gate (code-level check, not a prompt)</li>
+    <li>PreToolUse hooks (block/modify before execution)</li>
+    <li>PostToolUse hooks (format/test/log after execution)</li>
+    <li>Why prompts alone cannot guarantee correctness</li>
+  </ul>
+</div>
+
+<h3>Domain 2: Tool Design &amp; MCP Integration</h3>
+<p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">How to design, describe, and manage tools for Claude agents.</p>
+
+<div class="domain-card d2">
+  <div class="domain-num">Topic 5 — Tool Descriptions</div>
+  <div class="domain-title">Writing descriptions that drive correct tool selection</div>
+  <ul class="domain-topics">
+    <li>Why tool descriptions drive selection (poor description = wrong tool)</li>
+    <li>What vague descriptions look like and how to diagnose misselection</li>
+    <li>How to write a complete description (what + when + returns + vs similar)</li>
+    <li>Why the "vs similar tools" clause matters most</li>
+    <li>Claude Vision and multimodal inputs</li>
+  </ul>
+</div>
+
+<div class="domain-card d2">
+  <div class="domain-num">Topic 6 — Error Handling Patterns</div>
+  <div class="domain-title">Designing robust error responses for agents</div>
+  <ul class="domain-topics">
+    <li>How to handle transient, validation, business logic, and permission failures</li>
+    <li>Access failure vs valid empty result (critical distinction)</li>
+    <li>How to design distinguishable error responses</li>
+  </ul>
+</div>
+
+<div class="domain-card d2">
+  <div class="domain-num">Topic 7 — MCP Configuration</div>
+  <div class="domain-title">Connecting Claude to external tools via Model Context Protocol</div>
+  <ul class="domain-topics">
+    <li>What goes in project-level vs user-level MCP config</li>
+    <li>How to diagnose missing MCP server access</li>
+  </ul>
+</div>
+
+<div class="domain-card d2">
+  <div class="domain-num">Topic 8 — Tool Scoping and Agent Roles</div>
+  <div class="domain-title">Principle of least privilege for agent tool access</div>
+  <ul class="domain-topics">
+    <li>Why too many tools hurt selection (token cost, ambiguity)</li>
+    <li>How many tools each agent should have (5-15 rule)</li>
+    <li>How to scope tools to agent roles (researcher, coder, reviewer, deployer)</li>
+  </ul>
+</div>
+
+<h3>Domain 3: Claude Code Configuration &amp; Workflows</h3>
+<p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">How to configure Claude Code for teams and production workflows.</p>
+
+<div class="domain-card d3">
+  <div class="domain-num">Topic 9 — CLAUDE.md Hierarchy</div>
+  <div class="domain-title">Layered instruction system for projects</div>
+  <ul class="domain-topics">
+    <li>The 4-level hierarchy: user → project → directory → subdirectory</li>
+    <li>What goes in each level (preferences vs standards vs module rules)</li>
+    <li>How to diagnose ignored team conventions</li>
+  </ul>
+</div>
+
+<div class="domain-card d3">
+  <div class="domain-num">Topic 10 — Agent Skills</div>
+  <div class="domain-title">Packaged, repeatable workflows</div>
+  <ul class="domain-topics">
+    <li>CLAUDE.md vs skills: how loading differs (auto vs on-demand)</li>
+    <li>Where universal standards vs task-specific workflows belong</li>
+    <li>Skills compared to everything else (CLAUDE.md vs Skills vs Hooks vs MCP)</li>
+    <li>Advanced skills: configuration and scaling</li>
+  </ul>
+</div>
+
+<div class="domain-card d3">
+  <div class="domain-num">Topic 11 — Path-Specific Rules and Context: Fork</div>
+  <div class="domain-title">Context isolation for monorepo patterns</div>
+  <ul class="domain-topics">
+    <li>What is context:Fork and when to use it</li>
+    <li>Path-specific rules vs directory CLAUDE.md</li>
+    <li>How path-specific rules affect the token budget</li>
+  </ul>
+</div>
+
+<div class="domain-card d3">
+  <div class="domain-num">Topic 12 — CLI Flags and CI/CD</div>
+  <div class="domain-title">Automating Claude Code in pipelines</div>
+  <ul class="domain-topics">
+    <li>What the -p flag does (headless/pipe mode)</li>
+    <li>How to run Claude Code in CI/CD (GitHub Actions, GitLab)</li>
+  </ul>
+</div>
+
+<h3>Domain 4: Prompt Engineering &amp; Structured Output</h3>
+<p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">Advanced prompting, schema design, and production optimization.</p>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 13 — Match Criteria and Few-Shot Examples</div>
+  <div class="domain-title">Precise control over Claude's decision-making</div>
+  <ul class="domain-topics">
+    <li>Why "only if you're confident" doesn't work (anti-pattern)</li>
+    <li>How to write explicit match criteria with objective conditions</li>
+    <li>How to define non-matches and edge cases</li>
+    <li>When and how many few-shot examples to use (3-5)</li>
+    <li>Showing reasoning in examples, not just answers</li>
+  </ul>
+</div>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 14 — JSON Schema and Structured Output</div>
+  <div class="domain-title">Guaranteed schema conformance for production</div>
+  <ul class="domain-topics">
+    <li>Preventing syntax errors with JSON schema (output_config.format)</li>
+    <li>Handling fabricated data and empty fields (nullable types)</li>
+    <li>Using optional, nullable fields, and enum values</li>
+    <li>Retry-with-error-feedback technique for business validation</li>
+  </ul>
+</div>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 15 — API Selection and Cost vs Latency</div>
+  <div class="domain-title">Making informed model and API choices</div>
+  <ul class="domain-topics">
+    <li>When to use synchronous vs batch API</li>
+    <li>Choosing between cost and latency (model routing strategies)</li>
+    <li>Prompt caching and extended thinking trade-offs</li>
+  </ul>
+</div>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 16 — Context Window Management</div>
+  <div class="domain-title">Preventing context rot and managing long conversations</div>
+  <ul class="domain-topics">
+    <li>Progressive summarization and detail loss</li>
+    <li>Case-facts blocks for preserving critical information</li>
+    <li>The "Lost in the Middle" problem and mitigation</li>
+    <li>Placing key findings at the top of tool results</li>
+    <li>Using structured tags and trimming verbose results</li>
+  </ul>
+</div>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 17 — Escalation Triggers</div>
+  <div class="domain-title">When to stop automation and involve humans</div>
+  <ul class="domain-topics">
+    <li>Valid triggers: human requests, authority gaps, verification flags</li>
+    <li>Why frustration or complexity alone are NOT valid triggers</li>
+    <li>Handling frustrated customers with simple issues</li>
+    <li>When to escalate immediately (safety, legal, financial)</li>
+  </ul>
+</div>
+
+<div class="domain-card d4">
+  <div class="domain-num">Topic 18 — Error Context and Common Mistakes</div>
+  <div class="domain-title">Avoiding the top pitfalls in agentic systems</div>
+  <ul class="domain-topics">
+    <li>Structured error context in multi-agent systems</li>
+    <li>Importance of suggesting alternative approaches in error responses</li>
+    <li>Common mistake: waiting until retries are exhausted for non-retryable errors</li>
+  </ul>
+</div>
+
+<!-- ====== SECTION 3 ====== -->
+<h2><span class="num">Section 03</span>Exam Format &amp; Details</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Detail</th><th>Information</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Certification Name</strong></td><td>Claude Certified Architect — Foundations</td></tr>
+    <tr><td><strong>Certification Code</strong></td><td>CCAR-F</td></tr>
+    <tr><td><strong>Issuing Organization</strong></td><td>Anthropic</td></tr>
+    <tr><td><strong>Prep Course Provider</strong></td><td>Tutorials Dojo (via LinkedIn Learning)</td></tr>
+    <tr><td><strong>Domains</strong></td><td>4 domains, 18 topics</td></tr>
+    <tr><td><strong>Questions</strong></td><td>~60-75 multiple choice</td></tr>
+    <tr><td><strong>Duration</strong></td><td>~90-120 minutes</td></tr>
+    <tr><td><strong>Passing Score</strong></td><td>~70-80% (estimated)</td></tr>
+    <tr><td><strong>Delivery</strong></td><td>Online proctored</td></tr>
+    <tr><td><strong>Estimated Cost</strong></td><td>$200-350 USD</td></tr>
+    <tr><td><strong>Validity</strong></td><td>~2 years</td></tr>
+    <tr><td><strong>Prerequisites</strong></td><td>None (Developer experience recommended)</td></tr>
+    <tr><td><strong>Language</strong></td><td>English</td></tr>
+    <tr><td><strong>Retake Policy</strong></td><td>After waiting period (typically 14-30 days)</td></tr>
+    <tr><td><strong>Account Type</strong></td><td>Personal email works — no company account needed</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ====== SECTION 4 ====== -->
+<h2><span class="num">Section 04</span>Domain Weightage (Estimated)</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Domain</th><th>Topics</th><th>Estimated Weight</th><th>Focus</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1. Agentic Architecture</strong></td><td>Topics 1-4</td><td>~30%</td><td>Loops, hub-spoke, parallel execution, hooks</td></tr>
+    <tr><td><strong>2. Tool Design &amp; MCP</strong></td><td>Topics 5-8</td><td>~25%</td><td>Descriptions, errors, MCP, scoping</td></tr>
+    <tr><td><strong>3. Configuration &amp; Workflows</strong></td><td>Topics 9-12</td><td>~20%</td><td>CLAUDE.md, skills, fork, CI/CD</td></tr>
+    <tr><td><strong>4. Prompting &amp; Output</strong></td><td>Topics 13-18</td><td>~25%</td><td>Match criteria, JSON, cost, context, escalation</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-warn">
+  <b>Note</b>
+  Domain 1 (Agentic Architecture) is the largest and most heavily tested. Focus most of your study time here — especially the agentic loop, hub-and-spoke model, and common mistakes.
+</div>
+
+<!-- ====== SECTION 5 ====== -->
+<h2><span class="num">Section 05</span>Skills Validated</h2>
+
+<p>Passing CCAR-F proves you can:</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Design Agent Systems</div>
+    <ul>
+      <li>Implement agentic loops correctly</li>
+      <li>Choose between single-agent and multi-agent architectures</li>
+      <li>Handle tool results, errors, and loop termination</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Architect Tool Ecosystems</div>
+    <ul>
+      <li>Write effective tool descriptions</li>
+      <li>Design error responses agents can act on</li>
+      <li>Configure MCP for enterprise integrations</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Manage Production Systems</div>
+    <ul>
+      <li>Configure CLAUDE.md for teams</li>
+      <li>Implement hooks and guardrails</li>
+      <li>Run Claude Code in CI/CD pipelines</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Optimize Performance</div>
+    <ul>
+      <li>Make cost vs latency trade-offs</li>
+      <li>Manage context windows at scale</li>
+      <li>Design escalation triggers and fallbacks</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== SECTION 6 ====== -->
+<h2><span class="num">Section 06</span>Preparation Roadmap — 8 Weeks</h2>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="t-label">Week 1-2: Foundations</div>
+    <div class="t-text">Get comfortable with Claude API. Build a simple tool-using agent. Understand the agentic loop, stop_reasons, and tool results. Complete Claude Academy courses.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 3-4: Domain 1 — Agentic Architecture</div>
+    <div class="t-text">Study hub-and-spoke model. Build a multi-agent system with coordinator + workers. Implement parallel execution. Practice error handling in loops. Complete LinkedIn Learning Topics 1-4.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 5: Domain 2 — Tool Design &amp; MCP</div>
+    <div class="t-text">Write tool descriptions with "vs similar tools" clauses. Connect an MCP server. Design distinguishable error responses. Practice tool scoping. Complete Topics 5-8.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 6: Domain 3 — Configuration &amp; Workflows</div>
+    <div class="t-text">Set up CLAUDE.md hierarchy for a project. Create a custom skill. Run Claude Code in CI/CD. Practice context:Fork with path-specific rules. Complete Topics 9-12.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 7: Domain 4 — Prompting &amp; Output</div>
+    <div class="t-text">Practice match criteria and few-shot examples. Implement structured output with Pydantic/Zod. Study context window management (Lost in the Middle, case-facts blocks). Learn escalation patterns. Complete Topics 13-18.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="t-label">Week 8: Review &amp; Exam</div>
+    <div class="t-text">Take the 87-question practice test. Review weak areas. Re-read official docs for topics you scored low on. Schedule and take the exam.</div>
+  </div>
+</div>
+
+<!-- ====== SECTION 7 ====== -->
+<h2><span class="num">Section 07</span>How to Register (Personal Account)</h2>
+
+<ol>
+  <li><strong>Create a Claude.ai account</strong> at claude.ai with your personal email (free)</li>
+  <li><strong>Get API access</strong> at platform.claude.com — create an API key for hands-on practice</li>
+  <li><strong>Complete the prep course</strong> on LinkedIn Learning (search "Anthropic Claude Certified Architect Foundations CCAR-F")</li>
+  <li><strong>Find the exam registration link</strong> — check:
+    <ul>
+      <li>The LinkedIn Learning course description (Tutorials Dojo includes exam links)</li>
+      <li>tutorialsdojo.com — Anthropic Claude certifications section</li>
+      <li>academy.claude.com — certification links</li>
+    </ul>
+  </li>
+  <li><strong>Register with your personal email</strong> — no company account required</li>
+  <li><strong>Pay the exam fee</strong> with personal credit/debit card</li>
+  <li><strong>Schedule your exam</strong> — choose date and time</li>
+  <li><strong>Take the exam</strong> — online proctored from home</li>
+</ol>
+
+<div class="notice notice-tip">
+  <b>What You Need for Exam Day</b>
+  Stable internet &bull; Webcam + microphone &bull; Government photo ID &bull; Quiet, clean room &bull; No phone, no notes, no second monitor
+</div>
+
+<!-- ====== SECTION 8 ====== -->
+<h2><span class="num">Section 08</span>Study Resources</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Resource</th><th>Type</th><th>Cost</th><th>What It Covers</th></tr></thead>
+  <tbody>
+    <tr><td><strong>LinkedIn Learning Course</strong></td><td>Video course</td><td>$29.99/mo</td><td>All 18 topics with instructor explanation</td></tr>
+    <tr><td><strong>CCAR-F Study Guide (our file)</strong></td><td>HTML/PDF</td><td>Free</td><td>All 18 topics + 87 interactive MCQs</td></tr>
+    <tr><td><strong>Claude Academy</strong></td><td>Online courses</td><td>Free</td><td>AI Fluency, Claude Code 101, Claude Code in Action</td></tr>
+    <tr><td><strong>Official Documentation</strong></td><td>Web docs</td><td>Free</td><td>Everything — the source of all exam content</td></tr>
+    <tr><td><strong>Claude.ai (Free)</strong></td><td>Hands-on</td><td>Free</td><td>Practice prompting, projects, artifacts</td></tr>
+    <tr><td><strong>Claude API</strong></td><td>Hands-on</td><td>Pay per token</td><td>Build agents, tool use, streaming, structured output</td></tr>
+    <tr><td><strong>Prompt Engineering Tutorial</strong></td><td>GitHub repo</td><td>Free</td><td>Interactive prompt engineering exercises</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ====== SECTION 9 ====== -->
+<h2><span class="num">Section 09</span>After You Pass</h2>
+
+<h3>Claim Your Credential</h3>
+<ol>
+  <li>Download your <strong>digital certificate</strong> (PDF) from the exam platform</li>
+  <li>Claim your <strong>digital badge</strong> (Credly or similar)</li>
+  <li>Add to <strong>LinkedIn</strong>: Profile → Licenses &amp; Certifications → Add
+    <ul>
+      <li>Name: Claude Certified Architect — Foundations (CCAR-F)</li>
+      <li>Issuing organization: Anthropic</li>
+      <li>Issue date: your exam date</li>
+      <li>Credential ID: from your certificate</li>
+    </ul>
+  </li>
+  <li>Add to your <strong>resume</strong> under Certifications</li>
+  <li>Share on <strong>social media</strong> — LinkedIn post announcing your achievement</li>
+</ol>
+
+<h3>Career Impact</h3>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Roles This Opens</div>
+    <ul>
+      <li>AI Solutions Architect</li>
+      <li>ML Platform Engineer</li>
+      <li>AI/ML Technical Lead</li>
+      <li>GenAI Consultant</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Skills Demonstrated</div>
+    <ul>
+      <li>Multi-agent system design</li>
+      <li>Production AI deployment</li>
+      <li>Cost/performance optimization</li>
+      <li>Enterprise tool integration</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Complements Well With</div>
+    <ul>
+      <li>AWS AI/ML certifications</li>
+      <li>Google Cloud AI certs</li>
+      <li>Azure AI certifications</li>
+      <li>LangChain / LlamaIndex expertise</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== SECTION 10 ====== -->
+<h2><span class="num">Section 10</span>Key Exam Topics — Quick Reference</h2>
+
+<p>The most heavily tested concepts to know cold:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Must Know</th><th>Key Fact</th></tr></thead>
+  <tbody>
+    <tr><td>Agentic Loop</td><td>Always append assistant turn BEFORE tool_result. Check ALL content blocks for tool_use, not just the first.</td></tr>
+    <tr><td>Hub-and-Spoke</td><td>Spokes have NO memory of the coordinator. Each spoke is a fresh API call with its own context window.</td></tr>
+    <tr><td>Stakes Rule</td><td>High-stakes changes = more verification, less parallelism. Low-stakes = parallelize aggressively.</td></tr>
+    <tr><td>Prompts vs Hooks</td><td>Prompts are probabilistic (Claude might ignore). Hooks are deterministic (code always runs). Use both.</td></tr>
+    <tr><td>Tool Descriptions</td><td>The "vs similar tools" clause is the most important part — tells Claude WHEN to use THIS tool vs alternatives.</td></tr>
+    <tr><td>Access vs Empty</td><td>"You don't have access" ≠ "query returned no results." Claude needs different next steps for each.</td></tr>
+    <tr><td>CLAUDE.md Hierarchy</td><td>Deeper files override shallower ones. User → Project → Directory → Subdirectory.</td></tr>
+    <tr><td>Skills vs CLAUDE.md</td><td>CLAUDE.md loads automatically (always present). Skills load on demand (progressive disclosure saves tokens).</td></tr>
+    <tr><td>"Only if confident"</td><td>Anti-pattern — Claude lacks calibrated uncertainty. Replace with explicit, objective match criteria.</td></tr>
+    <tr><td>Nullable Fields</td><td>Use <code>"type": ["string", "null"]</code> + "return null if unknown" to prevent fabricated data in structured output.</td></tr>
+    <tr><td>Lost in the Middle</td><td>LLMs attend strongly to beginning and end of context. Put key findings FIRST in tool results.</td></tr>
+    <tr><td>Escalation</td><td>Frustration alone is NOT a valid trigger. Valid: human request, authority gap, verification flag, safety concern.</td></tr>
+    <tr><td>Retryable Errors</td><td>429, 500, timeout = retry. 401, 400, 404 = DON'T retry (permanent failure). Check error type FIRST.</td></tr>
+    <tr><td>Tool Count</td><td>5-15 tools per agent. More than 20 = split into specialized agents or use tool_search.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>CCAR-F — Claude Certified Architect Foundations — Complete Details</p>
+  <p>Information compiled from official Anthropic resources and LinkedIn Learning. September 2026.</p>
+  <p>Open in browser → Ctrl+P → Save as PDF</p>
+  <p style="margin-top:8px;">Created with &#9829; by <strong>Sumit Gaidhani</strong></p>
+</footer>
+
+<script>
+function toggleTheme(){var h=document.documentElement;if(h.getAttribute('data-theme')==='dark'){h.removeAttribute('data-theme');try{localStorage.setItem('ccar_detail_theme','light');}catch(e){}document.querySelector('.theme-toggle').innerHTML='&#9790;';}else{h.setAttribute('data-theme','dark');try{localStorage.setItem('ccar_detail_theme','dark');}catch(e){}document.querySelector('.theme-toggle').innerHTML='&#9788;';}}
+(function(){try{if(localStorage.getItem('ccar_detail_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.querySelector('.theme-toggle').innerHTML='&#9788;';}}catch(e){}})();
+</script>
+</body>
+</html>
