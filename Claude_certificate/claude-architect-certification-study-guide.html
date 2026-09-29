@@ -748,11 +748,11 @@
 <div class="cover">
   <div class="cover-badge">CCAR-F Official Syllabus Aligned</div>
   <h1><span>Claude</span> Certified Architect<br>Foundations Exam Prep</h1>
-  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 87 exam-style MCQs.</p>
+  <p class="cover-sub">Master agentic architecture, orchestration, tool design, MCP, context management, and production patterns &mdash; with 95 exam-style MCQs (including 8 hard scenario questions).</p>
   <div class="cover-meta">
     <span><strong>Exam:</strong> CCAR-F (Architect Foundations)</span>
-    <span><strong>Topics:</strong> 18 official sections</span>
-    <span><strong>MCQs:</strong> 87 questions</span>
+    <span><strong>Topics:</strong> 18 official sections + Domain 5 + Distractor Bank</span>
+    <span><strong>MCQs:</strong> 95 questions (87 standard + 8 hard)</span>
     <span><strong>Source:</strong> Official Anthropic Docs + LinkedIn Learning Syllabus</span>
     <span><strong>Updated:</strong> September 2026</span>
   </div>
@@ -761,6 +761,54 @@
 <div class="notice notice-info">
   <b>Official Syllabus Alignment</b>
   This guide is structured around the 18 official topic areas of the CCAR-F (Claude Certified Architect &mdash; Foundations) exam. The architect exam goes deeper than the developer certification: it covers agentic architecture, orchestration patterns, tool design, MCP, CLAUDE.md hierarchy, CI/CD integration, context management, error handling patterns, and production optimization. Content sourced from official Anthropic documentation.
+</div>
+
+<!-- ============================== EXAM DETAILS ============================== -->
+<h3>Confirmed Exam Details</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Questions</strong></td><td>60</td></tr>
+    <tr><td><strong>Duration</strong></td><td>120 minutes</td></tr>
+    <tr><td><strong>Cost</strong></td><td>$125 USD</td></tr>
+    <tr><td><strong>Passing Score</strong></td><td>720 / 1,000 (scaled)</td></tr>
+    <tr><td><strong>Validity</strong></td><td>12 months</td></tr>
+    <tr><td><strong>Format</strong></td><td>Multiple choice; one correct answer, three plausible distractors</td></tr>
+    <tr><td><strong>Structure</strong></td><td>4 scenarios drawn from a bank of 6</td></tr>
+    <tr><td><strong>Delivery</strong></td><td>Online proctored or at a test center</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Domain Weightage (5 Domains)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Domain</th><th>Topic</th><th>Weight</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>Agentic Architecture &amp; Orchestration</td><td>27%</td></tr>
+    <tr><td><strong>2</strong></td><td>Tool Design &amp; MCP Integration</td><td>18%</td></tr>
+    <tr><td><strong>3</strong></td><td>Claude Code Configuration &amp; Workflows</td><td>20%</td></tr>
+    <tr><td><strong>4</strong></td><td>Prompt Engineering &amp; Structured Output</td><td>20%</td></tr>
+    <tr><td><strong>5</strong></td><td>Context Management &amp; Reliability</td><td>15%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>The 6 Official Exam Scenarios</h3>
+<p>All exam questions are anchored in one of these 6 scenarios. 4 of the 6 appear on any given exam. Know the canonical tool sets and primary domains for each.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Scenario</th><th>Canonical Tools</th><th>Primary Domains</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Customer Support Resolution Agent</strong></td><td><code>get_customer</code>, <code>lookup_order</code>, <code>process_refund</code>, <code>escalate_to_human</code></td><td>D1, D2, D5</td></tr>
+    <tr><td>2</td><td><strong>Code Generation with Claude Code</strong></td><td>CLAUDE.md configs, slash commands, plan mode</td><td>D3, D5</td></tr>
+    <tr><td>3</td><td><strong>Multi-Agent Research System</strong></td><td>coordinator + web search + doc analysis + synthesis + report agents</td><td>D1, D2, D5</td></tr>
+    <tr><td>4</td><td><strong>Developer Productivity with Claude</strong></td><td><code>Read</code>, <code>Write</code>, <code>Bash</code>, <code>Grep</code>, <code>Glob</code> + MCP servers</td><td>D2, D3, D1</td></tr>
+    <tr><td>5</td><td><strong>Claude Code for CI/CD</strong></td><td><code>-p</code> flag, <code>--output-format json</code>, automated PR review</td><td>D3, D4</td></tr>
+    <tr><td>6</td><td><strong>Structured Data Extraction</strong></td><td>JSON schemas, <code>tool_use</code>, validation-retry loops, <code>custom_id</code></td><td>D4, D5</td></tr>
+  </tbody>
+</table>
 </div>
 
 <!-- ============================== TOC ============================== -->
@@ -785,6 +833,8 @@
     <a href="#part16"><span class="num">16</span> Context Window Management</a>
     <a href="#part17"><span class="num">17</span> Escalation Triggers</a>
     <a href="#part18"><span class="num">18</span> Error Context and Common Mistakes</a>
+    <a href="#part18b"><span class="num">18b</span> Domain 5: Context Management &amp; Reliability</a>
+    <a href="#part18c"><span class="num">18c</span> Common Exam Traps &mdash; Distractor Bank</a>
     <a href="#part19"><span class="num">19</span> Practice Test &mdash; 87 Architect MCQs</a>
   </div>
 </div>
@@ -953,6 +1003,29 @@ messages.<span class="fn">append</span>({
   <li><strong>Right</strong>: Check <code>stop_reason</code>, not individual block types. Only break when <code>stop_reason == "end_turn"</code></li>
 </ul>
 
+<h3>Three Anti-Patterns for Loop Termination (Exam-Tested)</h3>
+<div class="notice notice-warn">
+  <b>Anti-Pattern 1: Checking content type</b>
+  Checking <code>response.content[0].type == "text"</code> is wrong because the model can return text AND <code>tool_use</code> simultaneously. The first content block being text does not mean the task is complete &mdash; there may be tool calls in subsequent blocks.
+</div>
+<div class="notice notice-warn">
+  <b>Anti-Pattern 2: Parsing natural language signals</b>
+  Checking if the assistant said "I'm done" or similar natural language phrases is ambiguous and unreliable. The <code>stop_reason</code> field exists for exactly this purpose &mdash; always use it instead.
+</div>
+<div class="notice notice-warn">
+  <b>Anti-Pattern 3: Arbitrary iteration caps as primary mechanism</b>
+  Using a hard iteration limit (e.g., "stop after 10 loops") as the <strong>primary</strong> stopping mechanism is wrong because it either cuts off useful work prematurely or runs unnecessary iterations. Iteration caps should be a <strong>safety net</strong>, not the primary termination condition. The model signals completion via <code>stop_reason</code>.
+</div>
+
+<h3>AgentDefinition for Subagent Configuration</h3>
+<p>When configuring subagents in a multi-agent system, use <code>AgentDefinition</code> to set up each subagent type with:</p>
+<ul>
+  <li><strong>Description</strong> &mdash; What the subagent does (used for routing decisions)</li>
+  <li><strong>System prompt</strong> &mdash; Role-specific instructions and constraints</li>
+  <li><strong>Tool restrictions</strong> &mdash; Which tools this subagent type can access (principle of least privilege)</li>
+</ul>
+<p>This enables type-safe subagent configuration where each subagent type has a well-defined interface, making the multi-agent system more maintainable and debuggable.</p>
+
 <div class="notice notice-tip">
   <b>Exam Tip</b>
   The agentic loop continues until <code>stop_reason == "end_turn"</code>. When <code>stop_reason == "tool_use"</code>, the orchestrator must: (1) append the full assistant response to history, (2) execute the tool, (3) append a user message with tool_result and matching tool_use_id, (4) call the API again. Always set max iteration limits.
@@ -1033,9 +1106,31 @@ messages.<span class="fn">append</span>({
   <li>This isolation makes spokes independently testable and replaceable</li>
 </ul>
 
+<h3>Iterative Refinement Loops</h3>
+<p>An advanced coordinator pattern is the <strong>iterative refinement loop</strong>: after the synthesis agent produces output, the coordinator evaluates it for coverage gaps and re-delegates with targeted queries to fill those gaps. This continues until the coordinator determines that coverage is sufficient.</p>
+<div class="highlight">
+  <div class="hl-title">Iterative Refinement Flow</div>
+  <ol>
+    <li>Coordinator decomposes initial query and delegates to subagents</li>
+    <li>Subagents return results; synthesis agent produces first draft</li>
+    <li>Coordinator evaluates synthesis output for gaps (missing topics, missing sources, conflicting data)</li>
+    <li>Coordinator re-delegates with <strong>targeted queries</strong> to fill specific gaps</li>
+    <li>Synthesis agent incorporates new findings into updated output</li>
+    <li>Repeat until coverage is sufficient</li>
+  </ol>
+</div>
+
+<h3>Narrow Decomposition Failure (Critical Exam Concept)</h3>
+<div class="notice notice-warn">
+  <b>Exam Trap: Downstream Blame</b>
+  When a multi-agent system produces incomplete output, the root cause is <strong>always the coordinator's decomposition</strong>, NOT downstream agents. If the coordinator never assigned a subtopic to any subagent, no downstream agent can be blamed for the missing coverage. The exam tests whether you can trace failures <strong>upstream</strong> to their origin.
+</div>
+<p><strong>Example:</strong> A coordinator decomposes "impact of AI on creative industries" into only visual arts subtopics, missing music, writing, and film entirely. All subagents complete successfully with no errors &mdash; the gap is in what the coordinator chose to decompose, not in how the subagents executed.</p>
+
 <h3>How to Diagnose Incomplete Coordinator Output</h3>
 <p>When the hub's final output is missing information, check these common causes:</p>
 <ul>
+  <li><strong>Did the coordinator decompose broadly enough?</strong> &mdash; Missing subtopics in the initial decomposition are the most common root cause</li>
   <li><strong>Did all spokes return?</strong> &mdash; A spoke may have timed out or errored silently</li>
   <li><strong>Did the hub wait for all spokes?</strong> &mdash; The hub may have proceeded before all results arrived</li>
   <li><strong>Is the context window full?</strong> &mdash; The hub's context may be too full to include all spoke results</li>
@@ -1138,6 +1233,22 @@ messages.<span class="fn">append</span>({
 </div>
 <p><strong>Dependency analysis first:</strong> Before deciding on parallel vs. sequential, map out dependencies between subtasks. If Task B needs Task A's output, they must be sequential. If they share no data, parallelize them.</p>
 
+<h3>fork_session: Independent Branches from Shared Baseline</h3>
+<p><code>fork_session</code> creates independent branches from a shared analysis baseline. Use it when you need to explore <strong>divergent approaches</strong> simultaneously (e.g., comparing two testing strategies from the same codebase analysis). Each fork operates independently after the branching point &mdash; changes in one fork do not affect others.</p>
+
+<h3>Context Passing Must Include Structured Metadata</h3>
+<p>When passing context between agents, always include <strong>structured metadata</strong> alongside the content. Without metadata, attribution dies during synthesis:</p>
+<ul>
+  <li><strong>Source URLs</strong> &mdash; Where the information came from</li>
+  <li><strong>Document names</strong> &mdash; Which document contained the data</li>
+  <li><strong>Page numbers / section headers</strong> &mdash; Where in the document</li>
+  <li><strong>Publication dates</strong> &mdash; When the source was published</li>
+</ul>
+<div class="notice notice-tip">
+  <b>Exam Trap: Attribution Failures</b>
+  When a synthesis report has no attribution, the root cause is the <strong>context passing</strong> (structured metadata was not included when passing results between agents). The fix is NOT in the synthesis agent's prompt, NOT in the web search agent, and NOT in the coordinator &mdash; it is in requiring subagents to output structured claim-source mappings.
+</div>
+
 <h3>What Is the Stakes-Proportionate Rule?</h3>
 <p>The stakes-proportionate rule is a design principle for agentic systems: <strong>match the level of verification and review depth to the risk level of the operation</strong>.</p>
 
@@ -1191,7 +1302,23 @@ messages.<span class="fn">append</span>({
   <li><strong>Testing</strong> &mdash; Automatically run tests after code changes</li>
   <li><strong>Logging</strong> &mdash; Record tool outputs for debugging</li>
   <li><strong>Cleanup</strong> &mdash; Remove temporary files created during execution</li>
+  <li><strong>Data normalization</strong> &mdash; Convert Unix timestamps to ISO 8601, numeric codes to human-readable strings</li>
 </ul>
+
+<h3>PostToolUse Timing (Exam-Critical)</h3>
+<div class="notice notice-info">
+  <b>PostToolUse fires AFTER tool execution and BEFORE the model processes the result</b>
+  This timing is critical for the exam. PostToolUse transforms the tool result <strong>in-flight</strong> &mdash; the model receives the normalized/transformed data, not the raw output. This is different from tool call interception (PreToolUse), which fires BEFORE execution and can prevent the action entirely.
+</div>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Hook Type</th><th>When It Fires</th><th>Purpose</th><th>Can Block?</th></tr></thead>
+  <tbody>
+    <tr><td><strong>PreToolUse (Interception)</strong></td><td>BEFORE tool execution</td><td>Block or redirect based on business rules</td><td>Yes &mdash; prevents action entirely</td></tr>
+    <tr><td><strong>PostToolUse</strong></td><td>AFTER execution, BEFORE model processes result</td><td>Transform/normalize tool results in-flight</td><td>No &mdash; tool already executed</td></tr>
+  </tbody>
+</table>
+</div>
 
 <h3>Why Prompts Alone Cannot Guarantee Correctness</h3>
 <p>Prompts are <strong>probabilistic</strong> &mdash; Claude might ignore or misinterpret instructions. Hooks are <strong>deterministic</strong> &mdash; code always runs. For production systems, use both:</p>
@@ -1292,6 +1419,24 @@ messages.<span class="fn">append</span>({
     <li><strong>Edge cases</strong> &mdash; What happens when input is invalid or data is not found</li>
     <li><strong>vs. similar tools</strong> &mdash; How to choose between this and related tools</li>
   </ul>
+</div>
+
+<h3>System Prompt Keyword Conflicts</h3>
+<p>Keyword-sensitive instructions in system prompts can create <strong>unintended tool associations</strong> that override well-written tool descriptions. For example, if the system prompt says "always search for relevant documents before answering," Claude may call a search tool even when the user's question does not require searching. Always review system prompts for conflicts after updating tool descriptions.</p>
+
+<h3>Tool Splitting: Generic to Purpose-Specific</h3>
+<p>When a generic tool causes confusion, split it into <strong>purpose-specific tools</strong> with clear, distinct descriptions:</p>
+<div class="example-box">
+  <div class="ex-header">Tool Splitting Example</div>
+  <div class="ex-body">
+    <p style="font-size:0.85rem;"><strong>BEFORE (generic):</strong> <code>analyze_document</code> &mdash; "Analyzes a document and returns findings"</p>
+    <p style="font-size:0.85rem;"><strong>AFTER (split):</strong></p>
+    <ul style="font-size:0.85rem;">
+      <li><code>extract_data_points</code> &mdash; "Extracts structured data fields from a document"</li>
+      <li><code>summarize_content</code> &mdash; "Generates a concise summary of a document"</li>
+      <li><code>verify_claim_against_source</code> &mdash; "Checks whether a specific claim is supported by the source document"</li>
+    </ul>
+  </div>
 </div>
 
 <h3>Why the "vs. Similar Tools" Clause Matters Most</h3>
@@ -1481,6 +1626,21 @@ messages.<span class="fn">append</span>({
 </div>
 <p>This file should contain shared team tools like project databases, issue trackers, and documentation servers. <strong>Do not put personal API keys here</strong> &mdash; use environment variables or user-level config.</p>
 
+<h3>Environment Variable Expansion in .mcp.json</h3>
+<p>Use the <code>${GITHUB_TOKEN}</code> syntax in <code>.mcp.json</code> to reference environment variables. This keeps credentials <strong>out of version control</strong> while allowing the config file itself to be committed. Each developer sets their own tokens locally.</p>
+<div class="code-block"><span class="label">JSON &mdash; .mcp.json with env vars</span>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"github"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@anthropic/mcp-server-github"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"GITHUB_TOKEN"</span>: <span class="str">"${GITHUB_TOKEN}"</span>
+      }
+    }
+  }
+}
+</div>
+
 <h3>What Goes in User-Level MCP Config?</h3>
 <p>User-level MCP configuration goes in <code>~/.claude/settings.json</code>. It defines personal MCP servers like local dev tools and private API keys. This file is <strong>NOT committed</strong> to version control:</p>
 <div class="code-block"><span class="label">JSON &mdash; ~/.claude/settings.json</span>{
@@ -1495,6 +1655,17 @@ messages.<span class="fn">append</span>({
   }
 }
 </div>
+
+<div class="notice notice-warn">
+  <b>Exam Trap: .mcp.json vs ~/.claude.json</b>
+  <code>.mcp.json</code> is <strong>project-level</strong> (shared, version-controlled). <code>~/.claude.json</code> is <strong>user-level</strong> (personal, NOT version-controlled). The exam tests whether you know which file goes where. Note: user-level is <code>~/.claude.json</code>, NOT <code>.mcp.json</code> in the home directory.
+</div>
+
+<h3>MCP Resources: Reducing Exploratory Tool Calls</h3>
+<p>MCP resources expose <strong>content catalogs</strong> (issue summaries, documentation hierarchies, database schemas) to agents without requiring exploratory tool calls. This gives agents visibility into available data upfront, reducing unnecessary queries and token usage.</p>
+
+<h3>Community Servers vs. Custom Builds</h3>
+<p>Use existing <strong>community MCP servers</strong> for standard integrations (Jira, GitHub, Slack, databases) first. Only build custom MCP servers for <strong>team-specific workflows</strong> that community servers cannot handle. This follows the principle of preferring proven, maintained integrations over bespoke solutions.</p>
 
 <h3>How to Diagnose Missing MCP Server Access</h3>
 <p>When an MCP server's tools are not available, check this diagnostic checklist:</p>
@@ -1561,12 +1732,21 @@ messages.<span class="fn">append</span>({
 </ul>
 
 <h3>How Many Tools Each Agent Should Have</h3>
-<p><strong>Rule of thumb: 5-15 tools per agent.</strong> If an agent needs more than 20 tools, consider:</p>
+<p><strong>Rule of thumb: 5-15 tools per agent.</strong> The <strong>optimal range is 4-5 tools</strong> per agent, scoped to its role &mdash; more tools degrades selection reliability. If an agent needs more than 20 tools, consider:</p>
 <ul>
   <li><strong>Split into multiple specialized agents</strong> &mdash; A "code agent" and a "test agent" instead of one agent with all tools</li>
   <li><strong>Use tool_search</strong> &mdash; A meta-tool that searches for the right tool from a larger catalog</li>
   <li><strong>Use MCP with scoping</strong> &mdash; Connect to different MCP servers for different task types</li>
 </ul>
+
+<h3>tool_choice "any" vs "auto" Trap (Exam-Critical)</h3>
+<div class="notice notice-warn">
+  <b>Exam Trap: "any" forces a tool call; "auto" does NOT</b>
+  <code>tool_choice: "any"</code> means the model <strong>MUST</strong> call a tool (it chooses which one). <code>tool_choice: "auto"</code> means the model <strong>may</strong> return conversational text instead of calling a tool. The exam specifically tests whether candidates confuse these two. If you need guaranteed structured output, use <code>"any"</code> or force a specific tool with <code>{"type": "tool", "name": "X"}</code>.
+</div>
+
+<h3>Scoped Cross-Role Tools</h3>
+<p>For high-frequency simple operations, give a <strong>constrained tool directly</strong> to the agent that needs it, rather than routing everything through the coordinator. Example: give the synthesis agent a scoped <code>verify_fact</code> tool for simple lookups, while complex verifications still route through the coordinator. This avoids coordinator round-trip latency for the 85% of cases that are simple lookups.</p>
 
 <h3>How to Scope Tools to Agent Roles</h3>
 <div class="table-wrap">
@@ -1638,6 +1818,15 @@ messages.<span class="fn">append</span>({
 </table>
 </div>
 
+<h3>The /memory Command</h3>
+<p>The <code>/memory</code> command is a <strong>debugging tool</strong> for inspecting what CLAUDE.md files are currently loaded in a session. Use it when Claude Code behavior is inconsistent across sessions or developers &mdash; it reveals which memory files are active and their sources.</p>
+
+<h3>Modular CLAUDE.md with @import</h3>
+<p>Use <code>@import</code> syntax to reference external files from CLAUDE.md, keeping it modular. For example: <code>@import ./rules/testing.md</code>. This prevents a single massive CLAUDE.md file and allows teams to organize standards by concern.</p>
+
+<h3>.claude/rules/ for Topic-Specific Rules</h3>
+<p>The <code>.claude/rules/</code> directory provides an alternative to a single large CLAUDE.md. Create topic-specific rule files (e.g., <code>testing.md</code>, <code>api-conventions.md</code>, <code>deployment.md</code>) that focus on specific concerns. These files can use YAML frontmatter with <code>paths:</code> to target specific file patterns (covered in Part 11).</p>
+
 <h3>How to Diagnose Ignored Team Conventions</h3>
 <p>When Claude Code is not following team conventions, check this diagnostic checklist:</p>
 <ol>
@@ -1646,6 +1835,7 @@ messages.<span class="fn">append</span>({
   <li><strong>Is a more specific CLAUDE.md overriding it?</strong> &mdash; A subdirectory file may contradict the root</li>
   <li><strong>Is the convention actually in the file?</strong> &mdash; Open and verify the content</li>
   <li><strong>Is the file named correctly?</strong> &mdash; Must be <code>CLAUDE.md</code> or <code>AGENTS.md</code> (case-sensitive on Linux)</li>
+  <li><strong>Use <code>/memory</code></strong> &mdash; Inspect which memory files are loaded to verify the right files are active</li>
 </ol>
 
 <div class="notice notice-tip">
@@ -1718,6 +1908,22 @@ messages.<span class="fn">append</span>({
 </table>
 </div>
 
+<h3>Skill Frontmatter Configuration</h3>
+<p>Skills support YAML frontmatter with specific fields that control their behavior:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Field</th><th>Purpose</th><th>Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><code>context: fork</code></td><td>Runs in an isolated sub-agent context</td><td>Codebase analysis, brainstorming &mdash; verbose output stays contained, main conversation stays clean</td></tr>
+    <tr><td><code>allowed-tools</code></td><td>Restricts which tools the skill can use</td><td>Prevents destructive actions during skill execution (e.g., read-only analysis)</td></tr>
+    <tr><td><code>argument-hint</code></td><td>Prompts for required parameters when invoked without args</td><td>Skills that need user input (e.g., <code>/deploy</code> needs environment name)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Personal Skill Customization</h3>
+<p>Create personal skill variants in <code>~/.claude/skills/</code> with <strong>different names</strong> from team skills. This allows personal workflow customization without affecting teammates. For example, create a personal <code>~/.claude/skills/my-review.md</code> alongside the team's <code>.claude/skills/review.md</code>.</p>
+
 <h3>Advanced Skills: Configuration and Scaling</h3>
 <ul>
   <li><strong>Parameterized skills</strong> &mdash; Skills can accept arguments (<code>/deploy staging</code>, <code>/deploy production</code>)</li>
@@ -1755,6 +1961,22 @@ messages.<span class="fn">append</span>({
 
 <h3>Introduction to Path-Specific Rules</h3>
 <p>Path-specific rules are configuration rules that <strong>only apply when working in a specific path</strong>. They enable granular control over agent behavior based on file location.</p>
+
+<h3>.claude/rules/ with YAML Frontmatter (Exam-Critical)</h3>
+<p>Create rule files in <code>.claude/rules/</code> with YAML frontmatter containing a <code>paths:</code> field with glob patterns:</p>
+<div class="code-block"><span class="label">YAML frontmatter</span>---
+paths: ["**/*.test.tsx", "**/*.spec.ts"]
+---
+All test files must follow these conventions:
+- Use describe/it structure
+- Mock external dependencies
+- Minimum 80% branch coverage per file
+</div>
+<div class="highlight">
+  <div class="hl-title">Key Advantage Over Directory CLAUDE.md</div>
+  <p>Glob patterns in <code>.claude/rules/</code> files activate rules on matching files across the <strong>ENTIRE codebase</strong>, not just within one directory. A pattern like <code>**/*.test.tsx</code> catches every test file regardless of which directory it is in. Directory-level CLAUDE.md only applies to files in that one directory.</p>
+</div>
+<p><strong>Token efficiency:</strong> Path-scoped rules load <strong>ONLY when editing matching files</strong>, reducing irrelevant context and token usage compared to always-loaded instructions in the root CLAUDE.md.</p>
 
 <h3>Path-Specific Rules vs. Directory CLAUDE.md</h3>
 <div class="table-wrap">
@@ -1841,9 +2063,27 @@ jobs:
 </table>
 </div>
 
+<h3>CI/CD Exam Traps (Must Memorize)</h3>
+<div class="notice notice-warn">
+  <b>The correct flag for non-interactive mode is <code>-p</code></b>
+  The exam specifically tests this. The three common wrong answers are:
+  <ul style="margin:6px 0 0;">
+    <li><code>--batch</code> &mdash; not a real Claude Code flag for non-interactive mode</li>
+    <li><code>CLAUDE_HEADLESS=true</code> &mdash; not a real environment variable</li>
+    <li>Redirecting stdin from <code>/dev/null</code> &mdash; does not achieve non-interactive mode</li>
+  </ul>
+</div>
+
+<h3>Structured Output with --output-format json</h3>
+<p>The <code>--output-format json</code> flag produces machine-parseable structured findings. Use it in CI pipelines to automatically post findings as inline PR comments, integrate with notification systems, or feed into dashboards.</p>
+
+<h3>Independent Review Instance</h3>
+<p>The same Claude Code session that generated code is <strong>less effective</strong> at reviewing it. It retains reasoning context from generation, making it less likely to question its own decisions. Use a <strong>separate, independent review instance</strong> (fresh session, no prior context) for code review in CI. This catches more subtle issues than self-review instructions within the same session.</p>
+<p>When re-running reviews after new commits, include prior review findings in context and instruct Claude to report <strong>ONLY new or still-unaddressed issues</strong>. This prevents duplicate comments that erode developer trust.</p>
+
 <div class="notice notice-tip">
   <b>Exam Tip</b>
-  Use <code>claude -p</code> for non-interactive CI/CD mode. Always use <code>--allowedTools</code> to restrict permissions in CI. <code>--format json</code> enables machine-readable output. Store <code>ANTHROPIC_API_KEY</code> as a CI secret, never in code.
+  Use <code>claude -p</code> for non-interactive CI/CD mode. Always use <code>--allowedTools</code> to restrict permissions in CI. <code>--format json</code> enables machine-readable output. Store <code>ANTHROPIC_API_KEY</code> as a CI secret, never in code. Use independent review instances, not self-review.
 </div>
 </section>
 
@@ -1886,6 +2126,15 @@ jobs:
   <li><strong>Edge case handling:</strong> "Dates like '2024' alone without month/day are NOT matches"</li>
   <li><strong>Boundary conditions:</strong> "Empty strings, null values, and whitespace-only input should return 'no match'"</li>
 </ul>
+
+<h3>Severity Calibration Requires Code Examples</h3>
+<p>When defining severity levels for code review findings, use <strong>actual code examples</strong> for each severity level &mdash; not prose descriptions. Showing a code snippet that represents a "critical" finding versus a "minor" finding teaches Claude the calibration far more effectively than describing severity in words.</p>
+
+<h3>High False Positive Rates Destroy Trust</h3>
+<div class="notice notice-warn">
+  <b>The Trust Cascade</b>
+  High false positive rates in <strong>ONE</strong> category destroy trust in <strong>ALL</strong> categories. When developers repeatedly dismiss findings in one category, they start dismissing findings across the board. Fix: temporarily disable the high-FP category while improving prompts for it, then re-enable once the false positive rate is acceptable.
+</div>
 
 <h3>When to Reach for Few-Shot Examples</h3>
 <p>Use few-shot examples when:</p>
@@ -2036,6 +2285,12 @@ result = client.messages.<span class="fn">parse</span>(
   <li><strong>Const:</strong> <code>"const": "v1"</code> &mdash; forces a fixed value (useful for schema versioning)</li>
 </ul>
 
+<h3>strict: true &mdash; Forcing Required Field Values</h3>
+<p>Setting <code>strict: true</code> in a tool definition forces the model to provide a value for every required field &mdash; it cannot leave them null or omit them. Use this carefully: while it guarantees completeness, it also forces the model to <strong>fabricate values</strong> when the source data does not contain the information. Combine with nullable/optional fields for data that may genuinely be absent.</p>
+
+<h3>detected_pattern Fields for Systematic Improvement</h3>
+<p>Add <code>detected_pattern</code> fields to structured findings to track <strong>what triggered each finding</strong> (e.g., which code construct, which document section). This enables analysis of dismissal patterns when developers reject findings and systematic prompt improvement over time based on real data.</p>
+
 <h3>Retry-with-Error-Feedback Technique</h3>
 <p>When structured output fails validation (business logic, not syntax), use this pattern:</p>
 <ol>
@@ -2043,6 +2298,7 @@ result = client.messages.<span class="fn">parse</span>(
   <li>Run your business validation on the parsed result</li>
   <li>If validation fails, send a follow-up message with the error: <em>"The previous output had these issues: [errors]. Please fix and regenerate."</em></li>
   <li>Include the original output and specific error details in the retry</li>
+  <li><strong>Max 3 retry attempts</strong> before raising an error &mdash; if the model cannot produce valid output after 3 attempts, the issue is likely not fixable through retry</li>
 </ol>
 
 <h3>Limitations</h3>
@@ -2222,6 +2478,18 @@ result = client.messages.<span class="fn">parse</span>(
   <li><strong>Use structured tags:</strong> <code>&lt;finding&gt;</code>, <code>&lt;summary&gt;</code>, <code>&lt;details&gt;</code> to separate importance levels</li>
 </ul>
 
+<h3>Tool Result Trimming (Exam-Critical)</h3>
+<p>An order lookup tool returns <strong>40+ fields</strong>; you only need 5. Trim verbose tool results to relevant fields <strong>BEFORE appending to context</strong>. This prevents token budget exhaustion from accumulated irrelevant data and keeps the context clean for downstream reasoning.</p>
+
+<h3>Upstream Agent Optimization</h3>
+<p>Modify upstream agents to return <strong>structured key facts</strong> (data points, citations, relevance scores) instead of verbose content and reasoning chains. This is critical when downstream agents have limited context budgets &mdash; passing a 4,000-word verbose result fills the downstream agent's context unnecessarily.</p>
+
+<h3>The /compact Command</h3>
+<p>Use <code>/compact</code> in Claude Code to <strong>compress conversation history</strong> when the context fills up during long sessions. This is a manual trigger for the compaction process &mdash; it summarizes older conversation turns to free up space while preserving the most important information.</p>
+
+<h3>Crash Recovery with Manifest Files</h3>
+<p>For resilient multi-agent systems, each agent should export its <strong>structured state to a manifest file</strong> at a known location. On resume after a crash, the coordinator loads manifests from all agents and injects the saved state into agent prompts. This enables recovery without re-executing all prior work.</p>
+
 <h3>Using Structured Tags and Trimming Verbose Results</h3>
 <p>Wrap tool outputs in XML tags so the agent can selectively attend to important parts. Trim verbose outputs before returning:</p>
 <ul>
@@ -2309,14 +2577,33 @@ result = client.messages.<span class="fn">parse</span>(
   <li><strong>Only escalate if a valid trigger exists</strong> — authority gap, verification needed, explicit request</li>
 </ol>
 
+<h3>Policy Gap as a Valid Escalation Trigger</h3>
+<p>A <strong>policy gap</strong> is a valid escalation trigger: when a customer request falls outside documented policy (e.g., competitor price matching when the policy only covers own-site pricing), the agent should escalate because it has no rules to follow. The agent cannot make policy decisions on its own.</p>
+
+<h3>Ambiguous Customer Match</h3>
+<div class="notice notice-warn">
+  <b>Never Select by Heuristic</b>
+  When multiple customers match a search query, <strong>ask for additional identifiers</strong> (email, phone number, order number). Do NOT select based on heuristics such as "most recent order," "most active account," or "alphabetical first match." Selecting the wrong customer can lead to incorrect refunds, data exposure, or account-level errors.
+</div>
+
 <h3>When to Escalate Immediately</h3>
 <ul>
-  <li>User explicitly asks for human assistance</li>
+  <li>User explicitly asks for human assistance &mdash; honor <strong>immediately</strong>, no investigation first</li>
+  <li>Policy gap &mdash; request falls outside documented policy</li>
+  <li>Inability to make meaningful progress after N attempts</li>
   <li>Safety/emergency situations (threats, self-harm mentions)</li>
   <li>Legal/compliance requirements that mandate human review</li>
   <li>Financial operations exceeding authorized thresholds</li>
   <li>Data access requests requiring identity verification</li>
 </ul>
+
+<h3>Invalid Escalation Triggers (Exam-Tested)</h3>
+<p>These are <strong>NOT valid</strong> reasons to escalate on their own:</p>
+<ul>
+  <li><strong>Sentiment/frustration alone</strong> &mdash; A frustrated customer with a simple billing question should be resolved by the agent, not escalated. Frustration does not correlate with case complexity.</li>
+  <li><strong>Self-reported confidence scores</strong> &mdash; The model is often incorrectly confident on hard cases and uncertain on easy ones. Confidence is not a reliable trigger.</li>
+</ul>
+<p><strong>Frustration nuance:</strong> If the issue is straightforward and the customer is frustrated, acknowledge the frustration and offer resolution. Only escalate if the customer <strong>reiterates their preference for a human</strong> after you offer help. But if the customer explicitly says "I want a human" &mdash; escalate immediately, no investigation first.</p>
 
 <h3>Escalation Patterns</h3>
 <div class="table-wrap">
@@ -2480,6 +2767,129 @@ result = client.messages.<span class="fn">parse</span>(
 <div class="notice notice-tip">
   <b>Exam Tip</b>
   The most common mistakes are: no max iteration limit (infinite loops), poor tool descriptions (misuse), and not handling tool errors (agent gets stuck). Always include what was attempted and what failed in error context.
+</div>
+</section>
+
+<!-- ============================== PART 18b: DOMAIN 5 ============================== -->
+<section id="part18b" class="page-break">
+<h2><span class="part-num">Part 18b &mdash; Domain 5: Context Management &amp; Reliability (15%)</span>Context Management &amp; Reliability</h2>
+
+<h3>Introduction to Domain 5</h3>
+<p>Domain 5 is the smallest domain by weight (15%) but its concepts cascade into Domains 1, 2, and 4. Getting context management wrong breaks your multi-agent systems and extraction pipelines. This domain appears across nearly all exam scenarios, particularly Customer Support Resolution Agent, Multi-Agent Research System, and Structured Data Extraction.</p>
+
+<h3>Context Preservation</h3>
+<h4>Case Facts Block</h4>
+<p>A <strong>case facts block</strong> is a persistent block prepended to every prompt containing transactional specifics: order IDs, exact dollar amounts (<code>$247.83</code>), dates, customer names. This block must stay <strong>verbatim</strong> &mdash; never summarize it.</p>
+
+<h4>The Progressive Summarization Trap</h4>
+<div class="notice notice-warn">
+  <b>Progressive Summarization Destroys Critical Data</b>
+  Progressive summarization compresses specific values like "$247.83 for order #8891" into vague summaries like "a refund was discussed." This causes the agent to lose the exact dollar amounts, order numbers, and dates it needs to process transactions correctly. Fix: extract transactional facts into a persistent case facts block that is never compressed.
+</div>
+
+<h4>Lost in the Middle Effect</h4>
+<p>Models process the <strong>beginning and end</strong> of long inputs reliably, but content buried in the middle may be missed. Fix: place key summaries at the <strong>START</strong> of context, and use explicit section headers throughout to anchor attention.</p>
+
+<h3>Escalation and Ambiguity</h3>
+<h4>Three Valid Escalation Triggers</h4>
+<ol>
+  <li><strong>Explicit human request</strong> &mdash; Honor IMMEDIATELY with no investigation first</li>
+  <li><strong>Policy gap</strong> &mdash; No rule covers the situation</li>
+  <li><strong>Inability to make progress</strong> &mdash; Agent cannot advance the resolution after N attempts</li>
+</ol>
+<h4>Two Unreliable Triggers</h4>
+<ul>
+  <li><strong>Sentiment/frustration alone</strong> &mdash; Does not correlate with case complexity</li>
+  <li><strong>Self-reported confidence scores</strong> &mdash; Model is often incorrectly confident on hard cases</li>
+</ul>
+
+<h3>Error Propagation</h3>
+<p>Structured error context must include: <strong>failure type</strong> + <strong>what was attempted</strong> + <strong>partial results</strong> + <strong>alternative approaches</strong>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Anti-Pattern</th><th>Problem</th><th>Fix</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Silent suppression</strong></td><td>Empty result marked as success prevents any recovery</td><td>Use structured error with <code>isRetryable</code> flag</td></tr>
+    <tr><td><strong>Workflow termination</strong></td><td>Killing entire pipeline on single failure throws away partial results</td><td>Propagate error with partial results and alternatives</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Access failure vs. valid empty result</strong> (reinforced from Domain 2): An access failure (tool could not reach source) may warrant retry. A valid empty result (source reached, no matches found) should NOT be retried &mdash; the answer is "no results."</p>
+
+<h3>Codebase Exploration and Context Degradation</h3>
+<p><strong>Symptom:</strong> The agent starts referencing "typical patterns" instead of specific class names it discovered earlier. This indicates the context has filled with discovery output and is losing grip on earlier findings.</p>
+<div class="highlight">
+  <div class="hl-title">Context Degradation Mitigations</div>
+  <ul>
+    <li><strong>Scratchpad files</strong> &mdash; Write key findings to a file, keep main context clean</li>
+    <li><strong><code>/compact</code></strong> &mdash; Compress conversation history when context fills up</li>
+    <li><strong>Subagent delegation</strong> &mdash; Use Explore subagent for specific investigations; main agent keeps high-level coordination</li>
+    <li><strong>Summary injection</strong> &mdash; Summarize findings from one phase before spawning subagents for the next</li>
+  </ul>
+</div>
+
+<h4>Crash Recovery</h4>
+<p>Each agent exports structured state to a manifest file at a known location. On resume after a crash, the coordinator loads manifests and injects saved state into agent prompts.</p>
+
+<h3>Human Review and Confidence Calibration</h3>
+<div class="notice notice-warn">
+  <b>97% Overall Accuracy Can Hide 40% Error Rate</b>
+  Aggregate accuracy metrics can mask terrible performance on a specific document type or field. Always validate accuracy by <strong>document type AND field segment</strong> before automating. Use stratified random sampling of high-confidence extractions to detect novel error patterns.
+</div>
+<ul>
+  <li>Field-level confidence calibration with labelled validation sets</li>
+  <li>Route low-confidence findings to human review; do not rely solely on aggregate accuracy</li>
+  <li>Prioritize limited reviewer capacity on highest-uncertainty items</li>
+</ul>
+
+<h3>Information Provenance</h3>
+<p>Each finding needs complete provenance: <strong>claim</strong> + <strong>source URL</strong> + <strong>document name</strong> + <strong>relevant excerpt</strong> + <strong>publication date</strong>.</p>
+<ul>
+  <li><strong>Conflicting sources:</strong> When two credible sources report different statistics, annotate BOTH with attribution. Do NOT arbitrarily select one.</li>
+  <li><strong>Temporal awareness:</strong> Different publication dates explain different numbers (not contradictions). Require publication/data collection dates in structured outputs.</li>
+  <li><strong>Content-appropriate rendering:</strong> Financial data in tables, news in prose, technical findings in structured lists. Do not flatten everything into one format.</li>
+</ul>
+
+<div class="notice notice-tip">
+  <b>Exam Tip</b>
+  Domain 5 concepts cascade into other domains. Key patterns: case facts block (never summarize transactional data), lost-in-the-middle (key info at START), access failure vs. valid empty result (do NOT retry empty), scratchpad files + /compact for context degradation, 97% overall can hide 40% error in one type.
+</div>
+</section>
+
+<!-- ============================== PART 18c: DISTRACTOR BANK ============================== -->
+<section id="part18c" class="page-break">
+<h2><span class="part-num">Part 18c</span>Common Exam Traps &mdash; Distractor Bank</h2>
+
+<p>The exam uses specific distractor patterns repeatedly. Memorize these correct/wrong pairings &mdash; they appear in multiple scenarios across all domains.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Situation</th><th>Correct Answer</th><th>Common Wrong Answers</th></tr></thead>
+  <tbody>
+    <tr><td>High-stakes compliance failure</td><td>Programmatic hook/gate</td><td>Enhanced system prompt, few-shot examples, routing classifier</td></tr>
+    <tr><td>Agent terminates prematurely</td><td>Check <code>stop_reason</code></td><td>Check content type, add iteration cap, parse natural language</td></tr>
+    <tr><td>Multi-agent coverage gap</td><td>Coordinator decomposition</td><td>Web search subagent, synthesis subagent, retrieval subagent</td></tr>
+    <tr><td>Tool misrouting</td><td>Expand tool descriptions</td><td>Add routing classifier, merge tools, add few-shot</td></tr>
+    <tr><td>New team member not getting instructions</td><td>Move to project-level CLAUDE.md</td><td>Update user-level, add to skills, use /memory</td></tr>
+    <tr><td>CI pipeline hangs</td><td>Add <code>-p</code> flag</td><td>Add <code>--batch</code>, set <code>CLAUDE_HEADLESS=true</code>, redirect stdin</td></tr>
+    <tr><td>Tool returns empty array, agent retries</td><td>Valid empty result &mdash; do NOT retry</td><td>Retry with backoff, escalate immediately, check permissions</td></tr>
+    <tr><td>Synthesis report has no attribution</td><td>Fix context passing (structured metadata)</td><td>Fix synthesis prompt, fix web search, fix coordinator</td></tr>
+    <tr><td><code>tool_choice</code> "any" vs "auto"</td><td>"any" forces a tool call</td><td>"auto" also forces a tool call (wrong)</td></tr>
+    <tr><td>Customer requests human</td><td>Escalate immediately, no investigation</td><td>Investigate first, assess confidence, check sentiment</td></tr>
+    <tr><td>Batch API for pre-merge check</td><td>Keep synchronous (blocking)</td><td>Use batch with polling, add timeout</td></tr>
+    <tr><td>Batch API multi-turn tool calling</td><td>Not supported</td><td>Fully supported, requires special flag</td></tr>
+    <tr><td><code>.mcp.json</code> vs <code>~/.claude.json</code></td><td><code>.mcp.json</code> = project (shared); <code>~/.claude.json</code> = user (personal)</td><td>Reversed, wrong filename</td></tr>
+    <tr><td>Slash commands shared with team</td><td><code>.claude/commands/</code> (version-controlled)</td><td><code>~/.claude/commands/</code>, CLAUDE.md, config.json</td></tr>
+    <tr><td>Lost-in-middle in long context</td><td>Key summary at START + section headers</td><td>Larger context, split chunks, use streaming</td></tr>
+    <tr><td>Context degradation in exploration</td><td>Scratchpad files + /compact + subagent</td><td>Clear conversation, restart, add more tokens</td></tr>
+    <tr><td>PostToolUse timing</td><td>After execution, before model processes result</td><td>Before execution, after model responds, at end of loop</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notice notice-tip">
+  <b>Study Strategy</b>
+  When you see a question on the exam, first identify which situation it describes from this table, then select the correct answer pattern. The wrong answers are consistent &mdash; the exam reuses the same distractor patterns across different scenarios.
 </div>
 </section>
 
@@ -3888,12 +4298,147 @@ result = client.messages.<span class="fn">parse</span>(
   <div class="q-explain"><b>Correct: B.</b> Waiting until retries are exhausted before reporting is a "silent failure" anti-pattern. The coordinator has no visibility into what is happening and cannot intervene &mdash; it might switch to an alternative sub-agent, try a different approach, or inform the user about a delay. Errors should be propagated immediately with context about retry state ("attempt 1/3 failed, retrying"). This lets the coordinator make architecture-level decisions (failover, parallelization) instead of waiting blindly for a sub-agent that may be stuck in a retry loop.</div>
 </div>
 
+<hr>
+<h3>Bonus: Hard Scenario Questions (Exam-Level Difficulty)</h3>
+<div class="notice notice-warn">
+  <b>Exam-Level Difficulty</b>
+  These questions are harder than the standard practice test above. They simulate real exam difficulty: scenario-anchored, multi-step reasoning, with four highly plausible options. All distractors exploit named exam traps from the distractor bank. Use these to test whether you are truly exam-ready.
+</div>
+
+<!-- HQ1 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ1</span>
+    <span class="q-tag">D1 &times; D2 &mdash; PostToolUse Timing</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Customer Support Resolution Agent.</strong> The agent processes refunds across three regional MCP servers: EU, US-East, and US-West. Each server returns timestamps in a different format (ISO 8601, Unix epoch, and a locale string respectively). After deploying a <code>PostToolUse</code> hook to normalize all timestamps to ISO 8601, the team notices the normalization works for EU and US-East but the model still receives raw locale strings from US-West. Logs confirm the hook fires for all three servers. The US-West MCP server has not been modified. What is the most likely root cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The <code>PostToolUse</code> hook fires before the US-West tool executes, so the raw response bypasses normalization and is written directly to context.</li>
+    <li><span class="letter">B</span> The hook is normalizing US-West timestamps correctly, but the model is reading a cached version of the tool result from a previous turn before the hook ran.</li>
+    <li class="correct-option"><span class="letter">C</span> The hook fires after tool execution but before the model processes the result; the US-West server is returning the locale string inside a nested field that the hook's field selector does not cover.</li>
+    <li><span class="letter">D</span> The hook is overwriting the normalized US-West value with the raw value because the hook runs twice per tool call &mdash; once for the result and once for the metadata envelope.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> PostToolUse fires after execution and before model processing (correct timing), but a nested field the selector does not target passes through unchanged. <b>Trap:</b> Option A inverts the hook's timing (fires-before-execution distractor). Option B introduces a non-existent caching mechanism. Option D invents a double-fire behavior.</div>
+</div>
+
+<!-- HQ2 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ2</span>
+    <span class="q-tag">D1 &mdash; Coordinator Decomposition</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Multi-Agent Research System.</strong> A coordinator decomposes a query about "the regulatory landscape for autonomous vehicles" and assigns subtopics to four subagents: federal highway regulations, state-level legislation, EU framework directives, and insurance liability law. The synthesis agent produces a 12-page report. The client flags that the report is missing entirely: FAA drone-vehicle integration rules, NHTSA software safety standards, and UNECE WP.29 international harmonization. All four subagents completed successfully with no errors. What is the root cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The synthesis agent did not request a second pass from the web search subagent to fill coverage gaps identified during report assembly.</li>
+    <li><span class="letter">B</span> The web search subagent used keyword-based queries that did not surface regulatory documents from specialized agencies, returning only general news articles.</li>
+    <li class="correct-option"><span class="letter">C</span> The coordinator's initial decomposition defined subtopics too narrowly, omitting the regulatory bodies (FAA, NHTSA, UNECE) whose scope overlaps with autonomous vehicles.</li>
+    <li><span class="letter">D</span> The document analysis subagent filtered out documents from non-legislative sources, excluding agency technical standards from its output.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> Downstream agents executed correctly within their assigned scope; the gap is in what the coordinator chose to decompose into. <b>Trap:</b> downstream-blame applied to all three wrong options &mdash; each blames a subagent rather than the upstream decomposition.</div>
+</div>
+
+<!-- HQ3 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ3</span>
+    <span class="q-tag">D2 &mdash; Access Failure vs Empty Result</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Customer Support Resolution Agent.</strong> A <code>lookup_order</code> tool queries the order database for orders placed in the last 90 days. For customer #4471, it returns an empty array. The agent retries the call three times with exponential backoff, then escalates to a human agent with the note "unable to retrieve order history." The human agent checks manually and confirms the customer has no orders in the last 90 days &mdash; they last ordered 14 months ago. Which change would most directly prevent this incorrect escalation in future?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> Increase the <code>lookup_order</code> tool's retry limit from 3 to 5 attempts before escalating, giving transient failures more recovery opportunities.</li>
+    <li><span class="letter">B</span> Add a secondary <code>lookup_order_extended</code> tool that queries the full order history when the 90-day window returns empty, so the agent has more data before deciding.</li>
+    <li class="correct-option"><span class="letter">C</span> Update the <code>lookup_order</code> tool to return a structured response that distinguishes between an access failure (<code>isRetryable: true</code>) and a valid empty result (<code>isRetryable: false</code>, <code>resultType: "no_records_found"</code>), and update the agent to not retry on <code>no_records_found</code>.</li>
+    <li><span class="letter">D</span> Implement a <code>PostToolUse</code> hook that inspects empty array results and automatically retries with an extended date range before the model processes the response.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: C.</b> The tool must signal the difference between a retrieval failure and a legitimate empty result; the agent's retry logic depends on this distinction. <b>Trap:</b> Options A and D both increase retrying (wrong direction). Option B adds a second tool but does not fix the agent's inability to distinguish failure from empty.</div>
+</div>
+
+<!-- HQ4 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ4</span>
+    <span class="q-tag">D3 &mdash; CLAUDE.md Hierarchy</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Developer Productivity with Claude.</strong> A team of six engineers uses Claude Code on a shared monorepo. The tech lead added API naming conventions, test file structure requirements, and PR description templates to their personal <code>~/.claude/CLAUDE.md</code> nine months ago. Three engineers who joined in the last four months consistently produce code that violates these conventions. The three original engineers follow them perfectly. All six engineers are working from the same repo on the same branch. What is the root cause and the correct fix?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The new engineers have not run <code>/memory</code> to load the team's CLAUDE.md into their session context; the fix is to add <code>/memory</code> to the team onboarding documentation.</li>
+    <li class="correct-option"><span class="letter">B</span> The conventions are in the tech lead's user-level <code>~/.claude/CLAUDE.md</code>, which is not version-controlled and not shared via git; the fix is to move them to a project-level <code>.claude/CLAUDE.md</code> committed to the repo.</li>
+    <li><span class="letter">C</span> The new engineers' local Claude Code installations have a different default model than the original engineers, causing different instruction-following behavior; the fix is to pin the model version in a project-level config file.</li>
+    <li><span class="letter">D</span> The conventions conflict with the new engineers' personal <code>~/.claude/CLAUDE.md</code> files, which are overriding the team instructions; the fix is to ask each engineer to delete their personal CLAUDE.md.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> User-level config is personal and never shared via git; the fix is always to move team standards to project-level. <b>Trap:</b> Option A correctly names <code>/memory</code> but applies it to the wrong problem. Option D diagnoses a conflict that is not described in the scenario.</div>
+</div>
+
+<!-- HQ5 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ5</span>
+    <span class="q-tag">D4 &mdash; What tool_use Does NOT Prevent</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Structured Data Extraction.</strong> An engineering team builds an invoice extraction pipeline using <code>tool_use</code> with a strict JSON schema. The schema defines <code>invoice_total</code>, <code>line_items</code> (array), and <code>tax_rate</code> as required fields. After processing 500 invoices, they audit a sample and find: (1) zero JSON syntax errors, (2) 23 invoices where <code>line_items</code> sum to a different value than <code>invoice_total</code>, and (3) 11 invoices where the model populated <code>invoice_total</code> with the subtotal figure from the invoice rather than the grand total. Which statement correctly characterizes what <code>tool_use</code> with a strict schema guarantees and what it does not?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> <code>tool_use</code> with a strict schema guarantees syntactic validity and semantic correctness; the errors in findings (2) and (3) indicate the schema definition is missing validation constraints that should enforce sum consistency.</li>
+    <li class="correct-option"><span class="letter">B</span> <code>tool_use</code> with a strict schema guarantees only that the output is syntactically valid JSON matching the schema structure; it does not prevent semantic errors (finding 2) or field placement errors where a value is extracted from the wrong location in the source (finding 3).</li>
+    <li><span class="letter">C</span> <code>tool_use</code> with a strict schema guarantees syntactic validity; finding (2) is a schema design flaw (missing sum constraint), while finding (3) is a prompt engineering failure that few-shot examples would resolve.</li>
+    <li><span class="letter">D</span> <code>tool_use</code> with a strict schema prevents all three finding categories when <code>strict: true</code> is set in the tool definition; the presence of errors (2) and (3) indicates <code>strict: true</code> was not applied.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> <code>tool_use</code> eliminates syntax errors but cannot enforce semantic consistency or prevent the model from reading the wrong field. <b>Trap:</b> Option A incorrectly claims <code>tool_use</code> guarantees semantic correctness. Option D misattributes <code>strict: true</code> as preventing semantic errors. Option C is partially correct but mischaracterizes finding (3).</div>
+</div>
+
+<!-- HQ6 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ6</span>
+    <span class="q-tag">D5 &mdash; Escalation Triggers</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Customer Support Resolution Agent.</strong> A customer contacts support about an incorrect charge of $34.99 on their account. The agent identifies this as a known billing system error affecting accounts created before March 2024, and the refund policy covers it directly &mdash; no exceptions needed. The customer's messages become increasingly frustrated over three exchanges. In the fourth message, the customer writes: "I've been dealing with this for 20 minutes. Can you please just fix this?" The agent escalates to a human. Was this escalation correct, and what is the right behavior?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The escalation was correct because the customer's sustained frustration across four exchanges indicates the agent is failing to make meaningful progress, which is a valid escalation trigger.</li>
+    <li class="correct-option"><span class="letter">B</span> The escalation was incorrect; the customer asked the agent to "fix this," which is a request to resolve the issue, not an explicit request for a human agent. The agent should acknowledge the frustration and immediately process the $34.99 refund under the applicable policy.</li>
+    <li><span class="letter">C</span> The escalation was correct because the agent's confidence in diagnosing the billing error without human verification is a self-reported confidence score, which is not a reliable escalation trigger.</li>
+    <li><span class="letter">D</span> The escalation was incorrect; however, the agent should ask a clarifying question ("Would you prefer I process the refund now, or would you like to speak with a human agent?") before taking action.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> "Can you please just fix this" is a request to resolve, not an explicit request for a human. The issue is within policy and solvable. The agent should acknowledge frustration and resolve. <b>Trap:</b> Option A misclassifies frustration as "inability to make progress" &mdash; the agent CAN resolve it. Option C inverts the confidence score trap. Option D adds unnecessary friction when the path forward is clear.</div>
+</div>
+
+<!-- HQ7 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ7</span>
+    <span class="q-tag">D1 &times; D5 &mdash; Cross-Domain</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Multi-Agent Research System.</strong> A coordinator assigns a web search subagent to find statistics on electric vehicle adoption in Southeast Asia. The subagent returns a 4,200-word result containing market figures, country breakdowns, and analyst quotes. The coordinator appends the full result to the synthesis agent's prompt. After three more research phases, the synthesis agent's context is 87% full. In the final report, the synthesis agent attributes two of the Southeast Asia statistics to a European market report from a different research phase. What is the primary architectural failure and the correct fix?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The synthesis agent's context is too large; the fix is to increase the context window size or switch to a model with a larger context budget.</li>
+    <li class="correct-option"><span class="letter">B</span> The coordinator appended the full 4,200-word subagent result instead of a structured summary of key facts with source metadata; trimming verbose tool results to relevant fields with claim-source mappings before appending would preserve attribution and reduce context load.</li>
+    <li><span class="letter">C</span> The web search subagent returned results without source URLs attached to each statistic; the fix is to update the subagent's system prompt to require inline citation after every figure.</li>
+    <li><span class="letter">D</span> The synthesis agent should run a second cross-reference pass using a <code>verify_fact</code> tool before finalizing the report; the missing tool in the synthesis agent's <code>allowedTools</code> is the root cause of the attribution errors.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: B.</b> Appending 4,200 words fills context and dilutes attribution. The fix is trimming to structured key facts with metadata before appending (D5: tool result trimming + D1: structured context passing). <b>Trap:</b> Option A treats context exhaustion as the root cause rather than a symptom. Option C misplaces the fix in the subagent prompt. Option D adds a tool that does not address the root cause.</div>
+</div>
+
+<!-- HQ8 -->
+<div class="question-card">
+  <div class="q-header">
+    <span class="q-num">HQ8</span>
+    <span class="q-tag">D1 &mdash; Agentic Loop Termination</span>
+  </div>
+  <p class="q-text"><strong>Scenario: Customer Support Resolution Agent.</strong> An agent processes customer refund requests. After deploying to production, the team notices that in 3% of cases the agent terminates immediately after receiving a response that contains both a text explanation and a <code>tool_use</code> block requesting a <code>lookup_order</code> call. The agent was written to terminate when <code>response.content[0].type == "text"</code>. Logs show the tool call is being silently dropped. What is the root cause?</p>
+  <ul class="q-options">
+    <li><span class="letter">A</span> The <code>stop_reason</code> field is returning <code>"end_turn"</code> incorrectly for responses that contain <code>tool_use</code> blocks, indicating a bug in the API response formatting.</li>
+    <li><span class="letter">B</span> The model is non-deterministically returning text-only responses when it should be returning <code>tool_use</code> blocks; the fix is to set <code>tool_choice: "any"</code> to force a tool call in all responses.</li>
+    <li><span class="letter">C</span> The agent's iteration cap of 10 loops is causing premature termination when the conversation history grows large enough that the model generates a combined text-and-tool response as a compression artifact.</li>
+    <li class="correct-option"><span class="letter">D</span> The agent checks <code>response.content[0].type == "text"</code> to detect completion; when the model returns a text block followed by a <code>tool_use</code> block, the first content item is text, so the termination condition triggers and the tool call is dropped.</li>
+  </ul>
+  <div class="q-explain"><b>Correct: D.</b> <b>Trap:</b> loop-termination &mdash; checking content type instead of <code>stop_reason</code>. The model can return text and <code>tool_use</code> in the same response; only <code>stop_reason == "tool_use"</code> reliably signals continuation. Option A inverts causality. Option B misdiagnoses the issue. Option C introduces an irrelevant iteration cap red herring.</div>
+</div>
+
 </section>
 
 <!-- ============================== FOOTER ============================== -->
 <footer class="branded-footer">
   <img src="sg-logo.png" alt="SG" class="bf-logo">
-  <div class="bf-sub">CCAR-F Architect Certification Prep — 87 MCQs</div>
+  <div class="bf-sub">CCAR-F Architect Certification Prep &mdash; 95 MCQs (87 Standard + 8 Hard)</div>
   <div class="bf-copy">Created with <span class="heart">&#9829;</span> by <strong>Sumit Gaidhani</strong> &bull; September 2026</div>
 </footer>
 
