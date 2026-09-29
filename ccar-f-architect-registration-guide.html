@@ -522,7 +522,47 @@
 </div>
 
 <!-- ====== SECTION 9 ====== -->
-<h2><span class="num">Section 09</span>After You Pass</h2>
+<h2><span class="num">Section 09</span>Exam Day Checklist</h2>
+
+<h3>Before the Exam</h3>
+<ul class="checklist">
+  <li>Confirm exam date, time, and timezone</li>
+  <li>Test your internet connection (wired preferred over WiFi)</li>
+  <li>Test webcam and microphone</li>
+  <li>Have a valid government-issued photo ID ready (passport, driver's license)</li>
+  <li>Prepare a clean, quiet room with good lighting</li>
+  <li>Close all other browser tabs and applications</li>
+  <li>Clear your desk — no notes, no phone, no second monitor</li>
+  <li>Install any required proctoring software in advance</li>
+  <li>Disable browser notifications and system notifications</li>
+  <li>Have a glass of water nearby (usually allowed)</li>
+  <li>Use the restroom before starting</li>
+</ul>
+
+<h3>During the Exam</h3>
+<ul class="checklist">
+  <li>Read each question carefully — look for keywords like "NOT," "BEST," "FIRST," "MOST LIKELY"</li>
+  <li>Eliminate obviously wrong answers first, then choose from remaining options</li>
+  <li>Don't spend more than 2 minutes on one question — flag it and come back</li>
+  <li>Watch the timer — pace yourself (~1.5 minutes per question)</li>
+  <li>Don't second-guess too much — your first instinct is usually right</li>
+  <li>Answer every question — typically no penalty for guessing</li>
+  <li>For architecture questions: think about production implications, not just correctness</li>
+  <li>For "common mistake" questions: remember the anti-patterns (skipping history, ending loop early, "only if confident")</li>
+  <li>Review flagged questions if time allows</li>
+</ul>
+
+<h3>After the Exam</h3>
+<ul class="checklist">
+  <li>Note your score and any domain-specific feedback</li>
+  <li>If passed: download your certificate and digital badge immediately</li>
+  <li>Add the credential to your LinkedIn profile</li>
+  <li>Share your achievement on social media</li>
+  <li>If not passed: review the score breakdown by domain, study weak areas, schedule retake after waiting period</li>
+</ul>
+
+<!-- ====== SECTION 10 ====== -->
+<h2><span class="num">Section 10</span>After You Pass</h2>
 
 <h3>Claim Your Credential</h3>
 <ol>
@@ -572,7 +612,60 @@
 </div>
 
 <!-- ====== SECTION 10 ====== -->
-<h2><span class="num">Section 10</span>Key Exam Topics — Quick Reference</h2>
+<h2><span class="num">Section 11</span>Frequently Asked Questions</h2>
+
+<div class="step-card">
+  <div class="step-title">Q: Do I need to pass CCAO-F or CCDV-F first before taking CCAR-F?</div>
+  <p><strong>No.</strong> There are no formal prerequisites. However, Anthropic recommends having developer-level Claude experience. The knowledge builds on each level, so having working experience with the API, tool use, and agents is strongly recommended even if you skip the lower exams.</p>
+</div>
+
+<div class="step-card">
+  <div class="step-title">Q: Can I take it with a personal email (not a company account)?</div>
+  <p><strong>Yes.</strong> The certification is an individual credential — it belongs to you, not your employer. Register with any personal email (Gmail, Outlook, etc.) and pay with a personal credit/debit card. No company sponsorship or corporate account needed.</p>
+</div>
+
+<div class="step-card green">
+  <div class="step-title">Q: Do I need hands-on coding experience with the Claude API?</div>
+  <p><strong>Strongly recommended.</strong> CCAR-F tests architectural concepts, not just theory. Questions involve code patterns (agentic loops, tool use, hooks), and understanding comes from building. At minimum, you should have built one tool-using agent and configured MCP before sitting the exam.</p>
+</div>
+
+<div class="step-card green">
+  <div class="step-title">Q: What if I fail? How soon can I retake?</div>
+  <p><strong>Typically 14-30 days waiting period.</strong> Use the time to study the domains where you scored lowest. An additional exam fee usually applies for the retake. Your score report will show domain-level breakdowns to guide your study.</p>
+</div>
+
+<div class="step-card orange">
+  <div class="step-title">Q: How is the CCAR-F different from the CCDV-F Developer exam?</div>
+  <p><strong>CCDV-F tests building; CCAR-F tests designing.</strong> Developer: "How do I call the API, handle streaming, use tools?" Architect: "How do I design a multi-agent system, manage context at scale, implement guardrails, and make cost/latency trade-offs?" The Architect exam assumes you already know the Developer material and tests higher-level decision-making.</p>
+</div>
+
+<div class="step-card orange">
+  <div class="step-title">Q: Is the exam open-book or closed-book?</div>
+  <p><strong>Typically closed-book.</strong> Online proctored exams don't allow notes, external resources, other browser tabs, or a second monitor. You need to know the material — not just where to find it. Check the specific exam policies when you register.</p>
+</div>
+
+<div class="step-card purple">
+  <div class="step-title">Q: How long is the certification valid?</div>
+  <p><strong>Typically 2 years.</strong> You'll need to recertify as Claude's features, models, and best practices evolve. This ensures certified architects stay current with the platform.</p>
+</div>
+
+<div class="step-card purple">
+  <div class="step-title">Q: What roles benefit most from CCAR-F?</div>
+  <p><strong>AI Solutions Architects, Senior Developers building multi-agent systems, Technical Leads making model selection decisions, Platform Engineers setting up Claude infrastructure, and GenAI Consultants advising clients.</strong> If you're designing systems (not just using Claude or writing API calls), this is your certification.</p>
+</div>
+
+<div class="step-card red">
+  <div class="step-title">Q: What certifications complement CCAR-F well?</div>
+  <p><strong>AWS AI/ML certifications</strong> (if deploying on Bedrock), <strong>Google Cloud AI certs</strong> (if on Vertex AI), <strong>Azure AI certifications</strong> (if on Foundry). Also: LangChain/LangGraph expertise, and domain-specific knowledge in your target industry (healthcare, finance, legal).</p>
+</div>
+
+<div class="step-card red">
+  <div class="step-title">Q: What's the most important topic to study?</div>
+  <p><strong>Domain 1: Agentic Architecture (~30% of the exam).</strong> Specifically: the agentic loop (how to branch on tool_use, append history correctly), the hub-and-spoke model (coordinator + workers), and common mistakes (skipping history, ending loop too early). This domain has the most questions and the trickiest scenarios.</p>
+</div>
+
+<!-- ====== SECTION 12 ====== -->
+<h2><span class="num">Section 12</span>Key Exam Topics — Quick Reference</h2>
 
 <p>The most heavily tested concepts to know cold:</p>
 
