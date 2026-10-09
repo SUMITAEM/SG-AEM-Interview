@@ -106,8 +106,6 @@ tr:nth-child(even) td{background:var(--bg);}
 .scenario-q .sq-text{font-weight:700;font-size:15px;color:var(--ink);line-height:1.4;}
 .scenario-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.35s ease;padding:0 14px 0 46px;}
 .scenario-a.open{max-height:2000px;padding:0 14px 14px 46px;}
-.fb-btn{position:fixed;bottom:124px;right:20px;z-index:99988;width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(124,58,237,0.4);transition:transform 0.2s;}
-.fb-btn:hover{transform:scale(1.1);}
 .fb-overlay{display:none;position:fixed;inset:0;z-index:999998;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;}
 .fb-overlay.open{display:flex;}
 .fb-modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 24px;width:420px;max-width:calc(100vw - 32px);box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:fadeInUp 0.3s ease-out;}
@@ -326,7 +324,7 @@ Sign in with Google
 <span class="num">&#9733;</span><span>Practice All MCQs</span>
 <span class="score-pill" id="allScorePill">0/544</span>
 </div>
-<div class="sidebar-footer"><a href="AEM-cheat-sheet.html" style="display:block;width:100%;padding:9px;font-size:12px;font-family:var(--mono);background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border:none;border-radius:6px;cursor:pointer;text-align:center;text-decoration:none;font-weight:600;margin-bottom:8px;letter-spacing:0.5px;">&#128203; AEM Cheat Sheet</a><button class="reset-btn" onclick="resetProgress()">Reset all progress</button></div>
+<div class="sidebar-footer"><a href="AEM-cheat-sheet.html" style="display:block;width:100%;padding:9px;font-size:12px;font-family:var(--mono);background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border:none;border-radius:6px;cursor:pointer;text-align:center;text-decoration:none;font-weight:600;margin-bottom:8px;letter-spacing:0.5px;">&#128203; AEM Cheat Sheet</a><button class="reset-btn" onclick="resetProgress()">Reset all progress</button><button class="reset-btn" onclick="openFeedback()" style="margin-top:6px;border-color:rgba(168,85,247,0.4);color:#a855f7;">&#9993; Send Feedback</button></div>
 </div>
 <div class="sidebar-user" id="sidebarUser" style="display:none;">
 <img id="userAvatar" src="" alt="U">
@@ -9885,8 +9883,7 @@ showTopic('t1');updateScorePills();updateProgressBar();
 <button class="mu-logout" onclick="signOutUser()">&#x2192; Sign Out</button>
 </div>
 
-<!-- Feedback Button & Modal -->
-<button class="fb-btn" id="feedbackBtn" onclick="openFeedback()" title="Send Feedback">&#9993;</button>
+<!-- Feedback Modal -->
 <div class="fb-overlay" id="feedbackOverlay" onclick="if(event.target===this)closeFeedback()">
 <div class="fb-modal" id="feedbackModal">
 <h3>&#128172; Send Feedback</h3>
@@ -10239,7 +10236,7 @@ function buildMobileNav() {
   });
   html += '</div><div id="mobileNavList"></div>';
   html += '<div class="nav-item" onclick="showTopic(\'practice-all\');toggleMobileNav();" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;"><span class="num">&#9733;</span><span>Practice All MCQs</span><span class="score-pill" id="mobileAllScorePill">0/450</span></div>';
-  html += '<div style="padding:12px 16px;"><a href="AEM-cheat-sheet.html" style="display:block;width:100%;padding:9px;font-size:12px;font-family:var(--mono);background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border:none;border-radius:6px;cursor:pointer;text-align:center;text-decoration:none;font-weight:600;margin-bottom:8px;letter-spacing:0.5px;">&#128203; AEM Cheat Sheet</a><button class="reset-btn" onclick="resetProgress();toggleMobileNav();">Reset all progress</button></div>';
+  html += '<div style="padding:12px 16px;"><a href="AEM-cheat-sheet.html" style="display:block;width:100%;padding:9px;font-size:12px;font-family:var(--mono);background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border:none;border-radius:6px;cursor:pointer;text-align:center;text-decoration:none;font-weight:600;margin-bottom:8px;letter-spacing:0.5px;">&#128203; AEM Cheat Sheet</a><button class="reset-btn" onclick="resetProgress();toggleMobileNav();">Reset all progress</button><button class="reset-btn" onclick="openFeedback();toggleMobileNav();" style="margin-top:6px;border-color:rgba(168,85,247,0.4);color:#a855f7;">&#9993; Send Feedback</button></div>';
   drawer.innerHTML = html;
   drawer.dataset.built = '1';
   syncMobileNavList();
