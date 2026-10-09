@@ -317,6 +317,7 @@ hr {
       <tr><td>Dark / Light Theme</td><td>Toggle button (top-right). Respects <code>prefers-color-scheme</code> and persists choice in localStorage.</td></tr>
       <tr><td>Mobile Responsive</td><td>Hamburger menu, sliding navigation drawer, floating user avatar with dropdown, full-width footer on mobile.</td></tr>
       <tr><td>Canvas Avatars</td><td>Auto-generated colored initial avatars for users without Google profile photos (deterministic from email).</td></tr>
+      <tr><td>Feedback System</td><td>Sidebar button opens a modal with category dropdown (Suggestion/Bug/Content/Appreciation/Other) and text area. Saved to Firestore <code>feedback</code> collection. Admin panel has "Feedback" viewer with "Mark Read" button. No email exposed to users.</td></tr>
     </table>
 
     <h3>Content Categories (Sidebar Tabs)</h3>
@@ -587,6 +588,12 @@ service cloud.firestore {
                        ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com']
                     && request.resource.data.diff(resource.data)
                        .affectedKeys().hasOnly(['disabled']);
+    }
+    match /feedback/{feedbackId} {
+      allow create: if request.auth != null;
+      allow read, update: if request.auth != null
+                          && request.auth.token.email in
+                             ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com'];
     }
   }
 }</code></pre>
