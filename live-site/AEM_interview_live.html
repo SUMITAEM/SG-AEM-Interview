@@ -31,8 +31,15 @@ a{color:var(--accent);}
 .nav-item:hover{background:rgba(8,145,178,0.08);color:var(--accent);transform:translateX(3px);}
 .nav-item.active{background:rgba(8,145,178,0.12);color:var(--accent);border-left-color:var(--accent);font-weight:600;}
 .nav-item .num{font-family:var(--mono);font-size:10px;color:var(--sidebar-ink-dim);width:20px;flex-shrink:0;}
-.nav-item .score-pill{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--sidebar-ink-dim);background:rgba(8,145,178,0.1);border-radius:20px;padding:2px 6px;}
+.nav-item .nav-bookmark{margin-left:auto;background:none;border:none;cursor:pointer;font-size:13px;color:var(--sidebar-ink-dim);opacity:0.3;transition:all 0.15s;padding:0 2px;flex-shrink:0;}
+.nav-item:hover .nav-bookmark{opacity:0.7;}
+.nav-item .nav-bookmark.active{opacity:1;color:#fbbf24;}
+.nav-item .nav-bookmark:hover{opacity:1;transform:scale(1.2);}
+.nav-item .score-pill{font-family:var(--mono);font-size:10px;color:var(--sidebar-ink-dim);background:rgba(8,145,178,0.1);border-radius:20px;padding:2px 6px;flex-shrink:0;}
 .nav-item .score-pill.done{color:#8fe3b8;}
+.topic-bookmark{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1.5px solid var(--line);background:transparent;color:var(--ink-soft);font-family:var(--mono);font-size:12px;cursor:pointer;transition:all 0.15s;margin-left:12px;vertical-align:middle;}
+.topic-bookmark:hover{border-color:var(--amber);color:var(--amber);}
+.topic-bookmark.active{border-color:#fbbf24;color:#fbbf24;background:rgba(251,191,36,0.08);}
 .sidebar-footer{padding:12px 16px;}
 .reset-btn{width:100%;padding:8px;font-size:11px;font-family:var(--mono);background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--sidebar-ink-dim);border-radius:6px;cursor:pointer;}
 .reset-btn:hover{border-color:var(--amber);color:var(--amber);}
@@ -316,6 +323,7 @@ Sign in with Google
 <button class="sidebar-tab" data-tab="tools" onclick="filterTab('tools')">Tools</button>
 <button class="sidebar-tab" data-tab="frontend" onclick="filterTab('frontend')">Frontend</button>
 <button class="sidebar-tab" data-tab="scenarios" onclick="filterTab('scenarios')">Scenarios</button>
+<button class="sidebar-tab" data-tab="bookmarks" onclick="filterTab('bookmarks')">&#9733; Saved</button>
 <button class="sidebar-tab" data-tab="bestpractices" onclick="filterTab('bestpractices')">Best Practices</button>
 </div>
 <div class="sidebar-nav-scroll">
@@ -8791,7 +8799,32 @@ try{const s=localStorage.getItem(STORAGE_KEY);if(s)answered=JSON.parse(s);}catch
 try{const s=localStorage.getItem(STORAGE_KEY_ALL);if(s)answeredAll=JSON.parse(s);}catch(e){}
 function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(answered));localStorage.setItem(STORAGE_KEY_ALL,JSON.stringify(answeredAll));}catch(e){}}
 function qKey(t,i){return t+'-'+i;}
-let currentMode='topic'; // 'topic' or 'all'
+let currentMode='topic';
+
+var BOOKMARKS_KEY='aem_bookmarks_v1';
+var bookmarks=[];
+try{var _bk=localStorage.getItem(BOOKMARKS_KEY);if(_bk)bookmarks=JSON.parse(_bk);}catch(e){}
+function saveBookmarks(){try{localStorage.setItem(BOOKMARKS_KEY,JSON.stringify(bookmarks));}catch(e){}}
+function isBookmarked(tid){return bookmarks.indexOf(tid)!==-1;}
+function toggleBookmark(tid,ev){
+if(ev)ev.stopPropagation();
+var idx=bookmarks.indexOf(tid);
+if(idx===-1)bookmarks.push(tid);else bookmarks.splice(idx,1);
+saveBookmarks();
+updateBookmarkIcons();
+}
+function updateBookmarkIcons(){
+document.querySelectorAll('.nav-bookmark').forEach(function(b){
+var tid=b.dataset.tid;
+if(isBookmarked(tid)){b.classList.add('active');b.innerHTML='&#9733;';}
+else{b.classList.remove('active');b.innerHTML='&#9734;';}
+});
+document.querySelectorAll('.topic-bookmark').forEach(function(b){
+var tid=b.dataset.tid;
+if(isBookmarked(tid)){b.classList.add('active');b.innerHTML='&#9733; Saved';}
+else{b.classList.remove('active');b.innerHTML='&#9734; Save';}
+});
+} // 'topic' or 'all'
 
 const ALL_QUESTIONS=[];
 Object.keys(QUIZZES).forEach(tid=>{QUIZZES[tid].forEach((q,i)=>ALL_QUESTIONS.push({...q,topic:tid,idx:i}));});
@@ -8831,9 +8864,9 @@ function resetProgress(){if(!confirm('Reset ALL progress?'))return;answered={};a
 
 /* === RENDER NAV === */
 const navList=document.getElementById('navList');
-TOPICS.forEach((t,i)=>{const d=document.createElement('div');d.className='nav-item';d.dataset.target=t.id;d.dataset.tab=TOPIC_TAB[t.id]||'all';d.onclick=()=>showTopic(t.id);const qCount=QUIZZES[t.id]?QUIZZES[t.id].length:0;d.innerHTML='<span class="num">'+String(i+1).padStart(2,'0')+'</span><span>'+t.title+'</span>'+(qCount>0?'<span class="score-pill" id="pill-'+t.id+'">0/'+qCount+'</span>':'');navList.appendChild(d);});
+TOPICS.forEach((t,i)=>{const d=document.createElement('div');d.className='nav-item';d.dataset.target=t.id;d.dataset.tab=TOPIC_TAB[t.id]||'all';d.onclick=()=>showTopic(t.id);const qCount=QUIZZES[t.id]?QUIZZES[t.id].length:0;var bkClass=isBookmarked(t.id)?' active':'';var bkIcon=isBookmarked(t.id)?'&#9733;':'&#9734;';d.innerHTML='<span class="num">'+String(i+1).padStart(2,'0')+'</span><span>'+t.title+'</span><button class="nav-bookmark'+bkClass+'" data-tid="'+t.id+'" onclick="toggleBookmark(\''+t.id+'\',event)">'+bkIcon+'</button>'+(qCount>0?'<span class="score-pill" id="pill-'+t.id+'">0/'+qCount+'</span>':'');navList.appendChild(d);});
 
-function filterTab(key){document.querySelectorAll('.sidebar-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===key));document.querySelectorAll('#navList .nav-item').forEach(it=>{it.style.display=(key==='all'||it.dataset.tab===key)?'':'none';});}
+function filterTab(key){document.querySelectorAll('.sidebar-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===key));document.querySelectorAll('#navList .nav-item').forEach(it=>{if(key==='all'){it.style.display='';}else if(key==='bookmarks'){it.style.display=isBookmarked(it.dataset.target)?'':'none';}else{it.style.display=it.dataset.tab===key?'':'none';}});}
 
 /* === QUIZ RENDER === */
 function shuffleArray(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
@@ -8860,7 +8893,8 @@ var iqa=INTERVIEW_QA[t.id]||[];var iqaHtml='';
 if(iqa.length>0){var isScenario=t.id==='t68';if(isScenario){iqaHtml='<div style="margin:20px 0;padding:16px 18px;background:linear-gradient(135deg,rgba(8,145,178,0.04),rgba(6,182,212,0.02));border:1.5px solid var(--line);border-radius:10px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">&#128293;</span><span style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);">Scenario-Based Questions</span></div><div style="display:flex;gap:6px;"><button onclick="toggleAllScenarios(true)" style="font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;">Expand All</button><button onclick="toggleAllScenarios(false)" style="font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;">Collapse All</button></div></div>'+iqa.map(function(item,idx){return'<div class="scenario-item" style="margin-bottom:4px;border-bottom:1px solid var(--line);"><div class="scenario-q" onclick="toggleScenario(this)"><span class="sq-arrow">&#9654;</span><span class="sq-num">Q'+(idx+1)+'</span><span class="sq-text">'+item.q+'</span></div><div class="scenario-a"><div class="scenario-a-inner">'+item.a+'</div></div></div>';}).join('')+'</div>';}else{iqaHtml='<div style="margin:20px 0;padding:16px 18px;background:linear-gradient(135deg,rgba(8,145,178,0.04),rgba(6,182,212,0.02));border:1.5px solid var(--line);border-radius:10px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="font-size:18px;">&#128161;</span><span style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);">Most Asked Interview Questions</span></div>'+iqa.map(function(item,idx){return'<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);"><div style="font-weight:700;font-size:15.5px;color:var(--ink);margin-bottom:6px;">Q'+(idx+1)+': '+item.q+'</div><div style="font-size:14.5px;color:var(--ink-soft);line-height:1.7;padding-left:12px;border-left:3px solid var(--accent);">'+item.a+'</div></div>';}).join('')+'</div>';}}
 var ytVids=YOUTUBE_MAP[t.id]||[];var ytHtml='';if(ytVids.length>0){ytHtml='<div style="margin:16px 0;padding:12px 16px;background:linear-gradient(135deg,rgba(220,38,38,0.05),rgba(220,38,38,0.02));border:1.5px solid rgba(220,38,38,0.2);border-radius:10px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#dc2626"><path d="M23.5 6.2c-.3-1-1-1.8-2-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.5.6c-1 .3-1.8 1-2.1 2C0 8.1 0 12 0 12s0 3.9.4 5.8c.3 1 1 1.8 2 2.1 1.9.6 9.5.6 9.5.6s7.6 0 9.5-.6c1-.3 1.8-1 2.1-2 .4-1.9.4-5.8.4-5.8s0-3.9-.4-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg><span style="font-family:var(--mono);font-size:12px;font-weight:700;color:#dc2626;">Watch on YouTube</span></div><div style="display:flex;flex-wrap:wrap;gap:6px;">'+ytVids.map(function(v){return'<a href="'+PL+'" target="_blank" rel="noopener" style="font-size:11px;padding:5px 10px;border-radius:6px;background:#fff;border:1px solid rgba(220,38,38,0.3);color:#dc2626;text-decoration:none;font-family:var(--mono);transition:all 0.15s;" onmouseover="this.style.background=\'#dc2626\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'#fff\';this.style.color=\'#dc2626\'">&#9654; '+v.n+'</a>';}).join('')+'</div></div>';}
 var sec=document.getElementById('section-'+t.id);
-sec.innerHTML='<div class="topbar"><div class="eyebrow">Topic '+String(i+1).padStart(2,'0')+' of '+_topicCount+'</div></div><h2 class="page-title">'+t.title+'</h2><p class="page-desc">'+t.desc+'</p>'+ytHtml+(NOTES[t.id]||'')+iqaHtml+(hasQuiz?'<div class="quiz-toggle" onclick="toggleQuiz(\''+t.id+'\')"><span class="toggle-icon">&#9654;</span><span class="toggle-text">Test Your Knowledge</span><span class="toggle-badge" id="scoreLabel-'+t.id+'">0/'+QUIZZES[t.id].length+'</span></div><div class="quiz-content" id="quizContent-'+t.id+'"><div class="quiz-header"><div class="quiz-score" id="scoreFull-'+t.id+'"></div><button class="reset-topic-btn" onclick="resetTopicProgress(\''+t.id+'\')">Reset</button></div><div id="quiz-'+t.id+'"></div><div class="pass-fail-banner" id="passfail-'+t.id+'"></div></div>':'')+'<div class="topic-nav-btns">'+(prev?'<button class="nav-btn ghost" onclick="showTopic(\''+prev.id+'\')">← '+prev.title+'</button>':'<span></span>')+(next?'<button class="nav-btn primary" onclick="showTopic(\''+next.id+'\')">'+next.title+' →</button>':'')+'</div>';
+var bkActive=isBookmarked(t.id)?' active':'';var bkLabel=isBookmarked(t.id)?'&#9733; Saved':'&#9734; Save';
+sec.innerHTML='<div class="topbar"><div class="eyebrow">Topic '+String(i+1).padStart(2,'0')+' of '+_topicCount+'</div></div><h2 class="page-title">'+t.title+'<button class="topic-bookmark'+bkActive+'" data-tid="'+t.id+'" onclick="toggleBookmark(\''+t.id+'\')">'+bkLabel+'</button></h2><p class="page-desc">'+t.desc+'</p>'+ytHtml+(NOTES[t.id]||'')+iqaHtml+(hasQuiz?'<div class="quiz-toggle" onclick="toggleQuiz(\''+t.id+'\')"><span class="toggle-icon">&#9654;</span><span class="toggle-text">Test Your Knowledge</span><span class="toggle-badge" id="scoreLabel-'+t.id+'">0/'+QUIZZES[t.id].length+'</span></div><div class="quiz-content" id="quizContent-'+t.id+'"><div class="quiz-header"><div class="quiz-score" id="scoreFull-'+t.id+'"></div><button class="reset-topic-btn" onclick="resetTopicProgress(\''+t.id+'\')">Reset</button></div><div id="quiz-'+t.id+'"></div><div class="pass-fail-banner" id="passfail-'+t.id+'"></div></div>':'')+'<div class="topic-nav-btns">'+(prev?'<button class="nav-btn ghost" onclick="showTopic(\''+prev.id+'\')">← '+prev.title+'</button>':'<span></span>')+(next?'<button class="nav-btn primary" onclick="showTopic(\''+next.id+'\')">'+next.title+' →</button>':'')+'</div>';
 }
 
 function toggleScenario(el){el.classList.toggle('open');const ans=el.nextElementSibling;ans.classList.toggle('open');}

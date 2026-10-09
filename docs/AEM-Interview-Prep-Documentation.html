@@ -318,6 +318,7 @@ hr {
       <tr><td>Mobile Responsive</td><td>Hamburger menu, sliding navigation drawer, floating user avatar with dropdown, full-width footer on mobile.</td></tr>
       <tr><td>Canvas Avatars</td><td>Auto-generated colored initial avatars for users without Google profile photos (deterministic from email).</td></tr>
       <tr><td>Feedback System</td><td>Sidebar button opens a modal with category dropdown (Suggestion/Bug/Content/Appreciation/Other) and text area. Saved to Firestore <code>feedback</code> collection. Admin panel has "Feedback" viewer with "Mark Read" button. No email exposed to users.</td></tr>
+      <tr><td>Bookmark Topics</td><td>Star icon on each topic in sidebar — click to save/unsave. "Saved" tab in sidebar filters to bookmarked topics only. Bookmark button also appears in topic header. Persists in browser localStorage (<code>aem_bookmarks_v1</code>). Bookmarks are independent of quiz progress reset.</td></tr>
     </table>
 
     <h3>Content Categories (Sidebar Tabs)</h3>
