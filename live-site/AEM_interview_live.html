@@ -224,11 +224,15 @@ tr:nth-child(even) td{background:var(--bg);}
 .mobile-user-dropdown .mu-logout{width:100%;padding:9px 14px;border-radius:7px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;transition:0.15s;}
 .mobile-user-dropdown .mu-logout:hover{border-color:#f87171;color:#f87171;background:var(--bad-bg);}
 </style>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+<!-- Preconnect to Firebase domains for faster loading -->
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://apis.google.com" crossorigin>
+<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+<!-- Firebase SDK (defer to not block page render) -->
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 </head>
 <body>
 <!-- Login Overlay -->
@@ -8853,7 +8857,7 @@ document.body.style.userSelect='none';document.body.style.webkitUserSelect='none
 document.addEventListener('copy',e=>e.preventDefault());
 document.addEventListener('selectstart',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
-(function(){var dCheck=setInterval(function(){var t1=performance.now();debugger;var t2=performance.now();if(t2-t1>100){document.documentElement.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1b2a;color:#f87171;font-family:system-ui;font-size:20px;font-weight:700;text-align:center;padding:20px;">Developer Tools detected. Please close DevTools to continue.</div>';clearInterval(dCheck);}},1000);})();
+(function(){var dCheck=setInterval(function(){var t1=performance.now();debugger;var t2=performance.now();if(t2-t1>100){document.documentElement.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0d1b2a;color:#f87171;font-family:system-ui;font-size:20px;font-weight:700;text-align:center;padding:20px;">Developer Tools detected. Please close DevTools to continue.</div>';clearInterval(dCheck);}},5000);})();
 
 /* === CHATBOT v2 — Synonyms, TF-IDF, Abbreviations, Comparisons === */
 (function(){
@@ -9874,9 +9878,12 @@ const firebaseConfig = {
   measurementId: "G-SYJ6NGF8TP"
 };
 
+function _waitForFirebase(cb){if(typeof firebase!=='undefined'&&firebase.app){cb();}else{setTimeout(function(){_waitForFirebase(cb);},100);}}
+var auth,db,analytics;
+_waitForFirebase(function(){
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+auth = firebase.auth();
+db = firebase.firestore();
 var analytics = null;
 try { analytics = firebase.analytics(); } catch(e) { console.warn('Analytics init failed:', e.message); }
 
@@ -10351,6 +10358,8 @@ function initAdminPanel(){
 
   setTimeout(runHealthCheck,500);
 }
+
+}); // end _waitForFirebase
 </script>
 </body>
 </html>
