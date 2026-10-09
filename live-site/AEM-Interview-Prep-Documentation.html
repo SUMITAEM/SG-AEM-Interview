@@ -560,6 +560,8 @@ hr {
       <tr><td>Reset password</td><td>Click user &rarr; Reset password (sends email)</td></tr>
       <tr><td>Quick health check</td><td>Visit site with <code>?admin=sg2024</code></td></tr>
       <tr><td>User audit</td><td>Admin panel &rarr; User Audit button</td></tr>
+      <tr><td>Block a user (from app)</td><td>Admin panel &rarr; User Audit &rarr; Block button</td></tr>
+      <tr><td>Unblock a user</td><td>Admin panel &rarr; User Audit &rarr; Unblock button</td></tr>
     </table>
 
     <h3>Firestore Security Rules</h3>
@@ -568,12 +570,29 @@ hr {
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
+      // Users can read/write their own document
       allow read, write: if request.auth != null
                          && request.auth.uid == userId;
+    }
+    match /users/{userId} {
+      // Admin emails can read all users + update disabled field
+      allow read: if request.auth != null
+                  && request.auth.token.email in
+                     ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com'];
+      allow update: if request.auth != null
+                    && request.auth.token.email in
+                       ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com']
+                    && request.resource.data.diff(resource.data)
+                       .affectedKeys().hasOnly(['disabled']);
     }
   }
 }</code></pre>
     <p>Apply at: <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore/rules">Firestore &rarr; Rules</a></p>
+
+    <div class="card warn">
+      <h4>Important: Update Firestore Rules</h4>
+      <p>The new rules above add admin read access (for User Audit) and the ability to set the <code>disabled</code> field (for blocking users). The admin update rule is restricted — admins can <strong>only</strong> change the <code>disabled</code> field on other users' documents, nothing else. Apply these rules in Firebase Console immediately.</p>
+    </div>
 
     <div class="card warn">
       <h4>Lesson Learned: Expired Rules Incident (Sep 2026)</h4>
