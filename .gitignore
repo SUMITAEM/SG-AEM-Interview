@@ -1,0 +1,17 @@
+# Admin documentation (private - local only)
+docs/AEM-Interview-Prep-Documentation.html
+
+# Logs
+debug.log
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
