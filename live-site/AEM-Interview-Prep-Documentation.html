@@ -141,6 +141,10 @@ li { margin-bottom: 6px; }
   border-left: 4px solid var(--accent);
   background: var(--accent-light);
 }
+.card.warn {
+  border-left: 4px solid var(--warn);
+  background: rgba(217,119,6,0.06);
+}
 .card h4 {
   font-size: 13px;
   font-weight: 600;
@@ -153,7 +157,7 @@ li { margin-bottom: 6px; }
 /* Stats row */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 12px;
   margin: 20px 0;
 }
@@ -269,20 +273,20 @@ hr {
   <header class="header">
     <div class="badge">Admin Documentation</div>
     <h1>AEM Interview Preparation Platform</h1>
-    <p class="subtitle">Complete guide to the project, authentication system, analytics tracking, and user management.</p>
-    <p class="meta">Author: Sumit Gaidhani &bull; Last Updated: August 2026</p>
+    <p class="subtitle">Complete guide to the project, authentication system, analytics tracking, admin tools, and user management.</p>
+    <p class="meta">Author: Sumit Gaidhani &bull; Last Updated: October 2026</p>
   </header>
 
   <!-- OVERVIEW -->
   <section>
     <h2>Project Overview</h2>
-    <p>AEM Interview Preparation is an interactive study platform for Adobe Experience Manager certification and interview preparation. It features 52 structured topics with theory, code examples, interactive widgets, and 416 multiple-choice questions with instant feedback.</p>
+    <p>AEM Interview Preparation is an interactive study platform for Adobe Experience Manager certification and interview preparation. It features 62 structured topics with theory, code examples, interactive widgets, and 544 multiple-choice questions with instant feedback.</p>
 
     <div class="stats">
-      <div class="stat"><div class="num">52</div><div class="label">Topics</div></div>
-      <div class="stat"><div class="num">416</div><div class="label">MCQs</div></div>
-      <div class="stat"><div class="num">58</div><div class="label">Widgets</div></div>
-      <div class="stat"><div class="num">13</div><div class="label">Categories</div></div>
+      <div class="stat"><div class="num">62</div><div class="label">Topics</div></div>
+      <div class="stat"><div class="num">544</div><div class="label">MCQs</div></div>
+      <div class="stat"><div class="num">74</div><div class="label">Scenarios</div></div>
+      <div class="stat"><div class="num">15</div><div class="label">Categories</div></div>
     </div>
 
     <div class="card highlight">
@@ -293,12 +297,76 @@ hr {
     <h3>Tech Stack</h3>
     <table>
       <tr><th>Layer</th><th>Technology</th></tr>
-      <tr><td>Frontend</td><td>Single HTML file (vanilla JS, CSS)</td></tr>
+      <tr><td>Frontend</td><td>Single HTML file (vanilla JS, CSS) — no framework dependencies</td></tr>
       <tr><td>Hosting</td><td>GitHub Pages (auto-deploy via GitHub Actions)</td></tr>
       <tr><td>Authentication</td><td>Firebase Auth (Google Sign-In + Email/Password)</td></tr>
-      <tr><td>Database</td><td>Cloud Firestore (user data + progress)</td></tr>
-      <tr><td>Analytics</td><td>Google Analytics 4 (via Firebase)</td></tr>
+      <tr><td>Database</td><td>Cloud Firestore (user data + login tracking)</td></tr>
+      <tr><td>Analytics</td><td>Google Analytics 4 via Firebase (G-SYJ6NGF8TP)</td></tr>
+      <tr><td>Security</td><td>DevTools blocking, copy protection, right-click disabled</td></tr>
     </table>
+
+    <h3>Content Categories (Sidebar Tabs)</h3>
+    <table>
+      <tr><th>Tab</th><th>Topics</th></tr>
+      <tr><td>Architecture</td><td>AEM Architecture, Archetype, Local Setup, Project Structure</td></tr>
+      <tr><td>Components</td><td>AEM Components, Dialog, Page Creation, Templates, Policies, Granite/Coral UI</td></tr>
+      <tr><td>Publishing</td><td>Replication, Dispatcher</td></tr>
+      <tr><td>Debugging</td><td>Debugging, Logger Configuration</td></tr>
+      <tr><td>Content</td><td>Content Fragments, Experience Fragments, DAM, Content Policies, Resource Merger, AEM Forms</td></tr>
+      <tr><td>Workflows</td><td>Workflows, Launchers, Schedulers, Event Handlers, Resource Change Listeners</td></tr>
+      <tr><td>MSM</td><td>Multi Site Manager, Rollout Configurations</td></tr>
+      <tr><td>APIs</td><td>GraphQL, QueryBuilder, JCR SQL2, REST APIs</td></tr>
+      <tr><td>Sling</td><td>Sling Models, HTL, Servlets, Filters, Resource Resolver, Service Users, CAConfig, Sling Jobs</td></tr>
+      <tr><td>OSGi</td><td>OSGi Components, Configurations, Services</td></tr>
+      <tr><td>Cloud</td><td>Caching, Security, IMS Auth, Cloud Manager, CI/CD, Cloud Migration, Edge Delivery, Core Web Vitals, AI for AEM</td></tr>
+      <tr><td>Tools</td><td>Package Manager, CRXDE, Felix Console, IDE, Git, Maven, Jira, Java for AEM</td></tr>
+      <tr><td>Frontend</td><td>ClientLibs</td></tr>
+      <tr><td>Scenarios</td><td>74 Scenario-Based Questions (collapsible Q&A)</td></tr>
+      <tr><td>Best Practices</td><td>AEM Best Practices</td></tr>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- RECENT CHANGES -->
+  <section>
+    <h2>Recent Changes (Oct 2026)</h2>
+
+    <h3>New Topics Added</h3>
+    <table>
+      <tr><th>Topic</th><th>Type</th><th>Details</th></tr>
+      <tr><td>Edge Delivery Services</td><td>New topic</td><td>Document-based authoring, Franklin architecture, Blocks, Sidekick</td></tr>
+      <tr><td>Core Web Vitals</td><td>New topic</td><td>LCP, INP, CLS metrics with AEM-specific optimizations</td></tr>
+      <tr><td>AI for AEM Development</td><td>New topic</td><td>Adobe Sensei, Firefly, AI-assisted coding</td></tr>
+      <tr><td>Granite / Coral UI</td><td>New topic</td><td>Dialog fields, Coral 3 Web Components, validation</td></tr>
+      <tr><td>ClientLibs</td><td>New topic</td><td>Categories, dependencies vs embed, allowProxy, debugging</td></tr>
+      <tr><td>Scenario-Based Questions</td><td>New topic</td><td>74 senior-level scenarios with collapsible answers</td></tr>
+    </table>
+
+    <h3>Enriched Existing Topics</h3>
+    <ul>
+      <li><strong>Replication</strong> — transport agents, sync/async modes, common paths, programmatic trigger (+4 Q&A)</li>
+      <li><strong>Dispatcher</strong> — filter types, dispatcher.any configuration (+2 Q&A)</li>
+      <li><strong>Workflows</strong> — model types, participant types, common use cases (+3 Q&A)</li>
+      <li><strong>Schedulers</strong> — job types, key classes, OSGi config (+3 Q&A)</li>
+      <li><strong>Event Handlers</strong> — JCR event types, execution flow, use cases (+3 Q&A)</li>
+    </ul>
+
+    <h3>Firebase Fixes (Oct 2026)</h3>
+    <ul>
+      <li>Added <code>measurementId: "G-SYJ6NGF8TP"</code> — Analytics was completely silent without it</li>
+      <li>Fixed Firestore write error handling — failures were silent, now logged to console</li>
+      <li>Fixed race condition in <code>saveUserData()</code> — chained promises correctly</li>
+      <li>Added <code>trackLogin()</code> calls to Google and email sign-in handlers</li>
+      <li>Added <code>signInWithRedirect</code> fallback for popup blockers (mobile/Safari)</li>
+      <li>Added hidden admin panel (<code>?admin=sg2024</code>) for Firebase health checks</li>
+    </ul>
+
+    <h3>UI Improvements</h3>
+    <ul>
+      <li>Scenario-based Q&A answers are collapsible (click to expand) with Expand All / Collapse All</li>
+      <li>New sidebar tabs: Frontend, Scenarios</li>
+    </ul>
   </section>
 
   <hr>
@@ -310,7 +378,7 @@ hr {
 
     <h3>Supported Login Methods</h3>
     <ul>
-      <li><strong>Google Sign-In</strong> — One-click login via Google popup (recommended for users)</li>
+      <li><strong>Google Sign-In</strong> — One-click login via Google popup (falls back to redirect on mobile/popup blockers)</li>
       <li><strong>Email/Password</strong> — Traditional sign-up and sign-in with email and a password (min 6 chars)</li>
     </ul>
 
@@ -319,17 +387,7 @@ hr {
     <div class="step"><div class="step-num">2</div><div class="step-content"><strong>User signs in</strong> — Via Google or email/password.</div></div>
     <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Firebase verifies</strong> — Auth state listener detects the signed-in user.</div></div>
     <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Content unlocks</strong> — Overlay fades out, app becomes visible, user profile shows in sidebar (desktop) or floating avatar (mobile).</div></div>
-    <div class="step"><div class="step-num">5</div><div class="step-content"><strong>User data saved</strong> — Name, email, login count, and timestamp stored in Firestore.</div></div>
-
-    <h3>Responsive Behavior</h3>
-    <table>
-      <tr><th>Feature</th><th>Desktop</th><th>Mobile</th></tr>
-      <tr><td>Header</td><td>Full sidebar header with logo, stats</td><td>Fixed sticky header (logo + title only)</td></tr>
-      <tr><td>User profile</td><td>Fixed at sidebar bottom with name, email, Logout button</td><td>Floating avatar button (top-right) with dropdown</td></tr>
-      <tr><td>Logout</td><td>Button in sidebar user section</td><td>Tap avatar → dropdown → Sign Out</td></tr>
-      <tr><td>Footer</td><td>Fixed bar on main content area (right of sidebar)</td><td>Full-width fixed bar at bottom</td></tr>
-      <tr><td>Navigation</td><td>Full sidebar with scrollable topic list</td><td>Collapsed nav with 200px max-height scrollable list</td></tr>
-    </table>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><strong>User data saved</strong> — Name, email, login count, and timestamp stored in Firestore. Analytics <code>login</code> event fires.</div></div>
 
     <h3>Firebase Project Details</h3>
     <div class="card">
@@ -339,8 +397,9 @@ hr {
         <tr><td>Project Name</td><td>aem-interview-prep</td></tr>
         <tr><td>Project ID</td><td>aem-interview-prep</td></tr>
         <tr><td>Auth Domain</td><td>aem-interview-prep.firebaseapp.com</td></tr>
+        <tr><td>Measurement ID</td><td>G-SYJ6NGF8TP</td></tr>
         <tr><td>Authorized Domains</td><td>localhost, sumitaem.github.io</td></tr>
-        <tr><td>Firestore Mode</td><td>Standard Edition (Test mode for 30 days)</td></tr>
+        <tr><td>Plan</td><td>Spark (free)</td></tr>
       </table>
     </div>
   </section>
@@ -364,9 +423,55 @@ hr {
     </table>
 
     <h3>Accessing User Data</h3>
-    <div class="step"><div class="step-num">1</div><div class="step-content">Go to <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase Console → Firestore</a></div></div>
+    <div class="step"><div class="step-num">1</div><div class="step-content">Go to <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase Console &rarr; Firestore</a></div></div>
     <div class="step"><div class="step-num">2</div><div class="step-content">Click the <code>users</code> collection in the left panel</div></div>
     <div class="step"><div class="step-num">3</div><div class="step-content">Each document = one user. Click to see all their data.</div></div>
+
+    <div class="card warn">
+      <h4>Important: Auth vs Firestore Users</h4>
+      <p>Firebase Auth and Firestore are separate systems. If user counts don't match, it means Firestore writes failed (usually expired security rules). Use the admin panel (<code>?admin=sg2024</code>) to diagnose. See the Admin Panel section below.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ADMIN PANEL -->
+  <section>
+    <h2>Admin Health Check Panel</h2>
+    <p>A hidden admin panel is built into the site for live Firebase diagnostics — no DevTools needed (since the site blocks DevTools).</p>
+
+    <h3>How to Access</h3>
+    <div class="card highlight">
+      <h4>Secret URL</h4>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></p>
+      <p>Append <code>?admin=sg2024</code> to the site URL. A floating panel appears in the bottom-right corner.</p>
+    </div>
+
+    <h3>Panel Features</h3>
+    <table>
+      <tr><th>Button</th><th>What It Does</th></tr>
+      <tr><td>Auto-run on load</td><td>Checks Firebase App, Auth, Analytics, Firestore read + write</td></tr>
+      <tr><td>Re-run Check</td><td>Run the health check again anytime</td></tr>
+      <tr><td>User Audit</td><td>Lists ALL Firestore users with email, login count, last login, created date</td></tr>
+      <tr><td>&times; Close</td><td>Dismiss the panel</td></tr>
+    </table>
+
+    <h3>What Each Check Verifies</h3>
+    <ul>
+      <li><strong>Firebase App</strong> — Is the SDK initialized with the correct project ID?</li>
+      <li><strong>Authentication</strong> — Are you signed in? Shows email and UID.</li>
+      <li><strong>Analytics</strong> — Is <code>G-SYJ6NGF8TP</code> configured and valid?</li>
+      <li><strong>Firestore Read</strong> — Does your user document exist? Shows loginCount and lastLogin.</li>
+      <li><strong>Firestore Write</strong> — Can the app write to Firestore? If rules are expired/wrong, it shows the exact fix.</li>
+    </ul>
+
+    <h3>When to Use It</h3>
+    <ul>
+      <li>After deploying code changes — verify nothing broke</li>
+      <li>When users report login issues — check Firestore write status</li>
+      <li>Monthly checkup — run User Audit to compare Auth user count vs Firestore documents</li>
+      <li>After updating Firestore rules — verify writes still work</li>
+    </ul>
   </section>
 
   <hr>
@@ -374,17 +479,18 @@ hr {
   <!-- ANALYTICS -->
   <section>
     <h2>Analytics & Monitoring</h2>
-    <p>Google Analytics 4 is integrated via Firebase. It tracks page views, user sessions, and custom events automatically.</p>
+    <p>Google Analytics 4 is integrated via Firebase SDK with measurement ID <code>G-SYJ6NGF8TP</code>. It tracks page views, user sessions, and custom events.</p>
 
     <h3>Dashboards</h3>
     <table>
       <tr><th>What to Monitor</th><th>Where to Go</th></tr>
-      <tr><td>Registered users list</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase → Authentication → Users</a></td></tr>
-      <tr><td>User details (logins, dates)</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase → Firestore → users</a></td></tr>
-      <tr><td>Traffic & page views</td><td><a href="https://analytics.google.com">Google Analytics → Property G-SYJ6NGF8TP</a></td></tr>
-      <tr><td>Real-time visitors</td><td>Google Analytics → Realtime</td></tr>
-      <tr><td>Popular topics</td><td>Analytics → Events → <code>topic_viewed</code></td></tr>
-      <tr><td>Quiz performance</td><td>Analytics → Events → <code>quiz_answered</code></td></tr>
+      <tr><td>Registered users list</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase &rarr; Authentication &rarr; Users</a></td></tr>
+      <tr><td>User details (logins, dates)</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase &rarr; Firestore &rarr; users</a></td></tr>
+      <tr><td>Traffic & page views</td><td><a href="https://analytics.google.com">Google Analytics &rarr; Property G-SYJ6NGF8TP</a></td></tr>
+      <tr><td>Real-time visitors</td><td>Google Analytics &rarr; Realtime</td></tr>
+      <tr><td>Popular topics</td><td>Analytics &rarr; Events &rarr; <code>topic_viewed</code></td></tr>
+      <tr><td>Quiz performance</td><td>Analytics &rarr; Events &rarr; <code>quiz_answered</code></td></tr>
+      <tr><td>Login methods</td><td>Analytics &rarr; Events &rarr; <code>login</code></td></tr>
     </table>
 
     <h3>Custom Events Tracked</h3>
@@ -400,8 +506,8 @@ hr {
     </div>
     <div class="card">
       <h4>Event: login</h4>
-      <p>Fires on successful authentication.</p>
-      <pre><code>Parameters: { method: "google" | "email" }</code></pre>
+      <p>Fires on successful authentication (Google sign-in, email sign-in, or email sign-up).</p>
+      <pre><code>Parameters: { method: "google" | "email" | "email_signup" }</code></pre>
     </div>
 
     <h3>Key Metrics to Watch</h3>
@@ -411,6 +517,7 @@ hr {
       <li><strong>Top Topics</strong> — Which topics get the most views (demand indicator)</li>
       <li><strong>Quiz Accuracy</strong> — Correct vs incorrect ratio per topic (difficulty indicator)</li>
       <li><strong>Retention</strong> — Users who come back within 7 days</li>
+      <li><strong>Login Methods</strong> — Google vs Email split</li>
     </ul>
 
     <p><em>Note: Google Analytics takes 24-48 hours to populate full reports. The Realtime view works immediately.</em></p>
@@ -425,15 +532,17 @@ hr {
     <h3>Manage Users</h3>
     <table>
       <tr><th>Action</th><th>How</th></tr>
-      <tr><td>View all users</td><td>Firebase → Authentication → Users</td></tr>
-      <tr><td>Export user list</td><td>Authentication → Users → Export (top-right)</td></tr>
-      <tr><td>Disable a user</td><td>Click user → Disable account toggle</td></tr>
-      <tr><td>Delete a user</td><td>Click user → Delete account (irreversible)</td></tr>
-      <tr><td>Reset password</td><td>Click user → Reset password (sends email)</td></tr>
+      <tr><td>View all users</td><td>Firebase &rarr; Authentication &rarr; Users</td></tr>
+      <tr><td>Export user list</td><td>Authentication &rarr; Users &rarr; Export (top-right)</td></tr>
+      <tr><td>Disable a user</td><td>Click user &rarr; Disable account toggle</td></tr>
+      <tr><td>Delete a user</td><td>Click user &rarr; Delete account (irreversible)</td></tr>
+      <tr><td>Reset password</td><td>Click user &rarr; Reset password (sends email)</td></tr>
+      <tr><td>Quick health check</td><td>Visit site with <code>?admin=sg2024</code></td></tr>
+      <tr><td>User audit</td><td>Admin panel &rarr; User Audit button</td></tr>
     </table>
 
     <h3>Firestore Security Rules</h3>
-    <p>Currently in <strong>test mode</strong> (open for 30 days). Before it expires, apply these production rules:</p>
+    <p>The following <strong>permanent rules</strong> (no expiration) must be applied. These replaced the original 30-day test-mode rules that caused new users to stop appearing in Firestore after September 2026.</p>
     <pre><code>rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -443,7 +552,33 @@ service cloud.firestore {
     }
   }
 }</code></pre>
-    <p>Apply at: <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore/rules">Firestore → Rules</a></p>
+    <p>Apply at: <a href="https://console.firebase.google.com/project/aem-interview-prep/firestore/rules">Firestore &rarr; Rules</a></p>
+
+    <div class="card warn">
+      <h4>Lesson Learned: Expired Rules Incident (Sep 2026)</h4>
+      <p>Firebase's default test-mode rules expired after 30 days, silently blocking all Firestore writes. Users could authenticate (Auth) but their data wasn't saved (Firestore). The fix was applying permanent rules (above) and adding error logging to the <code>saveUserData()</code> function so failures are no longer silent.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- SECURITY -->
+  <section>
+    <h2>Site Security</h2>
+    <p>The site implements multiple layers of content protection to prevent copying and inspection.</p>
+
+    <h3>Active Protections</h3>
+    <table>
+      <tr><th>Protection</th><th>What It Does</th></tr>
+      <tr><td>Right-click disabled</td><td>Prevents context menu (View Source, Inspect)</td></tr>
+      <tr><td>Keyboard shortcuts blocked</td><td>F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+P all disabled</td></tr>
+      <tr><td>Text selection disabled</td><td>CSS <code>user-select: none</code> on body</td></tr>
+      <tr><td>Copy/paste blocked</td><td><code>copy</code> and <code>selectstart</code> events prevented</td></tr>
+      <tr><td>Drag disabled</td><td><code>dragstart</code> event prevented</td></tr>
+      <tr><td>DevTools detection</td><td><code>debugger</code> trap detects open DevTools and wipes the page</td></tr>
+    </table>
+
+    <p><em>Note: Because DevTools is blocked, the admin health check panel (<code>?admin=sg2024</code>) was added as an alternative for debugging Firebase issues without needing browser console access.</em></p>
   </section>
 
   <hr>
@@ -461,11 +596,54 @@ service cloud.firestore {
 
     <h3>Deployment Flow</h3>
     <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Push to main</strong> — Any commit to the main branch triggers the workflow.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>GitHub Actions runs</strong> — Copies HTML as index.html, uploads as Pages artifact.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>GitHub Actions runs</strong> — Copies <code>AEM_interview_live.html</code> as <code>index.html</code>, uploads as Pages artifact.</div></div>
     <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Deploys to Pages</strong> — Site goes live in ~60 seconds.</div></div>
 
     <h3>Manual Re-deploy</h3>
-    <p>Go to <a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">Actions tab</a> → Click latest run → Re-run all jobs.</p>
+    <p>Go to <a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">Actions tab</a> &rarr; Click latest run &rarr; Re-run all jobs.</p>
+
+    <h3>Post-Deployment Checklist</h3>
+    <ol>
+      <li>Visit the live site and sign in</li>
+      <li>Open <code>?admin=sg2024</code> and verify all checks pass</li>
+      <li>Test a new topic / MCQ to verify rendering</li>
+      <li>Check Firebase Console &rarr; Analytics &rarr; Realtime for event tracking</li>
+    </ol>
+  </section>
+
+  <hr>
+
+  <!-- CONTENT STATS -->
+  <section>
+    <h2>Content Statistics</h2>
+
+    <h3>Topic Count by Category</h3>
+    <table>
+      <tr><th>Category</th><th>Topics</th><th>Count</th></tr>
+      <tr><td>Architecture</td><td>AEM Architecture, Archetype, Local Setup, Project Structure</td><td>4</td></tr>
+      <tr><td>Components</td><td>Components, Dialog, Page, Templates, Policies, Granite/Coral UI</td><td>6</td></tr>
+      <tr><td>Publishing</td><td>Replication, Dispatcher</td><td>2</td></tr>
+      <tr><td>Debugging</td><td>Debugging, Logger Configuration</td><td>2</td></tr>
+      <tr><td>Content</td><td>Content Fragments, Experience Fragments, DAM, Policies, Resource Merger, Forms</td><td>6</td></tr>
+      <tr><td>Workflows</td><td>Workflows, Launchers, Schedulers, Event Handlers, Resource Change Listeners</td><td>5</td></tr>
+      <tr><td>MSM</td><td>MSM, Rollout Configurations</td><td>2</td></tr>
+      <tr><td>APIs</td><td>GraphQL, QueryBuilder, JCR SQL2, REST APIs</td><td>4</td></tr>
+      <tr><td>Sling</td><td>Sling Models, HTL, Servlets, Filters, Resource Resolver, Service Users, CAConfig, Sling Jobs</td><td>8</td></tr>
+      <tr><td>OSGi</td><td>OSGi Components, Configurations, Services</td><td>3</td></tr>
+      <tr><td>Cloud</td><td>Caching, Security, IMS, Cloud Manager, CI/CD, Migration, EDS, CWV, AI</td><td>9</td></tr>
+      <tr><td>Tools</td><td>Package Manager, CRXDE, Felix Console, IDE, Git, Maven, Jira, Java</td><td>8</td></tr>
+      <tr><td>Frontend</td><td>ClientLibs</td><td>1</td></tr>
+      <tr><td>Scenarios</td><td>Scenario-Based Questions (74 questions)</td><td>1</td></tr>
+      <tr><td>Best Practices + Special</td><td>Best Practices, Flashcard, Troubleshooting, Code Output, AEMaaCS vs 6.5, Story Bank, Live Coding</td><td>7</td></tr>
+    </table>
+
+    <h3>Growth Timeline</h3>
+    <table>
+      <tr><th>Date</th><th>Topics</th><th>MCQs</th><th>Milestone</th></tr>
+      <tr><td>Aug 2026</td><td>52</td><td>416</td><td>Initial launch with Firebase auth</td></tr>
+      <tr><td>Sep 2026</td><td>56</td><td>492</td><td>Added Forms, CI/CD, Cloud Migration</td></tr>
+      <tr><td>Oct 2026</td><td>62</td><td>544</td><td>Added EDS, CWV, AI, Granite UI, ClientLibs, 74 Scenarios</td></tr>
+    </table>
   </section>
 
   <hr>
@@ -478,8 +656,8 @@ service cloud.firestore {
     <h3>Recommended: Freemium Model</h3>
     <table>
       <tr><th>Tier</th><th>Access</th><th>Price</th></tr>
-      <tr><td>Free</td><td>10-15 topics + limited MCQs</td><td>Free (requires login)</td></tr>
-      <tr><td>Pro</td><td>All 52 topics + 416 MCQs + widgets + progress sync</td><td>&#8377;499 one-time or &#8377;99/month</td></tr>
+      <tr><td>Free</td><td>15-20 topics + limited MCQs + no scenarios</td><td>Free (requires login)</td></tr>
+      <tr><td>Pro</td><td>All 62 topics + 544 MCQs + 74 scenarios + progress sync</td><td>&#8377;499 one-time or &#8377;99/month</td></tr>
     </table>
 
     <h3>Implementation Steps</h3>
@@ -501,18 +679,38 @@ service cloud.firestore {
 
   <hr>
 
+  <!-- TROUBLESHOOTING -->
+  <section>
+    <h2>Troubleshooting Guide</h2>
+
+    <table>
+      <tr><th>Problem</th><th>Likely Cause</th><th>Fix</th></tr>
+      <tr><td>New users not appearing in Firestore</td><td>Firestore security rules expired or misconfigured</td><td>Update rules at Firebase &rarr; Firestore &rarr; Rules (see Security Rules section)</td></tr>
+      <tr><td>Google sign-in fails on mobile</td><td>Popup blocked by browser</td><td>Code now falls back to <code>signInWithRedirect</code> automatically</td></tr>
+      <tr><td>Analytics shows 0 users</td><td>Missing <code>measurementId</code> in Firebase config</td><td>Verify <code>G-SYJ6NGF8TP</code> is in firebaseConfig</td></tr>
+      <tr><td>Auth user count > Firestore user count</td><td>Firestore writes failed during rules expiration period</td><td>Those users will get Firestore docs on next login (rules are now permanent)</td></tr>
+      <tr><td>Site shows "Developer Tools detected"</td><td>User opened DevTools (F12)</td><td>Expected behavior — security feature. Use <code>?admin=sg2024</code> for debugging instead</td></tr>
+      <tr><td>Quiz progress lost</td><td>User cleared browser localStorage or used incognito</td><td>Progress is stored in browser localStorage — not synced to cloud</td></tr>
+      <tr><td>New component/topic not showing</td><td>GitHub Pages cache</td><td>Wait 2-5 minutes after push, or hard-refresh (Ctrl+Shift+R)</td></tr>
+    </table>
+  </section>
+
+  <hr>
+
   <!-- QUICK REFERENCE -->
   <section>
     <h2>Quick Reference Links</h2>
     <table>
       <tr><th>Resource</th><th>URL</th></tr>
       <tr><td>Live Site</td><td><a href="https://sumitaem.github.io/SG-AEM-Interview/">sumitaem.github.io/SG-AEM-Interview</a></td></tr>
+      <tr><td>Admin Panel</td><td><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></td></tr>
       <tr><td>GitHub Repo</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview">github.com/SUMITAEM/SG-AEM-Interview</a></td></tr>
       <tr><td>Firebase Console</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep">console.firebase.google.com/project/aem-interview-prep</a></td></tr>
-      <tr><td>Auth Users</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase → Authentication → Users</a></td></tr>
-      <tr><td>Firestore DB</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase → Firestore</a></td></tr>
+      <tr><td>Auth Users</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase &rarr; Authentication &rarr; Users</a></td></tr>
+      <tr><td>Firestore DB</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore">Firebase &rarr; Firestore</a></td></tr>
+      <tr><td>Firestore Rules</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/firestore/rules">Firebase &rarr; Firestore &rarr; Rules</a></td></tr>
       <tr><td>Google Analytics</td><td><a href="https://analytics.google.com">analytics.google.com (G-SYJ6NGF8TP)</a></td></tr>
-      <tr><td>GitHub Actions</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">GitHub → Actions</a></td></tr>
+      <tr><td>GitHub Actions</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview/actions">GitHub &rarr; Actions</a></td></tr>
     </table>
   </section>
 </div>
