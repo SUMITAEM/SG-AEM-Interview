@@ -9884,6 +9884,78 @@ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 let isSignUpMode = false;
 
+// ========== SINGLE DEVICE ENFORCEMENT ==========
+var ADMIN_EMAILS = ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com'];
+var _urlParams = new URLSearchParams(window.location.search);
+var IS_ADMIN = _urlParams.get('admin') === 'sg2024' || _urlParams.get('mode') === 'owner';
+var SESSION_ID = null;
+var sessionCheckInterval = null;
+
+function generateSessionId() {
+  return Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 9);
+}
+
+function isAdminUser(email) {
+  return IS_ADMIN || ADMIN_EMAILS.indexOf(email) !== -1;
+}
+
+function registerSession(user) {
+  if (isAdminUser(user.email)) return Promise.resolve();
+  SESSION_ID = generateSessionId();
+  try { localStorage.setItem('aem_session_id', SESSION_ID); } catch(e) {}
+  return db.collection('users').doc(user.uid).update({
+    activeSessionId: SESSION_ID,
+    activeDevice: navigator.userAgent.substr(0, 120),
+    sessionStarted: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function(err) {
+    console.error('Session register failed:', err.message);
+  });
+}
+
+function startSessionMonitor(user) {
+  if (isAdminUser(user.email)) return;
+  if (sessionCheckInterval) clearInterval(sessionCheckInterval);
+
+  sessionCheckInterval = setInterval(function() {
+    if (!auth.currentUser) { clearInterval(sessionCheckInterval); return; }
+    db.collection('users').doc(user.uid).get().then(function(doc) {
+      if (!doc.exists) return;
+      var data = doc.data();
+      if (data.activeSessionId && data.activeSessionId !== SESSION_ID) {
+        clearInterval(sessionCheckInterval);
+        showDeviceKickedOverlay();
+      }
+    }).catch(function() {});
+  }, 30000);
+}
+
+function showDeviceKickedOverlay() {
+  var existing = document.getElementById('deviceKickedOverlay');
+  if (existing) return;
+
+  var overlay = document.createElement('div');
+  overlay.id = 'deviceKickedOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999999;background:linear-gradient(135deg,#0d1b2a,#1b2838);display:flex;align-items:center;justify-content:center;animation:fadeInUp 0.4s ease-out;';
+  overlay.innerHTML = '<div style="text-align:center;max-width:420px;padding:40px 32px;background:#151f30;border-radius:16px;border:2px solid #dc2626;box-shadow:0 20px 60px rgba(0,0,0,0.6);">'
+    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(220,38,38,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;">&#128274;</div>'
+    + '<h2 style="color:#f87171;font-size:20px;font-weight:700;margin-bottom:10px;font-family:\'Inter\',sans-serif;">Session Active Elsewhere</h2>'
+    + '<p style="color:#94a3b8;font-size:14px;line-height:1.6;margin-bottom:24px;font-family:\'Inter\',sans-serif;">Your account was signed in on another device or browser. Only one active session is allowed at a time.</p>'
+    + '<button onclick="recoverSession()" style="padding:12px 32px;border-radius:8px;border:none;background:#0891b2;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:\'Inter\',sans-serif;margin-right:10px;">Use Here Instead</button>'
+    + '<button onclick="auth.signOut().then(function(){location.reload();})" style="padding:12px 24px;border-radius:8px;border:1px solid #334155;background:transparent;color:#94a3b8;font-size:14px;cursor:pointer;font-family:\'Inter\',sans-serif;">Sign Out</button>'
+    + '</div>';
+  document.body.appendChild(overlay);
+}
+
+function recoverSession() {
+  var user = auth.currentUser;
+  if (!user) { location.reload(); return; }
+  var kicked = document.getElementById('deviceKickedOverlay');
+  registerSession(user).then(function() {
+    if (kicked) kicked.remove();
+    startSessionMonitor(user);
+  });
+}
+
 // ========== AUTH STATE LISTENER ==========
 var authResolved = false;
 auth.onAuthStateChanged(function(user) {
@@ -9910,11 +9982,13 @@ auth.onAuthStateChanged(function(user) {
     document.getElementById('mobileUserAvatar').src = avatarUrl;
 
     saveUserData(user);
+    registerSession(user).then(function() { startSessionMonitor(user); });
   } else {
     overlay.classList.remove('hidden');
     loginCard.style.display = '';
     appEl.style.visibility = 'hidden';
     sidebarUser.style.display = 'none';
+    if (sessionCheckInterval) clearInterval(sessionCheckInterval);
   }
   if (!authResolved) {
     authResolved = true;
