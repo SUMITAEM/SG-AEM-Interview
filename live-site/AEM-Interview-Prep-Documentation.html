@@ -362,6 +362,13 @@ hr {
       <li>Added hidden admin panel (<code>?admin=sg2024</code>) for Firebase health checks</li>
     </ul>
 
+    <h3>Security & Anti-Sharing</h3>
+    <ul>
+      <li>Single-device enforcement — only one active session per user at a time</li>
+      <li>If a user shares their login, the first device gets kicked out automatically</li>
+      <li>Admin emails and <code>?admin=sg2024</code> / <code>?mode=owner</code> bypass the restriction</li>
+    </ul>
+
     <h3>UI Improvements</h3>
     <ul>
       <li>Scenario-based Q&A answers are collapsible (click to expand) with Expand All / Collapse All</li>
@@ -579,6 +586,39 @@ service cloud.firestore {
     </table>
 
     <p><em>Note: Because DevTools is blocked, the admin health check panel (<code>?admin=sg2024</code>) was added as an alternative for debugging Firebase issues without needing browser console access.</em></p>
+
+    <h3>Single-Device Enforcement (Anti-Sharing)</h3>
+    <p>Prevents users from sharing their login credentials. Only one active session is allowed per account at a time.</p>
+
+    <h4 style="font-size:14px;color:var(--accent-dark);margin:14px 0 6px;">How It Works</h4>
+    <div class="step"><div class="step-num">1</div><div class="step-content"><strong>User signs in</strong> — A unique session ID is generated and stored in Firestore (<code>activeSessionId</code>).</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Monitoring starts</strong> — Every 30 seconds, the app checks if its local session ID still matches Firestore.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Another device signs in</strong> — The new device overwrites <code>activeSessionId</code> with its own session ID.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Old device detects mismatch</strong> — Shows a "Session Active Elsewhere" overlay. User can either reclaim the session or sign out.</div></div>
+
+    <h4 style="font-size:14px;color:var(--accent-dark);margin:14px 0 6px;">Firestore Fields Added</h4>
+    <table>
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>activeSessionId</code></td><td>string</td><td>Unique ID of the currently active session</td></tr>
+      <tr><td><code>activeDevice</code></td><td>string</td><td>User-Agent of the active device (first 120 chars)</td></tr>
+      <tr><td><code>sessionStarted</code></td><td>timestamp</td><td>When the current session was started</td></tr>
+    </table>
+
+    <h4 style="font-size:14px;color:var(--accent-dark);margin:14px 0 6px;">Admin Bypass</h4>
+    <p>Admin users are <strong>completely exempt</strong> from single-device enforcement. They can use multiple devices simultaneously.</p>
+    <table>
+      <tr><th>Bypass Method</th><th>Details</th></tr>
+      <tr><td>Admin email list</td><td><code>sumit.gaidhani@gmail.com</code>, <code>sumit.aem23@gmail.com</code></td></tr>
+      <tr><td>Admin URL</td><td>Append <code>?admin=sg2024</code> to the site URL</td></tr>
+      <tr><td>Owner URL</td><td>Append <code>?mode=owner</code> to the site URL</td></tr>
+    </table>
+
+    <div class="card highlight">
+      <h4>Admin URLs (No Device Restriction)</h4>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></p>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?mode=owner">https://sumitaem.github.io/SG-AEM-Interview/?mode=owner</a></p>
+      <p>Use either URL when you need unrestricted access. Regular users visiting the normal URL will have single-device enforcement.</p>
+    </div>
   </section>
 
   <hr>
@@ -692,6 +732,8 @@ service cloud.firestore {
       <tr><td>Site shows "Developer Tools detected"</td><td>User opened DevTools (F12)</td><td>Expected behavior — security feature. Use <code>?admin=sg2024</code> for debugging instead</td></tr>
       <tr><td>Quiz progress lost</td><td>User cleared browser localStorage or used incognito</td><td>Progress is stored in browser localStorage — not synced to cloud</td></tr>
       <tr><td>New component/topic not showing</td><td>GitHub Pages cache</td><td>Wait 2-5 minutes after push, or hard-refresh (Ctrl+Shift+R)</td></tr>
+      <tr><td>User sees "Session Active Elsewhere"</td><td>Account logged in on another device</td><td>Expected behavior — they can click "Use Here Instead" to reclaim, or sign out</td></tr>
+      <tr><td>Admin getting kicked from devices</td><td>Not using admin URL</td><td>Always use <code>?admin=sg2024</code> or <code>?mode=owner</code> in the URL for admin access</td></tr>
     </table>
   </section>
 
