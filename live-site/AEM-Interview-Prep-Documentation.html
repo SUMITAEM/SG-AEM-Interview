@@ -302,7 +302,21 @@ hr {
       <tr><td>Authentication</td><td>Firebase Auth (Google Sign-In + Email/Password)</td></tr>
       <tr><td>Database</td><td>Cloud Firestore (user data + login tracking)</td></tr>
       <tr><td>Analytics</td><td>Google Analytics 4 via Firebase (G-SYJ6NGF8TP)</td></tr>
-      <tr><td>Security</td><td>DevTools blocking, copy protection, right-click disabled</td></tr>
+      <tr><td>Security</td><td>DevTools blocking, copy protection, single-device enforcement</td></tr>
+    </table>
+
+    <h3>Key Features</h3>
+    <table>
+      <tr><th>Feature</th><th>Description</th></tr>
+      <tr><td>AI Study Assistant (Chat)</td><td>Floating chat widget with smart search across all topics and MCQs. Supports definitions, comparisons ("CF vs XF"), and concept lookups.</td></tr>
+      <tr><td>YouTube Integration</td><td>Topic-linked YouTube videos from the <a href="https://www.youtube.com/playlist?list=PLEaEQSM_Y4tmJjQICTFDm2lU5mNmd_Oar">AEM playlist</a>. Videos appear as clickable chips above each topic's notes.</td></tr>
+      <tr><td>AEM Cheat Sheet</td><td>Companion reference page linked from the sidebar footer (<code>AEM-cheat-sheet.html</code>).</td></tr>
+      <tr><td>Interview Q&A</td><td>Open-ended interview questions with detailed answers per topic (separate from MCQs). Collapsible format for the Scenario topic.</td></tr>
+      <tr><td>Interactive Widgets</td><td>58 interactive educational widgets: AEM lifecycle animation, CF output demo, migration checklist, Dispatcher filter tester, live coding editor.</td></tr>
+      <tr><td>Progress Tracking</td><td>Progress bar (top), score pills per topic (sidebar), streak counter (3+ correct), overall score. All saved in browser localStorage.</td></tr>
+      <tr><td>Dark / Light Theme</td><td>Toggle button (top-right). Respects <code>prefers-color-scheme</code> and persists choice in localStorage.</td></tr>
+      <tr><td>Mobile Responsive</td><td>Hamburger menu, sliding navigation drawer, floating user avatar with dropdown, full-width footer on mobile.</td></tr>
+      <tr><td>Canvas Avatars</td><td>Auto-generated colored initial avatars for users without Google profile photos (deterministic from email).</td></tr>
     </table>
 
     <h3>Content Categories (Sidebar Tabs)</h3>
@@ -579,7 +593,7 @@ service cloud.firestore {
       <tr><th>Protection</th><th>What It Does</th></tr>
       <tr><td>Right-click disabled</td><td>Prevents context menu (View Source, Inspect)</td></tr>
       <tr><td>Keyboard shortcuts blocked</td><td>F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+P all disabled</td></tr>
-      <tr><td>Text selection disabled</td><td>CSS <code>user-select: none</code> on body</td></tr>
+      <tr><td>Text selection disabled</td><td>JavaScript <code>selectstart</code> event prevented</td></tr>
       <tr><td>Copy/paste blocked</td><td><code>copy</code> and <code>selectstart</code> events prevented</td></tr>
       <tr><td>Drag disabled</td><td><code>dragstart</code> event prevented</td></tr>
       <tr><td>DevTools detection</td><td><code>debugger</code> trap detects open DevTools and wipes the page</td></tr>
