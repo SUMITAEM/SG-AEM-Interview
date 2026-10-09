@@ -10130,91 +10130,92 @@ function clearLoginError() {
   document.getElementById('loginError').textContent = '';
 }
 
-// ========== FIREBASE HEALTH CHECK ==========
-// Run firebaseHealthCheck() in browser console to verify everything works
-window.firebaseHealthCheck = function() {
-  var results = [];
-  var log = function(label, status, detail) {
-    var icon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⚠️';
-    results.push({ label: label, status: status, detail: detail });
-    console.log(icon + ' ' + label + ': ' + detail);
+// ========== FIREBASE ADMIN HEALTH CHECK PANEL ==========
+// Access: add ?admin=sg2024 to the site URL (only you know the key)
+(function(){
+  if(new URLSearchParams(window.location.search).get('admin')!=='sg2024')return;
+
+  var panel=document.createElement('div');
+  panel.id='adminPanel';
+  panel.style.cssText='position:fixed;bottom:20px;right:20px;width:420px;max-height:80vh;overflow-y:auto;background:#0d1b2a;color:#e2e8f0;border-radius:12px;border:2px solid #0891b2;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:999999;font-family:var(--mono);font-size:12px;padding:0;';
+  panel.innerHTML='<div style="padding:14px 16px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:14px;font-weight:700;color:#22d3ee;">&#128295; Admin Panel</div><button onclick="document.getElementById(\'adminPanel\').remove()" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;">&times;</button></div><div id="adminResults" style="padding:14px 16px;"></div><div style="padding:10px 16px;border-top:1px solid #1e293b;display:flex;gap:8px;"><button onclick="runHealthCheck()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #0891b2;background:rgba(8,145,178,0.15);color:#22d3ee;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:600;">&#x21BB; Re-run Check</button><button onclick="runUserAudit()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #d97706;background:rgba(217,119,6,0.15);color:#fbbf24;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:600;">&#128101; User Audit</button></div>';
+  document.body.appendChild(panel);
+
+  function out(html){document.getElementById('adminResults').innerHTML=html;}
+  function row(icon,label,detail,ok){return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #1e293b;"><span style="flex-shrink:0;">'+icon+'</span><div><div style="font-weight:600;color:'+(ok?'#34d399':'#f87171')+';">'+label+'</div><div style="color:#94a3b8;font-size:11px;margin-top:2px;word-break:break-all;">'+detail+'</div></div></div>';}
+
+  window.runHealthCheck=function(){
+    var html='<div style="color:#94a3b8;margin-bottom:8px;">Running checks...</div>';
+    out(html);
+    var rows='';
+
+    // 1. Firebase App
+    try{firebase.app();rows+=row('&#9989;','Firebase App','Project: '+firebaseConfig.projectId,true);}
+    catch(e){rows+=row('&#10060;','Firebase App',e.message,false);}
+
+    // 2. Auth
+    var user=auth.currentUser;
+    if(user){rows+=row('&#9989;','Authentication','Signed in: '+user.email+'<br>UID: '+user.uid,true);}
+    else{rows+=row('&#9888;&#65039;','Authentication','Not signed in — sign in first',false);}
+
+    // 3. Analytics
+    if(analytics&&firebaseConfig.measurementId&&firebaseConfig.measurementId!=='G-PLACEHOLDER'){
+      rows+=row('&#9989;','Analytics','Measurement ID: '+firebaseConfig.measurementId,true);
+    }else{rows+=row('&#10060;','Analytics','measurementId missing or invalid',false);}
+
+    // 4. Firestore
+    if(user){
+      var ref=db.collection('users').doc(user.uid);
+      ref.get().then(function(doc){
+        if(doc.exists){
+          var d=doc.data();
+          rows+=row('&#9989;','Firestore Read','loginCount: '+(d.loginCount||0)+', lastLogin: '+(d.lastLogin?d.lastLogin.toDate().toLocaleString():'not set'),true);
+        }else{
+          rows+=row('&#10060;','Firestore Read','User doc MISSING — rules may be blocking writes',false);
+        }
+        return ref.set({_healthCheck:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+      }).then(function(){
+        rows+=row('&#9989;','Firestore Write','Write test passed — rules are working',true);
+        return ref.update({_healthCheck:firebase.firestore.FieldValue.delete()});
+      }).catch(function(err){
+        rows+=row('&#10060;','Firestore Write',err.code+': '+err.message+(err.code==='permission-denied'?'<br><br><strong style="color:#fbbf24;">FIX:</strong> Update Firestore Rules in Firebase Console — set: allow read, write: if request.auth != null && request.auth.uid == userId;':''),false);
+      }).then(function(){out(rows);});
+    }else{
+      out(rows);
+    }
   };
 
-  console.log('\n🔥 Firebase Health Check');
-  console.log('='.repeat(50));
+  window.runUserAudit=function(){
+    out('<div style="color:#94a3b8;">Comparing Auth users vs Firestore docs...</div>');
+    var user=auth.currentUser;
+    if(!user){out('<div style="color:#f87171;">Sign in first to run audit.</div>');return;}
 
-  // 1. Firebase initialized
-  try {
-    var app = firebase.app();
-    log('Firebase App', 'pass', 'Initialized (' + app.options.projectId + ')');
-  } catch(e) { log('Firebase App', 'fail', e.message); }
+    db.collection('users').get().then(function(snapshot){
+      var firestoreCount=snapshot.size;
+      var users=[];
+      snapshot.forEach(function(doc){
+        var d=doc.data();
+        users.push({uid:doc.id,email:d.email||'unknown',name:d.displayName||'-',logins:d.loginCount||0,last:d.lastLogin?d.lastLogin.toDate().toLocaleDateString():'never',created:d.createdAt?d.createdAt.toDate().toLocaleDateString():'not set'});
+      });
 
-  // 2. Auth state
-  var user = auth.currentUser;
-  if (user) {
-    log('Auth', 'pass', 'Signed in as ' + user.email + ' (UID: ' + user.uid + ')');
-  } else {
-    log('Auth', 'warn', 'Not signed in — sign in first to test Firestore');
-  }
-
-  // 3. Analytics
-  if (analytics) {
-    var mid = firebaseConfig.measurementId;
-    if (mid && mid !== 'G-PLACEHOLDER') {
-      log('Analytics', 'pass', 'Initialized with ' + mid);
-    } else {
-      log('Analytics', 'fail', 'measurementId is missing or placeholder');
-    }
-  } else {
-    log('Analytics', 'fail', 'Not initialized — check measurementId in config');
-  }
-
-  // 4. Firestore read/write test
-  if (user) {
-    var testRef = db.collection('users').doc(user.uid);
-    testRef.get().then(function(doc) {
-      if (doc.exists) {
-        var data = doc.data();
-        log('Firestore Read', 'pass', 'User doc exists — loginCount: ' + (data.loginCount || '?') + ', lastLogin: ' + (data.lastLogin ? data.lastLogin.toDate().toISOString() : 'not set'));
-      } else {
-        log('Firestore Read', 'fail', 'User doc MISSING for UID ' + user.uid + ' — Firestore rules may be blocking writes');
-      }
-
-      // Write test
-      return testRef.set({ _healthCheck: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
-    }).then(function() {
-      log('Firestore Write', 'pass', 'Write succeeded — rules are working');
-      // Clean up test field
-      return testRef.update({ _healthCheck: firebase.firestore.FieldValue.delete() });
-    }).catch(function(error) {
-      log('Firestore Write', 'fail', error.code + ': ' + error.message);
-      if (error.code === 'permission-denied') {
-        console.log('\n🛠️  FIX: Update Firestore Rules in Firebase Console:');
-        console.log('   rules_version = \'2\';');
-        console.log('   service cloud.firestore {');
-        console.log('     match /databases/{database}/documents {');
-        console.log('       match /users/{userId} {');
-        console.log('         allow read, write: if request.auth != null && request.auth.uid == userId;');
-        console.log('       }');
-        console.log('     }');
-        console.log('   }');
-      }
-    }).then(function() {
-      console.log('='.repeat(50));
-      var failed = results.filter(function(r) { return r.status === 'fail'; });
-      if (failed.length === 0) {
-        console.log('✅ All checks passed! Firebase is healthy.');
-      } else {
-        console.log('❌ ' + failed.length + ' check(s) failed. Fix the issues above.');
-      }
-      console.log('');
+      var html='<div style="margin-bottom:10px;font-weight:700;color:#22d3ee;">Firestore Users: '+firestoreCount+'</div>';
+      html+='<div style="margin-bottom:8px;font-size:11px;color:#94a3b8;">Compare this count with Firebase Auth user count. If Auth has more users, those users signed in but Firestore write failed (likely expired rules).</div>';
+      html+='<table style="width:100%;font-size:10px;border-collapse:collapse;">';
+      html+='<tr style="color:#64748b;"><th style="text-align:left;padding:4px;">Email</th><th style="text-align:left;padding:4px;">Logins</th><th style="text-align:left;padding:4px;">Last</th><th style="text-align:left;padding:4px;">Created</th></tr>';
+      users.sort(function(a,b){return(b.logins||0)-(a.logins||0);});
+      users.forEach(function(u){
+        html+='<tr style="border-top:1px solid #1e293b;"><td style="padding:4px;color:#e2e8f0;">'+u.email+'</td><td style="padding:4px;color:#34d399;">'+u.logins+'</td><td style="padding:4px;color:#94a3b8;">'+u.last+'</td><td style="padding:4px;color:#94a3b8;">'+u.created+'</td></tr>';
+      });
+      html+='</table>';
+      out(html);
+    }).catch(function(err){
+      out('<div style="color:#f87171;">Audit failed: '+err.code+' — '+err.message+'</div>');
     });
-  } else {
-    console.log('='.repeat(50));
-    console.log('⚠️  Sign in first, then run firebaseHealthCheck() again.');
-    console.log('');
-  }
-};
+  };
+
+  // Auto-run on load
+  auth.onAuthStateChanged(function(u){if(u)setTimeout(runHealthCheck,500);});
+})();
 </script>
 </body>
 </html>
