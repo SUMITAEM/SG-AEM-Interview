@@ -228,11 +228,6 @@ tr:nth-child(even) td{background:var(--bg);}
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://apis.google.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
-<!-- Firebase SDK (defer to not block page render) -->
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 </head>
 <body>
 <!-- Login Overlay -->
@@ -9866,6 +9861,11 @@ showTopic('t1');updateScorePills();updateProgressBar();
 <span>Created by Sumit Gaidhani | AEM Developer</span>
 </div>
 
+<!-- Firebase SDK (placed before </body> so page HTML renders first) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 <script>
 // ========== FIREBASE CONFIGURATION ==========
 const firebaseConfig = {
@@ -9878,12 +9878,9 @@ const firebaseConfig = {
   measurementId: "G-SYJ6NGF8TP"
 };
 
-function _waitForFirebase(cb){if(typeof firebase!=='undefined'&&firebase.app){cb();}else{setTimeout(function(){_waitForFirebase(cb);},100);}}
-var auth,db,analytics;
-_waitForFirebase(function(){
 firebase.initializeApp(firebaseConfig);
-auth = firebase.auth();
-db = firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 var analytics = null;
 try { analytics = firebase.analytics(); } catch(e) { console.warn('Analytics init failed:', e.message); }
 
@@ -10359,7 +10356,6 @@ function initAdminPanel(){
   setTimeout(runHealthCheck,500);
 }
 
-}); // end _waitForFirebase
 </script>
 </body>
 </html>
