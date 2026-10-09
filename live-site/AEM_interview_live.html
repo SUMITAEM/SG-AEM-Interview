@@ -10129,6 +10129,92 @@ function showLoginError(msg) {
 function clearLoginError() {
   document.getElementById('loginError').textContent = '';
 }
+
+// ========== FIREBASE HEALTH CHECK ==========
+// Run firebaseHealthCheck() in browser console to verify everything works
+window.firebaseHealthCheck = function() {
+  var results = [];
+  var log = function(label, status, detail) {
+    var icon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⚠️';
+    results.push({ label: label, status: status, detail: detail });
+    console.log(icon + ' ' + label + ': ' + detail);
+  };
+
+  console.log('\n🔥 Firebase Health Check');
+  console.log('='.repeat(50));
+
+  // 1. Firebase initialized
+  try {
+    var app = firebase.app();
+    log('Firebase App', 'pass', 'Initialized (' + app.options.projectId + ')');
+  } catch(e) { log('Firebase App', 'fail', e.message); }
+
+  // 2. Auth state
+  var user = auth.currentUser;
+  if (user) {
+    log('Auth', 'pass', 'Signed in as ' + user.email + ' (UID: ' + user.uid + ')');
+  } else {
+    log('Auth', 'warn', 'Not signed in — sign in first to test Firestore');
+  }
+
+  // 3. Analytics
+  if (analytics) {
+    var mid = firebaseConfig.measurementId;
+    if (mid && mid !== 'G-PLACEHOLDER') {
+      log('Analytics', 'pass', 'Initialized with ' + mid);
+    } else {
+      log('Analytics', 'fail', 'measurementId is missing or placeholder');
+    }
+  } else {
+    log('Analytics', 'fail', 'Not initialized — check measurementId in config');
+  }
+
+  // 4. Firestore read/write test
+  if (user) {
+    var testRef = db.collection('users').doc(user.uid);
+    testRef.get().then(function(doc) {
+      if (doc.exists) {
+        var data = doc.data();
+        log('Firestore Read', 'pass', 'User doc exists — loginCount: ' + (data.loginCount || '?') + ', lastLogin: ' + (data.lastLogin ? data.lastLogin.toDate().toISOString() : 'not set'));
+      } else {
+        log('Firestore Read', 'fail', 'User doc MISSING for UID ' + user.uid + ' — Firestore rules may be blocking writes');
+      }
+
+      // Write test
+      return testRef.set({ _healthCheck: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    }).then(function() {
+      log('Firestore Write', 'pass', 'Write succeeded — rules are working');
+      // Clean up test field
+      return testRef.update({ _healthCheck: firebase.firestore.FieldValue.delete() });
+    }).catch(function(error) {
+      log('Firestore Write', 'fail', error.code + ': ' + error.message);
+      if (error.code === 'permission-denied') {
+        console.log('\n🛠️  FIX: Update Firestore Rules in Firebase Console:');
+        console.log('   rules_version = \'2\';');
+        console.log('   service cloud.firestore {');
+        console.log('     match /databases/{database}/documents {');
+        console.log('       match /users/{userId} {');
+        console.log('         allow read, write: if request.auth != null && request.auth.uid == userId;');
+        console.log('       }');
+        console.log('     }');
+        console.log('   }');
+      }
+    }).then(function() {
+      console.log('='.repeat(50));
+      var failed = results.filter(function(r) { return r.status === 'fail'; });
+      if (failed.length === 0) {
+        console.log('✅ All checks passed! Firebase is healthy.');
+      } else {
+        console.log('❌ ' + failed.length + ' check(s) failed. Fix the issues above.');
+      }
+      console.log('');
+    });
+  } else {
+    console.log('='.repeat(50));
+    console.log('⚠️  Sign in first, then run firebaseHealthCheck() again.');
+    console.log('');
+  }
+};
 </script>
 </body>
 </html>
