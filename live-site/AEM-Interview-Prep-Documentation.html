@@ -373,14 +373,17 @@ hr {
       <li>Fixed race condition in <code>saveUserData()</code> — chained promises correctly</li>
       <li>Added <code>trackLogin()</code> calls to Google and email sign-in handlers</li>
       <li>Added <code>signInWithRedirect</code> fallback for popup blockers (mobile/Safari)</li>
-      <li>Added hidden admin panel (<code>?admin=sg2024</code>) for Firebase health checks</li>
+      <li>Added admin panel (auto-shows for admin emails) for Firebase health checks</li>
     </ul>
 
     <h3>Security & Anti-Sharing</h3>
     <ul>
       <li>Single-device enforcement — only one active session per user at a time</li>
       <li>If a user shares their login, the first device gets kicked out automatically</li>
-      <li>Admin emails and <code>?admin=sg2024</code> / <code>?mode=owner</code> bypass the restriction</li>
+      <li>Admin emails are permanently exempt from device restriction (no URL parameter needed)</li>
+      <li>Admin panel auto-appears when signed in with an admin email — no secret URL required</li>
+      <li>User blocking — admins can block/unblock users directly from the admin panel</li>
+      <li>Login throttling — 3-second cooldown between login attempts</li>
     </ul>
 
     <h3>UI Improvements</h3>
@@ -450,7 +453,7 @@ hr {
 
     <div class="card warn">
       <h4>Important: Auth vs Firestore Users</h4>
-      <p>Firebase Auth and Firestore are separate systems. If user counts don't match, it means Firestore writes failed (usually expired security rules). Use the admin panel (<code>?admin=sg2024</code>) to diagnose. See the Admin Panel section below.</p>
+      <p>Firebase Auth and Firestore are separate systems. If user counts don't match, it means Firestore writes failed (usually expired security rules). Sign in with an admin email to see the admin panel and diagnose. See the Admin Panel section below.</p>
     </div>
   </section>
 
@@ -463,9 +466,9 @@ hr {
 
     <h3>How to Access</h3>
     <div class="card highlight">
-      <h4>Secret URL</h4>
-      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></p>
-      <p>Append <code>?admin=sg2024</code> to the site URL. A floating panel appears in the bottom-right corner.</p>
+      <h4>Automatic — Email-Based Access</h4>
+      <p>Simply sign in with your admin email (<code>sumit.gaidhani@gmail.com</code> or <code>sumit.aem23@gmail.com</code>). The admin panel automatically appears in the bottom-right corner. No special URL, no secret key — just your Google account.</p>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/">https://sumitaem.github.io/SG-AEM-Interview/</a></p>
     </div>
 
     <h3>Panel Features</h3>
@@ -558,7 +561,7 @@ hr {
       <tr><td>Disable a user</td><td>Click user &rarr; Disable account toggle</td></tr>
       <tr><td>Delete a user</td><td>Click user &rarr; Delete account (irreversible)</td></tr>
       <tr><td>Reset password</td><td>Click user &rarr; Reset password (sends email)</td></tr>
-      <tr><td>Quick health check</td><td>Visit site with <code>?admin=sg2024</code></td></tr>
+      <tr><td>Quick health check</td><td>Sign in with admin email — panel auto-appears</td></tr>
       <tr><td>User audit</td><td>Admin panel &rarr; User Audit button</td></tr>
       <tr><td>Block a user (from app)</td><td>Admin panel &rarr; User Audit &rarr; Block button</td></tr>
       <tr><td>Unblock a user</td><td>Admin panel &rarr; User Audit &rarr; Unblock button</td></tr>
@@ -618,7 +621,7 @@ service cloud.firestore {
       <tr><td>DevTools detection</td><td><code>debugger</code> trap detects open DevTools and wipes the page</td></tr>
     </table>
 
-    <p><em>Note: Because DevTools is blocked, the admin health check panel (<code>?admin=sg2024</code>) was added as an alternative for debugging Firebase issues without needing browser console access.</em></p>
+    <p><em>Note: Because DevTools is blocked, the admin health check panel (auto-shows for admin emails) was added as an alternative for debugging Firebase issues without needing browser console access.</em></p>
 
     <h3>Single-Device Enforcement (Anti-Sharing)</h3>
     <p>Prevents users from sharing their login credentials. Only one active session is allowed per account at a time.</p>
@@ -637,22 +640,30 @@ service cloud.firestore {
       <tr><td><code>sessionStarted</code></td><td>timestamp</td><td>When the current session was started</td></tr>
     </table>
 
-    <h4 style="font-size:14px;color:var(--accent-dark);margin:14px 0 6px;">Admin Bypass</h4>
-    <p>Admin users are <strong>completely exempt</strong> from single-device enforcement. They can use multiple devices simultaneously.</p>
+    <h4 style="font-size:14px;color:var(--accent-dark);margin:14px 0 6px;">Admin Access (Email-Based Only)</h4>
+    <p>Admin detection is <strong>email-based only</strong> — no URL parameters, no secret keys, nothing exploitable from the public GitHub repo. Firebase Auth verifies the Google account via OAuth.</p>
     <table>
-      <tr><th>Bypass Method</th><th>Details</th></tr>
-      <tr><td>Admin email list</td><td><code>sumit.gaidhani@gmail.com</code>, <code>sumit.aem23@gmail.com</code></td></tr>
-      <tr><td>Admin URL</td><td>Append <code>?admin=sg2024</code> to the site URL</td></tr>
-      <tr><td>Owner URL</td><td>Append <code>?mode=owner</code> to the site URL</td></tr>
+      <tr><th>Admin Email</th><th>Access Level</th></tr>
+      <tr><td><code>sumit.gaidhani@gmail.com</code></td><td>Full admin — panel, no device limit, block/unblock users</td></tr>
+      <tr><td><code>sumit.aem23@gmail.com</code></td><td>Full admin — panel, no device limit, block/unblock users</td></tr>
     </table>
 
     <div class="card highlight">
-      <h4>Admin URLs (No Device Restriction)</h4>
-      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></p>
-      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/?mode=owner">https://sumitaem.github.io/SG-AEM-Interview/?mode=owner</a></p>
-      <p>Use either URL when you need unrestricted access.</p>
-      <p>Your admin emails (<code>sumit.gaidhani@gmail.com</code>, <code>sumit.aem23@gmail.com</code>) are <strong>permanently exempt regardless of URL</strong> — you will never be kicked.</p>
-      <p>Regular users visiting the normal URL get single-device enforcement automatically. If they share their password, the original device gets kicked within <strong>30 seconds</strong>.</p>
+      <h4>How Admin Works</h4>
+      <p><strong>Just sign in with your admin Google account at the normal URL:</strong></p>
+      <p><a href="https://sumitaem.github.io/SG-AEM-Interview/">https://sumitaem.github.io/SG-AEM-Interview/</a></p>
+      <ul style="margin-top:8px;">
+        <li>Admin panel auto-appears in bottom-right corner after sign-in</li>
+        <li>No device restriction — use multiple devices simultaneously</li>
+        <li>Block/unblock users from the User Audit panel</li>
+        <li>Cannot be blocked by other admins</li>
+      </ul>
+      <p style="margin-top:12px;">Regular users get single-device enforcement automatically. If they share their password, the original device gets kicked within <strong>30 seconds</strong>.</p>
+    </div>
+
+    <div class="card warn">
+      <h4>Why Email-Based (Not URL-Based)</h4>
+      <p>The GitHub repo is <strong>public</strong> — anyone can read the source code. Previously, admin access used URL parameters (<code>?admin=sg2024</code>, <code>?mode=owner</code>) visible in the code. These were removed entirely. Now admin access requires signing in with a verified Google account matching the admin email list. No one can fake this — Google verifies the email via OAuth.</p>
     </div>
   </section>
 
@@ -680,7 +691,7 @@ service cloud.firestore {
     <h3>Post-Deployment Checklist</h3>
     <ol>
       <li>Visit the live site and sign in</li>
-      <li>Open <code>?admin=sg2024</code> and verify all checks pass</li>
+      <li>Verify the admin panel appears (if signed in with admin email) and all checks pass</li>
       <li>Test a new topic / MCQ to verify rendering</li>
       <li>Check Firebase Console &rarr; Analytics &rarr; Realtime for event tracking</li>
     </ol>
@@ -764,11 +775,11 @@ service cloud.firestore {
       <tr><td>Google sign-in fails on mobile</td><td>Popup blocked by browser</td><td>Code now falls back to <code>signInWithRedirect</code> automatically</td></tr>
       <tr><td>Analytics shows 0 users</td><td>Missing <code>measurementId</code> in Firebase config</td><td>Verify <code>G-SYJ6NGF8TP</code> is in firebaseConfig</td></tr>
       <tr><td>Auth user count > Firestore user count</td><td>Firestore writes failed during rules expiration period</td><td>Those users will get Firestore docs on next login (rules are now permanent)</td></tr>
-      <tr><td>Site shows "Developer Tools detected"</td><td>User opened DevTools (F12)</td><td>Expected behavior — security feature. Use <code>?admin=sg2024</code> for debugging instead</td></tr>
+      <tr><td>Site shows "Developer Tools detected"</td><td>User opened DevTools (F12)</td><td>Expected behavior — security feature. Sign in with admin email to use the built-in admin panel instead</td></tr>
       <tr><td>Quiz progress lost</td><td>User cleared browser localStorage or used incognito</td><td>Progress is stored in browser localStorage — not synced to cloud</td></tr>
       <tr><td>New component/topic not showing</td><td>GitHub Pages cache</td><td>Wait 2-5 minutes after push, or hard-refresh (Ctrl+Shift+R)</td></tr>
       <tr><td>User sees "Session Active Elsewhere"</td><td>Account logged in on another device</td><td>Expected behavior — they can click "Use Here Instead" to reclaim, or sign out</td></tr>
-      <tr><td>Admin getting kicked from devices</td><td>Not using admin URL</td><td>Always use <code>?admin=sg2024</code> or <code>?mode=owner</code> in the URL for admin access</td></tr>
+      <tr><td>Admin getting kicked from devices</td><td>Signed in with non-admin email</td><td>Sign in with <code>sumit.gaidhani@gmail.com</code> or <code>sumit.aem23@gmail.com</code> — admin emails are auto-exempt</td></tr>
     </table>
   </section>
 
@@ -780,7 +791,7 @@ service cloud.firestore {
     <table>
       <tr><th>Resource</th><th>URL</th></tr>
       <tr><td>Live Site</td><td><a href="https://sumitaem.github.io/SG-AEM-Interview/">sumitaem.github.io/SG-AEM-Interview</a></td></tr>
-      <tr><td>Admin Panel</td><td><a href="https://sumitaem.github.io/SG-AEM-Interview/?admin=sg2024">sumitaem.github.io/SG-AEM-Interview/?admin=sg2024</a></td></tr>
+      <tr><td>Admin Panel</td><td>Sign in with admin email at <a href="https://sumitaem.github.io/SG-AEM-Interview/">sumitaem.github.io/SG-AEM-Interview</a> — auto-appears</td></tr>
       <tr><td>GitHub Repo</td><td><a href="https://github.com/SUMITAEM/SG-AEM-Interview">github.com/SUMITAEM/SG-AEM-Interview</a></td></tr>
       <tr><td>Firebase Console</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep">console.firebase.google.com/project/aem-interview-prep</a></td></tr>
       <tr><td>Auth Users</td><td><a href="https://console.firebase.google.com/project/aem-interview-prep/authentication/users">Firebase &rarr; Authentication &rarr; Users</a></td></tr>

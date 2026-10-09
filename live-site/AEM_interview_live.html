@@ -9886,9 +9886,7 @@ let isSignUpMode = false;
 
 // ========== SINGLE DEVICE ENFORCEMENT ==========
 var ADMIN_EMAILS = ['sumit.gaidhani@gmail.com','sumit.aem23@gmail.com'];
-var _urlParams = new URLSearchParams(window.location.search);
-var _ak = _urlParams.get('admin') || '';
-var IS_ADMIN = (function(k){var h=0;for(var i=0;i<k.length;i++){h=((h<<5)-h)+k.charCodeAt(i);h|=0;}return h===1847106||h===(-862545792);}(_ak)) || _urlParams.get('mode') === 'sgadmin2024';
+var IS_ADMIN = false;
 var SESSION_ID = null;
 var sessionCheckInterval = null;
 var _loginThrottle = 0;
@@ -9898,7 +9896,7 @@ function generateSessionId() {
 }
 
 function isAdminUser(email) {
-  return IS_ADMIN || ADMIN_EMAILS.indexOf(email) !== -1;
+  return email && ADMIN_EMAILS.indexOf(email) !== -1;
 }
 
 function checkLoginThrottle() {
@@ -9993,9 +9991,11 @@ auth.onAuthStateChanged(function(user) {
   const loginCard = document.getElementById('loginCard');
 
   if (user) {
+    IS_ADMIN = isAdminUser(user.email);
+
     // Check if user is blocked before granting access
     db.collection('users').doc(user.uid).get().then(function(doc) {
-      if (doc.exists && doc.data().disabled === true && !isAdminUser(user.email)) {
+      if (doc.exists && doc.data().disabled === true && !IS_ADMIN) {
         showBlockedOverlay();
         return;
       }
@@ -10018,13 +10018,15 @@ auth.onAuthStateChanged(function(user) {
 
       saveUserData(user);
       registerSession(user).then(function() { startSessionMonitor(user); });
+
+      if (IS_ADMIN) initAdminPanel();
     }).catch(function() {
-      // Firestore read failed — allow access (don't block on network error)
       overlay.classList.add('hidden');
       loginCard.style.display = 'none';
       appEl.style.visibility = 'visible';
       sidebarUser.style.display = 'flex';
       saveUserData(user);
+      if (IS_ADMIN) initAdminPanel();
     });
   } else {
     overlay.classList.remove('hidden');
@@ -10250,8 +10252,10 @@ function clearLoginError() {
 }
 
 // ========== FIREBASE ADMIN HEALTH CHECK PANEL ==========
-(function(){
-  if(!IS_ADMIN)return;
+var _adminPanelInit = false;
+function initAdminPanel(){
+  if(_adminPanelInit)return;
+  _adminPanelInit=true;
 
   var panel=document.createElement('div');
   panel.id='adminPanel';
@@ -10345,9 +10349,8 @@ function clearLoginError() {
     });
   };
 
-  // Auto-run on load
-  auth.onAuthStateChanged(function(u){if(u)setTimeout(runHealthCheck,500);});
-})();
+  setTimeout(runHealthCheck,500);
+}
 </script>
 </body>
 </html>
